@@ -4,7 +4,11 @@
 # create.py
 # Author: Katie Chou, Iroha Shirai, Katelyn Rodrigues
 #-----------------------------------------------------------------------
+<<<<<<< HEAD
 import os
+=======
+
+>>>>>>> 50983edcd2b68b74b5dc60ece855b9379bbfcb65
 from sys import argv, stderr, exit
 from contextlib import closing
 from psycopg2 import connect 
@@ -19,6 +23,7 @@ def main():
         print('Usage: python create.py', file=stderr)
         exit(1)
 
+<<<<<<< HEAD
     DATABASE_URL = os.environ['DATABASE_URL']
 
     try:
@@ -26,6 +31,13 @@ def main():
             #host='localhost', port=5432, user='rmd', password='TigerThrift',
             #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
+=======
+    try:
+        with connect(
+            host='localhost', port=5432, user='rmd', password='TigerThrift',
+            database='tigerthrift') as connection:
+
+>>>>>>> 50983edcd2b68b74b5dc60ece855b9379bbfcb65
             with closing(connection.cursor()) as cursor:
 
                 #------------------------------------------------------- create items table
