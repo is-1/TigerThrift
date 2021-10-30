@@ -4,7 +4,7 @@
 # create.py
 # Author: Katie Chou, Iroha Shirai, Katelyn Rodrigues
 #-----------------------------------------------------------------------
-
+import os
 from sys import argv, stderr, exit
 from contextlib import closing
 from psycopg2 import connect 
@@ -19,11 +19,13 @@ def main():
         print('Usage: python create.py', file=stderr)
         exit(1)
 
-    try:
-        with connect(
-            host='localhost', port=5432, user='rmd', password='TigerThrift',
-            database='tigerthrift') as connection:
+    DATABASE_URL = os.environ['DATABASE_URL']
 
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 #------------------------------------------------------- create items table
