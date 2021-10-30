@@ -1,6 +1,6 @@
 from flask import Flask, request, make_response
 from flask import render_template
-from exec_queries import exec_sql_queries, sql_details
+# from exec_queries import exec_sql_queries, sql_details
 
 app = Flask(__name__, template_folder = '.')
 
@@ -93,3 +93,6 @@ def index():
 #     html = render_template('error.html')
 #     response = make_response(html)
 #     return response
+
+if __name__ == "__main__":
+    app.run()
