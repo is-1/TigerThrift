@@ -1,6 +1,6 @@
 from flask import Flask, request, make_response
 from flask import render_template
-# from database import add_item, all_items
+from database import add_item, all_items
 
 app = Flask(__name__, template_folder = '.')
 
