@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
+<link rel="stylesheet" href="style.css">
 <html>
     <head>
         <title>TigerThrift</title>
@@ -28,17 +29,19 @@
         <h2 style = "text-align: center;"><strong>CREATE NEW ITEM TO SELL</strong></h2>
         <form action="sell" value="" method = "get">
             <label>product name:</label>
-            <input type="text" name = "prodName"><br>
+            <input type="text" name = "prodName" required><br>
             <label>gender:</label>
-            <select name = "gender">
+            <select name = "gender" required>
+                <option value="">Choose a gender</option>
                 <option value="mens">Mens</option>
                 <option value="womens">Womens</option>
                 <option value="unisex">Unisex</option>
             </select><br>
             <label>price:</label>
-            <input type="int" name = "price"><br>
+            <input type="int" name = "price" required><br>
             <label>size:</label>
-            <select name = "size">
+            <select name = "size" required>
+                <option value="">Choose a size</option>
                 <option value="XXS(W)">XXS (W)</option>
                 <option value="XS(W)">XS (W)</option>
                 <option value="S(W)">S (W)</option>
@@ -55,9 +58,10 @@
                 <option value="XXL(M)">XXL (M)</option>
             </select><br>
             <label>brand:</label>
-            <input type="text" name = "brand"><br>
+            <input type="text" name = "brand" required><br>
             <label>type:</label>
-            <select name = "type">
+            <select name = "type" required>
+                <option value="">Choose a type of clothing</option>
                 <option value="top">Top</option>
                 <option value="bottom">Bottom</option>
                 <option value="dresses">Dresses</option>
@@ -66,13 +70,15 @@
                 <option value="accessories">Accessories</option>
             </select><br>
             <label>subtype:</label>
-            <select name = "subtype">
+            <select name = "subtype" required>
+                <option value="">Choose a subtype</option>
                 <option value="casual">Casual</option>
                 <option value="semiformal">Semi-formal</option>
                 <option value="formal">Formal</option>
             </select><br>
             <label>condition:</label>
-            <select name = "condition">
+            <select name = "condition" required>
+                <option value="">Choose condition</option>
                 <option value="brandnew">Brand New</option>
                 <option value="likenew">Like New</option>
                 <option value="gentlyused">Gently Used</option>
@@ -80,7 +86,8 @@
                 <option value="veryused">Very Used</option>
             </select><br>
             <label>color:</label>
-            <select name = "color">
+            <select name = "color" required>
+                <option value="">Choose color</option>
                 <option value="red">Red</option>
                 <option value="orange">Orange</option>
                 <option value="yelow">Yellow</option>
@@ -93,9 +100,9 @@
                 <option value="multicolored">Multi-colored</option>
             </select><br>
             <label>upload photo:</label>
-            <input type="text" name = "upPhoto"><br>
+            <input type="text" name = "upPhoto" required><br>
             <label>description:</label>
-            <textarea name="description">Insert here.</textarea>
+            <textarea name="description" required>Insert here.</textarea>
             <br><br>
             <label></label>
             <input style="float: center;"type = "submit" values = "Go" value="Create Item!">
