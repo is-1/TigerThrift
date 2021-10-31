@@ -5,9 +5,9 @@ from flask import render_template
 app = Flask(__name__, template_folder = '.')
 
 @app.route('/', methods=['GET'])
-@app.route('/index', methods=['GET'])
+@app.route('/sell', methods=['GET'])
 def index():
-    # dept = request.args.get('dept', default="")
+    prodName = request.args.get('prodName')
     # num = request.args.get('num', default="")
     # area = request.args.get('area', default="")
     # title = request.args.get('title',default="")
@@ -31,7 +31,7 @@ def index():
     #     html = render_template('error.html')
     #     response = make_response(html)
     #     return response
-    html = render_template('index.html')
+    html = render_template('sell.html')
                         #    output = output,
                         #    dept = dept,
                         #    num = num,

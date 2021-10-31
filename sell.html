@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <html>
     <head>
         <title>TigerThrift</title>
     </head>
   <body>
-      <!--{% include 'header.html' %}-->
       <header>
         <div id = "header">
             <!--logo on top left-->
@@ -27,7 +26,7 @@
     </header>
     <div style="margin: auto; width: 60%; padding: 10px;">
         <h2 style = "text-align: center;"><strong>CREATE NEW ITEM TO SELL</strong></h2>
-        <form action="index" value="" method = "get">
+        <form action="sell" value="" method = "get">
             <label>product name:</label>
             <input type="text" name = "prodName"><br>
             <label>gender:</label>
