@@ -1,0 +1,54 @@
+/* header style */
+header{
+   overflow:hidden; 
+}
+#header{
+    text-align: left;
+    height: 50px;
+}
+/* tigerthrift logo style */
+#tigerthrift{
+    float: left;
+    padding: none;
+    margin: none;
+    height: 60px;
+    width: 30%;
+}
+
+/* nav bar style */
+#pages{
+    float: left;
+    width: 70%;
+    height: 100%;
+    margin: none;
+}
+     
+#pages ul{
+    text-align: center;
+    float: right;
+    margin: none;
+}
+     
+#pages li{
+    display: inline-block;
+    padding: none;
+    margin: none;
+}
+     
+#pages li a, #pages li span{
+    display: inline-block;
+    padding: 0em 1.5em;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 60px;
+}
+     
+#pages li:hover a, #pages li span{
+    color: orange;
+}
+
+#centerTitle{
+    float: center;
+    height: 50em;
+}
