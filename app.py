@@ -1,6 +1,6 @@
 from flask import Flask, request, make_response
 from flask import render_template
-# from exec_queries import exec_sql_queries, sql_details
+# from database import add_item, all_items
 
 app = Flask(__name__, template_folder = '.')
 
@@ -8,6 +8,16 @@ app = Flask(__name__, template_folder = '.')
 @app.route('/sell', methods=['GET'])
 def index():
     prodName = request.args.get('prodName')
+    gender = request.args.get('gender')
+    price = request.args.get('price')
+    size = request.args.get('size')
+    brand = request.args.get('brand')
+    itemtype = request.args.get('itemtype')
+    subtype = request.args.get('subtype')
+    condition = request.args.get('condition')
+    color = request.args.get('color')
+    photolink = request.args.get('upPhoto')
+
     # num = request.args.get('num', default="")
     # area = request.args.get('area', default="")
     # title = request.args.get('title',default="")
@@ -25,6 +35,16 @@ def index():
     #     prev_title = '(None)'
 
     # # call function
+    item_details = {'type': itemtype,
+    'subtype': subtype,
+    'desc': prodName,
+    'gender': gender,
+    'price': price,
+    'size': size,
+    'brand': brand,
+    'condition': condition,
+    'color': color}
+    add_item(item_details)
     # output = exec_sql_queries(dept, num, area, title)
     # # make sure of error page
     # if output == "ERROR":
