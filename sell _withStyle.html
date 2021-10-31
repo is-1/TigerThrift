@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
+<html>
+    <head>
+        <title>TigerThrift</title>
+    </head>
+  <body>
+      <!--{% include 'header.html' %}-->
+      <header>
+        <div style="overflow:hidden; text-align: left; height: 50px;">
+            <!--logo on top left-->
+            <div style="float: left; padding: none; margin: none; height: 60px; width: 30%;">
+                <h1><strong>TigerThrift</strong></h1>
+            </div>
+            <!--nav bar on top right-->
+            <nav>
+                <div style = "float: left; width: 70%;height: 100%; margin: none;">
+                    <ul style = "text-align: center; float: right; margin: none;">
+                        <!--<li class="active"><a href="#">Home</a></li>-->
+                        <li style="display: inline-block; padding: none; margin: none;">
+                            <a href="#" style="display: inline-block; padding: 0em 1.5em;font-weight: 600;">
+                                Buy</a></li>
+                        <li style="display: inline-block; padding: none; margin: none;">
+                            <a href="#" style="display: inline-block; padding: 0em 1.5em;font-weight: 600;">
+                                Sell</a></li>
+                        <li style="display: inline-block; padding: none; margin: none;">
+                            <a href="#" style="display: inline-block; padding: 0em 1.5em;font-weight: 600;">
+                                Profile</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div style="margin: auto; width: 60%; padding: 10px;">
+        <h2 style = "text-align: center; float: center; height: 50em;"><strong>CREATE NEW ITEM TO SELL</strong></h2>
+        <form action="index" value="" method = "get">
+            <label>product name:</label>
+            <input type="text" name = "prodName"><br>
+            <label>gender:</label>
+            <select name = "gender">
+                <option value="mens">Mens</option>
+                <option value="womens">Womens</option>
+                <option value="unisex">Unisex</option>
+            </select><br>
+            <label>price:</label>
+            <input type="int" name = "price"><br>
+            <label>size:</label>
+            <select name = "size">
+                <option value="XXS(W)">XXS (W)</option>
+                <option value="XS(W)">XS (W)</option>
+                <option value="S(W)">S (W)</option>
+                <option value="M(W)">M (W)</option>
+                <option value="L(W)">L (W)</option>
+                <option value="XL(W)">XL (W)</option>
+                <option value="XXL(W)">XXL (W)</option>
+                <option value="XXS(M)">XXS (W)</option>
+                <option value="XS(M)">XS (M)</option>
+                <option value="S(M)">S (M)</option>
+                <option value="M(M)">M (M)</option>
+                <option value="L(M)">L (M)</option>
+                <option value="XL(M)">XL (M)</option>
+                <option value="XXL(M)">XXL (M)</option>
+            </select><br>
+            <label>brand:</label>
+            <input type="text" name = "brand"><br>
+            <label>type:</label>
+            <select name = "type">
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+                <option value="dresses">Dresses</option>
+                <option value="outwear">Outerwear</option>
+                <option value="shoes">Shoes</option>
+                <option value="accessories">Accessories</option>
+            </select><br>
+            <label>subtype:</label>
+            <select name = "subtype">
+                <option value="casual">Casual</option>
+                <option value="semiformal">Semi-formal</option>
+                <option value="formal">Formal</option>
+            </select><br>
+            <label>condition:</label>
+            <select name = "condition">
+                <option value="brandnew">Brand New</option>
+                <option value="likenew">Like New</option>
+                <option value="gentlyused">Gently Used</option>
+                <option value="fairlyused">Fairly Used</option>
+                <option value="veryused">Very Used</option>
+            </select><br>
+            <label>color:</label>
+            <select name = "color">
+                <option value="red">Red</option>
+                <option value="orange">Orange</option>
+                <option value="yelow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="purple">Purple</option>
+                <option value="brown">Brown</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="multicolored">Multi-colored</option>
+            </select><br>
+            <label>upload photo:</label>
+            <input type="text" name = "upPhoto"><br>
+            <label>description:</label>
+            <textarea name="description" rows="3" cols="80%">Insert here.</textarea>
+            <br>
+            <label></label>
+            <input style="float: center;"type = "submit" values = "Go" value="Create Item!">
+        </form>
+    </div>
+  </body>
+</html>
