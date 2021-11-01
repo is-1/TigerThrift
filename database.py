@@ -20,9 +20,9 @@ def add_item(item):
                 testDate = now.strftime(f)
 
                 stmt_str = ('INSERT INTO items '
-                + '(itemid, type, subtype, size, gender, price, color, condition, brand, "desc", posted, photolink, status) ' +
-                "VALUES (DEFAULT, %s, %s, %s, %s, %f, %s, %s, %s, %s, %s, 'google.com', 0)")
-                cursor.execute(stmt_str, [item.type, item.subtype, item.gender, item.price, item.color, item.condition, item.brand, item.desc, testDate])
+                + '(type, subtype, size, gender, price, color, condition, brand, "desc", posted, photolink, status) ' +
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 'google.com', 0)")
+                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], testDate])
 
                 connection.commit()
 

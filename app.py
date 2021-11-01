@@ -35,16 +35,18 @@ def index():
     #     prev_title = '(None)'
 
     # # call function
-    item_details = {'type': itemtype,
-    'subtype': subtype,
-    'desc': prodName,
-    'gender': gender,
-    'price': price,
-    'size': size,
-    'brand': brand,
-    'condition': condition,
-    'color': color}
-    add_item(item_details)
+    if prodName is not None:
+        print("YO")
+        item_details = {'type': itemtype,
+        'subtype': subtype,
+        'desc': prodName,
+        'gender': gender,
+        'price': price,
+        'size': size,
+        'brand': brand,
+        'condition': condition,
+        'color': color}
+        add_item(item_details)
     # output = exec_sql_queries(dept, num, area, title)
     # # make sure of error page
     # if output == "ERROR":
