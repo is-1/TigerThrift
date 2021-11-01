@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<html>
+    <head>
+        <title>TigerThrift</title>
+    </head>
+  <body>
+      <header>
+        <div id = "header">
+            <!--logo on top left-->
+            <div id = tigerthrift>
+                <h1><strong>TigerThrift</strong></h1>
+            </div>
+            <!--nav bar on top right-->
+            <nav>
+                <div id = "pages">
+                    <ul>
+                        <!--<li class="active"><a href="#">Home</a></li>-->
+                        <li><a href="buy">Buy</a></li>
+                        <li><a href="sell">Sell</a></li>
+                        <li><a href="#">Profile</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div style="margin: auto; width: 60%; padding: 10px;">
+        <h2 style = "text-align: center;"><strong>BROWSE ITEMS</strong></h2>
+       {% for item in items %}
+       {{item}}
+       <br>
+       {% endfor %}
+    </div>
+  </body>
+</html>

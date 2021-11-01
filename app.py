@@ -71,8 +71,16 @@ def index():
     # response.set_cookie('prev_title', title)
     return response
 
-# @app.route('/regdetails', methods=['GET'])
-# def regdetails():
+@app.route('/buy', methods=['GET'])
+def buy():
+    items = all_items()
+
+    html = render_template('buy.html', items=items)
+
+    response = make_response(html)
+    return response
+
+
 #     cls_id = request.args.get('cls_id')
 #     if cls_id == "":
 #         html = render_template('error_missing_cls_id.html')
