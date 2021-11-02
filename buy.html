@@ -27,7 +27,15 @@
     <div style="margin: auto; width: 60%; padding: 10px;">
         <h2 style = "text-align: center;"><strong>BROWSE ITEMS</strong></h2>
        {% for item in items %}
-       {{item}}
+       <table>
+       {% for key, value in item.items() %}
+        <tr>
+            <th scope="row">{{ key }}</th>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
        <br>
        {% endfor %}
     </div>

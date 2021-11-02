@@ -49,7 +49,17 @@ def all_items():
 
                 results = []
                 while row is not None:
-                    results.append(row)
+                    item = {'itemid': row[0],
+                    'type': row[1],
+                    'subtype': row[2],
+                    'desc': row[9],
+                    'gender': row[4],
+                    'price': row[5],
+                    'size': row[3],
+                    'brand': row[8],
+                    'condition': row[7],
+                    'color': row[6]}
+                    results.append(item)
                     row = cursor.fetchone()
 
                 return results
