@@ -29,7 +29,7 @@ def index():
     price = request.form.get('price')
     size = request.form.get('size')
     brand = request.form.get('brand')
-    itemtype = request.form.get('itemtype')
+    itemtype = request.form.get('type')
     subtype = request.form.get('subtype')
     condition = request.form.get('condition')
     color = request.form.get('color')
