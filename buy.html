@@ -30,7 +30,18 @@
             {% for item in items %}
             <div class="col-sm-3">
                 <div class="card" style="width: 18rem;">
+                    
+                    {% if item['photolink'] == "google.com" %}
                     <img class="card-img-top" src="static/item.png" alt="item photo">
+
+                    {% elif item['photolink'] == "https://www.google.com/" %}
+                    <img class="card-img-top" src="static/item.png" alt="item photo">
+
+                    {% else %}
+                    <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+
+                    {% endif %}
+
                     <div class="card-body">
                         <h5 class="card-title">ItemId: {{item['itemid']}}</h5>
                         <p class="card-text">Price: {{item['price']}}</p>

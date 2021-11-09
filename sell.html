@@ -25,7 +25,7 @@
         </div>
       </nav>
       <div class="align-items-center">
-        <form action="sell" value="" method = "get" class="col-lg-6 offset-lg-3">
+        <form action="sell" value="" method = "POST" class="col-lg-6 offset-lg-3">
             <h2 style = "text-align: center;"><strong>Create New Item To Sell</strong></h2>
             <div class="form-group">
                 <label>Product Name</label>
@@ -122,9 +122,10 @@
             </div>
             <div id="photoupload">
                 <img id="image1" src=""><br>
-                <button id="upload_widget" class="btn btn-dark">upload photo of clothes</button>
+                <button id="upload_widget" type="button" class="btn btn-dark">upload photo of clothes</button>
             </div>
             <br>
+            <input type = "hidden"  id="photolink" name ="photolink" value = "">
             <div class="text-center">
                 <button type="submit" class="btn btn-dark" values = "Go">Create Item!</button>
             </div>
@@ -147,6 +148,8 @@
                             imageUrl = result.info.url;
                             console.log("url: " + imageUrl);
                             $('#image1').attr("src", imageUrl);
+                            $('#photolink').val(imageUrl);
+                            console.log("photolink val : " + $('#photolink').val());
                             $('#upload_widget').html("Upload another photo");
                         }
                         if (error){
