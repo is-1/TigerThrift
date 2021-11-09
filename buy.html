@@ -24,20 +24,19 @@
             </ul>
         </div>
     </nav>
-    <div style="margin: auto; width: 60%; padding: 10px;">
+    <div class="align-items-center">
         <h2 style = "text-align: center;"><strong>Browse Items</strong></h2>
-       {% for item in items %}
-       <table>
-       {% for key, value in item.items() %}
-        <tr>
-            <th scope="row">{{ key }}</th>
-            <td>{{ value }}</td>
-        </tr>
+        {% for item in items %}
+        <table>
+            {% for key, value in item.items() %}
+            <tr>
+                <th scope="row">{{ key }}</th>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
         {% endfor %}
-    </table>
-
-       <br>
-       {% endfor %}
     </div>
   </body>
 </html>
