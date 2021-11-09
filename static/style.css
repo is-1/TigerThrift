@@ -1,51 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+hr{
+    color: #7FD8BE;
+    border-color: #7FD8BE;
+    background-color: #7FD8BE;
+}
+
 /* header style */
 header{
-   overflow:hidden; 
-}
-#header{
-    text-align: left;
-    height: 50px;
+   overflow:hidden;
+   height: 40px;
 }
 /* tigerthrift logo style */
 #tigerthrift{
     float: left;
-    padding: none;
-    margin: none;
-    height: 60px;
-    width: 30%;
+    margin: 0px;
+    width: 25%;
+}
+h1{
+    padding: 0px;
+    margin: 0px;
 }
 
 /* nav bar style */
 #pages{
-    float: left;
-    width: 70%;
-    height: 100%;
-    margin: none;
+    display: inline-block;
+    margin: center;
+    width: 75%;
+    height: 60px;
 }
      
-#pages ul{
+ul{
     text-align: center;
     float: right;
-    margin: none;
+    padding: 0px;
+    margin: 10px;
 }
-     
+
 #pages li{
     display: inline-block;
-    padding: none;
-    margin: none;
+    font-size: large;
+    font-weight: 500;
+    padding: 0px;
+    margin: 0px;
 }
      
-#pages li a, #pages li span{
+#pages li a{
     display: inline-block;
     padding: 0em 1.5em;
     text-decoration: none;
-    font-weight: 600;
-    text-transform: uppercase;
-    line-height: 60px;
+    margin: none;
 }
-     
+
+#pages a:visited{
+    color: black;
+}
+
+
 #pages li:hover a, #pages li span{
-    color: orange;
+    color: #FF4500;
+    text-decoration: underline;
 }
 
 #centerTitle{

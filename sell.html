@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!-- <link rel="stylesheet" href="style.css"> -->
 <html>
     <head>
         <title>TigerThrift</title>
     </head>
   <body>
       <header>
-        <div id = "header">
-            <!--logo on top left-->
-            <div id = tigerthrift>
-                <h1><strong>TigerThrift</strong></h1>
-            </div>
-            <!--nav bar on top right-->
-            <nav>
-                <div id = "pages">
-                    <ul>
-                        <!--<li class="active"><a href="#">Home</a></li>-->
-                        <li><a href="buy">Buy</a></li>
-                        <li><a href="sell">Sell</a></li>
-                        <li><a href="profile">Profile</a></li>
-                    </ul>
-                </div>
-            </nav>
+        <!--logo on top left-->
+        <div id = tigerthrift>
+            <h1><strong>TigerThrift</strong></h1>
+        </div>
+        <!--nav bar on top right-->
+        <div id = "pages">
+            <ul>
+                <!--<li class="active"><a href="#">Home</a></li>-->
+                <li><a href="#">Buy</a></li>
+                <li><a href="sell.html">Sell</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
         </div>
     </header>
+    <hr>
     <div style="margin: auto; width: 60%; padding: 10px;">
         <h2 style = "text-align: center;"><strong>CREATE NEW ITEM TO SELL</strong></h2>
         <form action="sell" value="" method = "get">
+            <div id="photoupload">
+                <img id="image1" src=""><br>
+                <button id="upload_widget" class="cloudinary-button">Upload photo</button>
+            </div>
             <label>product name:</label>
             <input type="text" name = "prodName" required><br>
             <label>gender:</label>
@@ -59,7 +61,7 @@
             <label>brand:</label>
             <input type="text" name = "brand" required><br>
             <label>type:</label>
-            <select name = "itemtype" required>
+            <select name = "type" required>
                 <option value="">Choose a type of clothing</option>
                 <option value="top">Top</option>
                 <option value="bottom">Bottom</option>
@@ -101,11 +103,52 @@
             <label>upload photo:</label>
             <input type="file" name = "upPhoto" required><br>
             <label>description:</label>
-            <textarea name="description" required>Insert description here.</textarea>
+            <textarea name="description" required>Insert here.</textarea>
             <br><br>
             <label></label>
             <input style="float: center;"type = "submit" values = "Go" value="Create Item!">
         </form>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>  
+
+    <script type="text/javascript">  
+        function setup() {
+             var myWidget = cloudinary.createUploadWidget({
+                cloudName: 'dbnkmun6k', 
+                api_key : "535599746493582",
+                resourceType: "image",
+                sources: ['local', 'camera', 'google_drive', 'url'],
+                cropping: true,
+                uploadPreset: 'tigerthrift'}, (error, result) => { 
+                    if (!error && result && result.event === "success") { 
+                        console.log('Done! Here is the image info: ', result.info); 
+                        imageUrl = result.info.url;
+                        console.log("url: " + imageUrl);
+                        $('#image1').attr("src", imageUrl);
+                        $('#upload_widget').html("Upload another photo");
+                    }
+                    if (error){
+                        console.log("error uploading");  } 
+            }
+        )
+  
+          document.getElementById("upload_widget").addEventListener("click", function(){
+              myWidget.open();
+              }, false);
+          }
+
+        //   if (imageUrl != null) {
+        //       $('#image1').attr("src", imageUrl);
+        //   }
+
+          $('#document').ready(setup);
+  
+        </script>
+
     </div>
+
+    
   </body>
 </html>
