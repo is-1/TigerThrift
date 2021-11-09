@@ -7,6 +7,11 @@ app = Flask(__name__, template_folder = '.')
 @app.route('/', methods=['GET'])
 @app.route('/sell', methods=['GET'])
 def index():
+    # NEED TO ALSO GET USER INFO
+    netid = 'spobre' # change to request.args
+    email = 'spobre@princeton.edu'
+    phone = '512-263-6973'
+
     prodName = request.args.get('prodName')
     gender = request.args.get('gender')
     price = request.args.get('price')
@@ -36,7 +41,6 @@ def index():
 
     # # call function
     if prodName is not None:
-        print("YO")
         item_details = {'type': itemtype,
         'subtype': subtype,
         'desc': prodName,
@@ -46,7 +50,10 @@ def index():
         'brand': brand,
         'condition': condition,
         'color': color}
-        add_item(item_details)
+        user_info = {'netid': netid,
+        'email': email,
+        'phone': phone}
+        add_item(item_details, user_info)
     # output = exec_sql_queries(dept, num, area, title)
     # # make sure of error page
     # if output == "ERROR":
