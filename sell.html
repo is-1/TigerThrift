@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!-- <link rel="stylesheet" href="style.css"> -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <html>
     <head>
@@ -32,22 +32,30 @@
                 <input class="form-control" type="text" name = "prodName" placeholder="enter product name" required>
             </div>
             <div class="form-group">
-                <label>Gender</label>
-                <select name = "gender" class="form-control" required>
-                    <option selected value="">choose a gender</option>
-                    <option value="mens">Mens</option>
-                    <option value="womens">Womens</option>
-                    <option value="unisex">Unisex</option>
+                <label>Type</label>
+                <select id="type_select" name = "type" class="form-control" required>
+                    <option value="">choose a type of clothing</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="dress">Dress</option>
+                    <option value="outerwear">Outerwear</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="accessories">Accessories</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Price</label>
-                <input type="int" name = "price" class="form-control" placeholder="enter price" required>
+                <label>Subtype</label>
+                <select id="subtype_select" name = "subtype" class="form-control" disabled required> 
+                    <!-- <option value="">choose a subtype</option>
+                    <option value="casual">Casual</option>
+                    <option value="semiformal">Semi-formal</option>
+                    <option value="formal">Formal</option> -->
+                </select>
             </div>
             <div class="form-group">
                 <label>Size</label>
-                <select name = "size" class="form-control" required>
-                    <option value="">choose a size</option>
+                <select id="size_select" name = "size" class="form-control" disabled required>
+                    <!-- <option value="">choose a size</option>
                     <option value="XXS(W)">XXS (W)</option>
                     <option value="XS(W)">XS (W)</option>
                     <option value="S(W)">S (W)</option>
@@ -61,33 +69,25 @@
                     <option value="M(M)">M (M)</option>
                     <option value="L(M)">L (M)</option>
                     <option value="XL(M)">XL (M)</option>
-                    <option value="XXL(M)">XXL (M)</option>
+                    <option value="XXL(M)">XXL (M)</option> -->
                 </select>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select name = "gender" class="form-control" required>
+                    <option selected value="">choose a gender</option>
+                    <option value="mens">Mens</option>
+                    <option value="womens">Womens</option>
+                    <option value="unisex">Unisex</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="int" name = "price" class="form-control" placeholder="enter price" required>
             </div>
             <div class="form-group">
                 <label>Brand</label>
                 <input type="int" name = "brand" class="form-control" placeholder="enter brand" required>
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                <select name = "type" class="form-control" required>
-                    <option value="">choose a type of clothing</option>
-                    <option value="top">Top</option>
-                    <option value="bottom">Bottom</option>
-                    <option value="dresses">Dresses</option>
-                    <option value="outwear">Outerwear</option>
-                    <option value="shoes">Shoes</option>
-                    <option value="accessories">Accessories</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Subtype</label>
-                <select name = "subtype" class="form-control" required>
-                    <option value="">choose a subtype</option>
-                    <option value="casual">Casual</option>
-                    <option value="semiformal">Semi-formal</option>
-                    <option value="formal">Formal</option>
-                </select>
             </div>
             <div class="form-group">
                 <label>Condition</label>
@@ -156,6 +156,72 @@
                 document.getElementById("upload_widget").addEventListener("click", function(){
                     myWidget.open();
                 }, false);
+
+                $("#type_select").change(function(){
+                    let selected = $("#type_select").val();
+                    let subtypes = [];
+                    let sizes = [];
+
+                    console.log("selected: " + selected);
+
+                    if (selected == "top") {
+                        subtypes.push("T-shirt", "Bodysuit", "Tanks",  "Shirt", "Blouse", "Blazer");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)","XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                    }
+
+                    if (selected == "bottom") {
+                        subtypes.push("Pants", "Skirt", "Shorts", "Jeans");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
+"XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”",
+"00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                    }
+
+                    if (selected == "dress") {
+                        subtypes.push("Casual", "Semi-Formal", "Formal");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                    }
+
+                    if (selected == "outerwear") {
+                        subtypes.push("Coat", "Jacket", "Cardigan", "Crewneck", "Hoodie");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                    }
+
+                    if (selected == "shoes") {
+                        subtypes.push("Sneakers", "Sandals", "Boots", "Heels/Dress Shoes");
+                        sizes.push("5W", "5.5W", "6W", "6.5W", "7W", "7.5W", "8W", "8.5W", "9W", "9.5W", "10W", "10.5W", "11W", "11.5W", "12W", "12.5W", "13W",
+                        "7M", "7.5M", "8M", "8.5M", "9M", "9.5M", "10M", "10.5M", "11M", "11.5M", "12M", "12.5M", "13M", "13.5M", "14M");
+                    }
+
+                    if (selected == "accessories") {
+                        subtypes.push("Hat", "Jewelry", "Watch", "Sunglasses", "Scarf", "Gloves", "Belt", "Bag", "Tie");
+                        sizes.push("One-size");
+                    } 
+
+                    $("#subtype_select").empty();
+                    $('#subtype_select').attr("disabled", false);
+
+                    $("#size_select").empty();
+                    $('#size_select').attr("disabled", false);
+                    
+                    console.log("subtypes: " + subtypes);
+                    console.log("sizes: " + sizes);
+
+                    for (i in subtypes) {
+                        $('#subtype_select').append($('<option>', {
+                            value: subtypes[i].toLowerCase(),
+                            text: subtypes[i]
+                        }));
+                    }
+
+                    for (j in sizes) {
+                        $('#size_select').append($('<option>', {
+                            value: sizes[j].toLowerCase(),
+                            text: sizes[j]
+                        }));
+                    }
+
+
+                });
             }
             //   if (imageUrl != null) {
             //       $('#image1').attr("src", imageUrl);
