@@ -8,8 +8,8 @@ app = Flask(__name__, template_folder = '.')
 @app.route('/sell', methods=['GET'])
 def index():
     # NEED TO ALSO GET USER INFO
-    netid = 'spobre' # change to request.args
-    email = 'spobre@princeton.edu'
+    netid = 'katelynr' # change to request.args
+    email = 'katelynr@princeton.edu'
     phone = '512-263-6973'
 
     prodName = request.args.get('prodName')
