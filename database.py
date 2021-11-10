@@ -50,6 +50,7 @@ def add_item(item, user_info):
                 testDate = now.strftime(f)
 
                 # add user if first time user
+                # when CAS authenticates, do this, move it
                 add_user(user_info, testDate)
                 
                 # insert item into items table
