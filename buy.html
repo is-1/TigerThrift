@@ -1,43 +1,71 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <html>
     <head>
         <title>TigerThrift</title>
     </head>
   <body>
-      <header>
-        <div id = "header">
-            <!--logo on top left-->
-            <div id = tigerthrift>
-                <h1><strong>TigerThrift</strong></h1>
-            </div>
-            <!--nav bar on top right-->
-            <nav>
-                <div id = "pages">
-                    <ul>
-                        <!--<li class="active"><a href="#">Home</a></li>-->
-                        <li><a href="buy">Buy</a></li>
-                        <li><a href="sell">Sell</a></li>
-                        <li><a href="profile">Profile</a></li>
-                    </ul>
-                </div>
-            </nav>
+    <nav class="navbar navbar-expand-sm bg-white">
+        <div class="container-fluid">
+            <span class="navbar-text"><h1><strong>TigerThrift</strong></h1></span>
+            <!-- Links -->
+            <ul class="navbar-nav">
+             <li class="nav-item">
+               <a class="nav-link" href="buy"><h4 class="text-dark">Buy</h4></a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="sell"><h4 class="text-dark">Sell</h4></a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="profile"><h4 class="text-dark">Profile</h4></a>
+             </li>
+            </ul>
         </div>
-    </header>
-    <div style="margin: auto; width: 60%; padding: 10px;">
-        <h2 style = "text-align: center;"><strong>BROWSE ITEMS</strong></h2>
-       {% for item in items %}
-       <table>
-       {% for key, value in item.items() %}
-        <tr>
-            <th scope="row">{{ key }}</th>
-            <td>{{ value }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    </nav>
+    <div class="container-fluid align-items-center">
+        <h2 style = "text-align: center;"><strong>Browse Items</strong></h2>
+        <div class="row">
+            {% for item in items %}
+            {% if item['status'] == 0 %}
+            <div class="col-sm-3">
+                <div class="card" style="width: 18rem;">
+                    
+                    {% if item['photolink'] == "google.com" %}
+                    <img class="card-img-top" src="static/item.png" alt="item photo">
 
-       <br>
-       {% endfor %}
+                    {% elif item['photolink'] == "https://www.google.com/" %}
+                    <img class="card-img-top" src="static/item.png" alt="item photo">
+
+                    {% else %}
+                    <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">ItemId: {{item['itemid']}}</h5>
+                        <p class="card-text">Price: {{item['price']}}</p>
+                        <p class="card-text">Condition: {{item['condition']}}</p>
+                        <p class="card-text">Brand: {{item['brand']}}</p>
+                        <a href="#" class="btn btn-dark">more details</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% for item in items %}
+        <table>
+            {% for key, value in item.items() %}
+            <tr>
+                <th scope="row">{{ key }}</th>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        {% endfor %}
     </div>
   </body>
 </html>

@@ -5,23 +5,35 @@ from database import add_item, all_items
 app = Flask(__name__, template_folder = '.')
 
 @app.route('/', methods=['GET'])
-@app.route('/sell', methods=['GET'])
+@app.route('/sell', methods=['GET', 'POST'])
 def index():
     # NEED TO ALSO GET USER INFO
     netid = 'katelynr' # change to request.args
     email = 'katelynr@princeton.edu'
     phone = '512-263-6973'
 
-    prodName = request.args.get('prodName')
-    gender = request.args.get('gender')
-    price = request.args.get('price')
-    size = request.args.get('size')
-    brand = request.args.get('brand')
-    itemtype = request.args.get('itemtype')
-    subtype = request.args.get('subtype')
-    condition = request.args.get('condition')
-    color = request.args.get('color')
-    photolink = request.args.get('upPhoto')
+    # prodName = request.args.get('prodName')
+    # gender = request.args.get('gender')
+    # price = request.args.get('price')
+    # size = request.args.get('size')
+    # brand = request.args.get('brand')
+    # itemtype = request.args.get('itemtype')
+    # subtype = request.args.get('subtype')
+    # condition = request.args.get('condition')
+    # color = request.args.get('color')
+    # photolink = request.args.get('upPhoto')
+
+
+    prodName = request.form.get('prodName')
+    gender = request.form.get('gender')
+    price = request.form.get('price')
+    size = request.form.get('size')
+    brand = request.form.get('brand')
+    itemtype = request.form.get('type')
+    subtype = request.form.get('subtype')
+    condition = request.form.get('condition')
+    color = request.form.get('color')
+    photolink = request.form.get('photolink')
 
     # num = request.args.get('num', default="")
     # area = request.args.get('area', default="")
@@ -49,7 +61,8 @@ def index():
         'size': size,
         'brand': brand,
         'condition': condition,
-        'color': color}
+        'color': color,
+        'photolink': photolink}
         user_info = {'netid': netid,
         'email': email,
         'phone': phone}

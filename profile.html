@@ -1,31 +1,30 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
+<link rel="stylesheet" href="style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <html>
     <head>
         <title>TigerThrift</title>
     </head>
   <body>
-      <header>
-        <div id = "header">
-            <!--logo on top left-->
-            <div id = tigerthrift>
-                <h1><strong>TigerThrift</strong></h1>
-            </div>
-            <!--nav bar on top right-->
-            <nav>
-                <div id = "pages">
-                    <ul>
-                        <!--<li class="active"><a href="#">Home</a></li>-->
-                        <li><a href="buy">Buy</a></li>
-                        <li><a href="sell">Sell</a></li>
-                        <li><a href="profile">Profile</a></li>
-                    </ul>
-                </div>
-            </nav>
+    <nav class="navbar navbar-expand-sm bg-white">
+        <div class="container-fluid">
+            <span class="navbar-text"><h1><strong>TigerThrift</strong></h1></span>
+            <!-- Links -->
+            <ul class="navbar-nav">
+             <li class="nav-item">
+               <a class="nav-link" href="buy"><h4 class="text-dark">Buy</h4></a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="sell"><h4 class="text-dark">Sell</h4></a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="profile"><h4 class="text-dark">Profile</h4></a>
+             </li>
+            </ul>
         </div>
-    </header>
+    </nav>
     <div style="margin: auto; width: 60%; padding: 10px;">
-        <h1 style = "text-align: center;"><strong>profile</strong></h1>
         <div style = "text-align: center;">
             <!--PROFILE IMAGE-->
             <div>
@@ -33,9 +32,9 @@
             </div>
             <!--PROFILE INFO-->
             <div style="float:left; padding-left:5%;">
-                <h1 style = "text-align: center; font-size: 3vw"><strong>Profile Name</strong></h1>
-                <p style = "text-align: center; font-size: 2vw"><strong>class of 2023</strong></p>
-                <p style = "text-align: center; font-size: 2vw"><strong>netID@princeton.edu</strong></p>
+                <h3 style = "text-align: center;"><strong>Profile Name</strong></h3>
+                <p style = "text-align: center"><strong>class of 2023</strong></p>
+                <p style = "text-align: center"><strong>netID@princeton.edu</strong></p>
             </div>
         </div>
         <!--SELLING-->

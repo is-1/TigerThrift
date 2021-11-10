@@ -1,154 +1,236 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <!-- <link rel="stylesheet" href="style.css"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <html>
     <head>
         <title>TigerThrift</title>
     </head>
   <body>
-      <header>
-        <!--logo on top left-->
-        <div id = tigerthrift>
-            <h1><strong>TigerThrift</strong></h1>
-        </div>
-        <!--nav bar on top right-->
-        <div id = "pages">
-            <ul>
-                <!--<li class="active"><a href="#">Home</a></li>-->
-                <li><a href="#">Buy</a></li>
-                <li><a href="sell.html">Sell</a></li>
-                <li><a href="profile.html">Profile</a></li>
+    <nav class="navbar navbar-expand-sm bg-white">
+        <div class="container-fluid">
+            <span class="navbar-text"><h1><strong>TigerThrift</strong></h1></span>
+            <!-- Links -->
+            <ul class="navbar-nav">
+             <li class="nav-item">
+               <a class="nav-link" href="buy"><h4 class="text-dark">Buy</h4></a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="sell"><h4 class="text-dark">Sell</h4></a>
+             </li>
+             <li class="nav-item">
+               <a class="nav-link" href="profile"><h4 class="text-dark">Profile</h4></a>
+             </li>
             </ul>
         </div>
-    </header>
-    <hr>
-    <div style="margin: auto; width: 60%; padding: 10px;">
-        <h2 style = "text-align: center;"><strong>CREATE NEW ITEM TO SELL</strong></h2>
-        <form action="sell" value="" method = "get">
+      </nav>
+      <div class="align-items-center">
+        <form action="sell" value="" method = "POST" class="col-lg-6 offset-lg-3">
+            <h2 style = "text-align: center;"><strong>Create New Item To Sell</strong></h2>
+            <div class="form-group">
+                <label>Product Name</label>
+                <input class="form-control" type="text" name = "prodName" placeholder="enter product name" required>
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select id="type_select" name = "type" class="form-control" required>
+                    <option value="">choose a type of clothing</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="dress">Dress</option>
+                    <option value="outerwear">Outerwear</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="accessories">Accessories</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Subtype</label>
+                <select id="subtype_select" name = "subtype" class="form-control" disabled required> 
+                    <!-- <option value="">choose a subtype</option>
+                    <option value="casual">Casual</option>
+                    <option value="semiformal">Semi-formal</option>
+                    <option value="formal">Formal</option> -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Size</label>
+                <select id="size_select" name = "size" class="form-control" disabled required>
+                    <!-- <option value="">choose a size</option>
+                    <option value="XXS(W)">XXS (W)</option>
+                    <option value="XS(W)">XS (W)</option>
+                    <option value="S(W)">S (W)</option>
+                    <option value="M(W)">M (W)</option>
+                    <option value="L(W)">L (W)</option>
+                    <option value="XL(W)">XL (W)</option>
+                    <option value="XXL(W)">XXL (W)</option>
+                    <option value="XXS(M)">XXS (W)</option>
+                    <option value="XS(M)">XS (M)</option>
+                    <option value="S(M)">S (M)</option>
+                    <option value="M(M)">M (M)</option>
+                    <option value="L(M)">L (M)</option>
+                    <option value="XL(M)">XL (M)</option>
+                    <option value="XXL(M)">XXL (M)</option> -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select name = "gender" class="form-control" required>
+                    <option selected value="">choose a gender</option>
+                    <option value="mens">Mens</option>
+                    <option value="womens">Womens</option>
+                    <option value="unisex">Unisex</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="int" name = "price" class="form-control" placeholder="enter price" required>
+            </div>
+            <div class="form-group">
+                <label>Brand</label>
+                <input type="int" name = "brand" class="form-control" placeholder="enter brand" required>
+            </div>
+            <div class="form-group">
+                <label>Condition</label>
+                <select name = "condition" class="form-control" required>
+                    <option value="">choose condition</option>
+                    <option value="brandnew">Brand New</option>
+                    <option value="likenew">Like New</option>
+                    <option value="gentlyused">Gently Used</option>
+                    <option value="fairlyused">Fairly Used</option>
+                    <option value="veryused">Very Used</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Color</label>
+                <select name = "color" class="form-control" required>
+                    <option value="">choose color</option>
+                    <option value="red">Red</option>
+                    <option value="orange">Orange</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="purple">Purple</option>
+                    <option value="brown">Brown</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                    <option value="multicolored">Multi-colored</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea type="int" name = "description" class="form-control" placeholder="enter decription of clothes" required></textarea>
+            </div>
             <div id="photoupload">
                 <img id="image1" src=""><br>
-                <button id="upload_widget" class="cloudinary-button">Upload photo</button>
+                <button id="upload_widget" type="button" class="btn btn-dark">upload photo of clothes</button>
             </div>
-            <label>product name:</label>
-            <input type="text" name = "prodName" required><br>
-            <label>gender:</label>
-            <select name = "gender" required>
-                <option value="">Choose a gender</option>
-                <option value="mens">Mens</option>
-                <option value="womens">Womens</option>
-                <option value="unisex">Unisex</option>
-            </select><br>
-            <label>price:</label>
-            <input type="int" name = "price" required><br>
-            <label>size:</label>
-            <select name = "size" required>
-                <option value="">Choose a size</option>
-                <option value="XXS(W)">XXS (W)</option>
-                <option value="XS(W)">XS (W)</option>
-                <option value="S(W)">S (W)</option>
-                <option value="M(W)">M (W)</option>
-                <option value="L(W)">L (W)</option>
-                <option value="XL(W)">XL (W)</option>
-                <option value="XXL(W)">XXL (W)</option>
-                <option value="XXS(M)">XXS (W)</option>
-                <option value="XS(M)">XS (M)</option>
-                <option value="S(M)">S (M)</option>
-                <option value="M(M)">M (M)</option>
-                <option value="L(M)">L (M)</option>
-                <option value="XL(M)">XL (M)</option>
-                <option value="XXL(M)">XXL (M)</option>
-            </select><br>
-            <label>brand:</label>
-            <input type="text" name = "brand" required><br>
-            <label>type:</label>
-            <select name = "type" required>
-                <option value="">Choose a type of clothing</option>
-                <option value="top">Top</option>
-                <option value="bottom">Bottom</option>
-                <option value="dresses">Dresses</option>
-                <option value="outwear">Outerwear</option>
-                <option value="shoes">Shoes</option>
-                <option value="accessories">Accessories</option>
-            </select><br>
-            <label>subtype:</label>
-            <select name = "subtype" required>
-                <option value="">Choose a subtype</option>
-                <option value="casual">Casual</option>
-                <option value="semiformal">Semi-formal</option>
-                <option value="formal">Formal</option>
-            </select><br>
-            <label>condition:</label>
-            <select name = "condition" required>
-                <option value="">Choose condition</option>
-                <option value="brandnew">Brand New</option>
-                <option value="likenew">Like New</option>
-                <option value="gentlyused">Gently Used</option>
-                <option value="fairlyused">Fairly Used</option>
-                <option value="veryused">Very Used</option>
-            </select><br>
-            <label>color:</label>
-            <select name = "color" required>
-                <option value="">Choose color</option>
-                <option value="red">Red</option>
-                <option value="orange">Orange</option>
-                <option value="yelow">Yellow</option>
-                <option value="green">Green</option>
-                <option value="blue">Blue</option>
-                <option value="purple">Purple</option>
-                <option value="brown">Brown</option>
-                <option value="black">Black</option>
-                <option value="white">White</option>
-                <option value="multicolored">Multi-colored</option>
-            </select><br>
-            <label>upload photo:</label>
-            <input type="file" name = "upPhoto" required><br>
-            <label>description:</label>
-            <textarea name="description" required>Insert here.</textarea>
-            <br><br>
-            <label></label>
-            <input style="float: center;"type = "submit" values = "Go" value="Create Item!">
+            <br>
+            <input type = "hidden"  id="photolink" name ="photolink" value = "">
+            <div class="text-center">
+                <button type="submit" class="btn btn-dark" values = "Go">Create Item!</button>
+            </div>
         </form>
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>  
-
-    <script type="text/javascript">  
-        function setup() {
-             var myWidget = cloudinary.createUploadWidget({
-                cloudName: 'dbnkmun6k', 
-                api_key : "535599746493582",
-                resourceType: "image",
-                sources: ['local', 'camera', 'google_drive', 'url'],
-                cropping: true,
-                uploadPreset: 'tigerthrift'}, (error, result) => { 
-                    if (!error && result && result.event === "success") { 
-                        console.log('Done! Here is the image info: ', result.info); 
-                        imageUrl = result.info.url;
-                        console.log("url: " + imageUrl);
-                        $('#image1').attr("src", imageUrl);
-                        $('#upload_widget').html("Upload another photo");
-                    }
-                    if (error){
-                        console.log("error uploading");  } 
-            }
-        )
-  
-          document.getElementById("upload_widget").addEventListener("click", function(){
-              myWidget.open();
-              }, false);
-          }
-
-        //   if (imageUrl != null) {
-        //       $('#image1').attr("src", imageUrl);
-        //   }
-
-          $('#document').ready(setup);
-  
-        </script>
-
-    </div>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+        <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>  
     
+        <script type="text/javascript">  
+            function setup() {
+                var myWidget = cloudinary.createUploadWidget({
+                    cloudName: 'dbnkmun6k', 
+                    api_key : "535599746493582",
+                    resourceType: "image",
+                    sources: ['local', 'camera', 'google_drive', 'url'],
+                    cropping: true,
+                    uploadPreset: 'tigerthrift'}, (error, result) => {
+                        if (!error && result && result.event === "success") { 
+                            console.log('Done! Here is the image info: ', result.info); 
+                            imageUrl = result.info.url;
+                            console.log("url: " + imageUrl);
+                            $('#image1').attr("src", imageUrl);
+                            $('#photolink').val(imageUrl);
+                            console.log("photolink val : " + $('#photolink').val());
+                            $('#upload_widget').html("Upload another photo");
+                        }
+                        if (error){
+                            console.log("error uploading");} 
+                    }
+                )
+                document.getElementById("upload_widget").addEventListener("click", function(){
+                    myWidget.open();
+                }, false);
+
+                $("#type_select").change(function(){
+                    let selected = $("#type_select").val();
+                    let subtypes = [];
+                    let sizes = [];
+
+                    console.log("selected: " + selected);
+
+                    if (selected == "top") {
+                        subtypes.push("T-shirt", "Bodysuit", "Tanks",  "Shirt", "Blouse", "Blazer");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)","XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                    }
+
+                    if (selected == "bottom") {
+                        subtypes.push("Pants", "Skirt", "Shorts", "Jeans");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
+"XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”",
+"00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                    }
+
+                    if (selected == "dress") {
+                        subtypes.push("Casual", "Semi-Formal", "Formal");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                    }
+
+                    if (selected == "outerwear") {
+                        subtypes.push("Coat", "Jacket", "Cardigan", "Crewneck", "Hoodie");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                    }
+
+                    if (selected == "shoes") {
+                        subtypes.push("Sneakers", "Sandals", "Boots", "Heels/Dress Shoes");
+                        sizes.push("5W", "5.5W", "6W", "6.5W", "7W", "7.5W", "8W", "8.5W", "9W", "9.5W", "10W", "10.5W", "11W", "11.5W", "12W", "12.5W", "13W",
+                        "7M", "7.5M", "8M", "8.5M", "9M", "9.5M", "10M", "10.5M", "11M", "11.5M", "12M", "12.5M", "13M", "13.5M", "14M");
+                    }
+
+                    if (selected == "accessories") {
+                        subtypes.push("Hat", "Jewelry", "Watch", "Sunglasses", "Scarf", "Gloves", "Belt", "Bag", "Tie");
+                        sizes.push("One-size");
+                    } 
+
+                    $("#subtype_select").empty();
+                    $('#subtype_select').attr("disabled", false);
+
+                    $("#size_select").empty();
+                    $('#size_select').attr("disabled", false);
+                    
+                    console.log("subtypes: " + subtypes);
+                    console.log("sizes: " + sizes);
+
+                    for (i in subtypes) {
+                        $('#subtype_select').append($('<option>', {
+                            value: subtypes[i].toLowerCase(),
+                            text: subtypes[i]
+                        }));
+                    }
+
+                    for (j in sizes) {
+                        $('#size_select').append($('<option>', {
+                            value: sizes[j].toLowerCase(),
+                            text: sizes[j]
+                        }));
+                    }
+
+
+                });
+            }
+            //   if (imageUrl != null) {
+            //       $('#image1').attr("src", imageUrl);
+            //   }
+            $('#document').ready(setup);
+        </script>
+      </div>
   </body>
 </html>
