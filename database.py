@@ -106,7 +106,8 @@ def all_items():
                     'condition': row[7],
                     'color': row[6],
                     'timestamp': row[10],
-                    'photolink': row[11]}
+                    'photolink': row[11],
+                    'status': row[12]}
                     results.append(item)
                     row = cursor.fetchone()
 
