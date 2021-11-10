@@ -28,6 +28,7 @@
         <h2 style = "text-align: center;"><strong>Browse Items</strong></h2>
         <div class="row">
             {% for item in items %}
+            {% if item['status'] == 0 %}
             <div class="col-sm-3">
                 <div class="card" style="width: 18rem;">
                     
@@ -51,6 +52,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
         </div>
         {% for item in items %}
