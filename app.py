@@ -1,6 +1,7 @@
 from flask import Flask, request, make_response
 from flask import render_template
 from database import add_item, all_items, reserve_item
+from sendemail import send_seller_notification
 
 app = Flask(__name__, template_folder = '.')
 
@@ -74,13 +75,15 @@ def buy():
 
 @app.route('/reserve', methods=['POST'])
 def reserve():
-    netid = "kc42"
+    seller = {'name': 'katie', 'netid': 'kc42', 'email':'katielchou@princeton.edu'}
     itemid = request.form.get('itemid')
     
     print("itemid: "+ itemid)
-    print("netid: " + netid)
-    reserve_item(netid, itemid)
+    print("netid: " + seller['netid'])
 
+    reserve_item(seller['netid'], itemid)
+    send_seller_notification(seller, itemid)
+    
     return make_response("success")
  
 
