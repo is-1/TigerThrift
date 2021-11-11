@@ -148,7 +148,10 @@ def all_items():
                     'color': row[6],
                     'timestamp': row[10],
                     'photolink': row[11],
-                    'status': row[12]}
+                    'status': row[12],
+                    'sellernetid': row[13],
+                    'prodname': row[14]
+                    }
                     results.append(item)
                     row = cursor.fetchone()
 
