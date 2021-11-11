@@ -33,13 +33,13 @@
                         <p class="card-text">Price: {{item['price']}}</p>
                         <p class="card-text">Condition: {{item['condition']}}</p>
                         <p class="card-text">Brand: {{item['brand']}}</p>
-                        <a href="#" class="btn btn-dark">more details</a>
-                        <br>
-                        <br>
-                        <form action="reserve" method='POST'>
-                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                            <button class="btn btn-dark">reserve</button>
-                        </form>
+                        <div class="row">
+                            <a href="#" class="btn btn-dark col-sm">more details</a>
+                            <form action="reserve" method='POST'>
+                                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                <button class="btn btn-dark col-sm">reserve</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
