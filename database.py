@@ -31,6 +31,46 @@ def add_user(user_info, currDate):
        print(ex, file=stderr)
        exit(1)
 
+# create reservation
+
+def reserve_item(buyernetid, itemid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    try:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                    f = '%Y-%m-%d %H:%M:%S'
+                    now = datetime.utcnow()
+                    dt = now.strftime(f)
+
+                    stmt_str = ('SELECT sellernetid from items where itemid = %s')
+                    cursor.execute(stmt_str, itemid)
+                    sellernetid = cursor.fetchone()[0]
+
+                    if sellernetid is None:
+                        raise Exception("cannot find sellerid")
+                        
+                    # insert into reservations table
+                    stmt_str = ('INSERT INTO reservations (itemid, buyernetid, sellernetid, reservedtime) VALUES (%s, %s, %s, %s)')
+                    cursor.execute(stmt_str, (itemid, buyernetid, sellernetid, dt))
+
+                    # change status in items table
+                    stmt_str = ('SELECT status from items where itemid = %s')
+                    cursor.execute(stmt_str, itemid)
+                    currentstatus = cursor.fetchone()[0]
+                    if currentstatus == 1:
+                        raise Exception("item already reserved")
+                    if currentstatus != 0:
+                        raise Exception("item unavailable for reservation")
+
+                    stmt_str = ('UPDATE items set status = 1 where itemid = %s')
+                    cursor.execute(stmt_str, itemid)
+
+                    print("reservation complete")
+                    connection.commit()
+    
+    except Exception as ex:
+       print(ex, file=stderr)
+       exit(1)
     
 
 # when user uploads an item, update necessary tables

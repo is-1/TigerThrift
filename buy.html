@@ -49,6 +49,10 @@
                         <p class="card-text">Condition: {{item['condition']}}</p>
                         <p class="card-text">Brand: {{item['brand']}}</p>
                         <a href="#" class="btn btn-dark">more details</a>
+                        <form action="reserve" method='POST'>
+                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                            <button class="btn btn-dark">reserve</button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 from flask import Flask, request, make_response
 from flask import render_template
-from database import add_item, all_items
+from database import add_item, all_items, reserve_item
 
 app = Flask(__name__, template_folder = '.')
 
@@ -12,18 +12,6 @@ def index():
     email = 'katelynr@princeton.edu'
     phone = '512-263-6973'
 
-    # prodName = request.args.get('prodName')
-    # gender = request.args.get('gender')
-    # price = request.args.get('price')
-    # size = request.args.get('size')
-    # brand = request.args.get('brand')
-    # itemtype = request.args.get('itemtype')
-    # subtype = request.args.get('subtype')
-    # condition = request.args.get('condition')
-    # color = request.args.get('color')
-    # photolink = request.args.get('upPhoto')
-
-
     prodName = request.form.get('prodName')
     gender = request.form.get('gender')
     price = request.form.get('price')
@@ -34,22 +22,6 @@ def index():
     condition = request.form.get('condition')
     color = request.form.get('color')
     photolink = request.form.get('photolink')
-
-    # num = request.args.get('num', default="")
-    # area = request.args.get('area', default="")
-    # title = request.args.get('title',default="")
-    # prev_dept = request.cookies.get('prev_dept')
-    # if prev_dept is None:
-    #     prev_dept = '(None)'
-    # prev_num = request.cookies.get('prev_num')
-    # if prev_num is None:
-    #     prev_num = '(None)'
-    # prev_area = request.cookies.get('prev_area')
-    # if prev_area is None:
-    #     prev_area = '(None)'
-    # prev_title = request.cookies.get('prev_title')
-    # if prev_title is None:
-    #     prev_title = '(None)'
 
     # # call function
     if prodName is not None:
@@ -99,6 +71,18 @@ def buy():
 
     response = make_response(html)
     return response
+
+@app.route('/reserve', methods=['POST'])
+def reserve():
+    netid = "kc42"
+    itemid = request.form.get('itemid')
+    
+    print("itemid: "+ itemid)
+    print("netid: " + netid)
+    reserve_item(netid, itemid)
+
+    return make_response("success")
+ 
 
 @app.route('/profile', methods=['GET'])
 def profile():
