@@ -22,6 +22,17 @@
             </div>
         </div>
         <!--SELLING-->
+        {% for item in items %}
+        <table>
+            {% for key, value in item.items() %}
+            <tr>
+                <th scope="row">{{ key }}</th>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        {% endfor %}
         <!--SOLD-->
         <!--PURCHASED-->
     </div>
