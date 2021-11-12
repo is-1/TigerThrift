@@ -32,8 +32,8 @@
                 {% for item in items %}
                 {% if item['status'] == 0 %}
                 {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
-                <div class="col-sm-3">
-                    <div class="card m-2">
+                <div class="col-sm-6">
+                    <div class="card" style="width: 18rem;">
                         {% if item['photolink'] == "google.com" %}
                         <img class="card-img-top" src="static/item.png" alt="item photo">
                         {% elif item['photolink'] == "https://www.google.com/" %}
@@ -62,7 +62,7 @@
             {% if item['status'] == 2 %}
             {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
             <div class="col-sm-3">
-                <div class="card m-2">
+                <div class="card" style="width: 18rem;">
                         {% if item['photolink'] == "google.com" %}
                         <img class="card-img-top" src="static/item.png" alt="item photo">
                         {% elif item['photolink'] == "https://www.google.com/" %}
