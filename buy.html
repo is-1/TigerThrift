@@ -12,7 +12,9 @@
         <h2 style = "text-align: center;"><strong>Browse Items</strong></h2>
         <div class="input-group rounded">
             <input type="search" class="form-control rounded" placeholder="enter search here..."/>
-            <button class="input-group-text border-0 btn btn-outline-secondary" type="button">search</button>
+            <div class="input-group-text border-0">
+                <button class="btn btn-outline" type="button">search</button>
+            </div>
         </div>
         <div class="row">
             {% for item in items %}
