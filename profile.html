@@ -22,19 +22,22 @@
             </div>
         </div>
         <!--SELLING-->
-        {% for item in items %}
-        {% if item['sellernetid'] == 'katelynr'%}
-        <table>
-            {% for key, value in item.items() %}
-            <tr>
-                <th scope="row">{{ key }}</th>
-                <td>{{ value }}</td>
-            </tr>
+        <div class="container-fluid align-items-center">
+            <h2 style = "text-align: center;"><strong>Items Currently Selling</strong></h2>
+            {% for item in items %}
+            {% if (item['status'] == 0) and (item['sellernetid'] == 'katelynr')%}
+            <table>
+                {% for key, value in item.items() %}
+                <tr>
+                    <th scope="row">{{ key }}</th>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            {% endif %}
             {% endfor %}
-        </table>
-        <br>
-        {% endif %}
-        {% endfor %}
+        </div>
         <!--SOLD-->
         <!--PURCHASED-->
     </div>
