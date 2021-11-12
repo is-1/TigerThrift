@@ -12,9 +12,9 @@
         <h2 style = "text-align: center;"><strong>Browse Items</strong></h2>
         <div class="input-group rounded">
             <input type="search" class="form-control rounded" placeholder="enter search here..."/>
-            <span class="input-group-text border-0"> # need to add id
-              <i class="fas fa-search"></i>
-            </span>
+            <div class="input-group-text border-0">
+                <button class="btn btn-outline-secondary" type="button">search</button>
+            </div>
         </div>
         <div class="row">
             {% for item in items %}
