@@ -34,6 +34,13 @@
                 {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
                 <div class="col-sm-3">
                     <div class="card" style="width: 18rem;">
+                        {% if item['photolink'] == "google.com" %}
+                        <img class="card-img-top" src="static/item.png" alt="item photo">
+                        {% elif item['photolink'] == "https://www.google.com/" %}
+                        <img class="card-img-top" src="static/item.png" alt="item photo">
+                        {% else %}
+                        <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{item['prodname']}}</h5>
                             <p class ="card-text">ItemId: {{item['itemid']}}</p>
@@ -56,6 +63,13 @@
             {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
             <div class="col-sm-3">
                 <div class="card" style="width: 18rem; margin-bottom: 100px;">
+                        {% if item['photolink'] == "google.com" %}
+                        <img class="card-img-top" src="static/item.png" alt="item photo">
+                        {% elif item['photolink'] == "https://www.google.com/" %}
+                        <img class="card-img-top" src="static/item.png" alt="item photo">
+                        {% else %}
+                        <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                        {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{item['prodname']}}</h5>
                         <p class ="card-text">ItemId: {{item['itemid']}}</p>
