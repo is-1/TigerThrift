@@ -1,7 +1,7 @@
 from flask import Flask, request, make_response
 from flask import render_template
 from database import add_item, all_items, reserve_item
-from sendemail import send_seller_notification
+from sendemail import send_buyer_notification, send_seller_notification
 
 app = Flask(__name__, template_folder = '.')
 
@@ -75,14 +75,17 @@ def buy():
 
 @app.route('/reserve', methods=['POST'])
 def reserve():
-    seller = {'name': 'katie', 'netid': 'kc42', 'email':'katielchou@princeton.edu'}
-    itemid = request.form.get('itemid')
-    
-    print("itemid: "+ itemid)
-    print("netid: " + seller['netid'])
+   
+    buyer = {'name': 'katie', 'netid': 'kc42', 'email':'katielchou@princeton.edu'} # get buyer from cookies eventually
 
-    reserve_item(seller['netid'], itemid)
-    send_seller_notification(seller, itemid)
+    itemid = request.form.get('itemid')
+
+    sellernetid = reserve_item(buyer['netid'], str(itemid))
+
+    seller = {'name': 'katie', 'netid': str(sellernetid), 'email':'katielchou@princeton.edu'} # get seller from database eventually
+
+    send_seller_notification(seller, itemid) # change to item object, or item name based on itemid
+    send_buyer_notification(buyer, itemid)
     
     return make_response("success")
  

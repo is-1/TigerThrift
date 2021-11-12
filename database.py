@@ -43,19 +43,19 @@ def reserve_item(buyernetid, itemid):
                     dt = now.strftime(f)
 
                     stmt_str = ('SELECT sellernetid from items where itemid = %s')
-                    cursor.execute(stmt_str, itemid)
+                    cursor.execute(stmt_str, [itemid])
                     sellernetid = cursor.fetchone()[0]
-
+                    
                     if sellernetid is None:
                         raise Exception("cannot find sellerid")
                         
                     # insert into reservations table
                     stmt_str = ('INSERT INTO reservations (itemid, buyernetid, sellernetid, reservedtime) VALUES (%s, %s, %s, %s)')
-                    cursor.execute(stmt_str, (itemid, buyernetid, sellernetid, dt))
+                    cursor.execute(stmt_str, [itemid, buyernetid, sellernetid, dt])
 
                     # change status in items table
                     stmt_str = ('SELECT status from items where itemid = %s')
-                    cursor.execute(stmt_str, itemid)
+                    cursor.execute(stmt_str, [itemid])
                     currentstatus = cursor.fetchone()[0]
                     if currentstatus == 1:
                         raise Exception("item already reserved")
@@ -63,7 +63,7 @@ def reserve_item(buyernetid, itemid):
                         raise Exception("item unavailable for reservation")
 
                     stmt_str = ('UPDATE items set status = 1 where itemid = %s')
-                    cursor.execute(stmt_str, itemid)
+                    cursor.execute(stmt_str, [itemid])
 
                     print("reservation complete")
                     connection.commit()
@@ -71,6 +71,8 @@ def reserve_item(buyernetid, itemid):
     except Exception as ex:
        print(ex, file=stderr)
        exit(1)
+
+    return sellernetid
     
 
 # when user uploads an item, update necessary tables
