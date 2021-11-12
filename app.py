@@ -92,6 +92,8 @@ def reserve():
 
 @app.route('/profile', methods=['GET'])
 def profile():
+    items = all_items()
+    
     html = render_template('profile.html', items=items)
 
     response = make_response(html)
