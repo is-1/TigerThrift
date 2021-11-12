@@ -25,7 +25,7 @@
         <div class="container-fluid align-items-center">
             <h2 style = "text-align: center;"><strong>Items Currently Selling</strong></h2>
             {% for item in items %}
-            {% if (item['status'] == 0) and (item['sellernetid'] == 'katelynr')%}
+            {% if (item['status'] == 0) && (item['sellernetid'] == 'katelynr')%}
             <table>
                 {% for key, value in item.items() %}
                 <tr>
