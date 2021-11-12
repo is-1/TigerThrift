@@ -24,11 +24,11 @@
     </div>
     <!--SELLING-->
     <div class="container-fluid align-items-center">
-        <h2 style = "text-align: center;"><strong>Items Currently Selling</strong></h2>
-        {% for item in items %}
-        {% if item['status'] == 0 %}
-        {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
+        <h2><strong>Items Currently Selling</strong></h2>
         <div class="col-sm-3">
+            {% for item in items %}
+            {% if item['status'] == 0 %}
+            {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">{{item['prodname']}}</h5>
@@ -39,10 +39,10 @@
                     <a href="#" class="card-text btn btn-dark">more details</a>
                 </div>
             </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endif %}
-        {% endfor %}
     </div>
     <!--SOLD-->
     <!--PURCHASED-->
