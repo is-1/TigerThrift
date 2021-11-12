@@ -143,8 +143,7 @@ def profile():
 #     return response
 
 @app.route('/itemdetails', methods=['GET'])
-def itemdetails():
-    item_id = request.args.get('itemid')
+def itemdetails():=
     html = render_template('itemdetails.html')
     response = make_response(html)
     return response
