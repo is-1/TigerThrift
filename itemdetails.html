@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<html>
+    <head>
+        <title>TigerThrift</title>
+    </head>
+  <body>
+    {% include 'header.html' %}
+    <div class="container-fluid align-items-center">
+        <h2 style = "text-align: center;"><strong>Item Details: Product Name</strong></h2>
+        <div>
+            <!--<img class="card-img-top" src="{{item['photolink']}}" alt="item photo">-->
+            <img src="static/item.png" alt="item photo">
+            
+        </div>
+        <div>
+            <strong>Description: </strong>{{ }}<br>
+            <strong>Price: </strong>{{ }}<br>
+            <strong>Size: </strong>{{ }}<br>
+            <strong>Brand: </strong>{{ }}<br>
+            <strong>Condition: </strong>{{ }}<br>
+            <strong>Type: </strong>{{ }}<br>
+            <strong>Subtype: </strong>{{ }}<br>
+            <strong>Gender: </strong>{{ }}<br>
+            <strong>Color: </strong>{{ }}<br>
+            <strong>Seller NetId: </strong>{{ }}<br>
+        </div>
+    </div>
+  </body>
+</html>

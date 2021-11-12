@@ -142,5 +142,12 @@ def profile():
 #     response = make_response(html)
 #     return response
 
+@app.route('/itemdetails', methods=['GET'])
+def itemdetails():
+    item_id = request.args.get('itemid')
+    html = render_template('itemdetails.html')
+    response = make_response(html)
+    return response
+
 if __name__ == "__main__":
     app.run()
