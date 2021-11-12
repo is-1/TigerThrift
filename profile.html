@@ -8,7 +8,7 @@
     </head>
   <body>
     {% include 'header.html' %}
-    <div class="container-fluid align-items-center">
+    <div class="align-items-center">
         <!--PROFILE IMAGE-->
         <div>
             <img src="static/profile.png" alt="profile photo" style="width: 30%; padding-left:10%; float:left;">
@@ -21,7 +21,7 @@
         </div>
     </div>
     <!--SELLING-->
-    <div class="container-fluid align-items-center">
+    <div>
         <h2 class="align-items-center"><strong>Items Currently Selling</strong></h2>
         <div class="row">
             {% for item in items %}
