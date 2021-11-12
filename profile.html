@@ -24,8 +24,10 @@
         <div class="container-fluid align-items-center">
             <!--RESERVING-->
             <h2 style = "text-align: center;"><strong>Items Currently Reserving</strong></h2>
+            <!--if nothing, then don't print out this header, or put a message saying "no items reserved"-->
             <!--SELLING-->
             <h2 style = "text-align: center;"><strong>Items Currently Selling</strong></h2>
+            <!--if nothing, then don't print out this header, or put a message saying "no items being sold"-->
             <div class="row">
                 {% for item in items %}
                 {% if item['status'] == 0 %}
@@ -48,11 +50,12 @@
             </div>
             <!--SOLD-->
             <h2 style = "text-align: center;"><strong>Items Sold In the Past</strong></h2>
+            <!--if nothing, then don't print out this header, or put a message saying "no items sold in the past"-->
             {% for item in items %}
             {% if item['status'] == 2 %}
             {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
             <div class="col-sm-3">
-                <div class="card" style="width: 18rem;">
+                <div class="card" style="width: 18rem; margin-bottom: 10px;">
                     <div class="card-body">
                         <h5 class="card-title">{{item['prodname']}}</h5>
                         <p class ="card-text">ItemId: {{item['itemid']}}</p>
@@ -68,6 +71,7 @@
             {% endfor %}
             <!--PURCHASED-->
             <h2 style = "text-align: center;"><strong>Items Purchased</strong></h2>
+            <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
         </div>
     </div>
   </body>
