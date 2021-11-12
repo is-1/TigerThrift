@@ -44,7 +44,27 @@
             {% endfor %}
         </div>
         <!--SOLD-->
+        <h2 style = "text-align: center;"><strong>Items Sold In the Past</strong></h2>
+        {% for item in items %}
+        {% if item['status'] == 2 %}
+        {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
+        <div class="col-sm-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{item['prodname']}}</h5>
+                    <p class ="card-text">ItemId: {{item['itemid']}}</p>
+                    <p class="card-text">Price: {{item['price']}}</p>
+                    <p class="card-text">Condition: {{item['condition']}}</p>
+                    <p class="card-text">Brand: {{item['brand']}}</p>
+                    <a href="#" class="card-text btn btn-dark">more details</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
         <!--PURCHASED-->
+        <h2 style = "text-align: center;"><strong>Items Purchased</strong></h2>
     </div>
   </body>
 </html>
