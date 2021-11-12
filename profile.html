@@ -23,6 +23,7 @@
         </div>
         <!--SELLING-->
         {% for item in items %}
+        {% if item['sellernetid'] == 'katelynr'%}
         <table>
             {% for key, value in item.items() %}
             <tr>
@@ -32,6 +33,7 @@
             {% endfor %}
         </table>
         <br>
+        {% endif %}
         {% endfor %}
         <!--SOLD-->
         <!--PURCHASED-->
