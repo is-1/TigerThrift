@@ -21,26 +21,25 @@
         </div>
     </div>
     <!--SELLING-->
-    <div>
-        <h2 class="align-items-center"><strong>Items Currently Selling</strong></h2>
-        <div class="row">
-            {% for item in items %}
-            {% if item['status'] == 0 %}
-            {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
-            <div class="col-sm-3">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{item['prodname']}}</h5>
-                        <p class ="card-text">ItemId: {{item['itemid']}}</p>
-                        <p class="card-text">Price: {{item['price']}}</p>
-                        <p class="card-text">Condition: {{item['condition']}}</p>
-                        <p class="card-text">Brand: {{item['brand']}}</p>
-                        <a href="#" class="card-text btn btn-dark">more details</a>
-                    </div>
+    <h2 class="align-items-center"><strong>Items Currently Selling</strong></h2>
+    <div class="row">
+        {% for item in items %}
+        {% if item['status'] == 0 %}
+        {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
+        <div class="col-sm-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{item['prodname']}}</h5>
+                    <p class ="card-text">ItemId: {{item['itemid']}}</p>
+                    <p class="card-text">Price: {{item['price']}}</p>
+                    <p class="card-text">Condition: {{item['condition']}}</p>
+                    <p class="card-text">Brand: {{item['brand']}}</p>
+                    <a href="#" class="card-text btn btn-dark">more details</a>
                 </div>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
+            </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
         </div>
     </div>
     <!--SOLD-->
