@@ -8,41 +8,43 @@
     </head>
   <body>
     {% include 'header.html' %}
-    <div class="align-items-center">
-        <!--PROFILE IMAGE-->
-       <div>
-            <img src="static/profile.png" alt="profile photo" style="width: 30%; padding-left:10%; float:left;">
-        </div>
-        <!--PROFILE INFO-->
-        <div style="float:left; padding-left:5%;">
-            <h3 style = "text-align: center;"><strong>Profile Name</strong></h3>
-            <p style = "text-align: center"><strong>class of 2023</strong></p>
-            <p style = "text-align: center"><strong>netID@princeton.edu</strong></p>
-        </div>
-    </div>
-    <!--SELLING-->
-    <h2 style = "text-align: center;"><strong>Items Currently Selling</strong></h2>
-    <div class="row">
-        {% for item in items %}
-        {% if item['status'] == 0 %}
-        {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
-        <div class="col-sm-3">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{item['prodname']}}</h5>
-                    <p class ="card-text">ItemId: {{item['itemid']}}</p>
-                    <p class="card-text">Price: {{item['price']}}</p>
-                    <p class="card-text">Condition: {{item['condition']}}</p>
-                    <p class="card-text">Brand: {{item['brand']}}</p>
-                    <a href="#" class="card-text btn btn-dark">more details</a>
-                </div>
+    <div class="vstack">
+        <div>
+            <!--PROFILE IMAGE-->
+           <div>
+                <img src="static/profile.png" alt="profile photo" style="width: 30%; padding-left:10%; float:left;">
+            </div>
+            <!--PROFILE INFO-->
+            <div style="float:left; padding-left:5%;">
+                <h3 style = "text-align: center;"><strong>Profile Name</strong></h3>
+                <p style = "text-align: center"><strong>class of 2023</strong></p>
+                <p style = "text-align: center"><strong>netID@princeton.edu</strong></p>
             </div>
         </div>
-        {% endif %}
-        {% endif %}
-        {% endfor %}
+        <!--SELLING-->
+        <h2 style = "text-align: center;"><strong>Items Currently Selling</strong></h2>
+        <div class="row">
+            {% for item in items %}
+            {% if item['status'] == 0 %}
+            {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
+            <div class="col-sm-3">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{item['prodname']}}</h5>
+                        <p class ="card-text">ItemId: {{item['itemid']}}</p>
+                        <p class="card-text">Price: {{item['price']}}</p>
+                        <p class="card-text">Condition: {{item['condition']}}</p>
+                        <p class="card-text">Brand: {{item['brand']}}</p>
+                        <a href="#" class="card-text btn btn-dark">more details</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <!--SOLD-->
+        <!--PURCHASED-->
     </div>
-    <!--SOLD-->
-    <!--PURCHASED-->
   </body>
 </html>
