@@ -163,6 +163,82 @@ def all_items():
        # print(ex, file=stderr)
         exit(1)
 
+def search_items(search, filter):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    search_results = []
+
+    try:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                stmt_str = "SELECT * from items "
+                cmd_args = []
+                if search:
+                    stmt_str += "where prodname LIKE %s"
+                    cmd_args.append("%" + search + "%")
+                    # unconment when filter dict is in place
+                    # if filter['type']:
+                    #     stmt_str += "AND type = ? "
+                    #     cmd_args.append("%" + filter['type'] + "%")
+                    # if filter['subtype']:
+                    #     stmt_str += "AND subtype = ? "
+                    #     cmd_args.append("%" + filter['subtype'] + "%")
+                    # if filter['size']:
+                    #     stmt_str += "AND size = ? "
+                    #     cmd_args.append("%" + filter['size'] + "%")
+                    # if filter['gender']:
+                    #     stmt_str += "AND size = ? "
+                    #     cmd_args.append("%" + filter['gender'] + "%")
+                    # if filter['brand']:
+                    #     stmt_str += "AND brand = ? "
+                    #     cmd_args.append("%" + filter['brand'] + "%")
+                    # if filter['condition']:
+                    #     stmt_str += "AND condition = ? "
+                    #     cmd_args.append("%" + filter['condition'] + "%")
+                    # if filter['color']:
+                    #     stmt_str += "AND color = ? "
+                    #     cmd_args.append("%" + filter['color'] + "%")
+                    
+
+                    # if cmd_args:
+                    #     stmt_str += "ESCAPE '\\' "
+
+                    # change order by when sort by is in place
+                    # stmt_str += "ORDER BY posted ASC"
+
+                cursor.execute(stmt_str, cmd_args)
+
+                row = cursor.fetchone()
+                results = []
+
+                while row is not None:
+                    item = {'itemid': row[0],
+                    'type': row[1],
+                    'subtype': row[2],
+                    'desc': row[9],
+                    'gender': row[4],
+                    'price': row[5],
+                    'size': row[3],
+                    'brand': row[8],
+                    'condition': row[7],
+                    'color': row[6],
+                    'timestamp': row[10],
+                    'photolink': row[11],
+                    'status': row[12],
+                    'sellernetid': row[13],
+                    'prodname': row[14]
+                    }
+                    results.append(item)
+                    row = cursor.fetchone()
+
+    except Exception as ex:
+        print(ex, file=stderr)
+        #exit(1)                                                                                                  
+        return None
+
+    print(str(len(results)) + " items")
+    return results
+
+
 
 # delete item from shop page and respective tables (seller wants to take item off market)
 # def delete_item()

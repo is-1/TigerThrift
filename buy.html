@@ -11,62 +11,45 @@
     <div class="container-fluid align-items-center">
         <h2 style = "text-align: center;"><strong>Browse Items</strong></h2>
         <div class="input-group rounded">
-            <input type="search" class="form-control rounded" placeholder="enter search here..."/>
+            <input type="search" id="search" class="form-control rounded" placeholder="enter search here..."/>
             <div class="input-group-text border-0">
-                <button class="btn btn-outline" type="button">search</button>
+                <button id="search_button" class="btn btn-outline" type="button">search</button>
             </div>
         </div>
         <br>
         <br>
-        <div class="row">
-            {% for item in items %}
-            {% if item['status'] == 0 %}
-            <div class="col-sm-3">
-                <div class="card" style="width: 18rem;">
-                    
-                    {% if item['photolink'] == "google.com" %}
-                    <img class="card-img-top" src="static/item.png" alt="item photo">
+    {% include 'searchresults.html' %}
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>  
 
-                    {% elif item['photolink'] == "https://www.google.com/" %}
-                    <img class="card-img-top" src="static/item.png" alt="item photo">
+    <script>
+        function handleResponse(response)
+        {
+            $('#search_results').html(response);
+        }
 
-                    {% else %}
-                    <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+        let request = null;
+        
+        function getResults(){
+            let search = $('#search').val();
 
-                    {% endif %}
+            search = encodeURIComponent(search);
 
-                    <div class="card-body">
-                        <h5 class="card-title">{{item['prodname']}}</h5>
-                        <p class ="card-text">ItemId: {{item['itemid']}}</p>
-                        <p class="card-text">Price: {{item['price']}}</p>
-                        <p class="card-text">Condition: {{item['condition']}}</p>
-                        <p class="card-text">Brand: {{item['brand']}}</p>
-                        <div class="d-flex">
-                            <div class="mr-auto p-2"><a href="itemdetails" class="card-text btn btn-dark">more details</a></div>
-                            <div class="p-2">
-                                <form action="reserve" method='POST'>
-                                    <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                    <button class="card-text btn btn-dark">reserve</button>
-                               </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
-        </div>
-        {% for item in items %}
-        <table>
-            {% for key, value in item.items() %}
-            <tr>
-                <th scope="row">{{ key }}</th>
-                <td>{{ value }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <br>
-        {% endfor %}
-    </div>
+            let url = '/searchresults?search=' + search;
+
+            if (request != null)
+                request.abort();
+
+            request = $.ajax({type: 'GET', url: url, success: handleResponse})
+        }
+
+        function setup(){
+            $('#search_button').click(getResults);
+        }
+
+        $('#document').ready(setup);
+
+    </script>
   </body>
 </html>
