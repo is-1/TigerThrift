@@ -99,7 +99,7 @@ def reserve():
 
     seller = {'name': 'katie', 'netid': str(sellernetid), 'email':'katielchou@princeton.edu'} # get seller from database eventually
 
-    send_seller_notification(seller, itemid) # change to item object, or item name based on itemid
+    send_seller_notification(seller, buyer, itemid) # change to item object, or item name based on itemid
     send_buyer_notification(buyer, itemid)
     
     return make_response("success")

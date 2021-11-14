@@ -3,7 +3,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 
-def send_seller_notification(seller, item): 
+def send_seller_notification(seller, buyer, item): 
 
     message = Mail(
         from_email= 'tigerthrift@princeton.edu',
@@ -13,12 +13,13 @@ def send_seller_notification(seller, item):
         # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
-        'name': seller['name'],
+        'seller': seller['name'],
+        'buyer': buyer['name'],
+        'Weblink': buyer['email'],
         'prodname': item
     }
 
     message.template_id = 'd-34e62704618448cd970bd0d8eb96f925'
-
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
