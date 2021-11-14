@@ -1,6 +1,6 @@
 from flask import Flask, request, make_response
 from flask import render_template
-from database import add_item, all_items, reserve_item, search_items
+from database import add_item, all_items, reserve_item, search_items, item_details
 from sendemail import send_buyer_notification, send_seller_notification
 
 app = Flask(__name__, template_folder = '.')
@@ -159,7 +159,13 @@ def profile():
 
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
-    html = render_template('itemdetails.html')
+    itemid = request.args.get('itemid')
+
+    item = item_details(itemid)
+    
+    print("item = " + str(item))
+
+    html = render_template('itemdetails.html', item=item)
     response = make_response(html)
     return response
 

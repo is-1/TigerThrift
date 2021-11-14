@@ -29,7 +29,7 @@ def add_user(user_info, currDate):
     
     except Exception as ex:
        print(ex, file=stderr)
-       exit(1)
+       #exit(1)
 
 # create reservation
 
@@ -70,7 +70,7 @@ def reserve_item(buyernetid, itemid):
     
     except Exception as ex:
        print(ex, file=stderr)
-       exit(1)
+       #exit(1)
 
     return sellernetid
     
@@ -117,7 +117,7 @@ def add_item(item, user_info):
 
     except Exception as ex:
        print(ex, file=stderr)
-       exit(1)
+       #exit(1)
 
 def all_items():
     DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -160,8 +160,48 @@ def all_items():
                 return results
 
     except Exception as ex:
-       # print(ex, file=stderr)
-        exit(1)
+       print(ex, file=stderr)
+        # exit(1)
+
+def item_details(itemid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+
+                stmt_str = "SELECT * from items where itemid = %s"
+                cursor.execute(stmt_str, [itemid])
+
+                connection.commit()
+
+                row = cursor.fetchone()
+
+                item = {'itemid': row[0],
+                    'type': row[1],
+                    'subtype': row[2],
+                    'desc': row[9],
+                    'gender': row[4],
+                    'price': row[5],
+                    'size': row[3],
+                    'brand': row[8],
+                    'condition': row[7],
+                    'color': row[6],
+                    'timestamp': row[10],
+                    'photolink': row[11],
+                    'status': row[12],
+                    'sellernetid': row[13],
+                    'prodname': row[14]
+                    }
+
+                return item
+
+    except Exception as ex:
+       print(ex, file=stderr)
+       # exit(1)
 
 def search_items(search, filter):
     DATABASE_URL = os.environ.get('DATABASE_URL')

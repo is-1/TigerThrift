@@ -22,7 +22,11 @@
                 <p class="card-text">Condition: {{item['condition']}}</p>
                 <p class="card-text">Brand: {{item['brand']}}</p>
                 <div class="d-flex">
-                    <div class="mr-auto p-2"><a href="itemdetails" class="card-text btn btn-dark">more details</a></div>
+                    <div class="mr-auto p-2"> 
+                        <form action="itemdetails" method='GET'>
+                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                        <button class="card-text btn btn-dark">more details</button>
+                   </form></div>
                     <div class="p-2">
                         <form action="reserve" method='POST'>
                             <input type = "hidden" name="itemid" value="{{item['itemid']}}">
