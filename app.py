@@ -6,6 +6,15 @@ from sendemail import send_buyer_notification, send_seller_notification
 app = Flask(__name__, template_folder = '.')
 
 @app.route('/', methods=['GET'])
+@app.route('/buy', methods=['GET'])
+def buy():
+    items = all_items()
+
+    html = render_template('buy.html', items=items)
+
+    response = make_response(html)
+    return response
+    
 @app.route('/sell', methods=['GET', 'POST'])
 def index():
     # NEED TO ALSO GET USER INFO
@@ -62,15 +71,6 @@ def index():
     # response.set_cookie('prev_num', num)
     # response.set_cookie('prev_area', area)
     # response.set_cookie('prev_title', title)
-    return response
-
-@app.route('/buy', methods=['GET'])
-def buy():
-    items = all_items()
-
-    html = render_template('buy.html', items=items)
-
-    response = make_response(html)
     return response
 
 @app.route('/reserve', methods=['POST'])
