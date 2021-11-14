@@ -1,11 +1,19 @@
 from flask import Flask, request, make_response
 from flask import render_template
-from database import add_item, all_items, reserve_item
+from database import add_item, all_items, reserve_item, search_items
 from sendemail import send_buyer_notification, send_seller_notification
 
 app = Flask(__name__, template_folder = '.')
 
 @app.route('/', methods=['GET'])
+@app.route('/buy', methods=['GET'])
+def buy():
+    items = all_items()
+    html = render_template('buy.html', items=items)
+
+    response = make_response(html)
+
+    return response
 @app.route('/sell', methods=['GET', 'POST'])
 def index():
     # NEED TO ALSO GET USER INFO
@@ -64,13 +72,19 @@ def index():
     # response.set_cookie('prev_title', title)
     return response
 
-@app.route('/buy', methods=['GET'])
-def buy():
-    items = all_items()
+@app.route('/searchresults', methods=['GET'])
+def search_results():
+    search = request.args.get('search')
 
-    html = render_template('buy.html', items=items)
+    filter = {"none" : None} #placeholder
+
+    if search is not None:
+        print("search: "  + search)
+        items = search_items(search, filter)   
+        html = render_template('searchresults.html', items=items)
 
     response = make_response(html)
+
     return response
 
 @app.route('/reserve', methods=['POST'])
