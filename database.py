@@ -112,7 +112,6 @@ def add_item(item, user_info):
                 "VALUES (%s, %s)")
                 cursor.execute(stmt_str, [user_info['netid'], str(recent_item_id)])
 
-
                 connection.commit()
 
     except Exception as ex:
