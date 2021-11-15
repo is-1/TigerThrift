@@ -8,23 +8,27 @@
   <body>
     {% include 'header.html' %}
     <div class="container-fluid align-items-center">
-        <h2 style = "text-align: center;"><strong>Item Details: {{item['prodname']}} </strong></h2>
-        <div>
-            <!--<img class="card-img-top" src="" alt="item photo">-->
-            <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
-            
-        </div>
-        <div>
-            <strong>Description: </strong>{{ item['desc'] }}<br>
-            <strong>Price: </strong>{{ item['price']}}<br>
-            <strong>Size: </strong>{{ item['size'] }}<br>
-            <strong>Brand: </strong>{{item['brand'] }}<br>
-            <strong>Condition: </strong>{{ item['condition']}}<br>
-            <strong>Type: </strong>{{item['type']}}<br>
-            <strong>Subtype: </strong>{{ item['subtype']}}<br>
-            <strong>Gender: </strong>{{item['gender'] }}<br>
-            <strong>Color: </strong>{{ item['color']}}<br>
-            <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
+        <h2 class="text-center"><strong>Item Details: {{item['prodname']}} </strong></h2>
+        <div class="row justify-content-center">
+            <div class="col" style="width:300px">
+                <span class="d-flex justify-content-end">
+                    <img src="{{item['photolink']}}" alt="item photo">
+                </span>
+            </div>
+            <div class="col">
+                <span class = "align-middle">
+                    <strong>Description: </strong>{{ item['desc'] }}<br>
+                    <strong>Price: </strong>{{ item['price']}}<br>
+                    <strong>Size: </strong>{{ item['size'] }}<br>
+                    <strong>Brand: </strong>{{item['brand'] }}<br>
+                    <strong>Condition: </strong>{{ item['condition']}}<br>
+                    <strong>Type: </strong>{{item['type']}}<br>
+                    <strong>Subtype: </strong>{{ item['subtype']}}<br>
+                    <strong>Gender: </strong>{{item['gender'] }}<br>
+                    <strong>Color: </strong>{{ item['color']}}<br>
+                    <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
+                </span>
+            </div>
         </div>
     </div>
   </body>

@@ -28,31 +28,34 @@
         </div>
         <div class="container-fluid align-items-center">
             <!--RESERVING-->
-            <h2 style = "text-align: center;"><strong>Items Currently Reserving</strong></h2>
+            <h2 class="text-center"><strong>Items Currently Reserving</strong></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items reserved"-->
             <!--SELLING-->
-            <h2 style = "text-align: center;"><strong>Items Currently Selling</strong></h2>
+            <h2 class="text-center"><strong>Items Currently Selling</strong></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items being sold"-->
-            <div class="row">
+            <div id=search_results class="card-deck row justify-content-center">
                 {% for item in items %}
                 {% if item['status'] == 0 %}
                 {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
-                <div class="col-sm-3">
-                    <div class="card" style="width: 18rem;">
-                        {% if item['photolink'] == "google.com" %}
-                        <img class="card-img-top" src="static/item.png" alt="item photo">
-                        {% elif item['photolink'] == "https://www.google.com/" %}
-                        <img class="card-img-top" src="static/item.png" alt="item photo">
-                        {% else %}
-                        <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{item['prodname']}}</h5>
-                            <p class ="card-text">ItemId: {{item['itemid']}}</p>
-                            <p class="card-text">Price: {{item['price']}}</p>
-                            <p class="card-text">Condition: {{item['condition']}}</p>
-                            <p class="card-text">Brand: {{item['brand']}}</p>
-                            <a href="#" class="card-text btn btn-dark">more details</a>
+                <div class="card" style="width:250px">
+                    {% if item['photolink'] == "google.com" %}
+                    <img class="card-img-top" src="static/item.png" alt="item photo">
+                    {% elif item['photolink'] == "https://www.google.com/" %}
+                    <img class="card-img-top" src="static/item.png" alt="item photo">
+                    {% else %}
+                    <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{item['prodname']}}</h5>
+                        <p class ="card-text">ItemId: {{item['itemid']}}</p>
+                        <p class="card-text">Price: {{item['price']}}</p>
+                        <p class="card-text">Condition: {{item['condition']}}</p>
+                        <p class="card-text">Brand: {{item['brand']}}</p>
+                        <div class="mr-auto"> 
+                            <form action="itemdetails" method='GET'>
+                                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                <button class="card-text btn btn-dark">details</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -61,35 +64,40 @@
                 {% endfor %}
             </div>
             <!--SOLD-->
-            <h2 style = "text-align: center;"><strong>Items Sold In the Past</strong></h2>
+            <h2 class="text-center"><strong>Items Sold In the Past</strong></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items sold in the past"-->
-            {% for item in items %}
-            {% if item['status'] == 2 %}
-            {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
-            <div>
-                <div class="card" style="width: 18rem;">
-                        {% if item['photolink'] == "google.com" %}
-                        <img class="card-img-top" src="static/item.png" alt="item photo">
-                        {% elif item['photolink'] == "https://www.google.com/" %}
-                        <img class="card-img-top" src="static/item.png" alt="item photo">
-                        {% else %}
-                        <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
-                        {% endif %}
+            <div id=search_results class="card-deck row justify-content-center">
+                {% for item in items %}
+                {% if item['status'] == 1 %}
+                {% if item['sellernetid'] == 'katelynr'%} <!--change user here-->
+                <div class="card" style="width:250px">
+                    {% if item['photolink'] == "google.com" %}
+                    <img class="card-img-top" src="static/item.png" alt="item photo">
+                    {% elif item['photolink'] == "https://www.google.com/" %}
+                    <img class="card-img-top" src="static/item.png" alt="item photo">
+                    {% else %}
+                    <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{item['prodname']}}</h5>
                         <p class ="card-text">ItemId: {{item['itemid']}}</p>
                         <p class="card-text">Price: {{item['price']}}</p>
                         <p class="card-text">Condition: {{item['condition']}}</p>
                         <p class="card-text">Brand: {{item['brand']}}</p>
-                        <a href="#" class="card-text btn btn-dark">more details</a>
+                        <div class="p-2"> 
+                            <form action="itemdetails" method='GET'>
+                                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                <button class="card-text btn btn-dark">details</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
             </div>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
             <!--PURCHASED-->
-            <h2 style = "text-align: center;"><strong>Items Purchased</strong></h2>
+            <h2 class="text-center"><strong>Items Purchased</strong></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
         </div>
     </div>
