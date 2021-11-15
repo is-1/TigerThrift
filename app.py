@@ -169,5 +169,11 @@ def itemdetails():
     response = make_response(html)
     return response
 
+@app.route('/error', methods=['GET'])
+def buy():
+    html = render_template('error.html')
+    response = make_response(html)
+    return response
+
 if __name__ == "__main__":
     app.run()
