@@ -129,7 +129,7 @@ def all_items():
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
-                stmt_str = "SELECT * from items"
+                stmt_str = "SELECT * from items ORDER BY itemid asc"
                 cursor.execute(stmt_str)
 
                 connection.commit()
@@ -162,6 +162,62 @@ def all_items():
     except Exception as ex:
        # print(ex, file=stderr)
         exit(1)
+
+def reserved_items(user_info):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+
+                stmt_str = 'SELECT * FROM reservations WHERE buyernetid = %s'
+                cursor.execute(stmt_str, [user_info['netid']])
+
+                # connection.commit()
+
+                row = cursor.fetchone()
+
+                item_ids = []
+                results = []
+                while row is not None:
+                    itemid = row[0]
+                    item_ids.append(itemid)
+                    row = cursor.fetchone()
+
+                for item_id in item_ids:
+                    stmt_str = ('SELECT * from items where itemid = %s')
+                    cursor.execute(stmt_str, [item_id])
+                    item_info = cursor.fetchone()
+                    item = {'itemid': item_info[0],
+                    'type': item_info[1],
+                    'subtype': item_info[2],
+                    'desc': item_info[9],
+                    'gender': item_info[4],
+                    'price': item_info[5],
+                    'size': item_info[3],
+                    'brand': item_info[8],
+                    'condition': item_info[7],
+                    'color': item_info[6],
+                    'timestamp': item_info[10],
+                    'photolink': item_info[11],
+                    'status': item_info[12],
+                    'sellernetid': item_info[13],
+                    'prodname': item_info[14]
+                    }
+                    # error if item in reservation table is not marked as reserved in items table
+                    if item['status'] != 1:
+                        print("MISMATCH RESERVATION ITEM!!!")
+                    results.append(item)
+
+                return results
+
+    except Exception as ex:
+       # print(ex, file=stderr)
+        exit(1)
+
 
 def search_items(search, filter):
     DATABASE_URL = os.environ.get('DATABASE_URL')

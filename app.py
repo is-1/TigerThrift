@@ -1,13 +1,15 @@
-from flask import Flask, request, make_response
-from flask import render_template
-from database import add_item, all_items, reserve_item, search_items
+from flask import Flask, request, make_response, render_template
+from casclient import CasClient
+from database import add_item, all_items, reserve_item, search_items, reserved_items
 from sendemail import send_buyer_notification, send_seller_notification
 
 app = Flask(__name__, template_folder = '.')
 
+# Home page
 @app.route('/', methods=['GET'])
 @app.route('/buy', methods=['GET'])
 def buy():
+    # username = CasClient().authenticate()
     items = all_items()
 
     html = render_template('buy.html', items=items)
@@ -16,7 +18,9 @@ def buy():
     return response
     
 @app.route('/sell', methods=['GET', 'POST'])
-def index():
+def sell():
+    #username = CasClient().authenticate()
+    #print("USERNAME (from cas): " + username)
     # NEED TO ALSO GET USER INFO
     netid = 'katelynr' # change to request.args
     email = 'katelynr@princeton.edu'
@@ -75,6 +79,7 @@ def index():
 
 @app.route('/searchresults', methods=['GET'])
 def search_results():
+    # CasClient().authenticate()
     search = request.args.get('search')
 
     filter = {"none" : None} #placeholder
@@ -91,6 +96,7 @@ def search_results():
 @app.route('/reserve', methods=['POST'])
 def reserve():
    
+   # CasClient().authenticate()
     buyer = {'name': 'katie', 'netid': 'kc42', 'email':'katielchou@princeton.edu'} # get buyer from cookies eventually
 
     itemid = request.form.get('itemid')
@@ -107,9 +113,20 @@ def reserve():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    items = all_items()
+    # CasClient().authenticate()
+
+    netid = 'kc42' # change to username from CasClient().authenticate (current logged in user)
+    email = 'kc42@princeton.edu'
+    phone = '512-263-6973'
+
+    user_info = {'netid': netid,
+        'email': email,
+        'phone': phone}
     
-    html = render_template('profile.html', items=items)
+    items = all_items()
+    curr_reserved_items = reserved_items(user_info)
+    
+    html = render_template('profile.html', items=items, curr_reserved_items=curr_reserved_items) # pass in currently reserved items
 
     response = make_response(html)
     return response
@@ -159,9 +176,19 @@ def profile():
 
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
+    # CasClient().authenticate()
     html = render_template('itemdetails.html')
     response = make_response(html)
     return response
+
+# log out the user
+@app.route('/logout', methods=['GET'])
+def logout():
+    print("logging out the user!!!")
+    cas_client = CasClient()
+    cas_client.authenticate()
+    cas_client.logout('buy')
+
 
 if __name__ == "__main__":
     app.run()
