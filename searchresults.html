@@ -1,34 +1,33 @@
-<div id=search_results class="row">
+<div id=search_results class="card-deck row justify-content-center">
     {% for item in items %}
     {% if item['status'] == 0 %}
-    <div class="col-sm-3">
-        <div class="card" style="width: 18rem;">
-            
-            {% if item['photolink'] == "google.com" %}
-            <img class="card-img-top" src="static/item.png" alt="item photo">
+    <div class="card" style="width:250px">
+        {% if item['photolink'] == "google.com" %}
+        <img class="card-img-top" src="static/item.png" alt="item photo">
+        {% elif item['photolink'] == "https://www.google.com/" %}
+        <img class="card-img-top" src="static/item.png" alt="item photo">
+        {% else %}
+        <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+        {% endif %}
 
-            {% elif item['photolink'] == "https://www.google.com/" %}
-            <img class="card-img-top" src="static/item.png" alt="item photo">
-
-            {% else %}
-            <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
-
-            {% endif %}
-
-            <div class="card-body">
-                <h5 class="card-title">{{item['prodname']}}</h5>
-                <p class ="card-text">ItemId: {{item['itemid']}}</p>
-                <p class="card-text">Price: {{item['price']}}</p>
-                <p class="card-text">Condition: {{item['condition']}}</p>
-                <p class="card-text">Brand: {{item['brand']}}</p>
-                <div class="d-flex">
-                    <div class="mr-auto p-2"><a href="itemdetails" class="card-text btn btn-dark">more details</a></div>
-                    <div class="p-2">
-                        <form action="reserve" method='POST'>
-                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                            <button class="card-text btn btn-dark">reserve</button>
-                       </form>
-                    </div>
+        <div class="card-body">
+            <h5 class="card-title">{{item['prodname']}}</h5>
+            <p class ="card-text">ItemId: {{item['itemid']}}</p>
+            <p class="card-text">Price: {{item['price']}}</p>
+            <p class="card-text">Condition: {{item['condition']}}</p>
+            <p class="card-text">Brand: {{item['brand']}}</p>
+            <div class="d-flex">
+                <div class="mr-auto p-2"> 
+                    <form action="itemdetails" method='GET'>
+                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                        <button class="card-text btn btn-dark">details</button>
+                </form>
+                </div>
+                <div class="p-2">
+                    <form action="reserve" method='POST'>
+                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                        <button class="card-text btn btn-dark">reserve</button>
+                   </form>
                 </div>
             </div>
         </div>
@@ -36,14 +35,3 @@
     {% endif %}
     {% endfor %}
 </div>
-{% for item in items %}
-<table>
-    {% for key, value in item.items() %}
-    <tr>
-        <th scope="row">{{ key }}</th>
-        <td>{{ value }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<br>
-{% endfor %}

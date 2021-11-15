@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
 <html>
     <head>
         <title>TigerThrift</title>
     </head>
   <body>
     {% include 'header.html' %}
-    <div class="container-fluid align-items-center">
-        <h2 style = "text-align: center;"><strong>Oh no! An error was encountered.</strong></h2>
-        <!--could potentially add a button that returns back to buy.html?-->
+    <div class="justify-content-center">
+        <h2 class="text-center"><strong>Oh no! An error was encountered.</strong></h2>
+        <br>
+        <div class="text-center">
+          <form method="get" action="/buy">
+            <button type="submit" class="btn btn-dark">go to products</button>
+          </form>
+        </div>
     </div>
     {% include 'footer.html' %}
   </body>
