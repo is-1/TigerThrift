@@ -177,7 +177,7 @@ def profile():
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
     # CasClient().authenticate()
-    html = render_template('itemdetails.html')
+    # html = render_template('itemdetails.html')
     itemid = request.args.get('itemid')
 
     item = item_details(itemid)
