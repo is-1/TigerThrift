@@ -9,9 +9,9 @@
     </head>
   <body>
     {% include 'header.html' %}
-      <div class="align-items-center">
-        <form action="sell" value="" method = "POST" class="col-lg-6 offset-lg-3">
-            <h2 style = "text-align: center;"><strong>Create New Item To Sell</strong></h2>
+      <div class="justify-content-center p-5">
+        <form action="sell" value="" method = "POST">
+            <h2 class="text-center"><strong>Create New Item To Sell</strong></h2>
             <div class="form-group">
                 <label>Product Name</label>
                 <input class="form-control" type="text" name = "prodName" placeholder="enter product name" required>
@@ -30,32 +30,11 @@
             </div>
             <div class="form-group">
                 <label>Subtype</label>
-                <select id="subtype_select" name = "subtype" class="form-control" disabled required> 
-                    <!-- <option value="">choose a subtype</option>
-                    <option value="casual">Casual</option>
-                    <option value="semiformal">Semi-formal</option>
-                    <option value="formal">Formal</option> -->
-                </select>
+                <select id="subtype_select" name = "subtype" class="form-control" disabled required></select>
             </div>
             <div class="form-group">
                 <label>Size</label>
-                <select id="size_select" name = "size" class="form-control" disabled required>
-                    <!-- <option value="">choose a size</option>
-                    <option value="XXS(W)">XXS (W)</option>
-                    <option value="XS(W)">XS (W)</option>
-                    <option value="S(W)">S (W)</option>
-                    <option value="M(W)">M (W)</option>
-                    <option value="L(W)">L (W)</option>
-                    <option value="XL(W)">XL (W)</option>
-                    <option value="XXL(W)">XXL (W)</option>
-                    <option value="XXS(M)">XXS (W)</option>
-                    <option value="XS(M)">XS (M)</option>
-                    <option value="S(M)">S (M)</option>
-                    <option value="M(M)">M (M)</option>
-                    <option value="L(M)">L (M)</option>
-                    <option value="XL(M)">XL (M)</option>
-                    <option value="XXL(M)">XXL (M)</option> -->
-                </select>
+                <select id="size_select" name = "size" class="form-control" disabled required></select>
             </div>
             <div class="form-group">
                 <label>Gender</label>
