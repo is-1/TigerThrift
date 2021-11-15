@@ -170,7 +170,7 @@ def itemdetails():
     return response
 
 @app.route('/error', methods=['GET'])
-def buy():
+def error():
     html = render_template('error.html')
     response = make_response(html)
     return response
