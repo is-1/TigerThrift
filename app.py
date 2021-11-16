@@ -22,7 +22,7 @@ def buy():
     
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
-    #username = CasClient().authenticate()
+    username = CasClient().authenticate()
     #print("USERNAME (from cas): " + username)
     # NEED TO ALSO GET USER INFO
     netid = 'katelynr' # change to request.args
@@ -82,7 +82,7 @@ def sell():
 
 @app.route('/searchresults', methods=['GET'])
 def search_results():
-    # CasClient().authenticate()
+    CasClient().authenticate()
     search = request.args.get('search')
 
     filter = {"none" : None} #placeholder
@@ -99,7 +99,7 @@ def search_results():
 @app.route('/reserve', methods=['POST'])
 def reserve():
    
-   # CasClient().authenticate()
+    CasClient().authenticate()
     buyer = {'name': 'katie', 'netid': 'kc42', 'email':'katielchou@princeton.edu'} # get buyer from cookies eventually
 
     itemid = request.form.get('itemid')
@@ -116,7 +116,7 @@ def reserve():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    # CasClient().authenticate()
+    CasClient().authenticate()
 
     netid = 'kc42' # change to username from CasClient().authenticate (current logged in user)
     email = 'kc42@princeton.edu'
@@ -179,7 +179,7 @@ def profile():
 
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
-    # CasClient().authenticate()
+    CasClient().authenticate()
     # html = render_template('itemdetails.html')
     itemid = request.args.get('itemid')
 
