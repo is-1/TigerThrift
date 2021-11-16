@@ -13,6 +13,7 @@ app.secret_key = APP_SECRET_KEY
 @app.route('/buy', methods=['GET'])
 def buy():
     username = CasClient().authenticate()
+    # print("USERNAME (from cas): " + username)
     items = all_items()
 
     html = render_template('buy.html', items=items)
@@ -23,10 +24,10 @@ def buy():
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
     username = CasClient().authenticate()
-    #print("USERNAME (from cas): " + username)
+    
     # NEED TO ALSO GET USER INFO
-    netid = 'katelynr' # change to request.args
-    email = 'katelynr@princeton.edu'
+    netid = username
+    email = username + "@princeton.edu"
     phone = '512-263-6973'
 
     prodName = request.form.get('prodName')
@@ -99,8 +100,9 @@ def search_results():
 @app.route('/reserve', methods=['POST'])
 def reserve():
    
-    CasClient().authenticate()
-    buyer = {'name': 'katie', 'netid': 'kc42', 'email':'katielchou@princeton.edu'} # get buyer from cookies eventually
+    username = CasClient().authenticate()
+    email = username + "@princeton.edu"
+    buyer = {'name': 'katie', 'netid': username, 'email': email} # get buyer from cookies eventually
 
     itemid = request.form.get('itemid')
 
@@ -116,10 +118,10 @@ def reserve():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    CasClient().authenticate()
+    username = CasClient().authenticate()
 
-    netid = 'kc42' # change to username from CasClient().authenticate (current logged in user)
-    email = 'kc42@princeton.edu'
+    netid = username # change to username from CasClient().authenticate (current logged in user)
+    email = username + "@princeton.edu"
     phone = '512-263-6973'
 
     user_info = {'netid': netid,
