@@ -26,13 +26,13 @@ def sell():
     username = CasClient().authenticate()
     
     # NEED TO ALSO GET USER INFO
-    # netid = username
-    # email = username + "@princeton.edu"
-    # phone = '512-263-6973'
-
-    netid = 'katelynr'
-    email = 'katelynr@princeton.edu'
+    netid = username
+    email = username + '@princeton.edu'
     phone = '512-263-6973'
+
+    # netid = 'katelynr'
+    # email = 'katelynr@princeton.edu'
+    # phone = '512-263-6973'
 
     prodname = request.form.get('prodname')
     gender = request.form.get('gender')
@@ -127,8 +127,12 @@ def reserve():
 def profile():
     username = CasClient().authenticate()
 
-    netid = "kc42" # change to username from CasClient().authenticate (current logged in user)
-    email = netid + "@princeton.edu"
+    # netid = "kc42" # change to username from CasClient().authenticate (current logged in user)
+    # email = netid + "@princeton.edu"
+    # phone = '512-263-6973'
+
+    netid = username
+    email = username + '@princeton.edu'
     phone = '512-263-6973'
 
     user_info = {'netid': netid,
