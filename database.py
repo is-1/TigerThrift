@@ -97,9 +97,9 @@ def add_item(item, user_info):
                 
                 # insert item into items table
                 stmt_str = ('INSERT INTO items '
-                + '(type, subtype, size, gender, price, color, condition, brand, "desc", posted, photolink, status) ' +
-                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0)")
-                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], testDate, item['photolink']])
+                + '(type, subtype, size, gender, price, color, condition, brand, "desc", posted, photolink, status, sellernetid, prodname) ' +
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, %s, %s)")
+                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], testDate, item['photolink'], user_info['netid'], item['prodname']])
                 # get most recent itemid inserted (item id of currently inserted item)
                 stmt_str = 'SELECT last_value FROM items_itemid_seq;'
                 cursor.execute(stmt_str)

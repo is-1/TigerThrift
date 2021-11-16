@@ -31,10 +31,10 @@ def sell():
     # phone = '512-263-6973'
 
     netid = 'katelynr'
-    email = netid + "@princeton.edu"
+    email = 'katelynr@princeton.edu'
     phone = '512-263-6973'
 
-    prodName = request.form.get('prodName')
+    prodname = request.form.get('prodname')
     gender = request.form.get('gender')
     price = request.form.get('price')
     size = request.form.get('size')
@@ -43,13 +43,15 @@ def sell():
     subtype = request.form.get('subtype')
     condition = request.form.get('condition')
     color = request.form.get('color')
+    description = request.form.get('description')
     photolink = request.form.get('photolink')
 
     # # call function
-    if prodName is not None:
-        item_details = {'type': itemtype,
+    if prodname is not None:
+        item_details = {'prodname': prodname,
+        'type': itemtype,
         'subtype': subtype,
-        'desc': prodName,
+        'desc': description,
         'gender': gender,
         'price': price,
         'size': size,
@@ -136,7 +138,7 @@ def profile():
     items = all_items()
     curr_reserved_items = reserved_items(user_info)
     
-    html = render_template('profile.html', items=items, curr_reserved_items=curr_reserved_items) # pass in currently reserved items
+    html = render_template('profile.html', user_info = user_info, items=items, curr_reserved_items=curr_reserved_items) # pass in currently reserved items
 
     response = make_response(html)
     return response
