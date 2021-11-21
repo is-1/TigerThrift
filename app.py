@@ -157,6 +157,12 @@ def itemdetails():
     response = make_response(html)
     return response
 
+@app.route('/about', methods=['GET'])
+def error():
+    html = render_template('about.html')
+    response = make_response(html)
+    return response
+
 @app.route('/error', methods=['GET'])
 def error():
     html = render_template('error.html')
