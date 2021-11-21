@@ -158,7 +158,7 @@ def itemdetails():
     return response
 
 @app.route('/about', methods=['GET'])
-def error():
+def about():
     html = render_template('about.html')
     response = make_response(html)
     return response
