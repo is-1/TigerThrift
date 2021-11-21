@@ -13,6 +13,7 @@ app.secret_key = APP_SECRET_KEY
 @app.route('/buy', methods=['GET'])
 def buy():
     username = CasClient().authenticate()
+
     # print("USERNAME (from cas): " + username)
     items = all_items()
 
@@ -160,6 +161,12 @@ def itemdetails():
 @app.route('/about', methods=['GET'])
 def about():
     html = render_template('about.html')
+    response = make_response(html)
+    return response
+
+@app.route('/tutorial', methods=['GET'])
+def tutorial():
+    html = render_template('tutorial.html')
     response = make_response(html)
     return response
 
