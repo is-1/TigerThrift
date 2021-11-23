@@ -298,7 +298,7 @@ def search_items(search, filter):
                     #     stmt_str += "ESCAPE '\\' "
 
                     # change order by when sort by is in place
-                    stmt_str += "ORDER BY itemid asc ASC"
+                    stmt_str += "ORDER BY itemid ASC"
 
                 cursor.execute(stmt_str, cmd_args)
 
