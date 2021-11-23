@@ -64,7 +64,7 @@ def sell():
         'email': email,
         'phone': phone}
         add_item(item_details, user_info)
-    html = render_template('success_reserve.html')
+    html = render_template('sell.html')
     response = make_response(html)
     return response
 
