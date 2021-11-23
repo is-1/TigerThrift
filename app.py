@@ -64,29 +64,10 @@ def sell():
         'email': email,
         'phone': phone}
         add_item(item_details, user_info)
-    # output = exec_sql_queries(dept, num, area, title)
-    # # make sure of error page
-    # if output == "ERROR":
-    #     html = render_template('error.html')
-    #     response = make_response(html)
-    #     return response
-    html = render_template('sell.html')
-                        #    output = output,
-                        #    dept = dept,
-                        #    num = num,
-                        #    area = area,
-                        #    title = title,
-                        #    prev_dept = dept,
-                        #    prev_num = num,
-                        #    prev_area = area,
-                        #    prev_title = title)
-
+    html = render_template('success_reserve.html')
     response = make_response(html)
-    # response.set_cookie('prev_dept', dept)
-    # response.set_cookie('prev_num', num)
-    # response.set_cookie('prev_area', area)
-    # response.set_cookie('prev_title', title)
     return response
+
 
 @app.route('/searchresults', methods=['GET'])
 def search_results():
@@ -121,7 +102,7 @@ def reserve():
     send_seller_notification(seller, buyer, itemid)
     send_buyer_notification(buyer, itemid)
     
-    html = render_template('success.html')
+    html = render_template('success_reserve.html')
     response = make_response(html)
     return response
  
