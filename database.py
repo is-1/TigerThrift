@@ -268,7 +268,7 @@ def search_items(search, filter):
                 stmt_str = "SELECT * from items "
                 cmd_args = []
                 if search:
-                    stmt_str += "where prodname LIKE %s"
+                    stmt_str += "where prodname LIKE %s "
                     cmd_args.append("%" + search + "%")
                     # unconment when filter dict is in place
                     # if filter['type']:
