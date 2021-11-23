@@ -121,7 +121,9 @@ def reserve():
     send_seller_notification(seller, buyer, itemid)
     send_buyer_notification(buyer, itemid)
     
-    return make_response("success")
+    html = render_template('success.html')
+    response = make_response(html)
+    return response
  
 
 @app.route('/profile', methods=['GET'])
