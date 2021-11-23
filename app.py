@@ -13,6 +13,7 @@ app.secret_key = APP_SECRET_KEY
 @app.route('/buy', methods=['GET'])
 def buy():
     username = CasClient().authenticate()
+
     # print("USERNAME (from cas): " + username)
     items = all_items()
 
@@ -105,19 +106,19 @@ def search_results():
 
 @app.route('/reserve', methods=['POST'])
 def reserve():
-   
     username = CasClient().authenticate()
-    netid = "kc42"
+    netid = username
     email = netid + "@princeton.edu"
-    buyer = {'name': 'katie', 'netid': netid, 'email': email} # get buyer from cookies eventually
+    buyer = {'name': username, 'netid': netid, 'email': email}
 
     itemid = request.form.get('itemid')
 
     sellernetid = reserve_item(buyer['netid'], str(itemid))
+    # get seller from database eventually
+    seller = {'name': 'katie', 'netid': str(sellernetid), 'email':'katielchou@princeton.edu'}
 
-    seller = {'name': 'katie', 'netid': str(sellernetid), 'email':'katielchou@princeton.edu'} # get seller from database eventually
-
-    send_seller_notification(seller, buyer, itemid) # change to item object, or item name based on itemid
+    # change to item object, or item name based on itemid
+    send_seller_notification(seller, buyer, itemid)
     send_buyer_notification(buyer, itemid)
     
     return make_response("success")
@@ -126,10 +127,6 @@ def reserve():
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
-
-    # netid = "kc42" # change to username from CasClient().authenticate (current logged in user)
-    # email = netid + "@princeton.edu"
-    # phone = '512-263-6973'
 
     netid = username
     email = username + '@princeton.edu'
@@ -147,49 +144,6 @@ def profile():
     response = make_response(html)
     return response
 
-#     cls_id = request.args.get('cls_id')
-#     if cls_id == "":
-#         html = render_template('error_missing_cls_id.html')
-#         response = make_response(html)
-#         return response
-#     try:
-#         cls_id = int(cls_id)
-#     except Exception:
-#         html = render_template('error_not_int.html')
-#         response = make_response(html)
-#         return response
-#     cls_id = str(cls_id)
-#     prev_dept = request.cookies.get('prev_dept')
-#     prev_num = request.cookies.get('prev_num')
-#     prev_area = request.cookies.get('prev_area')
-#     prev_title = request.cookies.get('prev_title')
-#     output = sql_details(cls_id)
-#     # make sure of error page
-#     if output == "ERROR":
-#         html = render_template('error.html')
-#         response = make_response(html)
-#         return response
-#     if output == "NO CLASS ID!!":
-#         html = render_template('error_cls_id.html',
-#                                cls_id = cls_id)
-#         response = make_response(html)
-#         return response
-#     html = render_template('regdetails.html',
-#                            output = output,
-#                            cls_id = cls_id,
-#                            p_dept = prev_dept,
-#                            p_num = prev_num,
-#                            p_area = prev_area,
-#                            p_tit = prev_title)
-#     response = make_response(html)
-#     return response
-
-# @app.route('/error', methods=['GET'])
-# def error():
-#     html = render_template('error.html')
-#     response = make_response(html)
-#     return response
-
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
     CasClient().authenticate()
@@ -201,6 +155,18 @@ def itemdetails():
     print("item = " + str(item))
 
     html = render_template('itemdetails.html', item=item)
+    response = make_response(html)
+    return response
+
+@app.route('/about', methods=['GET'])
+def about():
+    html = render_template('about.html')
+    response = make_response(html)
+    return response
+
+@app.route('/tutorial', methods=['GET'])
+def tutorial():
+    html = render_template('tutorial.html')
     response = make_response(html)
     return response
 
@@ -217,7 +183,6 @@ def logout():
     cas_client = CasClient()
     cas_client.authenticate()
     cas_client.logout('buy')
-
 
 if __name__ == "__main__":
     app.run()
