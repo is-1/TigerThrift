@@ -4,3 +4,7 @@ body{
     font-family: 'Raleway', sans-serif;
     font-family: 'Work Sans', sans-serif;
 }
+
+#navbarNav a:hover{
+    color: #63C5DA;
+}
