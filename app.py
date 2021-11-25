@@ -14,12 +14,6 @@ app.secret_key = APP_SECRET_KEY
 @app.route('/buy', methods=['GET'])
 def buy():
     username = CasClient().authenticate()
-    if ' ' in username:
-        username = username.split(' ', 1)[0]
-
-    if '+' in username:
-        username = username.split('+', 1)[0]
-
     if '\n' in username:
         username = username.split('\n', 1)[0]
 
