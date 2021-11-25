@@ -35,7 +35,7 @@ def buy():
     now = datetime.utcnow()
     currDate = now.strftime(f)
     
-    # add_user(user_info, currDate)
+    add_user(user_info, currDate)
 
     items = all_items()
 
