@@ -1,5 +1,6 @@
 from flask import Flask, request, make_response
 from flask import render_template
+from datetime import datetime
 from database import add_user, add_item, all_items, reserve_item, search_items, item_details, reserved_items
 from sendemail import send_buyer_notification, send_seller_notification
 from casclient import CasClient
@@ -34,7 +35,7 @@ def buy():
     now = datetime.utcnow()
     currDate = now.strftime(f)
     
-    add_user(user_info, currDate)
+    # add_user(user_info, currDate)
 
     items = all_items()
 
