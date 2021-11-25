@@ -20,6 +20,9 @@ def buy():
     if '+' in username:
         username = username.split('+', 1)[0]
 
+    if '\n' in username:
+        username = username.split('\n', 1)[0]
+
     print("USERNAME (from cas): " + username)
 
     # NEED TO ALSO GET USER INFO
