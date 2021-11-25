@@ -156,17 +156,17 @@ def reserve():
     username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
-    buyer = {'name': user_info['netid'], 'netid': user_info['netid'], 'email': user_info['email']}
+    buyer = {'name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
 
     itemid = request.form.get('itemid')
 
-    sellernetid = reserve_item(buyer['netid'], str(itemid))
-    # get seller from database eventually
-    seller = {'name': 'katie', 'netid': str(sellernetid), 'email':'katielchou@princeton.edu'}
+    sellernetid = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+    # get seller from database eventually, USE USERS TABLE 
+    seller = {'name': 'katie', 'netid': str(sellernetid), 'email':'katielchou@princeton.edu'} # get seller info (from users table)
 
     # change to item object, or item name based on itemid
-    send_seller_notification(seller, buyer, itemid)
-    send_buyer_notification(buyer, itemid)
+    send_seller_notification(seller, buyer, itemid) # check this
+    send_buyer_notification(buyer, itemid) # eecheck this
     
     html = render_template('success_reserve.html')
     response = make_response(html)
