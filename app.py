@@ -1,7 +1,7 @@
 from flask import Flask, request, make_response
 from flask import render_template
 from datetime import datetime
-from database import add_user, add_item, all_items, reserve_item, search_items, item_details, reserved_items
+from database import get_user_info, add_user, add_item, all_items, reserve_item, search_items, item_details, reserved_items
 from sendemail import send_buyer_notification, send_seller_notification
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -14,25 +14,8 @@ app.secret_key = APP_SECRET_KEY
 @app.route('/buy', methods=['GET'])
 def buy():
     username = CasClient().authenticate()
-    if '\n' in username:
-        username = username.split('\n', 1)[0]
-
-    print("USERNAME (from cas): " + username)
-
-    # NEED TO ALSO GET USER INFO
-    netid = username
-    email = username + '@princeton.edu'
-    phone = '512-263-6973'
-    user_info = {'netid': netid,
-    'email': email,
-    'phone': phone}
-
-    # get time stamp
-    f = '%Y-%m-%d %H:%M:%S'
-    now = datetime.utcnow()
-    currDate = now.strftime(f)
-    
-    add_user(user_info, currDate)
+    user_info = get_user_info(username)
+    add_user(user_info)
 
     items = all_items()
 
@@ -44,16 +27,8 @@ def buy():
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
     username = CasClient().authenticate()
-    if ' ' in username:
-        username = username.split(' ', 1)[0]
-
-    if '+' in username:
-        username = username.split('+', 1)[0]
-    
-    # NEED TO ALSO GET USER INFO
-    netid = username
-    email = username + '@princeton.edu'
-    phone = '512-263-6973'
+    user_info = get_user_info(username)
+    add_user(user_info)
 
     prodname = request.form.get('prodname')
     gender = request.form.get('gender')
@@ -80,9 +55,6 @@ def sell():
         'condition': condition,
         'color': color,
         'photolink': photolink}
-        user_info = {'netid': netid,
-        'email': email,
-        'phone': phone}
         add_item(item_details, user_info)
     html = render_template('sell.html')
     response = make_response(html)
@@ -108,14 +80,9 @@ def search_results():
 @app.route('/reserve', methods=['POST'])
 def reserve():
     username = CasClient().authenticate()
-    if ' ' in username:
-        username = username.split(' ', 1)[0]
-
-    if '+' in username:
-        username = username.split('+', 1)[0]
-    netid = username
-    email = netid + "@princeton.edu"
-    buyer = {'name': username, 'netid': netid, 'email': email}
+    user_info = get_user_info(username)
+    add_user(user_info)
+    buyer = {'name': user_info['netid'], 'netid': user_info['netid'], 'email': user_info['email']}
 
     itemid = request.form.get('itemid')
 
@@ -135,19 +102,8 @@ def reserve():
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
-    if ' ' in username:
-        username = username.split(' ', 1)[0]
-
-    if '+' in username:
-        username = username.split('+', 1)[0]
-
-    netid = username
-    email = username + '@princeton.edu'
-    phone = '512-263-6973'
-
-    user_info = {'netid': netid,
-        'email': email,
-        'phone': phone}
+    user_info = get_user_info(username)
+    add_user(user_info)
     
     items = all_items()
     curr_reserved_items = reserved_items(user_info)

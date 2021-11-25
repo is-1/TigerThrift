@@ -4,8 +4,24 @@ from psycopg2 import connect
 from contextlib import closing
 from datetime import datetime
 
+# given username returned from CAS, compile netid, email, and phone number from user
+def get_user_info(username):
+    if '\n' in username:
+        username = username.split('\n', 1)[0]
+
+    print("USERNAME (from cas): " + username)
+
+    netid = username
+    email = netid + '@princeton.edu'
+    phone = '512-263-6973' # THIS IS HARDCODED...NEED TO CHANGE
+    user_info = {'netid': netid,
+    'email': email,
+    'phone': phone}
+    return user_info
+
+
 # add to users table if user is not already in the table (first time user)
-def add_user(user_info, currDate):
+def add_user(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     try:
        # with connect(
@@ -21,9 +37,12 @@ def add_user(user_info, currDate):
                 print("ARE THEY ALREADY A USER???? " + str(is_user))
                 # if new user, insert into users table
                 if not is_user:
+                    f = '%Y-%m-%d %H:%M:%S'
+                    now = datetime.utcnow()
+                    dt = now.strftime(f)
                     #print("started inserting into users table")
                     stmt_str = ('INSERT INTO users (netid, email, joined, phone) VALUES (%s, %s, %s, %s)')
-                    cursor.execute(stmt_str, [user_info['netid'], user_info['email'], currDate, user_info['phone']])
+                    cursor.execute(stmt_str, [user_info['netid'], user_info['email'], dt, user_info['phone']])
                     #print("finished inserting into users table")
                 connection.commit()
     
@@ -89,17 +108,17 @@ def add_item(item, user_info):
                 # get time stamp
                 f = '%Y-%m-%d %H:%M:%S'
                 now = datetime.utcnow()
-                testDate = now.strftime(f)
+                dt = now.strftime(f)
 
                 # add user if first time user
                 # when CAS authenticates, do this, move it
-                add_user(user_info, testDate)
+                add_user(user_info)
                 
                 # insert item into items table
                 stmt_str = ('INSERT INTO items '
                 + '(type, subtype, size, gender, price, color, condition, brand, "desc", posted, photolink, status, sellernetid, prodname) ' +
                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, %s, %s)")
-                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], testDate, item['photolink'], user_info['netid'], item['prodname']])
+                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], dt, item['photolink'], user_info['netid'], item['prodname']])
                 # get most recent itemid inserted (item id of currently inserted item)
                 stmt_str = 'SELECT last_value FROM items_itemid_seq;'
                 cursor.execute(stmt_str)
