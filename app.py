@@ -13,8 +13,13 @@ app.secret_key = APP_SECRET_KEY
 @app.route('/buy', methods=['GET'])
 def buy():
     username = CasClient().authenticate()
+    if ' ' in username:
+        username = username.split(' ', 1)[0]
 
-    # print("USERNAME (from cas): " + username)
+    if '+' in username:
+        username = username.split('+', 1)[0]
+
+    print("USERNAME (from cas): " + username)
     items = all_items()
 
     html = render_template('buy.html', items=items)
@@ -25,6 +30,11 @@ def buy():
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
     username = CasClient().authenticate()
+    if ' ' in username:
+        username = username.split(' ', 1)[0]
+
+    if '+' in username:
+        username = username.split('+', 1)[0]
     
     # NEED TO ALSO GET USER INFO
     netid = username
@@ -88,6 +98,11 @@ def search_results():
 @app.route('/reserve', methods=['POST'])
 def reserve():
     username = CasClient().authenticate()
+    if ' ' in username:
+        username = username.split(' ', 1)[0]
+
+    if '+' in username:
+        username = username.split('+', 1)[0]
     netid = username
     email = netid + "@princeton.edu"
     buyer = {'name': username, 'netid': netid, 'email': email}
@@ -110,6 +125,11 @@ def reserve():
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
+    if ' ' in username:
+        username = username.split(' ', 1)[0]
+
+    if '+' in username:
+        username = username.split('+', 1)[0]
 
     netid = username
     email = username + '@princeton.edu'
@@ -168,4 +188,4 @@ def logout():
     cas_client.logout('buy')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='localhost')
