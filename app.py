@@ -20,6 +20,22 @@ def buy():
         username = username.split('+', 1)[0]
 
     print("USERNAME (from cas): " + username)
+
+    # NEED TO ALSO GET USER INFO
+    netid = username
+    email = username + '@princeton.edu'
+    phone = '512-263-6973'
+    user_info = {'netid': netid,
+    'email': email,
+    'phone': phone}
+
+    # get time stamp
+    f = '%Y-%m-%d %H:%M:%S'
+    now = datetime.utcnow()
+    currDate = now.strftime(f)
+    
+    add_user(user_info, currDate)
+
     items = all_items()
 
     html = render_template('buy.html', items=items)
@@ -40,10 +56,6 @@ def sell():
     netid = username
     email = username + '@princeton.edu'
     phone = '512-263-6973'
-
-    # netid = 'katelynr'
-    # email = 'katelynr@princeton.edu'
-    # phone = '512-263-6973'
 
     prodname = request.form.get('prodname')
     gender = request.form.get('gender')
