@@ -4,21 +4,6 @@ from psycopg2 import connect
 from contextlib import closing
 from datetime import datetime
 
-# given username returned from CAS, compile netid, email, and phone number from user
-def get_user_info(username):
-    if '\n' in username:
-        username = username.split('\n', 1)[0]
-
-    print("USERNAME (from cas): " + username)
-
-    netid = username
-    email = netid + '@princeton.edu'
-    phone = '512-263-6973' # THIS IS HARDCODED...NEED TO CHANGE
-    user_info = {'netid': netid,
-    'email': email,
-    'phone': phone}
-    return user_info
-
 
 # add to users table if user is not already in the table (first time user)
 def add_user(user_info):

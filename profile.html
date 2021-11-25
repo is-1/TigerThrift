@@ -20,9 +20,10 @@
             <!--PROFILE INFO-->
             <div class="col">
                 <span class="align-items-center">
-                    <h3 class="text-left"><strong>{{user_info['netid']}}</strong></h3>
-                    <p class="text-left"><strong>class of 2023</strong></p>
-                    <p class="text-left"><strong>{{user_info['email']}}</strong></p>
+                    <h3 class="text-left"><strong>{{user_info['first_name']}} {{user_info['last_name']}}</strong></h3>
+                    <h5 class="text-left"><strong>{{user_info['netid']}}</strong></h5>
+                    <p class="text-left"><strong>class of 20{{user_info['class_year']}}</strong></p>
+                    <p class="text-left" style="text-transform:lowercase"><strong>{{user_info['email']}}</strong></p>
                 </span>
             </div>
         </div>
