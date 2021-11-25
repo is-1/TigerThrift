@@ -1,6 +1,6 @@
 from flask import Flask, request, make_response
 from flask import render_template
-from database import add_item, all_items, reserve_item, search_items, item_details, reserved_items
+from database import add_user, add_item, all_items, reserve_item, search_items, item_details, reserved_items
 from sendemail import send_buyer_notification, send_seller_notification
 from casclient import CasClient
 from keys import APP_SECRET_KEY
