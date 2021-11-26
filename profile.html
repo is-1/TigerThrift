@@ -10,15 +10,15 @@
   <body>
     {% include 'header.html' %}
     <div class="vstack">
-        <div class="row">
+       <!--<div class="row">-->
             <!--PROFILE IMAGE-->
-            <div class="col">
+            <!--<div class="col">
                 <span class="d-flex justify-content-end">
                     <img src="static/profile.png" alt="profile photo" style="height:150px; width:170px;">
                 </span>
-            </div>
+            </div>-->
             <!--PROFILE INFO-->
-            <div class="col">
+           <!-- <div class="col">
                 <span class="align-items-center">
                     <h3 class="text-left"><strong>{{user_info['full_name']}}</strong></h3>
                     <h5 class="text-left"><strong>{{user_info['netid']}}</strong></h5>
@@ -26,10 +26,16 @@
                     <p class="text-left" style="text-transform:lowercase"><strong>{{user_info['email']}}</strong></p>
                 </span>
             </div>
-        </div>
+        </div>-->
+        <span class="text-center">
+            <h3 class="text-left"><strong>{{user_info['full_name']}}</strong></h3>
+            <p class="text-left">{{user_info['netid']}}</p>
+            <p class="text-left">class of 20{{user_info['class_year']}}</p>
+            <p class="text-left" style="text-transform:lowercase">{{user_info['email']}}</p>
+        </span>
         <div class="container-fluid align-items-center">
             <!--RESERVING-->
-            <h2 class="text-center"><strong>Items Currently On Reserve</strong></h2>
+            <h2 class="text-center"><u><strong>Items Currently On Reserve</strong></u></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items reserved"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% for item in curr_reserved_items %}
@@ -69,7 +75,7 @@
                 {% endfor %}
             </div>
             <!--SELLING-->
-            <h2 class="text-center"><strong>Items Currently Selling</strong></h2>
+            <h2 class="text-center"><u><strong>Items Currently Selling</strong></u></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items being sold"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% for item in items %}
@@ -102,7 +108,7 @@
                 {% endfor %}
             </div>
             <!--SOLD-->
-            <h2 class="text-center"><strong>Items Sold In the Past</strong></h2>
+            <h2 class="text-center"><u><strong>Items Sold In the Past</strong></u></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items sold in the past"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% for item in items %}
@@ -135,7 +141,7 @@
                 {% endfor %}
             </div>
             <!--PURCHASED-->
-            <h2 class="text-center"><strong>Items Purchased</strong></h2>
+            <h2 class="text-center"><u><strong>Items Purchased</strong></u></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
         </div>
     </div>
