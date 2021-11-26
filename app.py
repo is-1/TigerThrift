@@ -88,7 +88,7 @@ def get_user_info(username):
 @app.route('/buy', methods=['GET'])
 def buy():
     username = CasClient().authenticate()
-    #username = 'katelynr'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -178,13 +178,13 @@ def reserve():
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
-    #username = 'katelynr'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     
     items = all_items()
     curr_reserved_items = reserved_items(user_info)
-    
+    print(curr_reserved_items)
     html = render_template('profile.html', user_info = user_info, items=items, curr_reserved_items=curr_reserved_items) # pass in currently reserved items
 
     response = make_response(html)

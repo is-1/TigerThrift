@@ -215,6 +215,25 @@ def item_details(itemid):
        print(ex, file=stderr)
        # exit(1)
 
+def days_between(d1, d2):
+    d1 = datetime.strptime(str(d1), "%Y-%m-%d %H:%M:%S")
+    d2 = datetime.strptime(str(d2), "%Y-%m-%d %H:%M:%S")
+    #print("Current Date:", d1)
+    #print("Reserved Date:", d2)
+    time_left = timedelta(days=3) - (d1-d2)
+    #print("Old time left:", (d1-d2))
+    #print("Time left:", time_left)
+    left = str(time_left).split(':', 1)
+    time_left = left[0]
+    mins_secs_left = left[1]
+    #print(mins_secs_left)
+    #print("Adjusted date:", time_left, " hours!")
+    if time_left == str(0):
+        mins_secs_left = mins_secs_left.replace(":", " minutes ")
+        return(mins_secs_left, " seconds left")
+    return(time_left, " hours left")
+
+
 def reserved_items(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -244,17 +263,13 @@ def reserved_items(user_info):
                     stmt_str = ('SELECT * from items where itemid = %s')
                     cursor.execute(stmt_str, [item_id])
                     item_info = cursor.fetchone()
-                    # # get time stamp
-                    # f = '%Y-%m-%d %H:%M:%S'
-                    # now = datetime.utcnow()
-                    # dt = now.strftime(f)
-                    # print(str(item_ids[itemid]))
-                    # print(str(dt))
-                    # date = datetime.date(1, 1, 1, 1, 1, 1)
-                    # datetime1 = datetime.datetime.combine(date, dt)
-                    # datetime2 = datetime.datetime.combine(date, item_ids[itemid])
-                    # time_elapsed = datetime1 - datetime2
-                    # print(type(time_elapsed))
+                    # get time stamp
+                    f = '%Y-%m-%d %H:%M:%S'
+                    now = datetime.utcnow()
+                    dt = now.strftime(f)
+                    time_left_to_complete_reservation = days_between(dt, item_ids[item_id]) # this is a string! 
+                    reservation_time_left = ''.join(time_left_to_complete_reservation)
+                    print(str(reservation_time_left))
                     item = {'itemid': item_info[0],
                     'type': item_info[1],
                     'subtype': item_info[2],
@@ -270,6 +285,7 @@ def reserved_items(user_info):
                     'status': item_info[12],
                     'sellernetid': item_info[13],
                     'prodname': item_info[14],
+                    'reservation_time_left': str(reservation_time_left)
                     }
                     # error if item in reservation table is not marked as reserved in items table
                     if item['status'] != 1:
