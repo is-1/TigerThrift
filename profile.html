@@ -20,7 +20,7 @@
             <!--PROFILE INFO-->
             <div class="col">
                 <span class="align-items-center">
-                    <h3 class="text-left"><strong>{{user_info['first_name']}} {{user_info['last_name']}}</strong></h3>
+                    <h3 class="text-left"><strong>{{user_info['full_name']}}</strong></h3>
                     <h5 class="text-left"><strong>{{user_info['netid']}}</strong></h5>
                     <p class="text-left"><strong>class of 20{{user_info['class_year']}}</strong></p>
                     <p class="text-left" style="text-transform:lowercase"><strong>{{user_info['email']}}</strong></p>
@@ -35,7 +35,7 @@
                 {% for item in curr_reserved_items %}
                 <!-- item is currently reserved -->
                 {% if item['status'] == 1 %} 
-                    <div class="card" style="width:250px">
+                    <div class="card" style="width:250px; ; margin:30px;">
                         {% if item['photolink'] == "google.com" %}
                         <img class="card-img-top" src="static/item.png" alt="item photo">
                         {% elif item['photolink'] == "https://www.google.com/" %}
@@ -49,7 +49,20 @@
                             <p class="card-text">Price: {{item['price']}}</p>
                             <p class="card-text">Condition: {{item['condition']}}</p>
                             <p class="card-text">Brand: {{item['brand']}}</p>
-                            <a href="#" class="card-text btn btn-dark">more details</a>
+                            <div class="d-flex">
+                                <div class="mr-auto p-2"> 
+                                    <form action="itemdetails" method='GET'>
+                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                        <button class="card-text btn btn-dark">details</button>
+                                    </form>
+                                </div>
+                                <div class="p-2">
+                                    <form action="reserve" method='POST'>
+                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                        <button class="card-text btn btn-dark">reserve</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {% endif %}
@@ -62,7 +75,7 @@
                 {% for item in items %}
                 {% if item['status'] == 0 %}
                 {% if item['sellernetid'] == user_info['netid']%}
-                <div class="card" style="width:250px">
+                <div class="card" style="width:250px;; margin:30px;">
                     {% if item['photolink'] == "google.com" %}
                     <img class="card-img-top" src="static/item.png" alt="item photo">
                     {% elif item['photolink'] == "https://www.google.com/" %}
@@ -95,7 +108,7 @@
                 {% for item in items %}
                 {% if item['status'] == 1 %}
                 {% if item['sellernetid'] == user_info['netid']%}
-                <div class="card" style="width:250px">
+                <div class="card" style="width:250px; ; margin:30px;">
                     {% if item['photolink'] == "google.com" %}
                     <img class="card-img-top" src="static/item.png" alt="item photo">
                     {% elif item['photolink'] == "https://www.google.com/" %}

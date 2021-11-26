@@ -66,7 +66,7 @@ def get_user_info(username):
     print("USERNAME (from cas): " + username)
     netid = username
 
-    r = requests.get(url=urllib.parse.urljoin(TIGERBOOK_API, 'katelynr'),headers=get_wsse_headers(TIGERBOOK_USR, TIGERBOOK_KEY))
+    r = requests.get(url=urllib.parse.urljoin(TIGERBOOK_API, netid),headers=get_wsse_headers(TIGERBOOK_USR, TIGERBOOK_KEY))
     # Only do if undergrad
     if str(r) == "<Response [404]>":
         print("NOT AN UNDERGRAD!!!!")
@@ -75,6 +75,7 @@ def get_user_info(username):
     phone = '512-263-6973' # THIS IS HARDCODED...NEED TO CHANGE
     user_info = {'first_name': (r.json())['first_name'],
     'last_name': (r.json())['last_name'],
+    'full_name': (r.json())['full_name'],
     'netid': netid,
     'email': ((r.json())['email']).lower(),
     'class_year': (r.json())['class_year'],
@@ -87,7 +88,7 @@ def get_user_info(username):
 @app.route('/buy', methods=['GET'])
 def buy():
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -154,15 +155,16 @@ def search_results():
 @app.route('/reserve', methods=['POST'])
 def reserve():
     username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
-    buyer = {'name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
+    buyer = {'name': user_info['full_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
 
     itemid = request.form.get('itemid')
 
-    sellernetid = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+    sellernetid, seller_first_name, seller_email = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
     # get seller from database eventually, USE USERS TABLE 
-    seller = {'name': 'katie', 'netid': str(sellernetid), 'email':'katielchou@princeton.edu'} # get seller info (from users table)
+    seller = {'name': str(seller_first_name), 'netid': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
 
     # change to item object, or item name based on itemid
     send_seller_notification(seller, buyer, itemid) # check this
@@ -176,7 +178,7 @@ def reserve():
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     

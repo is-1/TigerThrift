@@ -3,6 +3,7 @@ from sys import stderr
 from psycopg2 import connect
 from contextlib import closing
 from datetime import datetime
+from datetime import timedelta
 
 
 # add to users table if user is not already in the table (first time user)
@@ -26,8 +27,8 @@ def add_user(user_info):
                     now = datetime.utcnow()
                     dt = now.strftime(f)
                     #print("started inserting into users table")
-                    stmt_str = ('INSERT INTO users (netid, email, joined, phone) VALUES (%s, %s, %s, %s)')
-                    cursor.execute(stmt_str, [user_info['netid'], user_info['email'], dt, user_info['phone']])
+                    stmt_str = ('INSERT INTO users (netid, email, joined, phone, first_name, last_name, full_name) VALUES (%s, %s, %s, %s, %s, %s, %s)')
+                    cursor.execute(stmt_str, [user_info['netid'], user_info['email'], dt, user_info['phone'], user_info['first_name'], user_info['last_name'], user_info['full_name']])
                     #print("finished inserting into users table")
                 connection.commit()
     
@@ -70,13 +71,21 @@ def reserve_item(buyernetid, itemid):
                     cursor.execute(stmt_str, [itemid])
 
                     print("reservation complete")
+
+                    stmt_str = ('SELECT first_name, email from users where netid = %s')
+                    cursor.execute(stmt_str, [sellernetid])
+                    row = cursor.fetchone()
+                    seller_first_name = row[0]
+                    seller_email = row[1]
+                    print("SELLER FIRST_NAME: ", seller_first_name)
+                    print("SELLER EMAIL: ", seller_email)
                     connection.commit()
     
     except Exception as ex:
        print(ex, file=stderr)
        #exit(1)
 
-    return sellernetid
+    return sellernetid, seller_first_name, seller_email
     
 
 # when user uploads an item, update necessary tables
@@ -216,24 +225,36 @@ def reserved_items(user_info):
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
-                stmt_str = 'SELECT * FROM reservations WHERE buyernetid = %s'
+                stmt_str = 'SELECT * FROM reservations WHERE completedtime IS NULL AND buyernetid = %s;'
                 cursor.execute(stmt_str, [user_info['netid']])
 
                 # connection.commit()
 
                 row = cursor.fetchone()
 
-                item_ids = []
+                item_ids = {}
                 results = []
                 while row is not None:
                     itemid = row[0]
-                    item_ids.append(itemid)
+                    reserved_time = row[3]
+                    item_ids[itemid] = reserved_time
                     row = cursor.fetchone()
 
                 for item_id in item_ids:
                     stmt_str = ('SELECT * from items where itemid = %s')
                     cursor.execute(stmt_str, [item_id])
                     item_info = cursor.fetchone()
+                    # # get time stamp
+                    # f = '%Y-%m-%d %H:%M:%S'
+                    # now = datetime.utcnow()
+                    # dt = now.strftime(f)
+                    # print(str(item_ids[itemid]))
+                    # print(str(dt))
+                    # date = datetime.date(1, 1, 1, 1, 1, 1)
+                    # datetime1 = datetime.datetime.combine(date, dt)
+                    # datetime2 = datetime.datetime.combine(date, item_ids[itemid])
+                    # time_elapsed = datetime1 - datetime2
+                    # print(type(time_elapsed))
                     item = {'itemid': item_info[0],
                     'type': item_info[1],
                     'subtype': item_info[2],
@@ -248,7 +269,7 @@ def reserved_items(user_info):
                     'photolink': item_info[11],
                     'status': item_info[12],
                     'sellernetid': item_info[13],
-                    'prodname': item_info[14]
+                    'prodname': item_info[14],
                     }
                     # error if item in reservation table is not marked as reserved in items table
                     if item['status'] != 1:
