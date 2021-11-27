@@ -66,7 +66,7 @@
                                 <div class="p-2">
                                     <form action="reserve" method='POST'>
                                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">reserve</button>
+                                        <button class="card-text btn btn-dark">cancel reserve</button>
                                     </form>
                                 </div>
                             </div>
@@ -142,8 +142,40 @@
                 {% endfor %}
             </div>
             <!--PURCHASED-->
-            <h2 class="text-center"><u><strong>Items Purchased</strong></u></h2>
+            <h2 class="text-center"><u><strong>Past Purchases</strong></u></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
+            <div id=search_results class="card-deck row justify-content-center">
+                {% for item in purchased_items %}
+                <!-- item is currently reserved -->
+                {% if item['status'] == 2 %} 
+                    <div class="card" style="width:250px; ; margin:30px;">
+                        {% if item['photolink'] == "google.com" %}
+                        <img class="card-img-top" src="static/item.png" alt="item photo">
+                        {% elif item['photolink'] == "https://www.google.com/" %}
+                        <img class="card-img-top" src="static/item.png" alt="item photo">
+                        {% else %}
+                        <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{item['prodname']}}</h5>
+                            <p class ="card-text">ItemId: {{item['itemid']}}</p>
+                            <p class="card-text">Price: {{item['price']}}</p>
+                            <p class="card-text">Condition: {{item['condition']}}</p>
+                            <p class="card-text">Brand: {{item['brand']}}</p>
+                            <p class="card-text">Purchased Completed on {{item['purchase_completed']}}</p>
+                            <div class="d-flex">
+                                <div class="mr-auto p-2"> 
+                                    <form action="itemdetails" method='GET'>
+                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                        <button class="card-text btn btn-dark">details</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
   </body>
