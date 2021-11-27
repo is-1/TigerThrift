@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<html>
+    <head>
+        <title>TigerThrift</title>
+    </head>
+  <body>
+    {% include 'header.html' %}
+    <div class="container-fluid">
+        <h2 class="text-center"><strong>Item Details: {{item['desc']}} </strong></h2>
+        <div class="row justify-content-center">
+            <div class="col" style="width:300px">
+                <span class="d-flex justify-content-end">
+                    <img src="{{item['photolink']}}" alt="item photo">
+                </span>
+            </div>
+            <div class="col">
+                <span class = "align-middle">
+                    <strong>Description: </strong>{{ item['desc'] }}<br>
+                    <strong>Price: </strong>{{ item['price']}}<br>
+                    <strong>Size: </strong>{{ item['size'] }}<br>
+                    <strong>Brand: </strong>{{item['brand'] }}<br>
+                    <strong>Condition: </strong>{{ item['condition']}}<br>
+                    <strong>Type: </strong>{{item['type']}}<br>
+                    <strong>Subtype: </strong>{{ item['subtype']}}<br>
+                    <strong>Gender: </strong>{{item['gender'] }}<br>
+                    <strong>Color: </strong>{{ item['color']}}<br>
+                    <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
+                </span>
+            </div>
+            <!-- <div class="row text-center">
+                <form action="reserve" method='POST'>
+                    <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                    <button class="card-text btn btn-dark">reserve</button>
+                </form>
+            </div> -->
+        </div>
+    </div>
+  </body>
+</html>

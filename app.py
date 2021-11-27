@@ -178,7 +178,7 @@ def reserve():
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     
