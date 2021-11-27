@@ -9,9 +9,9 @@
     </head>
   <body>
     {% include 'header.html' %}
+    <h2 class="text-center"><strong>Item Details: {{item['desc']}} </strong></h2>
     <div class="container-fluid">
-        <h2 class="text-center"><strong>Item Details: {{item['desc']}} </strong></h2>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center pt-4 pb-4">
             <div class="col" style="width:300px">
                 <span class="d-flex justify-content-end">
                     <img src="{{item['photolink']}}" alt="item photo">
@@ -31,12 +31,17 @@
                     <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
                 </span>
             </div>
-            <div class="row text-center">
-                <form action="reserve" method='POST'>
-                    <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                    <button class="card-text btn btn-dark">reserve</button>
-                </form>
-            </div>
+        </div>
+        <div class="row text-center">
+            <form action="reserve" method='POST'>
+                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                <button class="card-text btn btn-dark">reserve</button>
+            </form>
+        </div>
+        <div class="row pt-3 px-5 align-items-center">
+            <form action="buy" method='GET'>
+                <button class="card-text btn btn-dark">← go back</button>
+            </form>
         </div>
     </div>
   </body>

@@ -11,7 +11,7 @@
   <body>
     {% include 'header.html' %}
     <h2 class="text-center"><strong>Create New Item To Sell</strong></h2>
-      <div class="justify-content-center px-5">
+      <div class="w-50 m-auto"> <!--class="justify-content-center px-5"-->
         <form action="sell" value="" method = "POST">
             <div class="form-group">
                 <label>Product Name</label>
@@ -90,8 +90,8 @@
                 <button id="upload_widget" type="button" class="btn btn-dark">upload photo of clothes</button>
             </div>
             <br>
-            <input type = "hidden"  id="photolink" name ="photolink" value = "">
-            <div class="text-center">
+            <input type="hidden"  id="photolink" name ="photolink" value = "">
+            <div class="text-center pb-5">
                 <button type="submit" class="btn btn-dark" values = "Go">Create Item!</button>
             </div>
         </form>

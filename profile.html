@@ -29,11 +29,10 @@
         </div>-->
         <span class="text-center">
             <h3 class="text-left"><strong>{{user_info['full_name']}}</strong></h3>
-            <p class="text-left">{{user_info['netid']}}</p>
-            <p class="text-left">class of 20{{user_info['class_year']}}</p>
+            <p class="text-left">{{user_info['netid']}} | class of 20{{user_info['class_year']}}</p>
             <p class="text-left" style="text-transform:lowercase">{{user_info['email']}}</p>
         </span>
-        <div class="container-fluid align-items-center">
+        <div class="container-fluid align-items-center pb-5">
             <!--RESERVING-->
             <h2 class="text-center"><u><strong>Items Currently On Reserve</strong></u></h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items reserved"-->
@@ -41,7 +40,7 @@
                 {% for item in curr_reserved_items %}
                 <!-- item is currently reserved -->
                 {% if item['status'] == 1 %} 
-                    <div class="card" style="width:250px; ; margin:30px;">
+                    <div class="card" style="width:250px; margin:30px;">
                         {% if item['photolink'] == "google.com" %}
                         <img class="card-img-top" src="static/item.png" alt="item photo">
                         {% elif item['photolink'] == "https://www.google.com/" %}
@@ -50,25 +49,19 @@
                         <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">{{item['prodname']}}</h5>
-                            <p class ="card-text">ItemId: {{item['itemid']}}</p>
-                            <p class="card-text">Price: {{item['price']}}</p>
-                            <p class="card-text">Condition: {{item['condition']}}</p>
-                            <p class="card-text">Brand: {{item['brand']}}</p>
-                            <p class="card-text">{{item['reservation_time_left']}} to complete reservation</p>
-                            <div class="d-flex">
-                                <div class="mr-auto p-2"> 
-                                    <form action="itemdetails" method='GET'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">details</button>
-                                    </form>
-                                </div>
-                                <div class="p-2">
-                                    <form action="reserve" method='POST'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">cancel reserve</button>
-                                    </form>
-                                </div>
+                            <h4 class="card-title">{{item['prodname']}}</h4>
+                            <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
+                            <div class="p-2"> 
+                                <form action="itemdetails" method='GET'>
+                                    <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                    <button class="card-text btn btn-dark">details</button>
+                                </form>
+                            </div>
+                            <div class="p-2">
+                                <form action="reserve" method='POST'>
+                                    <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                    <button class="card-text btn btn-dark">cancel reservation</button>
+                                </form>
                             </div>
                         </div>
                     </div>
