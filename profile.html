@@ -50,6 +50,8 @@
                         {% endif %}
                         <div class="card-body">
                             <h4 class="card-title">{{item['prodname']}}</h4>
+                            <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
+                            <br>
                             <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
                             <div class="p-2"> 
                                 <form action="itemdetails" method='GET'>

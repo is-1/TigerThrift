@@ -32,12 +32,15 @@
                 </span>
             </div>
         </div>
+        <!-- only show reserve button if item is active status (not reserved, and still available) -->
+        {% if item['status'] == 0 and user_info['netid'] != item['sellernetid'] %}
         <div class="row text-center">
             <form action="reserve" method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                 <button class="card-text btn btn-dark">reserve</button>
             </form>
         </div>
+        {% endif %}
         <div class="row pt-3 px-5 align-items-center">
             <form action="buy" method='GET'>
                 <button class="card-text btn btn-dark">← go back</button>

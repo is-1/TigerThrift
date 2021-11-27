@@ -287,6 +287,11 @@ def reserved_items(user_info):
                     'prodname': item_info[14],
                     'reservation_time_left': str(reservation_time_left)
                     }
+                    stmt_str = ('SELECT * from users where netid = %s')
+                    cursor.execute(stmt_str, [item['sellernetid']])
+                    seller_info = cursor.fetchone()
+                    seller_full_name = seller_info[6]
+                    item['seller_full_name'] = seller_full_name
                     # error if item in reservation table is not marked as reserved in items table
                     if item['status'] != 1:
                         print("MISMATCH RESERVATION ITEM!!!")

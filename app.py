@@ -178,7 +178,7 @@ def reserve():
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
-    #username = 'katelynr'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     
@@ -193,15 +193,18 @@ def profile():
 
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
-    CasClient().authenticate()
-    # html = render_template('itemdetails.html')
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    add_user(user_info)
+
     itemid = request.args.get('itemid')
 
     item = item_details(itemid)
     
     print("item = " + str(item))
 
-    html = render_template('itemdetails.html', item=item)
+    html = render_template('itemdetails.html', item=item, user_info = user_info)
     response = make_response(html)
     return response
 
