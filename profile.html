@@ -35,7 +35,7 @@
         </span>
         <div class="container-fluid align-items-center pb-5">
             <!--RESERVING-->
-            <h2 class="text-center"><u><strong>Items Currently On Reserve</strong></u></h2>
+            <h2 class="text-center" style="margin: 0;">Items Currently On Reserve</h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items reserved"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% for item in curr_reserved_items %}
@@ -72,7 +72,7 @@
                 {% endfor %}
             </div>
             <!--SELLING-->
-            <h2 class="text-center"><u><strong>Items Currently Selling</strong></u></h2>
+            <h2 class="text-center">Items Currently Selling</h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items being sold"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% for item in items %}
@@ -105,7 +105,7 @@
                 {% endfor %}
             </div>
             <!--SOLD-->
-            <h2 class="text-center"><u><strong>Items Sold In the Past</strong></u></h2>
+            <h2 class="text-center">Items Sold In the Past</h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items sold in the past"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% for item in items %}
@@ -138,7 +138,7 @@
                 {% endfor %}
             </div>
             <!--PURCHASED-->
-            <h2 class="text-center"><u><strong>Past Purchases</strong></u></h2>
+            <h2 class="text-center">Past Purchases</h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% for item in purchased_items %}
