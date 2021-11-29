@@ -10,7 +10,7 @@ from base64 import b64encode
 from flask import Flask, request, make_response
 from flask import render_template
 from datetime import datetime
-from database import add_user, add_item, all_items, reserve_item, search_items, item_details, reserved_items, past_purchases
+from database import add_user, add_item, all_items, reserve_item, search_items, item_details, reserved_items, past_purchases, delete_reserve
 from sendemail import send_buyer_notification, send_seller_notification
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -102,6 +102,7 @@ def buy():
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
     username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -132,6 +133,43 @@ def sell():
         'photolink': photolink}
         add_item(item_details, user_info)
     html = render_template('sell.html')
+    response = make_response(html)
+    return response
+
+@app.route('/success_sell', methods=['GET', 'POST'])
+def success_sell():
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    add_user(user_info)
+
+    prodname = request.form.get('prodname')
+    gender = request.form.get('gender')
+    price = request.form.get('price')
+    size = request.form.get('size')
+    brand = request.form.get('brand')
+    itemtype = request.form.get('type')
+    subtype = request.form.get('subtype')
+    condition = request.form.get('condition')
+    color = request.form.get('color')
+    description = request.form.get('description')
+    photolink = request.form.get('photolink')
+
+    # # call function
+    if prodname is not None:
+        item_details = {'prodname': prodname,
+        'type': itemtype,
+        'subtype': subtype,
+        'desc': description,
+        'gender': gender,
+        'price': price,
+        'size': size,
+        'brand': brand,
+        'condition': condition,
+        'color': color,
+        'photolink': photolink}
+        add_item(item_details, user_info)
+    html = render_template('success_sell.html')
     response = make_response(html)
     return response
 
@@ -173,20 +211,49 @@ def reserve():
     html = render_template('success_reserve.html')
     response = make_response(html)
     return response
+
+@app.route('/cancel_reservation', methods=['POST'])
+def cancel_reservation():
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    add_user(user_info)
+
+    itemid = request.form.get('itemid')
+    print("entered delete reserve")
+    delete_reserve(user_info, itemid)
+    
+    html = render_template('success_cancel_reservation.html')
+    response = make_response(html)
+    return response
  
 
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    # username = 'ishirai'
     user_info = get_user_info(username)
     add_user(user_info)
     
     items = all_items()
     curr_reserved_items = reserved_items(user_info)
     purchased_items = past_purchases(user_info)
+
+    curr_active_items = []
+    curr_reserved_by_others = []
+    for item in items:
+        if item['sellernetid'] == user_info['netid']:
+            if item['status'] == 0:
+                curr_active_items.append(item)
+            elif item['status'] == 1:
+                curr_reserved_by_others.append(item)
+
+
+    print("curr_active_items ITEMSSSS",curr_active_items)
+    print("curr_reserved_by_others ITEMSSSS",curr_reserved_by_others)
+    print("CURR_RESERVED_ITEMSSSS",curr_reserved_items)
     print(purchased_items)
-    html = render_template('profile.html', user_info = user_info, items=items, curr_reserved_items=curr_reserved_items, purchased_items=purchased_items) # pass in currently reserved items
+    html = render_template('profile.html', user_info = user_info, curr_reserved_by_others=curr_reserved_by_others, curr_active_items=curr_active_items, curr_reserved_items=curr_reserved_items, purchased_items=purchased_items) # pass in currently reserved items
 
     response = make_response(html)
     return response

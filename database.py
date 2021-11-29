@@ -215,12 +215,38 @@ def item_details(itemid):
        print(ex, file=stderr)
        # exit(1)
 
+def delete_reserve(user_info, itemid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+
+                stmt_str = "DELETE FROM reservations where itemid = %s"
+                cursor.execute(stmt_str, [itemid])
+                print("deleted from reservations")
+                # row = cursor.fetchone()
+
+                stmt_str = "UPDATE items SET status=0 WHERE itemid= %s"
+                cursor.execute(stmt_str, [itemid])
+                print("updated items table")
+                # send email notification to seller that this person deleted their reservation
+
+                connection.commit()
+
+    except Exception as ex:
+       print(ex, file=stderr)
+       # exit(1)
+
 def days_between(d1, d2):
     d1 = datetime.strptime(str(d1), "%Y-%m-%d %H:%M:%S")
     d2 = datetime.strptime(str(d2), "%Y-%m-%d %H:%M:%S")
     #print("Current Date:", d1)
     #print("Reserved Date:", d2)
-    time_left = timedelta(days=3) - (d1-d2)
+    time_left = timedelta(days=5) - (d1-d2)
     #print("Old time left:", (d1-d2))
     #print("Time left:", time_left)
     left = str(time_left).split(':', 1)
@@ -293,9 +319,11 @@ def reserved_items(user_info):
                     seller_full_name = seller_info[6]
                     item['seller_full_name'] = seller_full_name
                     # error if item in reservation table is not marked as reserved in items table
+                    if item['status'] == 1:
+                        results.append(item)
                     if item['status'] != 1:
                         print("MISMATCH RESERVATION ITEM!!!")
-                    results.append(item)
+                    
 
                 return results
 
