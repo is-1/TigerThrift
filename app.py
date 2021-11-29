@@ -235,13 +235,13 @@ def profile():
     user_info = get_user_info(username)
     add_user(user_info)
     
-    all_items = all_items()
+    items = all_items()
     curr_reserved_items = reserved_items(user_info)
     purchased_items = past_purchases(user_info)
 
     curr_active_items = []
     curr_reserved_by_others = []
-    for item in all_items:
+    for item in items:
         if item['sellernetid'] == user_info['netid']:
             if item['status'] == 0:
                 curr_active_items.append(item)
@@ -253,7 +253,7 @@ def profile():
     print("curr_reserved_by_others ITEMSSSS",curr_reserved_by_others)
     print("CURR_RESERVED_ITEMSSSS",curr_reserved_items)
     print(purchased_items)
-    html = render_template('profile.html', user_info = user_info, curr_reserved_by_others=curr_reserved_by_others, curr_active_items=curr_active_items, curr_reserved_items=curr_reserved_items, purchased_items=purchased_items, all_items=all_items) # pass in currently reserved items
+    html = render_template('profile.html', user_info = user_info, items=items, curr_reserved_by_others=curr_reserved_by_others, curr_active_items=curr_active_items, curr_reserved_items=curr_reserved_items, purchased_items=purchased_items) # pass in currently reserved items
 
     response = make_response(html)
     return response
