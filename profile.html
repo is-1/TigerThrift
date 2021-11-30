@@ -39,9 +39,7 @@
             <!--if nothing, then don't print out this header, or put a message saying "no items reserved"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% if curr_reserved_items|length == 0 %}
-                <h4 class="text-center" style="margin: 0;">You have no items currently on reserve!</h4>
-                <br>
-                <br>
+                <h5 class="text-center pb-5">You have no items currently on reserve!</h5>
                 {% else %}
                 {% for item in curr_reserved_items %}
                 <!-- item is currently reserved -->
@@ -52,7 +50,7 @@
                         {% elif item['photolink'] == "https://www.google.com/" %}
                         <img class="card-img-top" src="static/item.png" alt="item photo">
                         {% else %}
-                        <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                        <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                         {% endif %}
                         <div class="card-body">
                             <h4 class="card-title">{{item['prodname']}}</h4>
@@ -88,9 +86,7 @@
             <!--if nothing, then don't print out this header, or put a message saying "no items being sold"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% if curr_active_items|length == 0 %}
-                <h4 class="text-center" style="margin: 0;">You have no items currently active!</h4>
-                <br>
-                <br>
+                <h5 class="text-center pb-5">You have no items currently active!</h5>
                 {% else %}
                 {% for item in curr_active_items %}
                 {% if item['status'] == 0 %}
@@ -101,7 +97,7 @@
                     {% elif item['photolink'] == "https://www.google.com/" %}
                     <img class="card-img-top" src="static/item.png" alt="item photo">
                     {% else %}
-                    <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                    <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{item['prodname']}}</h5>
@@ -125,15 +121,17 @@
             <!--Your currently reserved items-->
             <h2 class="text-center">Your Items Currently Reserved By Others</h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items being sold"-->
+            
             <div id=search_results class="card-deck row justify-content-center">
-                <h4 class="text-center" style="margin: 0;">You have no items reserved by others!</h4>
+                <h5 class="text-center pb-5">You have no items reserved by others!</h5>
             </div>
             <!--SOLD-->
             <h2 class="text-center">Items Sold In the Past</h2>
             <!--if nothing, then don't print out this header, or put a message saying "no items sold in the past"-->
+
             <div id=search_results class="card-deck row justify-content-center">
                 {% if items|length == 0 %}
-                <h4 class="text-center" style="margin: 0;">You have not sold any items!</h4>
+                <h5 class="text-center">You have not sold any items!</h5>
                 <br>
                 <br>
                 {% else %}
@@ -146,14 +144,10 @@
                     {% elif item['photolink'] == "https://www.google.com/" %}
                     <img class="card-img-top" src="static/item.png" alt="item photo">
                     {% else %}
-                    <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                    <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{item['prodname']}}</h5>
-                        <p class ="card-text">ItemId: {{item['itemid']}}</p>
-                        <p class="card-text">Price: {{item['price']}}</p>
-                        <p class="card-text">Condition: {{item['condition']}}</p>
-                        <p class="card-text">Brand: {{item['brand']}}</p>
                         <div class="p-2"> 
                             <form action="itemdetails" method='GET'>
                                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
@@ -172,9 +166,7 @@
             <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% if purchased_items|length == 0 %}
-                <h4 class="text-center" style="margin: 0;">You have no past purchases!</h4>
-                <br>
-                <br>
+                <h5 class="text-center pb-5">You have no past purchases!</h5>
                 {% else %}
                 {% for item in purchased_items %}
                 <!-- item is currently reserved -->
@@ -185,7 +177,7 @@
                         {% elif item['photolink'] == "https://www.google.com/" %}
                         <img class="card-img-top" src="static/item.png" alt="item photo">
                         {% else %}
-                        <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+                        <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{item['prodname']}}</h5>
