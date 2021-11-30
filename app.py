@@ -92,7 +92,7 @@ def login():
 @app.route('/', methods=['GET'])
 @app.route('/landing', methods=['GET'])
 def landing():
-    if CasClient().authenticateFirst() == True:
+    if CasClient().authenticateFirst() != False:
         print("logged in")
         return redirect(url_for('buy'))
     else: 
