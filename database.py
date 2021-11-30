@@ -109,10 +109,9 @@ def add_item(item, user_info):
                 
                 # insert item into items table
                 stmt_str = ('INSERT INTO items '
-                + '(type, subtype, size, gender, price, color, condition, brand, "desc", posted, photolink, status, sellernetid, prodname) ' +
-                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, %s, %s)")
-                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], dt, item['photolink'], user_info['netid'], item['prodname']])
-                # get most recent itemid inserted (item id of currently inserted item)
+                + '(type, subtype, size, gender, price, color, condition, brand, "desc", posted, photolink, status, sellernetid, prodname, photolink1, photolink2, photolink3) ' +
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, %s, %s, %s, %s, %s)")
+                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], dt, item['photolink'], user_info['netid'], item['prodname'], item['photolink1'], item['photolink2'], item['photolink3']])                # get most recent itemid inserted (item id of currently inserted item)
                 stmt_str = 'SELECT last_value FROM items_itemid_seq;'
                 cursor.execute(stmt_str)
                 row = cursor.fetchone()

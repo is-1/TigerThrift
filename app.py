@@ -118,6 +118,9 @@ def sell():
     color = request.form.get('color')
     description = request.form.get('description')
     photolink = request.form.get('photolink')
+    photolink1 = request.form.get('photolink1')
+    photolink2 = request.form.get('photolink2')
+    photolink3 = request.form.get('photolink3')
 
     # # call function
     if prodname is not None:
@@ -131,7 +134,10 @@ def sell():
         'brand': brand,
         'condition': condition,
         'color': color,
-        'photolink': photolink}
+        'photolink': photolink,
+        'photolink1': photolink1,
+        'photolink2': photolink2,
+        'photolink3': photolink3}
         add_item(item_details, user_info)
     html = render_template('sell.html')
     response = make_response(html)
@@ -155,6 +161,9 @@ def success_sell():
     color = request.form.get('color')
     description = request.form.get('description')
     photolink = request.form.get('photolink')
+    photolink1 = request.form.get('photolink1')
+    photolink2 = request.form.get('photolink2')
+    photolink3 = request.form.get('photolink3')
 
     # # call function
     if prodname is not None:
@@ -168,7 +177,10 @@ def success_sell():
         'brand': brand,
         'condition': condition,
         'color': color,
-        'photolink': photolink}
+        'photolink': photolink, 
+        'photolink1': photolink1,
+        'photolink2': photolink2,
+        'photolink3': photolink3}
         add_item(item_details, user_info)
     html = render_template('success_sell.html')
     response = make_response(html)

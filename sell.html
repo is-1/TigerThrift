@@ -87,11 +87,18 @@
                 <textarea type="int" name = "description" class="form-control" placeholder="enter decription of clothes" required></textarea>
             </div>
             <div id="photoupload">
+                <img id="image" src=""><br>
                 <img id="image1" src=""><br>
+                <img id="image2" src=""><br>
+                <img id="image3" src=""><br>
                 <button id="upload_widget" type="button" class="btn btn-dark">upload photo of clothes</button>
             </div>
             <br>
             <input type="hidden"  id="photolink" name ="photolink" value = "">
+            <input type="hidden"  id="photolink1" name ="photolink1" value = "">
+            <input type="hidden"  id="photolink2" name ="photolink2" value = "">
+            <input type="hidden"  id="photolink3" name ="photolink3" value = "">
+
             <div class="text-center pb-5">
                     <button formaction= "success_sell" formmethod="POST" type="submit" class="btn btn-dark" values = "Go">Create Item!</button>
             </div>
@@ -113,14 +120,30 @@
                             console.log('Done! Here is the image info: ', result.info); 
                             imageUrl = result.info.url;
                             console.log("url: " + imageUrl);
-                            $('#image1').attr("src", imageUrl);
-                            $('#photolink').val(imageUrl);
-                            console.log("photolink val : " + $('#photolink').val());
-                            $('#upload_widget').html("Upload another photo");
-                        }
+                            if ($('#image').attr("src") == '') {
+                                $('#image').attr("src", imageUrl);
+                                console.log("photolink val : " + $('#photolink').val());
+                                $('#photolink').val(imageUrl);
+                            }
+                            else if ($('#image1').attr("src") == '') {
+                                $('#image1').attr("src", imageUrl);
+                                $('#photolink1').val(imageUrl);
+                                console.log("photolink1 val : " + $('#photolink1').val());
+                            }
+                            else if ($('#image2').attr("src") == '') {
+                                $('#image2').attr("src", imageUrl);
+                                $('#photolink2').val(imageUrl);
+                                console.log("photolink2 val : " + $('#photolink2').val());
+                            }
+                            else if ($('#image3').attr("src") == '') {
+                                $('#image3').attr("src", imageUrl);
+                                $('#photolink3').val(imageUrl);
+                                console.log("photolink3 val : " + $('#photolink3').val());
+                            }                                
                         if (error){
                             console.log("error uploading");} 
                     }
+                }
                 )
                 document.getElementById("upload_widget").addEventListener("click", function(){
                     myWidget.open();
