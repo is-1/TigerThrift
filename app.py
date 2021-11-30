@@ -83,36 +83,36 @@ def get_user_info(username):
     'photo_link': (r.json())['photo_link']}
     return user_info
 
-# @app.route('/login', methods=['GET'])
-# def login():
-#     print("went into login function")
-#     CasClient().authenticate()
-#     return redirect(url_for('buy')) # after authenticating, send to buy page 
+@app.route('/login', methods=['GET'])
+def login():
+    print("went into login function")
+    CasClient().authenticate()
+    return redirect(url_for('buy')) # after authenticating, send to buy page 
 
-# @app.route('/landing', methods=['GET'])
-# def landing():
-#     html = render_template('landing.html')
-#     response = make_response(html)
-#     print("returned landing page")
-#     return response
+@app.route('/', methods=['GET'])
+@app.route('/landing', methods=['GET'])
+def landing():
+    html = render_template('landing.html')
+    response = make_response(html)
+    print("returned landing page")
+    return response
 
-# def is_authenticated():
-#     if CasClient().authenticateFirst() == False:
-#         # return call to landing page function
-#         # return landing()
-#         # html = render_template('landing.html')
-#         print("entered if statement")
-#         # response = make_response(html)
-#         # return response
-#         return redirect(url_for('landing'))
-#     else:
-#         return True
+def is_authenticated():
+    if CasClient().authenticateFirst() == False:
+        # return call to landing page function
+        # return landing()
+        # html = render_template('landing.html')
+        print("entered if statement")
+        # response = make_response(html)
+        # return response
+        return redirect(url_for('landing'))
+    else:
+        return True
 
 # Home page
-@app.route('/', methods=['GET'])
 @app.route('/buy', methods=['GET'])
 def buy():
-    # is_authenticated()
+    is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
@@ -359,7 +359,7 @@ def logout():
     print("logging out the user!!!")
     cas_client = CasClient()
     cas_client.authenticate()
-    cas_client.logout('buy')
+    cas_client.logout('landing')
 
 if __name__ == "__main__":
     app.run(host='localhost')
