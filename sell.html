@@ -99,10 +99,10 @@
                 <button id="upload_widget" type="button" class="btn btn-dark">(optional) upload another photo</button>
             </div>
             <br>
-            <input type="hidden"  id="photolink" name ="photolink" value = "">
-            <input type="hidden"  id="photolink1" name ="photolink1" value = "">
-            <input type="hidden"  id="photolink2" name ="photolink2" value = "">
-            <input type="hidden"  id="photolink3" name ="photolink3" value = "">
+            <input type="hidden" id="photolink" name ="photolink" value = "">
+            <input type="hidden" id="photolink1" name ="photolink1" value = "">
+            <input type="hidden" id="photolink2" name ="photolink2" value = "">
+            <input type="hidden" id="photolink3" name ="photolink3" value = "">
 
             <div class="text-center pb-5">
                     <button formaction= "success_sell" formmethod="POST" type="submit" class="btn btn-dark" values = "Go">Create Item!</button>
@@ -153,31 +153,6 @@
                 document.getElementById("upload_widget").addEventListener("click", function(){
                     myWidget.open();
                 }, false);
-                /*addedddddd*/
-                var myWidget = cloudinary.createUploadWidget({
-                    cloudName: 'dbnkmun6k', 
-                    api_key : "535599746493582",
-                    resourceType: "image",
-                    sources: ['local', 'camera', 'google_drive', 'url'],
-                    cropping: true,
-                    uploadPreset: 'tigerthrift'}, (error, result) => {
-                        if (!error && result && result.event === "success") { 
-                            console.log('Done! Here is the image info: ', result.info); 
-                            imageUrl = result.info.url;
-                            console.log("url: " + imageUrl);
-                            $('#image2').attr("src", imageUrl);
-                            $('#photolink').val(imageUrl);
-                            console.log("photolink val : " + $('#photolink').val());
-                            $('#upload_widget').html("Upload another photo");
-                        }
-                        if (error){
-                            console.log("error uploading");} 
-                    }
-                )
-                document.getElementById("upload_widget").addEventListener("click", function(){
-                    myWidget.open();
-                }, false);
-                /*****added******/
 
                 $("#type_select").change(function(){
                     let selected = $("#type_select").val();
