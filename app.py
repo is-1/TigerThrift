@@ -94,7 +94,7 @@ def buy():
 
     items = search_items(None, None)
 
-    html = render_template('buy.html', items=items)
+    html = render_template('buy.html', items=items, brands=["brandy melville"])
 
     response = make_response(html)
     return response
@@ -179,9 +179,22 @@ def search_results():
     CasClient().authenticate()
     search = request.args.get('search')
 
+    gender = request.args.get('gender')
+    size = request.args.get('size')
+    brand = request.args.get('brand')
+    type = request.args.get('type')
+    subtype = request.args.get('subtype')
+    condition = request.args.get('condition')
+    color = request.args.get('color')
+
+
     # filter = {"subtype" : "sneakers"} #placeholder
-    filter = {"": "sneakers"}
+    filter = {"gender": gender, "type": type, 
+    "subtype": subtype, "size": size, "condition": condition,
+    "color": color, "brand": brand}
+
     print("search: "  + search)
+    print("filter: " + str(filter))
 
     items = search_items(search, filter)
     html = render_template('searchresults.html', items=items)

@@ -370,25 +370,26 @@ def search_items(search, filter):
                 cmd_args.append("%" + search + "%")
 
                 if filter:
-                    if 'type' in filter:
+                    if 'type' in filter and filter['type'] is not None and filter["type"] != '':
+                        print("entered type if")
                         stmt_str += "AND type = %s "
                         cmd_args.append(filter['type'])
-                    if 'subtype' in filter:
+                    if 'subtype' in filter and filter['subtype'] is not None and filter["subtype"] != '':
                         stmt_str += "AND subtype = %s "
                         cmd_args.append(filter['subtype'])
-                    if 'size' in filter:
+                    if 'size' in filter and filter['size'] is not None and filter["size"] != '':
                         stmt_str += "AND size = %s "
                         cmd_args.append(filter['size'])
-                    if 'gender' in filter:
+                    if 'gender' in filter and filter['gender'] is not None and filter["gender"] != '':
                         stmt_str += "AND size = %s "
                         cmd_args.append(filter['gender'])
-                    if 'brand' in filter:
+                    if 'brand' in filter and filter['brand'] is not None and filter["brand"] != '':
                         stmt_str += "AND brand = %s "
                         cmd_args.append(filter['brand'])
-                    if 'condition' in filter:
+                    if 'condition' in filter and filter['condition'] is not None and filter["condition"] != '':
                         stmt_str += "AND condition = %s "
                         cmd_args.append(filter['condition'])
-                    if 'color' in filter:
+                    if 'color' in filter and filter['color'] is not None and filter["color"] != '':
                         stmt_str += "AND color = %s "
                         cmd_args.append(filter['color'])
           

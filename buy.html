@@ -19,6 +19,72 @@
                 <button id="search_button" class="btn btn-outline" type="button">search</button>
             </div>
         </div>
+        Filter
+        <div class="form-group">
+        <label>Type</label>
+                <select id="type_select" name ="type" class="form-control">
+                    <option value="">choose a type of clothing</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="dress">Dress</option>
+                    <option value="outerwear">Outerwear</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="accessories">Accessories</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Subtype</label>
+                <select id="subtype_select" name = "subtype" class="form-control" disabled></select>
+            </div>
+            <div class="form-group">
+                <label>Size</label>
+                <select id="size_select" name = "size" class="form-control" disabled></select>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select id="gender_select" name = "gender" class="form-control">
+                    <option selected value="">choose a gender</option>
+                    <option value="mens">Mens</option>
+                    <option value="womens">Womens</option>
+                    <option value="unisex">Unisex</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Brand</label>
+                <select id="brand_select" name = "brand" class="form-control">
+                    <option selected value="">choose a brand</option>
+                {% for brand in brands %}
+                    <option value="{{ brand }}">{{ brand }}</option>
+                </select>                
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label>Condition</label>
+                <select id = "condition_select" name="condition" class="form-control" >
+                    <option value="">choose condition</option>
+                    <option value="brandnew">Brand New</option>
+                    <option value="likenew">Like New</option>
+                    <option value="gentlyused">Gently Used</option>
+                    <option value="fairlyused">Fairly Used</option>
+                    <option value="veryused">Very Used</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Color</label>
+                <select id = "color_select" name = "color" class="form-control" required>
+                    <option value="">choose color</option>
+                    <option value="red">Red</option>
+                    <option value="orange">Orange</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="purple">Purple</option>
+                    <option value="brown">Brown</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                    <option value="multicolored">Multi-colored</option>
+                </select>
+            </div>
     </div>
     <br>
     {% include 'searchresults.html' %}
@@ -35,10 +101,41 @@
         
         function getResults(){
             let search = $('#search').val();
+            let type = $('#type_select').val();
+            let subtype = $('#subtype_select').val();
+            let size = $('#size_select').val();
+            let gender = $('#gender_select').val();
+            let brand = $('#brand_select').val();
+            let condition = $('#condition_select').val();
+            let color = $('#color_select').val();
 
-            search = encodeURIComponent(search);
+            if (search == null)
+                search = '';
+            if (type == null)
+                type = '';
+            if (subtype == null)
+                subtype = '';
+            if (size == null)
+                size = '';
+            if (brand == null)
+                brand = '';
+            if (condition == null)
+                condition = '';
+            if (color == null)
+                color = '';
+            if (gender == null)
+                gender = '';
 
-            let url = '/searchresults?search=' + search;
+            search = encodeURIComponent(search);                
+            type = encodeURIComponent(type);
+            subtype = encodeURIComponent(subtype);
+            size = encodeURIComponent(size);
+            gender = encodeURIComponent(gender);
+            brand = encodeURIComponent(brand);
+            condition = encodeURIComponent(condition);
+            color = encodeURIComponent(color);
+
+            let url = '/searchresults?search=' + search + "&type=" + type + "&subtype=" + subtype + "&size=" + size + "&gender=" + gender + "&brand=" + brand + "&condition=" + condition + "&color=" + color;
 
             if (request != null)
                 request.abort();
@@ -54,9 +151,81 @@
                         getResults();
     }
 });
-        }
+        $("#type_select").change(function(){
+                    let selected = $("#type_select").val();
+                    let subtypes = [];
+                    let sizes = [];
 
-        $('#document').ready(setup);
+                    console.log("selected: " + selected);
+
+                    if (selected == "top") {
+                        subtypes.push("T-shirt", "Bodysuit", "Tanks",  "Shirt", "Blouse", "Blazer");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)","XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                    }
+
+                    if (selected == "bottom") {
+                        subtypes.push("Pants", "Skirt", "Shorts", "Jeans");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
+"XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”",
+"00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                    }
+
+                    if (selected == "dress") {
+                        subtypes.push("Casual", "Semi-Formal", "Formal");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                    }
+
+                    if (selected == "outerwear") {
+                        subtypes.push("Coat", "Jacket", "Cardigan", "Crewneck", "Hoodie");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                    }
+
+                    if (selected == "shoes") {
+                        subtypes.push("Sneakers", "Sandals", "Boots", "Heels/Dress Shoes");
+                        sizes.push("5W", "5.5W", "6W", "6.5W", "7W", "7.5W", "8W", "8.5W", "9W", "9.5W", "10W", "10.5W", "11W", "11.5W", "12W", "12.5W", "13W",
+                        "7M", "7.5M", "8M", "8.5M", "9M", "9.5M", "10M", "10.5M", "11M", "11.5M", "12M", "12.5M", "13M", "13.5M", "14M");
+                    }
+
+                    if (selected == "accessories") {
+                        subtypes.push("Hat", "Jewelry", "Watch", "Sunglasses", "Scarf", "Gloves", "Belt", "Bag", "Tie");
+                        sizes.push("One-size");
+                    } 
+
+                    $("#subtype_select").empty();
+                    $('#subtype_select').attr("disabled", false);
+
+                    $("#size_select").empty();
+                    $('#size_select').attr("disabled", false);
+                    
+                    console.log("subtypes: " + subtypes);
+                    console.log("sizes: " + sizes);
+
+                    $('#size_select').append($('<option>', {
+                            value: "",
+                            text: "choose a subtype"
+                        })); 
+
+                    for (i in subtypes) {
+                        $('#subtype_select').append($('<option>', {
+                            value: subtypes[i].toLowerCase(),
+                            text: subtypes[i]
+                        }));
+                    }
+
+                    $('#size_select').append($('<option>', {
+                            value: "",
+                            text: "choose a size"
+                        }));
+                    for (j in sizes) {
+                        $('#size_select').append($('<option>', {
+                            value: sizes[j].toLowerCase(),
+                            text: sizes[j]
+                        }));
+                    }
+                });
+            }
+
+            $('#document').ready(setup);
 
     </script>
   </body>
