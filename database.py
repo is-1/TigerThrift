@@ -442,9 +442,9 @@ def past_purchases(user_info):
                     'purchase_completed': str(purchased_date)
                     }
                     # error if item in reservation table is not marked as reserved in items table
-                    if item['status'] != 2:
-                        print("MISMATCH RESERVATION ITEM!!!")
-                    results.append(item)
+                    if item['status'] == 2:
+                        results.append(item)
+                    
 
                 return results
 
