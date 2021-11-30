@@ -309,7 +309,7 @@ def reserved_items(user_info):
                     if item['status'] != 1:
                         print("MISMATCH RESERVATION ITEM!!!")
                     
-
+                print("printed curr_reserved items!!!! ")
                 return results
 
     except Exception as ex:
@@ -420,8 +420,9 @@ def past_purchases(user_info):
                     stmt_str = ('SELECT * from items where itemid = %s')
                     cursor.execute(stmt_str, [item_id])
                     item_info = cursor.fetchone()
+                    print("printed item info!!!")
                     print(item_info)
-                    purchased_date = datetime.strptime(str(item_ids[item_id]), "%Y-%m-%d %H:%M:%S.%f")
+                    purchased_date = datetime.strptime(str(item_ids[item_id]), "%Y-%m-%d %H:%M:%S")
                     print(purchased_date)
                     purchased_date = (str(purchased_date).split(' ', 1))[0]
                     item = {'itemid': item_info[0],
@@ -445,7 +446,7 @@ def past_purchases(user_info):
                     if item['status'] == 2:
                         results.append(item)
                     
-
+                print("printed past purchases items!!!! ")
                 return results
 
     except Exception as ex:
