@@ -19,72 +19,95 @@
                 <button id="search_button" class="btn btn-outline" type="button">search</button>
             </div>
         </div>
-        Filter
-        <div class="form-group">
-        <label>Type</label>
-                <select id="type_select" name ="type" class="form-control">
-                    <option value="">choose a type of clothing</option>
-                    <option value="top">Top</option>
-                    <option value="bottom">Bottom</option>
-                    <option value="dress">Dress</option>
-                    <option value="outerwear">Outerwear</option>
-                    <option value="shoes">Shoes</option>
-                    <option value="accessories">Accessories</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Subtype</label>
-                <select id="subtype_select" name = "subtype" class="form-control" disabled></select>
-            </div>
-            <div class="form-group">
-                <label>Size</label>
-                <select id="size_select" name = "size" class="form-control" disabled></select>
-            </div>
-            <div class="form-group">
-                <label>Gender</label>
-                <select id="gender_select" name = "gender" class="form-control">
-                    <option selected value="">choose a gender</option>
-                    <option value="mens">Mens</option>
-                    <option value="womens">Womens</option>
-                    <option value="unisex">Unisex</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Brand</label>
-                <select id="brand_select" name = "brand" class="form-control">
-                    <option selected value="">choose a brand</option>
-                {% for brand in brands %}
-                    <option value="{{ brand }}">{{ brand }}</option>             
-                {% endfor %}
-            </select>   
-            </div>
-            <div class="form-group">
-                <label>Condition</label>
-                <select id = "condition_select" name="condition" class="form-control" >
-                    <option value="">choose condition</option>
-                    <option value="brandnew">Brand New</option>
-                    <option value="likenew">Like New</option>
-                    <option value="gentlyused">Gently Used</option>
-                    <option value="fairlyused">Fairly Used</option>
-                    <option value="veryused">Very Used</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Color</label>
-                <select id = "color_select" name = "color" class="form-control" required>
-                    <option value="">choose color</option>
-                    <option value="red">Red</option>
-                    <option value="orange">Orange</option>
-                    <option value="yellow">Yellow</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                    <option value="purple">Purple</option>
-                    <option value="brown">Brown</option>
-                    <option value="black">Black</option>
-                    <option value="white">White</option>
-                    <option value="multicolored">Multi-colored</option>
-                </select>
-            </div>
+
+        <!--filter dropdown-->
+        <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenu"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Filters
+            </button>
+            <ul class="dropdown-menu w-auto" aria-labelledby="dropdownMenu">
+                <li class="p-2 float-start" style="max-width: 250px;">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="type_select" name ="type" class="form-control">
+                            <option value="">choose a type of clothing</option>
+                            <option value="top">Top</option>
+                            <option value="bottom">Bottom</option>
+                            <option value="dress">Dress</option>
+                            <option value="outerwear">Outerwear</option>
+                            <option value="shoes">Shoes</option>
+                            <option value="accessories">Accessories</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="p-2 float-start" style="min-width: 175px; max-width: 250px;">
+                    <div class="form-group">
+                        <label>Subtype</label>
+                        <select id="subtype_select" name = "subtype" class="form-control" disabled></select>
+                    </div>
+                </li>
+                <li class="p-2 float-start" style="min-width: 150px; max-width: 250px;">
+                    <div class="form-group">
+                        <label>Size</label>
+                        <select id="size_select" name = "size" class="form-control" disabled></select>
+                    </div>
+                </li>
+                <li class="p-2 float-start" style="max-width: 250px;">
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="gender_select" name = "gender" class="form-control">
+                            <option selected value="">choose a gender</option>
+                            <option value="mens">Mens</option>
+                            <option value="womens">Womens</option>
+                            <option value="unisex">Unisex</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="p-2 float-start" style="max-width: 250px;">
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select id="brand_select" name = "brand" class="form-control">
+                            <option selected value="">choose a brand</option>
+                            {% for brand in brands %}
+                            <option value="{{ brand }}">{{ brand }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </li>
+                <li class="p-2 float-start" style="max-width: 250px;">
+                    <div class="form-group">
+                        <label>Condition</label>
+                        <select id = "condition_select" name="condition" class="form-control" >
+                            <option value="">choose condition</option>
+                            <option value="brandnew">Brand New</option>
+                            <option value="likenew">Like New</option>
+                            <option value="gentlyused">Gently Used</option>
+                            <option value="fairlyused">Fairly Used</option>
+                            <option value="veryused">Very Used</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="p-2 float-start" style="max-width: 250px;">
+                    <div class="form-group">
+                        <label>Color</label>
+                        <select id = "color_select" name = "color" class="form-control" required>
+                            <option value="">choose color</option>
+                            <option value="red">Red</option>
+                            <option value="orange">Orange</option>
+                            <option value="yellow">Yellow</option>
+                            <option value="green">Green</option>
+                            <option value="blue">Blue</option>
+                            <option value="purple">Purple</option>
+                            <option value="brown">Brown</option>
+                            <option value="black">Black</option>
+                            <option value="white">White</option>
+                            <option value="multicolored">Multi-colored</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
     <br>
     {% include 'searchresults.html' %}
