@@ -10,7 +10,7 @@ from base64 import b64encode
 from flask import Flask, request, make_response
 from flask import render_template
 from datetime import datetime
-from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, past_purchases, delete_reserve, all_brands
+from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, seller_reservations, past_purchases, delete_reserve, complete_reserve, all_brands
 from sendemail import send_buyer_notification, send_seller_notification
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -252,34 +252,42 @@ def cancel_reservation():
     html = render_template('success_cancel_reservation.html')
     response = make_response(html)
     return response
+
+@app.route('/complete_reservation', methods=['POST'])
+def complete_reservation():
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    add_user(user_info)
+
+    itemid = request.form.get('itemid')
+    complete_reserve(user_info, itemid)
+    
+    html = render_template('success_complete_reservation.html')
+    response = make_response(html)
+    return response
  
 
 @app.route('/profile', methods=['GET'])
 def profile():
     username = CasClient().authenticate()
-    # username = 'ishirai'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     
     items = search_items(None, None)
     curr_reserved_items = reserved_items(user_info)
+    reserved_by_others_items = []
     purchased_items = past_purchases(user_info)
 
     curr_active_items = []
-    curr_reserved_by_others = []
     for item in items:
         if item['sellernetid'] == user_info['netid']:
             if item['status'] == 0:
                 curr_active_items.append(item)
-            elif item['status'] == 1:
-                curr_reserved_by_others.append(item)
-
-
-    print("curr_active_items ITEMSSSS",curr_active_items)
-    print("curr_reserved_by_others ITEMSSSS",curr_reserved_by_others)
-    print("CURR_RESERVED_ITEMSSSS",curr_reserved_items)
-    print(purchased_items)
-    html = render_template('profile.html', user_info = user_info, items=items, curr_reserved_by_others=curr_reserved_by_others, curr_active_items=curr_active_items, curr_reserved_items=curr_reserved_items, purchased_items=purchased_items) # pass in currently reserved items
+            if item['status'] == 1:
+                reserved_by_others_items.append(item)
+    html = render_template('profile.html', user_info = user_info, items=items, curr_active_items=curr_active_items, curr_reserved_items=curr_reserved_items, reserved_by_others_items = reserved_by_others_items, purchased_items=purchased_items) # pass in currently reserved items
 
     response = make_response(html)
     return response

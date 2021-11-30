@@ -195,6 +195,37 @@ def delete_reserve(user_info, itemid):
        print(ex, file=stderr)
        # exit(1)
 
+def complete_reserve(user_info, itemid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+
+                # get time stamp
+                f = '%Y-%m-%d %H:%M:%S'
+                now = datetime.utcnow()
+                dt = now.strftime(f)
+
+                stmt_str = "UPDATE reservations SET completedtime = %s WHERE itemid = %s"
+                cursor.execute(stmt_str, [dt, itemid])
+                print("completed reservations from reservations")
+                # row = cursor.fetchone()
+
+                stmt_str = "UPDATE items SET status=2 WHERE itemid= %s"
+                cursor.execute(stmt_str, [itemid])
+                print("updated items table")
+                # send email notification to seller that this person deleted their reservation
+
+                connection.commit()
+
+    except Exception as ex:
+       print(ex, file=stderr)
+       # exit(1)
+
 def days_between(d1, d2):
     d1 = datetime.strptime(str(d1), "%Y-%m-%d %H:%M:%S")
     d2 = datetime.strptime(str(d2), "%Y-%m-%d %H:%M:%S")
@@ -284,7 +315,82 @@ def reserved_items(user_info):
     except Exception as ex:
        # print(ex, file=stderr)
         exit(1)
+def seller_reservations(user_info):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
 
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+
+                stmt_str = 'SELECT * FROM reservations WHERE completedtime IS NULL AND sellernetid = %s;'
+                cursor.execute(stmt_str, [user_info['netid']])
+
+                # connection.commit()
+
+                row = cursor.fetchone()
+
+                item_ids = {}
+                results = []
+                while row is not None:
+                    itemid = row[0]
+                    reserved_time = row[3]
+                    item_ids[itemid] = reserved_time
+                    row = cursor.fetchone()
+
+                # counter = 1
+                for item_id in item_ids:
+                    stmt_str = ('SELECT * from items where itemid = %s')
+                    cursor.execute(stmt_str, [item_id])
+                    item_info = cursor.fetchone()
+                    # get time stamp
+                    f = '%Y-%m-%d %H:%M:%S'
+                    now = datetime.utcnow()
+                    dt = now.strftime(f)
+                    time_left_to_complete_reservation = days_between(dt, item_ids[item_id]) # this is a string! 
+                    reservation_time_left = ''.join(time_left_to_complete_reservation)
+                    stmt_str = ('SELECT buyernetid from reservations where itemid = %s')
+                    cursor.execute(stmt_str, [item_id])
+                    buyernetid = cursor.fetchone()[0]
+                    stmt_str = ('SELECT full_name from users where netid = %s')
+                    cursor.execute(stmt_str, [item['buyernetid']])
+                    buyerfullname = cursor.fetchone()[0]
+                    # print(str(reservation_time_left))
+                    item = {'itemid': item_info[0],
+                    'type': item_info[1],
+                    'subtype': item_info[2],
+                    'desc': item_info[9],
+                    'gender': item_info[4],
+                    'price': item_info[5],
+                    'size': item_info[3],
+                    'brand': item_info[8],
+                    'condition': item_info[7],
+                    'color': item_info[6],
+                    'timestamp': item_info[10],
+                    'photolink': item_info[11],
+                    'status': item_info[12],
+                    'sellernetid': item_info[13],
+                    'prodname': item_info[14],
+                    'reservation_time_left': str(reservation_time_left),
+                    'buyernetid': buyernetid,
+                    'buyerfullname': buyerfullname
+                    }
+                    
+                    # error if item in reservation table is not marked as reserved in items table
+                    if item['status'] == 1:
+                        results.append(item)
+                        counter = counter+1
+                #     if counter > len(item_ids):
+                #         break
+                # print("EXITED LOOP!!!")
+                print(results)
+                return results
+
+    except Exception as ex:
+       # print(ex, file=stderr)
+        exit(1)
 def past_purchases(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
