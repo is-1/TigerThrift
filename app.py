@@ -10,7 +10,7 @@ from base64 import b64encode
 from flask import Flask, request, make_response
 from flask import render_template
 from datetime import datetime
-from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, past_purchases, delete_reserve
+from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, past_purchases, delete_reserve, all_brands
 from sendemail import send_buyer_notification, send_seller_notification
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -93,8 +93,9 @@ def buy():
     add_user(user_info)
 
     items = search_items(None, None)
+    brands = all_brands()
 
-    html = render_template('buy.html', items=items, brands=["brandy melville"])
+    html = render_template('buy.html', items=items, brands=brands)
 
     response = make_response(html)
     return response

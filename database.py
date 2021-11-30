@@ -5,7 +5,6 @@ from contextlib import closing
 from datetime import datetime
 from datetime import timedelta
 
-
 # add to users table if user is not already in the table (first time user)
 def add_user(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -348,9 +347,25 @@ def past_purchases(user_info):
        # print(ex, file=stderr)
         exit(1)
 
-def available_filters():
+def all_brands():
     DATABASE_URL = os.environ.get('DATABASE_URL')
+    brands = []
+    try:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                stmt_str = "SELECT DISTINCT brand from items"
+                cursor.execute(stmt_str)
+                row = cursor.fetchone()
 
+                while row is not None:
+                    brands.append(row[0])
+                    row = cursor.fetchone()
+
+    except Exception as ex:
+        print(ex, file=stderr)
+        return brands
+
+    return brands
 
 def search_items(search, filter):
     DATABASE_URL = os.environ.get('DATABASE_URL')
