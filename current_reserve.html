@@ -1,0 +1,37 @@
+<!--RESERVING-->
+<h2 class="text-center" style="margin: 0;">Items Currently On Reserve</h2>
+<!--if nothing, then don't print out this header, or put a message saying "no items reserved"-->
+<div id=search_results class="card-deck row justify-content-center">
+    {% for item in curr_reserved_items %}
+    <!-- item is currently reserved -->
+    {% if item['status'] == 1 %} 
+        <div class="card" style="width:250px; margin:30px;">
+            {% if item['photolink'] == "google.com" %}
+            <img class="card-img-top" src="static/item.png" alt="item photo">
+            {% elif item['photolink'] == "https://www.google.com/" %}
+            <img class="card-img-top" src="static/item.png" alt="item photo">
+            {% else %}
+            <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
+            {% endif %}
+            <div class="card-body">
+                <h4 class="card-title">{{item['prodname']}}</h4>
+                <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
+                <br>
+                <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
+                <div class="p-2"> 
+                    <form action="itemdetails" method='GET'>
+                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                        <button class="card-text btn btn-dark">details</button>
+                    </form>
+                </div>
+                <div class="p-2">
+                    <form action="reserve" method='POST'>
+                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                        <button class="card-text btn btn-dark">cancel reservation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% endfor %}
+</div>   
