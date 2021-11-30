@@ -93,6 +93,7 @@ def login():
 @app.route('/landing', methods=['GET'])
 def landing():
     if CasClient().authenticateFirst() == True:
+        print("logged in")
         return redirect(url_for('buy'))
     else: 
         html = render_template('landing.html')
@@ -110,6 +111,7 @@ def is_authenticated():
         # return response
         return redirect(url_for('landing'))
     else:
+        print("entered true")
         return True
 
 # Home page
