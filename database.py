@@ -131,50 +131,6 @@ def add_item(item, user_info):
        print(ex, file=stderr)
        #exit(1)
 
-def all_items():
-    DATABASE_URL = os.environ.get('DATABASE_URL')
-
-    try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
-        with connect (DATABASE_URL, sslmode='require') as connection:
-            with closing(connection.cursor()) as cursor:
-
-                stmt_str = "SELECT * from items ORDER BY itemid asc"
-                cursor.execute(stmt_str)
-
-                connection.commit()
-
-                row = cursor.fetchone()
-
-                results = []
-                while row is not None:
-                    item = {'itemid': row[0],
-                    'type': row[1],
-                    'subtype': row[2],
-                    'desc': row[9],
-                    'gender': row[4],
-                    'price': row[5],
-                    'size': row[3],
-                    'brand': row[8],
-                    'condition': row[7],
-                    'color': row[6],
-                    'timestamp': row[10],
-                    'photolink': row[11],
-                    'status': row[12],
-                    'sellernetid': row[13],
-                    'prodname': row[14]
-                    }
-                    results.append(item)
-                    row = cursor.fetchone()
-
-                return results
-
-    except Exception as ex:
-       print(ex, file=stderr)
-        # exit(1)
-
 def item_details(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -392,6 +348,9 @@ def past_purchases(user_info):
        # print(ex, file=stderr)
         exit(1)
 
+def available_filters():
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
 
 def search_items(search, filter):
     DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -402,38 +361,39 @@ def search_items(search, filter):
             with closing(connection.cursor()) as cursor:
                 stmt_str = "SELECT * from items "
                 cmd_args = []
-                if search:
-                    stmt_str += "where prodname LIKE %s "
-                    cmd_args.append("%" + search + "%")
-                    # unconment when filter dict is in place
-                    # if filter['type']:
-                    #     stmt_str += "AND type = ? "
-                    #     cmd_args.append("%" + filter['type'] + "%")
-                    # if filter['subtype']:
-                    #     stmt_str += "AND subtype = ? "
-                    #     cmd_args.append("%" + filter['subtype'] + "%")
-                    # if filter['size']:
-                    #     stmt_str += "AND size = ? "
-                    #     cmd_args.append("%" + filter['size'] + "%")
-                    # if filter['gender']:
-                    #     stmt_str += "AND size = ? "
-                    #     cmd_args.append("%" + filter['gender'] + "%")
-                    # if filter['brand']:
-                    #     stmt_str += "AND brand = ? "
-                    #     cmd_args.append("%" + filter['brand'] + "%")
-                    # if filter['condition']:
-                    #     stmt_str += "AND condition = ? "
-                    #     cmd_args.append("%" + filter['condition'] + "%")
-                    # if filter['color']:
-                    #     stmt_str += "AND color = ? "
-                    #     cmd_args.append("%" + filter['color'] + "%")
-                    
+            
+                stmt_str += "where prodname LIKE %s "
 
-                    # if cmd_args:
-                    #     stmt_str += "ESCAPE '\\' "
+                if search is None:
+                    search = ""
 
-                    # change order by when sort by is in place
-                    stmt_str += "ORDER BY itemid ASC"
+                cmd_args.append("%" + search + "%")
+
+                if filter:
+                    if 'type' in filter:
+                        stmt_str += "AND type = %s "
+                        cmd_args.append(filter['type'])
+                    if 'subtype' in filter:
+                        stmt_str += "AND subtype = %s "
+                        cmd_args.append(filter['subtype'])
+                    if 'size' in filter:
+                        stmt_str += "AND size = %s "
+                        cmd_args.append(filter['size'])
+                    if 'gender' in filter:
+                        stmt_str += "AND size = %s "
+                        cmd_args.append(filter['gender'])
+                    if 'brand' in filter:
+                        stmt_str += "AND brand = %s "
+                        cmd_args.append(filter['brand'])
+                    if 'condition' in filter:
+                        stmt_str += "AND condition = %s "
+                        cmd_args.append(filter['condition'])
+                    if 'color' in filter:
+                        stmt_str += "AND color = %s "
+                        cmd_args.append(filter['color'])
+          
+                # change order by when sort by is in place
+                stmt_str += "ORDER BY itemid ASC"
 
                 cursor.execute(stmt_str, cmd_args)
 
@@ -462,7 +422,6 @@ def search_items(search, filter):
 
     except Exception as ex:
         print(ex, file=stderr)
-        #exit(1)                                                                                                  
         return None
 
     print(str(len(results)) + " items")
