@@ -85,7 +85,42 @@ class CasClient:
         session['username'] = username
         return username
 
-    #-------------------------------------------------------------------                                                                                          
+    #-------------------------------------------------------------------  
+
+    # Authenticate the remote user, and return the user's username.                                                                                               
+    # Do not return unless the user is successfully authenticated.                                                                                                
+
+    def authenticateFirst(self):
+
+	# If the username is in the session, then the user was                                                                                                    
+        # authenticated previously.  So return the username.                                                                                                      
+        if 'username' in session:
+            return session.get('username')
+
+	# If the request does not contain a login ticket, then redirect                                                                                           
+        # the browser to the login page to get one.                                                                                                               
+        ticket = request.args.get('ticket')
+        if ticket is None:
+            return False
+            # login_url = (self.cas_url + 'login?service='
+            #     + quote(request.url))
+            # abort(redirect(login_url))
+
+	# If the login ticket is invalid, then redirect the browser                                                                                               
+        # to the login page to get a new one.                                                                                                                     
+        username = self.validate(ticket)
+        if username is None:
+            return False
+            # login_url = (self.cas_url + 'login?service='
+            #     + quote(strip_ticket(request.url)))
+            # abort(redirect(login_url))
+
+	# The user is authenticated, so store the username in                                                                                                     
+        # the session.                                                                                                                                            
+        session['username'] = username
+        return username
+
+    #-------------------------------------------------------------------                                                                                         
 
     # Logout the user.                                                                                                                                            
 

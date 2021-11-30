@@ -7,7 +7,7 @@ import sys
 import urllib.parse
 import urllib.request
 from base64 import b64encode
-from flask import Flask, request, make_response
+from flask import Flask, redirect, url_for, request, make_response
 from flask import render_template
 from datetime import datetime
 from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, past_purchases, delete_reserve, complete_reserve, all_brands
@@ -83,11 +83,37 @@ def get_user_info(username):
     'photo_link': (r.json())['photo_link']}
     return user_info
 
+@app.route('/login', methods=['GET'])
+def login():
+    print("went into login function")
+    CasClient().authenticate()
+    return redirect(url_for('buy'))
+
+@app.route('/landing', methods=['GET'])
+def landing():
+    html = render_template('landing.html')
+    response = make_response(html)
+    print("returned landing page")
+    return response
+
+def is_authenticated():
+    if CasClient().authenticateFirst() == False:
+        # return call to landing page function
+        # return landing()
+        # html = render_template('landing.html')
+        # print("HIIII")
+        # response = make_response(html)
+        # return response
+        return redirect(url_for('landing'))
+    else:
+        return True
+
 # Home page
 @app.route('/', methods=['GET'])
 @app.route('/buy', methods=['GET'])
 def buy():
-    username = CasClient().authenticate()
+    is_authenticated()
+    # username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
