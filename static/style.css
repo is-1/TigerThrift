@@ -18,6 +18,18 @@ body{
     color: #2B6FF4;
 }
 
+#sidebar a{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 18px;
+    text-decoration: none;
+    color: #2B6FF4;
+}
+
+#sidebar a:hover{
+    border:1px solid black;
+}
+
+
 h1{
     font-family: 'Work Sans', sans-serif;
     font-weight: 200;
