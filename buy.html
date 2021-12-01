@@ -109,6 +109,8 @@
                 <li class="p-2 float-start" style="max-width: 250px;"> 
                     <label></label>
                     <button id="apply_button" class="btn btn-outline" type="button">apply</button>
+                    <button id="clear_button" class="btn btn-outline" type="button">clear</button>
+
                 </li>
             </ul>
         </div>
@@ -173,6 +175,25 @@
         function setup(){
             $('#search_button').click(getResults);
             $('#apply_button').click(getResults);
+            
+            
+            $('#clear_button').click(function() {
+               $("#type_select").val('');
+               $("#subtype_select").empty();
+                $('#subtype_select').attr("disabled", true);
+
+                $("#size_select").empty();
+                $('#size_select').attr("disabled", true);
+                 $("#condition_select").val('');
+                 $("#brand_select").val('');
+                 $('#color_select').val('');
+                 $('#gender_select').val('');
+
+
+
+            });
+
+
 
 
             $("#search").on('input', function (e) {
