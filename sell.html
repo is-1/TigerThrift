@@ -11,7 +11,7 @@
     </head>
   <body>
     {% include 'header.html' %}
-    <h2 class="text-center"><strong>Create New Item To Sell</strong></h2>
+    <h2 class="text-center"><strong>Create New Item to Sell</strong></h2>
       <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
         <form action="sell" value="" method = "POST">
             <div class="form-group">
@@ -58,18 +58,18 @@
             <div class="form-group">
                 <label>Condition</label>
                 <select name = "condition" class="form-control" required>
-                    <option value="">choose condition</option>
-                    <option value="brand new">Brand New</option>
-                    <option value="like new">Like New</option>
-                    <option value="gently used">Gently Used</option>
-                    <option value="fairly used">Fairly Used</option>
-                    <option value="very used">Very Used</option>
+                    <option value="">choose a condition</option>
+                    <option value="Brand New">Brand New</option>
+                    <option value="Like New">Like New</option>
+                    <option value="Gently Used">Gently Used</option>
+                    <option value="Fairly Used">Fairly Used</option>
+                    <option value="Very Used">Very Used</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Color</label>
                 <select name = "color" class="form-control" required>
-                    <option value="">choose color</option>
+                    <option value="">choose a color</option>
                     <option value="red">Red</option>
                     <option value="orange">Orange</option>
                     <option value="yellow">Yellow</option>
@@ -92,7 +92,7 @@
                 <img id="image1" src="">
                 <img id="image2" src="">
                 <img id="image3" src="">
-                <button id="upload_widget" type="button" class="btn btn-dark">upload photo of clothes</button>
+                <button id="upload_widget" type="button" class="btn btn-dark">Upload Photo (up to 4)</button>
             </div>
             <br>
             <input type="hidden" id="photolink" name ="photolink" value = "">

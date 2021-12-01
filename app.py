@@ -8,6 +8,7 @@ import urllib.parse
 import urllib.request
 from base64 import b64encode
 from flask import Flask, redirect, url_for, request, make_response
+from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
 from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands
@@ -200,16 +201,16 @@ def success_sell():
 
     # # call function
     if prodname is not None:
-        item_details = {'prodname': prodname,
-        'type': itemtype,
-        'subtype': subtype,
+        item_details = {'prodname': titlecase(prodname),
+        'type': titlecase(itemtype),
+        'subtype': titlecase(subtype),
         'desc': description,
-        'gender': gender,
+        'gender': titlecase(gender),
         'price': price,
-        'size': size,
-        'brand': brand,
-        'condition': condition,
-        'color': color,
+        'size': titlecase(size),
+        'brand': titlecase(brand),
+        'condition': titlecase(condition),
+        'color': titlecase(color),
         'photolink': photolink, 
         'photolink1': photolink1,
         'photolink2': photolink2,
