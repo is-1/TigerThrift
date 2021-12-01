@@ -15,9 +15,9 @@
     <div class="px-5">
         <div class="input-group rounded">
             <input type="search" id="search" class="form-control rounded" placeholder="enter search here..."/>
-            <div class="input-group-text">
+            <!-- <div class="input-group-text">
                 <button id="search_button" class="btn btn-outline" type="button">search</button>
-            </div>
+            </div> -->
         </div>
 
         <!--filter dropdown-->
@@ -106,6 +106,10 @@
                         </select>
                     </div>
                 </li>
+                <li class="p-2 float-start" style="max-width: 250px;"> 
+                    <label></label>
+                    <button id="apply_button" class="btn btn-outline" type="button">apply</button>
+                </li>
             </ul>
         </div>
     </div>
@@ -168,12 +172,18 @@
 
         function setup(){
             $('#search_button').click(getResults);
+            $('#apply_button').click(getResults);
 
+
+            $("#search").on('input', function (e) {
+                getResults();
+    });
             $("#search").on('keyup', function (e) {
                     if (e.key === 'Enter' || e.keyCode === 13) {
                         getResults();
     }
 });
+
         $("#type_select").change(function(){
                     let selected = $("#type_select").val();
                     let subtypes = [];
