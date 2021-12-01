@@ -517,7 +517,7 @@ def all_brands():
     try:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
-                stmt_str = "SELECT DISTINCT brand from items"
+                stmt_str = "SELECT DISTINCT brand from items where status = 0"
                 cursor.execute(stmt_str)
                 row = cursor.fetchone()
 
@@ -541,7 +541,7 @@ def search_items(search, filter):
                 stmt_str = "SELECT * from items "
                 cmd_args = []
             
-                stmt_str += "where prodname LIKE %s "
+                stmt_str += "where prodname LIKE %s AND status = 0"
 
                 if search is None:
                     search = ""
