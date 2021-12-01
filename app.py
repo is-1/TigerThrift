@@ -119,7 +119,7 @@ def is_authenticated():
 def buy():
     is_authenticated()
     username = CasClient().authenticate()
-    username = 'katelynr'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
