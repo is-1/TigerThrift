@@ -10,7 +10,7 @@ from base64 import b64encode
 from flask import Flask, redirect, url_for, request, make_response
 from flask import render_template
 from datetime import datetime
-from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, past_purchases, delete_reserve, complete_reserve, all_brands
+from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands
 from sendemail import send_buyer_notification, send_seller_notification
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -308,7 +308,7 @@ def profile():
     
     items = search_items(None, None)
     curr_reserved_items = reserved_items(user_info)
-    # reserved_by_others_items = []
+    past_sold_items = items_sold_in_past(user_info)
     purchased_items = past_purchases(user_info)
 
     curr_active_items = []
@@ -318,7 +318,7 @@ def profile():
                 curr_active_items.append(item)
             # if item['status'] == 1:
             #     reserved_by_others_items.append(item)
-    html = render_template('profile.html', user_info = user_info, items=items, curr_active_items=curr_active_items, curr_reserved_items=curr_reserved_items, purchased_items=purchased_items) # pass in currently reserved items
+    html = render_template('profile.html', user_info = user_info, items=items, curr_active_items=curr_active_items, curr_reserved_items=curr_reserved_items, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
 
     response = make_response(html)
     return response
