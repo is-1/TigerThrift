@@ -231,7 +231,7 @@ def days_between(d1, d2):
     d2 = datetime.strptime(str(d2), "%Y-%m-%d %H:%M:%S")
     #print("Current Date:", d1)
     #print("Reserved Date:", d2)
-    time_left = timedelta(days=5) - (d1-d2)
+    time_left = timedelta(days=3) - (d1-d2)
     #print("Old time left:", (d1-d2))
     #print("Time left:", time_left)
     left = str(time_left).split(':', 1)
