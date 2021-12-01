@@ -18,7 +18,7 @@
         </span>
         <div class="container-fluid align-items-center pb-5">
             <!--RESERVING-->
-            <h2 class="text-center" style="margin: 0;">Items Currently On Reserve</h2>
+            <h2 class="text-center" style="margin: 0;"><u>Items Currently On Reserve</h2></u>
             <div id=search_results class="card-deck row justify-content-center">
                 {% if curr_reserved_items|length == 0 %}
                 <h5 class="text-center pb-5">You have no items currently on reserve!</h5>
@@ -64,7 +64,7 @@
                 {% endif %}
             </div>
             <!--Your currently active items-->
-            <h2 class="text-center">Your Items Currently Active</h2>
+            <h2 class="text-center"><u>Your Items Currently Active</h2></u>
             <div id=search_results class="card-deck row justify-content-center">
                 {% if curr_active_items|length == 0 %}
                 <h5 class="text-center pb-5">You have no items currently active!</h5>
@@ -100,12 +100,12 @@
                 {% endif %}
             </div>
             <!--Your currently reserved items-->
-            <h2 class="text-center">Your Items Currently Reserved By Others</h2>
+            <h2 class="text-center"><u>Your Items Currently Reserved By Others</h2></u>
             <div id=search_results class="card-deck row justify-content-center">
                 <h5 class="text-center pb-5">You have no items reserved by others!</h5>
             </div>
             <!--SOLD-->
-            <h2 class="text-center">Items Sold In the Past</h2>
+            <h2 class="text-center"><u>Items Sold In the Past</h2></u>
             <div id=search_results class="card-deck row justify-content-center">
                 {% if past_sold_items|length == 0 %}
                 <h5 class="text-center pb-5">You have not sold any items!</h5>
@@ -138,7 +138,7 @@
                 {% endif %}
             </div>
             <!--PURCHASED-->
-            <h2 class="text-center">Past Purchases</h2>
+            <h2 class="text-center"><u>Past Purchases</h2></u>
             <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
             <div id=search_results class="card-deck row justify-content-center">
                 {% if purchased_items|length == 0 %}
