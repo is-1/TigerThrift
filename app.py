@@ -91,17 +91,17 @@ def login():
 
 @app.route('/', methods=['GET'])
 @app.route('/landing', methods=['GET'])
-def landing(page):
+def landing():
     if CasClient().authenticateFirst() != False:
         print("logged in")
-        return redirect(url_for(page))
+        return redirect(url_for('buy'))
     else: 
         html = render_template('landing.html')
         response = make_response(html)
         print("returned landing page")
         return response
 
-def is_authenticated(redirect_page):
+def is_authenticated():
     if CasClient().authenticateFirst() == False:
         # return call to landing page function
         # return landing()
@@ -109,7 +109,7 @@ def is_authenticated(redirect_page):
         print("entered if statement")
         # response = make_response(html)
         # return response
-        return redirect(url_for('landing', page=redirect_page))
+        return redirect(url_for('landing'))
     else:
         print("entered true")
         return True
@@ -117,9 +117,9 @@ def is_authenticated(redirect_page):
 # Home page
 @app.route('/buy', methods=['GET'])
 def buy():
-    is_authenticated('buy')
+    is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -133,7 +133,7 @@ def buy():
     
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
-    is_authenticated('sell')
+    is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
@@ -177,7 +177,7 @@ def sell():
 
 @app.route('/success_sell', methods=['GET', 'POST'])
 def success_sell():
-    is_authenticated('success_sell')
+    is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
@@ -251,7 +251,7 @@ def search_results():
 
 @app.route('/reserve', methods=['POST'])
 def reserve():
-    is_authenticated('reserve')
+    is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
@@ -274,7 +274,7 @@ def reserve():
 
 @app.route('/cancel_reservation', methods=['POST'])
 def cancel_reservation():
-    is_authenticated('cancel_reservation')
+    is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
@@ -290,7 +290,7 @@ def cancel_reservation():
 
 @app.route('/complete_reservation', methods=['POST'])
 def complete_reservation():
-    is_authenticated('complete_reservation')
+    is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
@@ -306,7 +306,7 @@ def complete_reservation():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    is_authenticated('profile')
+    is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
@@ -348,21 +348,21 @@ def itemdetails():
 
 @app.route('/about', methods=['GET'])
 def about():
-    is_authenticated('about')
+    is_authenticated()
     html = render_template('about.html')
     response = make_response(html)
     return response
 
 @app.route('/tutorial', methods=['GET'])
 def tutorial():
-    is_authenticated('tutorial')
+    is_authenticated()
     html = render_template('tutorial.html')
     response = make_response(html)
     return response
 
 @app.route('/error', methods=['GET'])
 def error():
-    html = render_template('error.html')
+    html = render_template()
     response = make_response(html)
     return response
 
