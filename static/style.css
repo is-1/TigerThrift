@@ -25,10 +25,14 @@ body{
     color: #2B6FF4;
 }
 
-#sidebar a:hover{
+#sidebar div{
     border:1px solid black;
 }
 
+#sidebar div:hover{
+   background-color: #2B6FF4;
+   background-color: rgba(43, 111, 244, 0.4);
+}
 
 h1{
     font-family: 'Work Sans', sans-serif;
