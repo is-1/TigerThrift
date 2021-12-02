@@ -35,16 +35,14 @@
             </a>
         </div>
         <div class="row pt-3">
-        <!--add the % include % here with the results of whatever is clicked-->
-                <!--RESERVING-->
-                <div id="reserve_row">
+            <!--Items Currently On Reserve-->
+            <div id="reserve_row">
                 <h4 class="text-center" style="margin: 0;">Items Currently On Reserve</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_reserved_items|length == 0 %}
                     <h5 class="text-center pt-3">You have no items currently reserved!</h5>
                     {% else %}
                     {% for item in curr_reserved_items %}
-                    <!-- item is currently reserved -->
                     {% if item['status'] == 1 %} 
                         <div class="card" style="width:250px; margin:30px;">
                             {% if item['photolink'] == "google.com" %}
@@ -84,9 +82,9 @@
                     {% endfor %}
                     {% endif %}
                 </div>
-                </div>
-                <!--Your currently active items-->
-                <div id="active_row">
+            </div>
+            <!--Items Currently Active-->
+            <div id="active_row">
                 <h4 class="text-center" style="margin: 0;">Items Currently Active</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_active_items|length == 0 %}
@@ -122,23 +120,57 @@
                     {% endif %}
                 </div>
             </div>
-                <!--Your currently reserved items-->
-                <div id="reserved_row">
+            <!--Items Currently Reserved By Others-->
+            <div id="reserved_row">
                 <h4 class="text-center" style="margin: 0;">Items Currently Reserved By Others</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     <h5 class="text-center pt-3">You have no items reserved by others!</h5>
                 </div>
             </div>
-                <!--SOLD-->
-                <div id="sold_row">
-                    <h4 class="text-center" style="margin: 0;">Items Sold In the Past</h4>
-                    <div id=search_results class="card-deck row justify-content-center">
-                        {% if past_sold_items|length == 0 %}
-                        <h5 class="text-center pt-3">You have not sold any items!</h5>
+            <!--Items Sold In the Past-->
+            <div id="sold_row">
+                <h4 class="text-center" style="margin: 0;">Items Sold In the Past</h4>
+                <div id=search_results class="card-deck row justify-content-center">
+                    {% if past_sold_items|length == 0 %}
+                    <h5 class="text-center pt-3">You have not sold any items!</h5>
+                    {% else %}
+                    {% for item in past_sold_items %}
+                    {% if item['status'] == 2 %}
+                    {% if item['sellernetid'] == user_info['netid']%}
+                    <div class="card" style="width:250px; ; margin:30px;">
+                        {% if item['photolink'] == "google.com" %}
+                        <img class="card-img-top" src="static/item.png" alt="item photo">
+                        {% elif item['photolink'] == "https://www.google.com/" %}
+                        <img class="card-img-top" src="static/item.png" alt="item photo">
                         {% else %}
-                        {% for item in past_sold_items %}
-                        {% if item['status'] == 2 %}
-                        {% if item['sellernetid'] == user_info['netid']%}
+                        <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
+                        {% endif %}
+                        <div class="card-body">
+                            <h4 class="card-title">{{item['prodname']}}</h4>
+                            <p class ="card-text">Sold to: {{item['buyernetid']}}</p>
+                            <form action="itemdetails" method='GET'>
+                                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                <button class="card-text btn btn-dark btn-sm">details</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <!--PAST PURCHASED--> 
+            <div id="past_row">               
+                <h4 class="text-center" style="margin: 0;">Past Purchases</h4>
+                <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
+                <div id=search_results class="card-deck row justify-content-center">
+                    {% if purchased_items|length == 0 %}
+                    <h5 class="text-center pt-3">You have no past purchases!</h5>
+                    {% else %}
+                    {% for item in purchased_items %}
+                    <!-- item is currently reserved -->
+                    {% if item['status'] == 2 %} 
                         <div class="card" style="width:250px; ; margin:30px;">
                             {% if item['photolink'] == "google.com" %}
                             <img class="card-img-top" src="static/item.png" alt="item photo">
@@ -149,96 +181,58 @@
                             {% endif %}
                             <div class="card-body">
                                 <h4 class="card-title">{{item['prodname']}}</h4>
-                                <p class ="card-text">Sold to: {{item['buyernetid']}}</p>
+                                <p class="card-text">Purchased Completed on {{item['purchase_completed']}}</p>
                                 <form action="itemdetails" method='GET'>
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                                     <button class="card-text btn btn-dark btn-sm">details</button>
                                 </form>
                             </div>
                         </div>
-                        {% endif %}
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
                 </div>
-                <!--PAST PURCHASED--> 
-                <div id="past_row">               
-                    <h4 class="text-center" style="margin: 0;">Past Purchases</h4>
-                    <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
-                    <div id=search_results class="card-deck row justify-content-center">
-                        {% if purchased_items|length == 0 %}
-                        <h5 class="text-center pt-3">You have no past purchases!</h5>
-                        {% else %}
-                        {% for item in purchased_items %}
-                        <!-- item is currently reserved -->
-                        {% if item['status'] == 2 %} 
-                            <div class="card" style="width:250px; ; margin:30px;">
-                                {% if item['photolink'] == "google.com" %}
-                                <img class="card-img-top" src="static/item.png" alt="item photo">
-                                {% elif item['photolink'] == "https://www.google.com/" %}
-                                <img class="card-img-top" src="static/item.png" alt="item photo">
-                                {% else %}
-                                <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
-                                {% endif %}
-                                <div class="card-body">
-                                    <h4 class="card-title">{{item['prodname']}}</h4>
-                                    <p class="card-text">Purchased Completed on {{item['purchase_completed']}}</p>
-                                    <form action="itemdetails" method='GET'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark btn-sm">details</button>
-                                    </form>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
+            </div>
         </div>
     </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
-        <script>
-
-            function hideAll() {
-                $("#reserve_row").hide();
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+    <script>
+        function hideAll() {
+            $("#reserve_row").hide();
                 $("#active_row").hide();
                 $("#reserved_row").hide();
                 $("#past_row").hide();
                 $("#sold_row").hide();
             }
-            function setup(){
+        function setup(){
+            $("#reserve_row").show();
+            $("#active_row").hide();
+            $("#reserved_row").hide();
+            $("#past_row").hide();
+            $("#sold_row").hide();
+
+            $("#reserve_button").click(function(){
+                hideAll();
                 $("#reserve_row").show();
-                $("#active_row").hide();
-                $("#reserved_row").hide();
-                $("#past_row").hide();
-                $("#sold_row").hide();
-
-                $("#reserve_button").click(function(){
-                    hideAll();
-                    $("#reserve_row").show();
-                });
-                $("#active_button").click(function(){
-                    hideAll();
-                    $("#active_row").show();
-                });
-                $("#reserved_button").click(function(){
-                    hideAll();
-                    $("#reserved_row").show();
-                });
-                $("#past_button").click(function(){
-                    hideAll();
-                    $("#past_row").show();
-                });
-
-                $("#sold_button").click(function(){
-                    hideAll();
-                    $("#sold_row").show();
-                });
-            }
-
-            $('#document').ready(setup);
-
-        </script>
+            });
+            $("#active_button").click(function(){
+                hideAll();
+                $("#active_row").show();
+            });
+            $("#reserved_button").click(function(){
+                hideAll();
+                $("#reserved_row").show();
+            });
+            $("#past_button").click(function(){
+                hideAll();
+                $("#past_row").show();
+            });
+            $("#sold_button").click(function(){
+                hideAll();
+                $("#sold_row").show();
+            });
+        }
+        $('#document').ready(setup);
+    </script>
   </body>
 </html>

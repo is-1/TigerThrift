@@ -86,12 +86,14 @@
                 <label>Description</label>
                 <textarea type="int" name = "description" class="form-control" placeholder="enter decription of clothes" required></textarea>
             </div>
-            <div id="photoupload" class="row">
-                <img id="image" src="" class="col p-2">
-                <img id="image1" src="" class="col p-2">
-                <img id="image2" src="" class="col p-2">
-                <img id="image3" src="" class="col p-2">
-                <button id="upload_widget" type="button" class="btn btn-dark">upload photo of item (up to 4)</button>
+            <div id="photoupload" class="form-grou m-2">
+                <div class="row">
+                    <img id="image" src="" class="col p-2">
+                    <img id="image1" src="" class="col p-2">
+                    <img id="image2" src="" class="col p-2">
+                    <img id="image3" src="" class="col p-2">
+                    <button id="upload_widget" type="button" class="btn btn-dark">upload photo of item (up to 4)</button>
+                </div>
             </div>
             <br>
             <input type="hidden" id="photolink" name ="photolink" value = "">
@@ -100,7 +102,7 @@
             <input type="hidden" id="photolink3" name ="photolink3" value = "">
 
             <div class="text-center pb-5">
-                    <button formaction= "success_sell" formmethod="POST" type="submit" class="btn btn-dark" values = "Go">create item!</button>
+                <button formaction= "success_sell" formmethod="POST" type="submit" class="btn btn-dark" values = "Go">create item!</button>
             </div>
         </form>
 
