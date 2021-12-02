@@ -40,7 +40,7 @@
                 <h4 class="text-center" style="margin: 0;">Items Currently On Reserve</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_reserved_items|length == 0 %}
-                    <h5 class="text-center pt-3">You have no items currently on reserve!</h5>
+                    <h5 class="text-center pt-3">You have no items currently reserved!</h5>
                     {% else %}
                     {% for item in curr_reserved_items %}
                     <!-- item is currently reserved -->
