@@ -40,7 +40,7 @@
                 <h4 class="text-center" style="margin: 0;">Items Currently On Reserve</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_reserved_items|length == 0 %}
-                    <h5 class="text-center pt-3">You have no items currently on reserve!</h5>
+                    <h5 class="text-center pt-3">You have no items currently reserved!</h5>
                     {% else %}
                     {% for item in curr_reserved_items %}
                     <!-- item is currently reserved -->
@@ -86,7 +86,7 @@
                 </div>
                 <!--Your currently active items-->
                 <div id="active_row">
-                <h4 class="text-center" style="margin: 0;">Your Items Currently Active</h4>
+                <h4 class="text-center" style="margin: 0;">Items Currently Active</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_active_items|length == 0 %}
                     <h5 class="text-center pt-3">You have no items currently active!</h5>
@@ -123,7 +123,7 @@
             </div>
                 <!--Your currently reserved items-->
                 <div id="reserved_row">
-                <h4 class="text-center" style="margin: 0;">Your Items Currently Reserved By Others</h4>
+                <h4 class="text-center" style="margin: 0;">Items Currently Reserved By Others</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     <h5 class="text-center pt-3">You have no items reserved by others!</h5>
                 </div>
