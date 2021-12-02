@@ -113,6 +113,24 @@
 
                 </li>
             </ul>
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenu"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Sort By
+            </button>
+            <ul class="dropdown-menu w-auto" aria-labelledby="dropdownMenu">
+            <li class="p-2 float-start" style="max-width: 250px;">
+                <div class="form-group">
+                    <label>Sort</label>
+                    <select id="sort_select" name ="type" class="form-control">
+                        <option value="">sort by</option>
+                        <option value="price low to high">Price Low to High</option>
+                        <option value="price high to low">Price High to Low</option>
+                        <option value="newest to oldest">Newest to Oldest</option>
+                        <option value="oldest to newest">Oldest to Newest</option>
+                    </select>
+                </div>
+            </li>
+            </ul>
         </div>
     </div>
     <br>
@@ -137,6 +155,7 @@
             let brand = $('#brand_select').val();
             let condition = $('#condition_select').val();
             let color = $('#color_select').val();
+            let sort = $('#sort_select').val();
 
             if (search == null)
                 search = '';
@@ -154,6 +173,8 @@
                 color = '';
             if (gender == null)
                 gender = '';
+            if (sort == null)
+                sort = '';
 
             search = encodeURIComponent(search);                
             type = encodeURIComponent(type);
@@ -163,8 +184,9 @@
             brand = encodeURIComponent(brand);
             condition = encodeURIComponent(condition);
             color = encodeURIComponent(color);
+            sort = encodeURIComponent(sort);
 
-            let url = '/searchresults?search=' + search + "&type=" + type + "&subtype=" + subtype + "&size=" + size + "&gender=" + gender + "&brand=" + brand + "&condition=" + condition + "&color=" + color;
+            let url = '/searchresults?search=' + search + "&type=" + type + "&subtype=" + subtype + "&size=" + size + "&gender=" + gender + "&brand=" + brand + "&condition=" + condition + "&color=" + color + "&sort=" + sort;
 
             if (request != null)
                 request.abort();
@@ -175,7 +197,7 @@
         function setup(){
             $('#search_button').click(getResults);
             $('#apply_button').click(getResults);
-            
+
             
             $('#clear_button').click(function() {
                $("#type_select").val('');
@@ -193,7 +215,9 @@
 
             });
 
-
+            $("#sort_select").change(function(){
+                getResults();
+            });
 
 
             $("#search").on('input', function (e) {

@@ -124,7 +124,7 @@ def buy():
     user_info = get_user_info(username)
     add_user(user_info)
 
-    items = search_items(None, None)
+    items = search_items(None, None, None)
     brands = all_brands()
 
     html = render_template('buy.html', items=items, brands=brands)
@@ -233,6 +233,7 @@ def search_results():
     subtype = request.args.get('subtype')
     condition = request.args.get('condition')
     color = request.args.get('color')
+    sort = request.args.get('sort')
 
 
     # filter = {"subtype" : "sneakers"} #placeholder
@@ -242,8 +243,9 @@ def search_results():
 
     print("search: "  + search)
     print("filter: " + str(filter))
+    print("sort: " + sort)
 
-    items = search_items(search, filter)
+    items = search_items(search, filter, sort)
     html = render_template('searchresults.html', items=items)
 
     response = make_response(html)

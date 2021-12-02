@@ -531,7 +531,7 @@ def all_brands():
 
     return brands
 
-def search_items(search, filter):
+def search_items(search, filter, sort):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     search_results = []
 
@@ -573,7 +573,17 @@ def search_items(search, filter):
                         cmd_args.append(filter['color'])
           
                 # change order by when sort by is in place
-                stmt_str += "ORDER BY itemid ASC"
+                if sort:
+                    if sort == "newest to oldest":
+                        stmt_str += "ORDER BY posted desc"
+                    if sort == "oldest to newest":
+                        stmt_str += "ORDER BY posted asc"
+                    if sort == "price low to high":
+                        stmt_str += "ORDER BY price asc"
+                    if sort == "price high to low":
+                        stmt_str += "ORDER BY price desc"
+                else:
+                    stmt_str += "ORDER BY itemid asc"
 
                 cursor.execute(stmt_str, cmd_args)
 
