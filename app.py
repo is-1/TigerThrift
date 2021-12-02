@@ -12,7 +12,7 @@ from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
 from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands
-from sendemail import send_buyer_notification, send_seller_notification
+from sendemail import send_buyer_notification, send_seller_notification, send_buyer_reminder, send_seller_reminder
 from casclient import CasClient
 from keys import APP_SECRET_KEY
 
@@ -259,17 +259,20 @@ def reserve():
     # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
-    buyer = {'name': user_info['full_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
+    buyer = {'name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
 
     itemid = request.form.get('itemid')
 
-    sellernetid, seller_first_name, seller_email = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+    sellernetid, seller_first_name, seller_email, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
     # get seller from database eventually, USE USERS TABLE 
     seller = {'name': str(seller_first_name), 'netid': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
 
     # change to item object, or item name based on itemid
-    send_seller_notification(seller, buyer, itemid) # check this
-    send_buyer_notification(buyer, itemid) # eecheck this
+    send_seller_notification(seller, buyer, product_name) # check this
+    send_seller_reminder(seller, buyer, product_name) # for testing
+    send_buyer_notification(buyer, product_name) # eecheck this
+    send_buyer_reminder(buyer, product_name) # for testing
+
     
     html = render_template('success_reserve.html')
     response = make_response(html)

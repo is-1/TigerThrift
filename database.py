@@ -58,9 +58,11 @@ def reserve_item(buyernetid, itemid):
                     cursor.execute(stmt_str, [itemid, buyernetid, sellernetid, dt])
 
                     # change status in items table
-                    stmt_str = ('SELECT status from items where itemid = %s')
+                    stmt_str = ('SELECT status, prodname from items where itemid = %s')
                     cursor.execute(stmt_str, [itemid])
-                    currentstatus = cursor.fetchone()[0]
+                    row = cursor.fetchone()
+                    currentstatus = row[0]
+                    prodname = row[1]
                     if currentstatus == 1:
                         raise Exception("item already reserved")
                     if currentstatus != 0:
@@ -84,7 +86,7 @@ def reserve_item(buyernetid, itemid):
        print(ex, file=stderr)
        #exit(1)
 
-    return sellernetid, seller_first_name, seller_email
+    return sellernetid, seller_first_name, seller_email, prodname
     
 
 # when user uploads an item, update necessary tables
