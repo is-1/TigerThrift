@@ -10,12 +10,12 @@
     </head>
   <body>
     {% include 'header.html' %}
-    <h2 class="text-center"><strong>Browse Items</strong></h2>
+    <h3 class="text-center"><strong>Browse Items</strong></h3>
     <br>
     <div class="px-5">
         <div class="input-group rounded">
-            <input type="search" id="search" class="form-control rounded" placeholder="enter search here..."/>
-            <!-- <div class="input-group-text"><button id="search_button" class="btn btn-outline" type="button">search</button></div> -->
+            <input type="search" id="search" class="form-control border-0 border-bottom border-dark border-1 rounded-0 text-center" 
+            style="border: 1px solid black;" placeholder="search by product name here..."/>
         </div>
 
         <!--filter dropdown-->
@@ -25,7 +25,7 @@
                 Filters
             </button>
             
-            <ul class="dropdown-menu w-auto" aria-labelledby="dropdownMenu">
+            <ul class="dropdown-menu w-auto rounded-0" aria-labelledby="dropdownMenu">
                 <div class="row">
                     <li>
                         <div class="form-group p-2 float-start" style="max-width: 250px;">
@@ -105,11 +105,11 @@
                     </button>
                 </div>
             </ul>
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenu"
+            <button class="btn dropdown-toggle rounded-0" type="button" id="dropdownMenu"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Sort By
             </button>
-            <ul class="dropdown-menu w-auto" aria-labelledby="dropdownMenu">
+            <ul class="dropdown-menu w-auto rounded-0" aria-labelledby="dropdownMenu">
                 <li class="p-2 float-start" style="min-width: 250px;">
                     <select id="sort_select" name ="type" class="form-control">
                         <option value="oldest to newest">Oldest to Newest</option>
@@ -122,6 +122,7 @@
         </div>
     </div>
     <br>
+    <span id="loadingmessage"></span>
     {% include 'searchresults.html' %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>  
@@ -129,12 +130,17 @@
     <script>
         function handleResponse(response)
         {
+            $("#loadingmessage").html("");
             $('#search_results').html(response);
         }
 
         let request = null;
         
         function getResults(){
+
+            $("#loadingmessage").html('<h5 id="loadingmessage" class="text-center pb-5">Loading...</h5>');
+            $('#search_results').html('');
+
             let search = $('#search').val();
             let type = $('#type_select').val();
             let subtype = $('#subtype_select').val();
@@ -179,7 +185,7 @@
             if (request != null)
                 request.abort();
 
-            request = $.ajax({type: 'GET', url: url, success: handleResponse})
+            request = $.ajax({type: 'GET', url: url, success: handleResponse});
         }
 
         function setup(){

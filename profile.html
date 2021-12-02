@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,8 +14,8 @@
     <div class="container-fluid">
         <div class="row text-center">
             <h3 class="text-left"><strong>{{user_info['full_name']}}</strong></h3>
-            <p class="text-left">{{user_info['netid']}} | class of 20{{user_info['class_year']}}</p>
-            <p class="text-left" style="text-transform:lowercase">{{user_info['email']}}</p>
+            <p class="text-left mb-0" style="text-transform:lowercase">{{user_info['netid']}} | class of 20{{user_info['class_year']}}</p>
+            <p class="text-left" style="text-transform:lowercase">email: {{user_info['email']}}</p>
         </div>
         <div class="row px-5" id="sidebar">
             <a id="reserve_button" class="col text-center" style="min-width: 210px; padding: 10px;">
@@ -34,16 +35,14 @@
             </a>
         </div>
         <div class="row pt-3">
-        <!--add the % include % here with the results of whatever is clicked-->
-                <!--RESERVING-->
-                <div id="reserve_row">
+            <!--Items Currently On Reserve-->
+            <div id="reserve_row">
                 <h4 class="text-center" style="margin: 0;">Items Currently On Reserve</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_reserved_items|length == 0 %}
-                    <h5 class="text-center pt-3">You have no items currently on reserve!</h5>
+                    <h5 class="text-center pt-3">You have no items currently reserved!</h5>
                     {% else %}
                     {% for item in curr_reserved_items %}
-                    <!-- item is currently reserved -->
                     {% if item['status'] == 1 %} 
                         <div class="card" style="width:250px; margin:30px;">
                             {% if item['photolink'] == "google.com" %}
@@ -55,25 +54,27 @@
                             {% endif %}
                             <div class="card-body">
                                 <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
-                                <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
-                                <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
-                                <div class="p-2"> 
-                                    <form action="itemdetails" method='GET'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">details</button>
-                                    </form>
-                                </div>
-                                <div class="p-2">
-                                    <form action="cancel_reservation" method='POST'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">cancel reservation</button>
-                                    </form>
-                                </div>
-                                <div class="p-2">
-                                    <form action="complete_reservation" method='POST'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">complete reservation</button>
-                                    </form>
+                                <div class="mt-auto">
+                                    <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
+                                    <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
+                                    <div class="p-2 ps-0"> 
+                                        <form action="itemdetails" method='GET'>
+                                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                            <button class="card-text btn btn-dark btn-sm">details</button>
+                                        </form>
+                                    </div>
+                                    <div class="p-2 ps-0">
+                                        <form action="complete_reservation" method='POST'>
+                                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                            <button class="card-text btn btn-dark btn-sm">complete reservation</button>
+                                        </form>
+                                    </div>
+                                    <div class="p-2 ps-0">
+                                        <form action="cancel_reservation" method='POST'>
+                                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                            <button class="card-text btn btn-dark btn-sm">cancel reservation ✖︎</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -81,10 +82,10 @@
                     {% endfor %}
                     {% endif %}
                 </div>
-                </div>
-                <!--Your currently active items-->
-                <div id="active_row">
-                <h4 class="text-center" style="margin: 0;">Your Items Currently Active</h4>
+            </div>
+            <!--Items Currently Active-->
+            <div id="active_row">
+                <h4 class="text-center" style="margin: 0;">Items Currently Active</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_active_items|length == 0 %}
                     <h5 class="text-center pt-3">You have no items currently active!</h5>
@@ -101,14 +102,14 @@
                         <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">{{item['prodname']}}</h5>
-                            <p class="card-text">Price: {{item['price']}}</p>
-                            <p class="card-text">Condition: {{item['condition']}}</p>
-                            <p class="card-text">Brand: {{item['brand']}}</p>
-                            <div class="mr-auto"> 
+                            <h4 class="card-title">{{item['prodname']}}</h4>
+                            <div class="mt-auto">
+                                <p class="card-text">Price: {{item['price']}}</p>
+                                <p class="card-text">Condition: {{item['condition']}}</p>
+                                <p class="card-text">Brand: {{item['brand']}}</p>
                                 <form action="itemdetails" method='GET'>
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                    <button class="card-text btn btn-dark">details</button>
+                                    <button class="card-text btn btn-dark btn-sm">details</button>
                                 </form>
                             </div>
                         </div>
@@ -119,9 +120,9 @@
                     {% endif %}
                 </div>
             </div>
-                <!--Your currently reserved items-->
-                <div id="reserved_row">
-                <h4 class="text-center" style="margin: 0;">Your Items Currently Reserved By Others</h4>
+            <!--Items Currently Reserved By Others-->
+            <div id="reserved_row">
+                <h4 class="text-center" style="margin: 0;">Items Currently Reserved By Others</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                         {% if reserved_by_others|length == 0 %}
                         <h5 class="text-center pt-3">You have no items currently on reserve!</h5>
@@ -166,8 +167,8 @@
                         {% endif %}
                 </div>
             </div>
-                <!--SOLD-->
-                <div id="sold_row">
+            <!--Items Sold In the Past-->
+            <div id="sold_row">
                 <h4 class="text-center" style="margin: 0;">Items Sold In the Past</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if past_sold_items|length == 0 %}
@@ -185,12 +186,12 @@
                         <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">{{item['prodname']}}</h5>
+                            <h4 class="card-title">{{item['prodname']}}</h4>
                             <p class ="card-text">Sold to: {{item['buyernetid']}}</p>
                             <p class="card-text">Purchase completed on<br>{{item['purchase_completed']}}</p>
                             <form action="itemdetails" method='GET'>
                                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                <button class="card-text btn btn-dark">details</button>
+                                <button class="card-text btn btn-dark btn-sm">details</button>
                             </form>
                         </div>
                     </div>
@@ -199,9 +200,9 @@
                     {% endfor %}
                     {% endif %}
                 </div>
-                </div>
-                <!--PAST PURCHASED--> 
-                <div id="past_row">               
+            </div>
+            <!--PAST PURCHASED--> 
+            <div id="past_row">               
                 <h4 class="text-center" style="margin: 0;">Past Purchases</h4>
                 <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
                 <div id=search_results class="card-deck row justify-content-center">
@@ -220,68 +221,59 @@
                             <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                             {% endif %}
                             <div class="card-body">
-                                <h5 class="card-title">{{item['prodname']}}</h5>
+                                <h4 class="card-title">{{item['prodname']}}</h4>
                                 <p class="card-text">Purchase completed on<br>{{item['purchase_completed']}}</p>
                                 <form action="itemdetails" method='GET'>
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                    <button class="card-text btn btn-dark">details</button>
+                                    <button class="card-text btn btn-dark btn-sm">details</button>
                                 </form>
                             </div>
                         </div>
                     {% endif %}
                     {% endfor %}
                     {% endif %}
-                    </div>
                 </div>
+            </div>
         </div>
     </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
-        <script>
-
-            function hideAll() {
-                $("#reserve_row").hide();
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+    <script>
+        function hideAll() {
+            $("#reserve_row").hide();
                 $("#active_row").hide();
                 $("#reserved_row").hide();
                 $("#past_row").hide();
                 $("#sold_row").hide();
             }
-            function setup(){
+        function setup(){
+            $("#reserve_row").show();
+            $("#active_row").hide();
+            $("#reserved_row").hide();
+            $("#past_row").hide();
+            $("#sold_row").hide();
+
+            $("#reserve_button").click(function(){
                 hideAll();
-
-                $("#reserve_button").click(function(){
-                    hideAll();
-                    $("#reserve_row").show();
-                    
-});
-
-                $("#active_button").click(function(){
-                    hideAll();
-                    $("#active_row").show();
-});
-
-
-                $("#reserved_button").click(function(){
-                     hideAll();
-                    $("#reserved_row").show();
-});
-
-
-                    $("#past_button").click(function(){
-                      hideAll();
-                      $("#past_row").show();
-                    });
-
-                    $("#sold_button").click(function(){
-                      hideAll();
-                      $("#sold_row").show();
-                    });
-
-
-
-            }
-
-            $('#document').ready(setup);
-
-        </script>
+                $("#reserve_row").show();
+            });
+            $("#active_button").click(function(){
+                hideAll();
+                $("#active_row").show();
+            });
+            $("#reserved_button").click(function(){
+                hideAll();
+                $("#reserved_row").show();
+            });
+            $("#past_button").click(function(){
+                hideAll();
+                $("#past_row").show();
+            });
+            $("#sold_button").click(function(){
+                hideAll();
+                $("#sold_row").show();
+            });
+        }
+        $('#document').ready(setup);
+    </script>
   </body>
 </html>
