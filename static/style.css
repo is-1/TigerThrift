@@ -23,7 +23,6 @@ body{
     font-size: 18px;
     text-decoration: none;
     color: black;
-    border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
 
@@ -66,22 +65,22 @@ h5{
     font-family: 'Work Sans', sans-serif;
     font-weight: 300;
 }
- 
- input:hover, 
- textarea:active, 
- textarea:focus,
- textarea:hover, 
- label:focus,
- input:active, 
- input:focus,
- button:focus,
- button:active,
- button:hover,
- select:focus,
- select:active,
- .btn:focus,
- .btn:active {
-     outline: none !important;
-     -webkit-appearance:none;
-     box-shadow: none !important;
+
+textarea:active, 
+textarea:focus,
+textarea:hover, 
+label:focus,
+input:hover, 
+input:active, 
+input:focus,
+button:focus,
+button:active,
+button:hover,
+select:focus,
+select:active,
+.btn:focus,
+.btn:active {
+    outline: none !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
  }
