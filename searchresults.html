@@ -18,7 +18,7 @@
             <p class="card-text">Price: {{item['price']}}</p>
             <p class="card-text">Condition: {{item['condition']}}</p>
             <p class="card-text">Brand: {{item['brand']}}</p>
-            <div class="d-flex">
+            <div class="d-flex align-self-end">
                 <div class="mr-auto p-2"> 
                     <form action="itemdetails" method='GET'>
                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
