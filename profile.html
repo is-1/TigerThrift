@@ -17,13 +17,24 @@
             <p class="text-left" style="text-transform:lowercase">{{user_info['email']}}</p>
         </div>
         <div class="row" id="sidebar">
-            <div class="col text-center" style="min-width: 250px;"><a href="current_reserve">Currently On Reserve</a></div>
-            <div class="col text-center" style="min-width: 250px;"><a href="buy">Currently Selling</a></div>
-            <div class="col text-center" style="min-width: 250px;"><a href="buy">Sold In the Past</a></div>
-            <div class="col text-center" style="min-width: 250px;"><a href="buy">Past Purchases</a></div>
+            <a href="buy" class="col text-center" style="min-width: 250px; padding: 10px;">
+                <div>
+                    Currently On Reserve
+                </div>
+            </a>
+            
+            <div class="col text-center" style="min-width: 250px; padding:10px;">
+                <a href="buy">Currently Selling</a>
+            </div>
+            <div class="col text-center" style="min-width: 250px; padding:10px;">
+                <a href="buy">Sold In the Past</a>
+            </div>
+            <div class="col text-center" style="min-width: 250px; padding:10px;">
+                <a href="buy">Past Purchases</a>
+            </div>
         </div>
         <div class="row pt-3">
-<!--add the % include % here with the results of whatever is clicked-->
+        <!--add the % include % here with the results of whatever is clicked-->
                 <!--RESERVING-->
                 <h4 class="text-center" style="margin: 0;">Items Currently On Reserve</h4>
                 <div id=search_results class="card-deck row justify-content-center">
