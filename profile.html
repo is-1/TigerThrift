@@ -20,10 +20,13 @@
             <a id="reserve_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                 <div>Currently On Reserve</div>
             </a>
+            <a id="reserved_button" class="col text-center" style="min-width: 210px; padding: 10px;">
+                <div>Reserved By Others</div>
+            </a>
             <a id="active_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                 <div>Currently Selling</div>
             </a>
-            <a id="reserved_button" class="col text-center" style="min-width: 210px; padding:10px;">
+            <a id="sold_button" class="col text-center" style="min-width: 210px; padding:10px;">
                 <div>Sold In the Past</div>
             </a>
             <a id="past_button" class="col text-center" style="min-width: 210px; padding: 10px;">
@@ -110,19 +113,21 @@
                             </div>
                         </div>
                         </div>
-                    </div>
                     {% endif %}
                     {% endif %}
                     {% endfor %}
                     {% endif %}
                 </div>
+            </div>
                 <!--Your currently reserved items-->
                 <div id="reserved_row">
                 <h4 class="text-center" style="margin: 0;">Your Items Currently Reserved By Others</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     <h5 class="text-center pb-5">You have no items reserved by others!</h5>
                 </div>
+            </div>
                 <!--SOLD-->
+                <div id="sold_row">
                 <h4 class="text-center" style="margin: 0;">Items Sold In the Past</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if past_sold_items|length == 0 %}
@@ -188,45 +193,47 @@
                     </div>
                 </div>
         </div>
+    </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
         <script>
 
-            function setup(){
+            function hideAll() {
                 $("#reserve_row").hide();
                 $("#active_row").hide();
                 $("#reserved_row").hide();
                 $("#past_row").hide();
+                $("#sold_row").hide();
+            }
+            function setup(){
+                hideAll();
 
                 $("#reserve_button").click(function(){
-                    $("#active_row").hide();
-                    $("#reserved_row").hide();
-                    $("#past_row").hide();
+                    hideAll();
                     $("#reserve_row").show();
+                    
 });
 
-
-$("#active_button").click(function(){
-                    $("#reserve_row").hide();
-                    $("#reserved_row").hide();
-                    $("#past_row").hide();
+                $("#active_button").click(function(){
+                    hideAll();
                     $("#active_row").show();
 });
 
 
-$("#reserved_button").click(function(){
-                    $("#reserve_row").hide();
-                    $("#active_row").hide();
-                    $("#past_row").hide();
+                $("#reserved_button").click(function(){
+                     hideAll();
                     $("#reserved_row").show();
 });
 
 
-$("#past_button").click(function(){
-                    $("#reserve_row").hide();
-                    $("#active_row").hide();
-                    $("#reserved_row").hide();
-                    $("#past_row").show();
-});
+                    $("#past_button").click(function(){
+                      hideAll();
+                      $("#past_row").show();
+                    });
+
+                    $("#sold_button").click(function(){
+                      hideAll();
+                      $("#sold_row").show();
+                    });
 
 
 
