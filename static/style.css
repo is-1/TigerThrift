@@ -22,16 +22,12 @@ body{
     font-family: 'Work Sans', sans-serif;
     font-size: 18px;
     text-decoration: none;
-    color: #2B6FF4;
-}
-
-#sidebar div{
-    border:1px solid black;
+    color: black;
+    border: 1px solid black;
 }
 
 #sidebar div:hover{
-   background-color: #2B6FF4;
-   background-color: rgba(43, 111, 244, 0.4);
+    color: #2B6FF4;
 }
 
 h1{
