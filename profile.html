@@ -55,25 +55,27 @@
                             {% endif %}
                             <div class="card-body">
                                 <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
-                                <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
-                                <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
-                                <div class="p-2"> 
-                                    <form action="itemdetails" method='GET'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">details</button>
-                                    </form>
-                                </div>
-                                <div class="p-2">
-                                    <form action="cancel_reservation" method='POST'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">cancel reservation</button>
-                                    </form>
-                                </div>
-                                <div class="p-2">
-                                    <form action="complete_reservation" method='POST'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">complete reservation</button>
-                                    </form>
+                                <div class="mt-auto">
+                                    <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
+                                    <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
+                                    <div class="p-2 ps-0"> 
+                                        <form action="itemdetails" method='GET'>
+                                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                            <button class="card-text btn btn-dark btn-sm">details</button>
+                                        </form>
+                                    </div>
+                                    <div class="p-2 ps-0">
+                                        <form action="complete_reservation" method='POST'>
+                                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                            <button class="card-text btn btn-dark btn-sm">complete reservation</button>
+                                        </form>
+                                    </div>
+                                    <div class="p-2 ps-0">
+                                        <form action="cancel_reservation" method='POST'>
+                                            <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                                            <button class="card-text btn btn-dark btn-sm">cancel reservation ✖︎</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -101,14 +103,14 @@
                         <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">{{item['prodname']}}</h5>
-                            <p class="card-text">Price: {{item['price']}}</p>
-                            <p class="card-text">Condition: {{item['condition']}}</p>
-                            <p class="card-text">Brand: {{item['brand']}}</p>
-                            <div class="mr-auto"> 
+                            <h4 class="card-title">{{item['prodname']}}</h4>
+                            <div class="mt-auto">
+                                <p class="card-text">Price: {{item['price']}}</p>
+                                <p class="card-text">Condition: {{item['condition']}}</p>
+                                <p class="card-text">Brand: {{item['brand']}}</p>
                                 <form action="itemdetails" method='GET'>
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                    <button class="card-text btn btn-dark">details</button>
+                                    <button class="card-text btn btn-dark btn-sm">details</button>
                                 </form>
                             </div>
                         </div>
@@ -145,11 +147,11 @@
                             <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                             {% endif %}
                             <div class="card-body">
-                                <h5 class="card-title">{{item['prodname']}}</h5>
+                                <h4 class="card-title">{{item['prodname']}}</h4>
                                 <p class ="card-text">Sold to: {{item['buyernetid']}}</p>
                                 <form action="itemdetails" method='GET'>
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                    <button class="card-text btn btn-dark">details</button>
+                                    <button class="card-text btn btn-dark btn-sm">details</button>
                                 </form>
                             </div>
                         </div>
@@ -179,11 +181,11 @@
                                 <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                                 {% endif %}
                                 <div class="card-body">
-                                    <h5 class="card-title">{{item['prodname']}}</h5>
+                                    <h4 class="card-title">{{item['prodname']}}</h4>
                                     <p class="card-text">Purchased Completed on {{item['purchase_completed']}}</p>
                                     <form action="itemdetails" method='GET'>
                                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-dark">details</button>
+                                        <button class="card-text btn btn-dark btn-sm">details</button>
                                     </form>
                                 </div>
                             </div>
@@ -205,8 +207,12 @@
                 $("#sold_row").hide();
             }
             function setup(){
-                /*hideAll();*/
                 $("#reserve_row").show();
+                $("#active_row").hide();
+                $("#reserved_row").hide();
+                $("#past_row").hide();
+                $("#sold_row").hide();
+
                 $("#reserve_button").click(function(){
                     hideAll();
                     $("#reserve_row").show();
