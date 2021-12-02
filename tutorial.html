@@ -13,45 +13,72 @@
     <br>
     <div class="container-fluid px-5">
         <h3 class="text-center pb-3"><strong>How to Use TigerThrift!</strong></h3>
-        <div class="row">
-            <div class="col-md-6 px-5 pb-5" style="min-width: 450px;">
-                <h4 class="text-center">How to Sell a Product</h4>
-                <p>
-                    1. Go to the <a href="buy">buy page</a>.<br>
-                    2. Filter or use the sort button to go through products.<br>
-                    3. <strong>Click on the details button</strong> if you want to learn more about a product.<br>
-                    4. If you want to purchase a product, click the 'reserve' button.<br>
-                    5. You've sucessfully reserved the item! Now, wait for the seller to reach out to you by email. They have 5 days to respond to your request.<br>
-                    6. Go to your <a href="buy">profile</a> to see your reserved item. Here, you can see the time left for the buyer to reach out to you. If necessary, you also have the option to cancel a reservation.<br>
-                    7. Once the seller reaches out to you, <strong>schedule a time</strong> to pay for and receive the product. <br>
-                    8. Make sure to <strong>click the 'complete reservation' button</strong> after completing the transaction!<br>
-                </p>
-                <div class="text-center">
-                    <form action="sell" method='GET'>
-                        <button class="card-text btn btn-dark">list your first item!</button>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-6 px-5 pb-5">
-                <h4 class="text-center">How to Purchase a Product</h4>
-                <p>
-                    1. Go to the <a href="sell">sell page</a>.<br>
-                    2. Fill out the form with all the necessary details. For photos, you can <strong>upload up to 4 photos!</strong><br>
-                    3. Click 'Create Item!' to list the product. Your item should now be listed on the <a href="buy">buy page</a>.<br>
-                    4. <strong>Once someone reserves your product</strong>, you will receive an email from us.<br>
-                    5. The email will contain the contact information of the buyer so that you can get in contact with them. 
-                    <strong>Schedule a time</strong> to pay for and receive the product. <br>
-                    6. Make sure to <strong>click the 'complete reservation' button</strong> after completing the transaction!<br>
-                </p>
-                <div class="text-center">
-                    <form action="buy" method='GET'>
-                        <button class="card-text btn btn-dark">find an item to purchase!</button>
-                    </form>
-                </div>
-            </div>
-            
+        <div class="row px-5" id="sidebar">
+            <a id="buy_tutorial_button" class="col text-center" style="min-width: 210px; padding: 10px;">
+                <div>How to Purchase a Product</div>
+            </a>
+            <a id="sell_tutorial_button" class="col text-center" style="min-width: 210px; padding: 10px;">
+                <div>How to Sell a Product</div>
+            </a>
         </div>
-        
+        <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto" id="buy_tutorial">
+            <h4 class="text-center pt-3">How to Purchase a Product</h4>
+            <p>
+                1. Go to the <a href="buy">buy page</a>.<br>
+                2. Filter or use the sort button to go through products.<br>
+                3. <strong>Click on the details button</strong> if you want to learn more about a product.<br>
+                4. If you want to purchase a product, click the 'reserve' button.<br>
+                5. You've sucessfully reserved the item! Now, wait for the seller to reach out to you by email. They have 5 days to respond to your request.<br>
+                6. Go to your <a href="buy">profile</a> to see your reserved item. Here, you can see the time left for the buyer to reach out to you. If necessary, you also have the option to cancel a reservation.<br>
+                7. Once the seller reaches out to you, <strong>schedule a time</strong> to pay for and receive the product. <br>
+                8. Make sure to <strong>click the 'complete reservation' button</strong> after completing the transaction!<br>
+            </p>
+            <div class="text-center">
+                <form action="sell" method='GET'>
+                    <button class="card-text btn btn-dark">list your first item!</button>
+                </form>
+            </div>
+        </div>
+        <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto" id="sell_tutorial">
+            <h4 class="text-center pt-3">How to Sell a Product</h4>
+            <p>
+                1. Go to the <a href="sell">sell page</a>.<br>
+                2. Fill out the form with all the necessary details. For photos, you can <strong>upload up to 4 photos!</strong><br>
+                3. Click 'Create Item!' to list the product. Your item should now be listed on the <a href="buy">buy page</a>.<br>
+                4. <strong>Once someone reserves your product</strong>, you will receive an email from us.<br>
+                5. The email will contain the contact information of the buyer so that you can get in contact with them. 
+                <strong>Schedule a time</strong> to pay for and receive the product. <br>
+                6. Make sure to <strong>click the 'complete reservation' button</strong> after completing the transaction!<br>
+            </p>
+            <div class="text-center">
+                <form action="buy" method='GET'>
+                    <button class="card-text btn btn-dark">find an item to purchase!</button>
+                </form>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            function hideAll() {
+                $("#buy_tutorial").hide();
+                $("#sell_tutorial").hide();
+            }
+            function setup(){
+                $("#buy_tutorial").show();
+                $("#sell_tutorial").hide();
+
+                $("#buy_tutorial_button").click(function(){
+                    hideAll();
+                    $("#buy_tutorial").show();
+                });
+
+                $("#sell_tutorial_button").click(function(){
+                    hideAll();
+                    $("#sell_tutorial").show();
+                });
+            }
+
+            $('#document').ready(setup);
+        </script>
     </div>
   </body>
 </html>
