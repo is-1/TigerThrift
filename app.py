@@ -318,7 +318,7 @@ def profile():
     user_info = get_user_info(username)
     add_user(user_info)
     
-    items = search_items(None, None)
+    items = search_items(None, None, None)
     curr_reserved_items = reserved_items(user_info)
     past_sold_items = items_sold_in_past(user_info)
     purchased_items = past_purchases(user_info)
