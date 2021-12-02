@@ -27,8 +27,8 @@
                 Filters
             </button>
             <ul class="dropdown-menu w-auto" aria-labelledby="dropdownMenu">
-                <li class="p-2 float-start" style="max-width: 250px;">
-                    <div class="form-group">
+                <li>
+                    <div class="form-group p-2 float-start" style="max-width: 250px;">
                         <label>Type</label>
                         <select id="type_select" name ="type" class="form-control">
                             <option value="">choose a type of clothing</option>
@@ -40,21 +40,15 @@
                             <option value="accessories">Accessories</option>
                         </select>
                     </div>
-                </li>
-                <li class="p-2 float-start" style="min-width: 175px; max-width: 250px;">
-                    <div class="form-group">
+                    <div class="form-group p-2 float-start" style="min-width: 180px; max-width: 250px;">
                         <label>Subtype</label>
                         <select id="subtype_select" name = "subtype" class="form-control" disabled></select>
                     </div>
-                </li>
-                <li class="p-2 float-start" style="min-width: 150px; max-width: 250px;">
-                    <div class="form-group">
+                    <div class="form-group p-2 float-start" style="min-width: 175px; max-width: 250px;">
                         <label>Size</label>
                         <select id="size_select" name = "size" class="form-control" disabled></select>
                     </div>
-                </li>
-                <li class="p-2 float-start" style="max-width: 250px;">
-                    <div class="form-group">
+                    <div class="form-group p-2 float-start" style="min-width: 175px; max-width: 250px;">
                         <label>Gender</label>
                         <select id="gender_select" name = "gender" class="form-control">
                             <option selected value="">choose a gender</option>
@@ -63,9 +57,7 @@
                             <option value="unisex">Unisex</option>
                         </select>
                     </div>
-                </li>
-                <li class="p-2 float-start" style="max-width: 250px;">
-                    <div class="form-group">
+                    <div class="form-group p-2 float-start" style="min-width: 175px; max-width: 250px;">
                         <label>Brand</label>
                         <select id="brand_select" name = "brand" class="form-control">
                             <option selected value="">choose a brand</option>
@@ -74,9 +66,7 @@
                             {% endfor %}
                         </select>
                     </div>
-                </li>
-                <li class="p-2 float-start" style="max-width: 250px;">
-                    <div class="form-group">
+                    <div class="form-group p-2 float-start" style="min-width: 175px; max-width: 250px;">
                         <label>Condition</label>
                         <select id = "condition_select" name="condition" class="form-control" >
                             <option value="">choose condition</option>
@@ -87,9 +77,7 @@
                             <option value="very used">Very Used</option>
                         </select>
                     </div>
-                </li>
-                <li class="p-2 float-start" style="max-width: 250px;">
-                    <div class="form-group">
+                    <div class="form-group p-2 float-start" style="min-width: 175px; max-width: 250px;">
                         <label>Color</label>
                         <select id = "color_select" name = "color" class="form-control" required>
                             <option value="">choose color</option>
@@ -105,12 +93,13 @@
                             <option value="multicolored">Multi-colored</option>
                         </select>
                     </div>
-                </li>
-                <li class="p-2 float-start" style="max-width: 250px;"> 
-                    <label></label>
-                    <button id="apply_button" class="btn btn-outline" type="button">apply</button>
-                    <button id="clear_button" class="btn btn-outline" type="button">clear</button>
-
+                    <br>
+                    <button id="apply_button" class="btn form-group p-2 float-start align-bottom" type="button">
+                        <a>apply filters</a>
+                    </button>
+                    <button id="clear_button" class="btn form-group p-2 float-start" type="button">
+                        <a>✖︎ clear</a>
+                    </button>
                 </li>
             </ul>
             <button class="btn dropdown-toggle" type="button" id="dropdownMenu"
@@ -118,18 +107,17 @@
                 Sort By
             </button>
             <ul class="dropdown-menu w-auto" aria-labelledby="dropdownMenu">
-            <li class="p-2 float-start" style="max-width: 250px;">
-                <div class="form-group">
-                    <label>Sort</label>
-                    <select id="sort_select" name ="type" class="form-control">
-                        <option value="">sort by</option>
-                        <option value="price low to high">Price Low to High</option>
-                        <option value="price high to low">Price High to Low</option>
-                        <option value="newest to oldest">Newest to Oldest</option>
-                        <option value="oldest to newest">Oldest to Newest</option>
-                    </select>
-                </div>
-            </li>
+                <li class="p-2 float-start" style="min-width: 250px;">
+                    <div class="form-group">
+                        <label>Sort</label>
+                        <select id="sort_select" name ="type" class="form-control">
+                            <option value="oldest to newest">Oldest to Newest</option>
+                            <option value="newest to oldest">Newest to Oldest</option>
+                            <option value="price low to high">Price Low to High</option>
+                            <option value="price high to low">Price High to Low</option>                        
+                        </select>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -198,21 +186,16 @@
             $('#search_button').click(getResults);
             $('#apply_button').click(getResults);
 
-            
             $('#clear_button').click(function() {
                $("#type_select").val('');
                $("#subtype_select").empty();
                 $('#subtype_select').attr("disabled", true);
-
                 $("#size_select").empty();
                 $('#size_select').attr("disabled", true);
                  $("#condition_select").val('');
                  $("#brand_select").val('');
                  $('#color_select').val('');
                  $('#gender_select').val('');
-
-
-
             });
 
             $("#sort_select").change(function(){
