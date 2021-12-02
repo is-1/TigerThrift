@@ -34,7 +34,11 @@ body{
 }
 
 #sidebar div:hover{
-    color: #2B6FF4;
+    color: #414242;
+}
+
+#card {
+    border-color: black;
 }
 
 h1{
