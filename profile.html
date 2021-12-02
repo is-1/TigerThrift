@@ -17,22 +17,23 @@
             <p class="text-left" style="text-transform:lowercase">{{user_info['email']}}</p>
         </div>
         <div class="row px-5" id="sidebar">
-            <a href="buy" class="col text-center" style="min-width: 210px; padding: 10px;">
+            <a id="reserve_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                 <div>Currently On Reserve</div>
             </a>
-            <a href="buy" class="col text-center" style="min-width: 210px; padding: 10px;">
+            <a id="active_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                 <div>Currently Selling</div>
             </a>
-            <a href="buy" class="col text-center" style="min-width: 210px; padding:10px;">
+            <a id="reserved_button" class="col text-center" style="min-width: 210px; padding:10px;">
                 <div>Sold In the Past</div>
             </a>
-            <a href="buy" class="col text-center" style="min-width: 210px; padding: 10px;">
+            <a id="past_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                 <div>Past Purchases</div>
             </a>
         </div>
         <div class="row pt-3">
         <!--add the % include % here with the results of whatever is clicked-->
                 <!--RESERVING-->
+                <div id="reserve_row">
                 <h4 class="text-center" style="margin: 0;">Items Currently On Reserve</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_reserved_items|length == 0 %}
@@ -77,7 +78,9 @@
                     {% endfor %}
                     {% endif %}
                 </div>
+                </div>
                 <!--Your currently active items-->
+                <div id="active_row">
                 <h4 class="text-center" style="margin: 0;">Your Items Currently Active</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_active_items|length == 0 %}
@@ -106,6 +109,7 @@
                                 </form>
                             </div>
                         </div>
+                        </div>
                     </div>
                     {% endif %}
                     {% endif %}
@@ -113,6 +117,7 @@
                     {% endif %}
                 </div>
                 <!--Your currently reserved items-->
+                <div id="reserved_row">
                 <h4 class="text-center" style="margin: 0;">Your Items Currently Reserved By Others</h4>
                 <div id=search_results class="card-deck row justify-content-center">
                     <h5 class="text-center pb-5">You have no items reserved by others!</h5>
@@ -148,7 +153,9 @@
                     {% endfor %}
                     {% endif %}
                 </div>
-                <!--PAST PURCHASED-->                
+                </div>
+                <!--PAST PURCHASED--> 
+                <div id="past_row">               
                 <h4 class="text-center" style="margin: 0;">Past Purchases</h4>
                 <!--if nothing, then don't print out this header, or put a message saying "no items purchased in the past"-->
                 <div id=search_results class="card-deck row justify-content-center">
@@ -178,7 +185,55 @@
                     {% endif %}
                     {% endfor %}
                     {% endif %}
+                    </div>
                 </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+        <script>
+
+            function setup(){
+                $("#reserve_row").hide();
+                $("#active_row").hide();
+                $("#reserved_row").hide();
+                $("#past_row").hide();
+
+                $("#reserve_button").click(function(){
+                    $("#active_row").hide();
+                    $("#reserved_row").hide();
+                    $("#past_row").hide();
+                    $("#reserve_row").show();
+});
+
+
+$("#active_button").click(function(){
+                    $("#reserve_row").hide();
+                    $("#reserved_row").hide();
+                    $("#past_row").hide();
+                    $("#active_row").show();
+});
+
+
+$("#reserved_button").click(function(){
+                    $("#reserve_row").hide();
+                    $("#active_row").hide();
+                    $("#past_row").hide();
+                    $("#reserved_row").show();
+});
+
+
+$("#past_button").click(function(){
+                    $("#reserve_row").hide();
+                    $("#active_row").hide();
+                    $("#reserved_row").hide();
+                    $("#past_row").show();
+});
+
+
+
+            }
+
+            $('#document').ready(setup);
+
+        </script>
   </body>
 </html>
