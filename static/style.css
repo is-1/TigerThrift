@@ -59,3 +59,22 @@ h3{
 h4{
     font-family: 'Work Sans', sans-serif;
 }
+ 
+ input:hover, 
+ textarea:active, 
+ textarea:focus,
+ textarea:hover, 
+ label:focus,
+ input:active, 
+ input:focus,
+ button:focus,
+ button:active,
+ button:hover,
+ select:focus,
+ select:active,
+ .btn:focus,
+ .btn:active {
+     outline: none !important;
+     -webkit-appearance:none;
+     box-shadow: none !important;
+ }
