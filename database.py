@@ -311,7 +311,7 @@ def reserved_items(user_info):
                     if item['status'] != 1:
                         print("MISMATCH RESERVATION ITEM!!!")
                     
-                print("printed curr_reserved items!!!! ")
+                # print("printed curr_reserved items!!!! ")
                 return results
 
     except Exception as ex:
@@ -327,73 +327,58 @@ def seller_reservations(user_info):
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
-                stmt_str = 'SELECT * FROM reservations WHERE completedtime IS NULL AND sellernetid = %s;'
+                stmt_str = 'SELECT * FROM reservations INNER JOIN items ON items.itemid = reservations.itemid AND items.sellernetid = reservations.sellernetid where reservations.completedtime IS NULL and reservations.sellernetid=%s ORDER BY reservations.reservedtime ASC;'
                 cursor.execute(stmt_str, [user_info['netid']])
 
                 # connection.commit()
 
                 row = cursor.fetchone()
-
-                item_ids = {}
                 results = []
                 while row is not None:
-                    itemid = row[0]
+                    print("Items reserved by OTJHERS!!!!")
+                    print(row)
                     reserved_time = row[3]
-                    item_ids[itemid] = reserved_time
-                    row = cursor.fetchone()
-
-                # counter = 1
-                for item_id in item_ids:
-                    stmt_str = ('SELECT * from items where itemid = %s')
-                    cursor.execute(stmt_str, [item_id])
-                    item_info = cursor.fetchone()
                     # get time stamp
                     f = '%Y-%m-%d %H:%M:%S'
                     now = datetime.utcnow()
                     dt = now.strftime(f)
-                    time_left_to_complete_reservation = days_between(dt, item_ids[item_id]) # this is a string! 
+                    time_left_to_complete_reservation = days_between(dt, reserved_time) # this is a string! 
                     reservation_time_left = ''.join(time_left_to_complete_reservation)
-                    stmt_str = ('SELECT buyernetid from reservations where itemid = %s')
-                    cursor.execute(stmt_str, [item_id])
-                    buyernetid = cursor.fetchone()[0]
-                    stmt_str = ('SELECT full_name from users where netid = %s')
-                    cursor.execute(stmt_str, [item['buyernetid']])
-                    buyerfullname = cursor.fetchone()[0]
-                    # print(str(reservation_time_left))
-                    item = {'itemid': item_info[0],
-                    'type': item_info[1],
-                    'subtype': item_info[2],
-                    'desc': item_info[9],
-                    'gender': item_info[4],
-                    'price': item_info[5],
-                    'size': item_info[3],
-                    'brand': item_info[8],
-                    'condition': item_info[7],
-                    'color': item_info[6],
-                    'timestamp': item_info[10],
-                    'photolink': item_info[11],
-                    'status': item_info[12],
-                    'sellernetid': item_info[13],
-                    'prodname': item_info[14],
-                    'reservation_time_left': str(reservation_time_left),
-                    'buyernetid': buyernetid,
-                    'buyerfullname': buyerfullname
-                    }
-                    
-                    # error if item in reservation table is not marked as reserved in items table
+                    # calculate time left to complete purchase
+                    item={'itemid': row[0],
+                    'buyernetid': row[1],
+                    'sellernetid': row[2],
+                    'reservedtime': row[3],
+                    'completedtime': row[4],
+                    'type': row[6],
+                    'subtype': row[7],
+                    'desc': row[14],
+                    'gender': row[9],
+                    'price': row[10],
+                    'size': row[8],
+                    'brand': row[13],
+                    'condition': row[12],
+                    'color': row[11],
+                    'timestamp': row[15],
+                    'photolink': row[16],
+                    'status': row[17],
+                    'prodname': row[19],
+                    'reservation_time_left': str(reservation_time_left)}
                     if item['status'] == 1:
                         results.append(item)
-                        counter = counter+1
-                #     if counter > len(item_ids):
-                #         break
-                # print("EXITED LOOP!!!")
-                print(results)
+                    elif item['status'] != 1:
+                        print("ERROR: reserved item not marked as reserved!")
+                    row = cursor.fetchone()
+                for item in results:
+                    stmt_str = ('SELECT * from users where netid = %s')
+                    cursor.execute(stmt_str, [item['buyernetid']])
+                    item['buyer_full_name'] = cursor.fetchone()[6]
+
                 return results
 
     except Exception as ex:
        # print(ex, file=stderr)
         exit(1)
-
 def items_sold_in_past(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -411,17 +396,21 @@ def items_sold_in_past(user_info):
 
                 row = cursor.fetchone()
 
-                item_ids = []
+                item_ids = {}
                 results = []
                 while row is not None:
                     itemid = row[0]
-                    item_ids.append(itemid)
+                    completed_time = row[4]
+                    item_ids[itemid] = completed_time
                     row = cursor.fetchone()
 
                 for item_id in item_ids:
                     stmt_str = ('SELECT * from items where itemid = %s')
                     cursor.execute(stmt_str, [item_id])
                     item_info = cursor.fetchone()
+                    purchased_date = datetime.strptime(str(item_ids[item_id]), "%Y-%m-%d %H:%M:%S")
+                    # print(purchased_date)
+                    purchased_date = (str(purchased_date).split(' ', 1))[0]
                     item = {'itemid': item_info[0],
                     'type': item_info[1],
                     'subtype': item_info[2],
@@ -436,16 +425,20 @@ def items_sold_in_past(user_info):
                     'photolink': item_info[11],
                     'status': item_info[12],
                     'sellernetid': item_info[13],
-                    'prodname': item_info[14]
+                    'prodname': item_info[14],
+                    'purchase_completed': str(purchased_date)
                     }
                     stmt_str = ('SELECT buyernetid from reservations where itemid = %s')
                     cursor.execute(stmt_str, [item['itemid']])
                     buyernetid = cursor.fetchone()[0]
                     item['buyernetid'] = buyernetid
                     # error if item in reservation table is not marked as reserved in items table
-                    results.append(item)
+                    if item['status'] == 2:
+                        results.append(item)
+                    elif item['status'] != 2:
+                        print("ERROR!! completed reservation not marked as status 2")
                     
-                print("printed curr_reserved items!!!! ")
+                # print("printed curr_reserved items!!!! ")
                 return results
 
     except Exception as ex:
@@ -480,10 +473,10 @@ def past_purchases(user_info):
                     stmt_str = ('SELECT * from items where itemid = %s')
                     cursor.execute(stmt_str, [item_id])
                     item_info = cursor.fetchone()
-                    print("printed item info!!!")
-                    print(item_info)
+                    # print("printed item info!!!")
+                    # print(item_info)
                     purchased_date = datetime.strptime(str(item_ids[item_id]), "%Y-%m-%d %H:%M:%S")
-                    print(purchased_date)
+                    # print(purchased_date)
                     purchased_date = (str(purchased_date).split(' ', 1))[0]
                     item = {'itemid': item_info[0],
                     'type': item_info[1],
@@ -506,7 +499,7 @@ def past_purchases(user_info):
                     if item['status'] == 2:
                         results.append(item)
                     
-                print("printed past purchases items!!!! ")
+                # print("printed past purchases items!!!! ")
                 return results
 
     except Exception as ex:
