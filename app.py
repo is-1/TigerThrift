@@ -118,9 +118,9 @@ def is_authenticated():
 # Home page
 @app.route('/buy', methods=['GET'])
 def buy():
-    #is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -134,9 +134,9 @@ def buy():
     
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -178,9 +178,8 @@ def sell():
 
 @app.route('/success_sell', methods=['GET', 'POST'])
 def success_sell():
-    #is_authenticated()
-    #username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -223,10 +222,9 @@ def success_sell():
 
 @app.route('/searchresults', methods=['GET'])
 def search_results():
-    #CasClient().authenticate()
-    #is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    CasClient().authenticate()
+    is_authenticated()
+    username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -260,9 +258,8 @@ def search_results():
 
 @app.route('/reserve', methods=['POST'])
 def reserve():
-    #is_authenticated()
-    #username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
     buyer = {'name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
@@ -286,9 +283,8 @@ def reserve():
 
 @app.route('/cancel_reservation', methods=['POST'])
 def cancel_reservation():
-    #is_authenticated()
-    #username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -302,9 +298,8 @@ def cancel_reservation():
 
 @app.route('/complete_reservation', methods=['POST'])
 def complete_reservation():
-    #is_authenticated()
-    #username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -319,9 +314,8 @@ def complete_reservation():
 # need to handle the case where the item is reserved by someone but seller wants to delete it. ACTUALLY IT WOULDN'T EVEN BE DISPLAYED IN THAT SECTION
 @app.route('/delete_item', methods=['POST'])
 def delete_item():
-    #is_authenticated()
-    #username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -335,9 +329,8 @@ def delete_item():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    #is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
     
@@ -361,8 +354,7 @@ def profile():
 
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
-    #username = CasClient().authenticate()
-    username = 'katelynr'
+    username = CasClient().authenticate()
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -378,14 +370,14 @@ def itemdetails():
 
 @app.route('/about', methods=['GET'])
 def about():
-    #is_authenticated()
+    is_authenticated()
     html = render_template('about.html')
     response = make_response(html)
     return response
 
 @app.route('/tutorial', methods=['GET'])
 def tutorial():
-    #is_authenticated()
+    is_authenticated()
     html = render_template('tutorial.html')
     response = make_response(html)
     return response
