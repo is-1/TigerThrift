@@ -214,6 +214,9 @@
             if ("{{prev_search}}" != "None") {
                 $("#search").val("{{prev_search}}");
             }
+            if ("{{prev_sort}}" != "None") {
+                $("#sort_select").val("{{prev_sort}}");
+            }
 
             $('#search_button').click(getResults);
             $('#apply_button').click(getResults);
