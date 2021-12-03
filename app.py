@@ -123,8 +123,29 @@ def buy():
     # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
+    search = request.args.get('search')
 
-    items = search_items(None, None, None)
+    gender = request.args.get('gender')
+    size = request.args.get('size')
+    brand = request.args.get('brand')
+    type = request.args.get('type')
+    subtype = request.args.get('subtype')
+    condition = request.args.get('condition')
+    color = request.args.get('color')
+
+    sort = request.args.get('sort')
+
+    # filter = {"subtype" : "sneakers"} #placeholder
+    filter = {"gender": gender, "type": type, 
+    "subtype": subtype, "size": size, "condition": condition,
+    "color": color, "brand": brand}
+
+    print("search: "  + str(search))
+    print("filter: " + str(filter))
+    print("sort: " + str(sort))
+
+    items = search_items(search, filter, sort)
+
     brands = all_brands()
 
     html = render_template('buy.html', items=items, brands=brands, user_info=user_info)
@@ -140,38 +161,6 @@ def sell():
     user_info = get_user_info(username)
     add_user(user_info)
 
-    prodname = request.form.get('prodname')
-    gender = request.form.get('gender')
-    price = request.form.get('price')
-    size = request.form.get('size')
-    brand = request.form.get('brand')
-    itemtype = request.form.get('type')
-    subtype = request.form.get('subtype')
-    condition = request.form.get('condition')
-    color = request.form.get('color')
-    description = request.form.get('description')
-    photolink = request.form.get('photolink')
-    photolink1 = request.form.get('photolink1')
-    photolink2 = request.form.get('photolink2')
-    photolink3 = request.form.get('photolink3')
-
-    # # call function
-    if prodname is not None:
-        item_details = {'prodname': prodname,
-        'type': itemtype,
-        'subtype': subtype,
-        'desc': description,
-        'gender': gender,
-        'price': price,
-        'size': size,
-        'brand': brand,
-        'condition': condition,
-        'color': color,
-        'photolink': photolink,
-        'photolink1': photolink1,
-        'photolink2': photolink2,
-        'photolink3': photolink3}
-        add_item(item_details, user_info)
     html = render_template('sell.html')
     response = make_response(html)
     return response
@@ -237,8 +226,8 @@ def search_results():
     subtype = request.args.get('subtype')
     condition = request.args.get('condition')
     color = request.args.get('color')
-    sort = request.args.get('sort')
 
+    sort = request.args.get('sort')
 
     # filter = {"subtype" : "sneakers"} #placeholder
     filter = {"gender": gender, "type": type, 
@@ -253,6 +242,9 @@ def search_results():
     html = render_template('searchresults.html', items=items, user_info=user_info)
 
     response = make_response(html)
+    response.set_cookie('search', str(search))
+    response.set_cookie('filter', json.dumps(filter))
+    response.set_cookie('sort', str(sort))
 
     return response
 
@@ -359,12 +351,20 @@ def itemdetails():
     add_user(user_info)
 
     itemid = request.args.get('itemid')
+    search = request.cookies.get('search')
+    filter = json.loads(request.cookies.get('filter'))
+    sort = request.cookies.get('sort')
 
     item = item_details(itemid)
     
     print("item = " + str(item))
+    print("previous search = " + str(search))
+    print("previous filter = " + str(filter))
+    print("previous type = " + filter['type'])
+    print("type of filter = " + str(type(filter)))
+    print("previous sort = " + str(sort))
 
-    html = render_template('itemdetails.html', item=item, user_info = user_info)
+    html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
     response = make_response(html)
     return response
 
