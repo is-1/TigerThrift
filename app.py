@@ -148,7 +148,7 @@ def buy():
 
     brands = all_brands()
 
-    html = render_template('buy.html', items=items, brands=brands, user_info=user_info)
+    html = render_template('buy.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
 
     response = make_response(html)
     return response

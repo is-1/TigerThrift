@@ -186,6 +186,35 @@
         }
 
         function setup(){
+
+            if ("{{prev_search}}" != "None") {
+                $("#search").val("{{prev_search}}");
+            }
+            if ("{{prev_filter['gender']}}" != "None") {
+                $('#gender_select').val("{{prev_filter['gender']}}");
+            }
+            if ("{{prev_filter['subtype']}}" != "None") {
+                $('#subtype_select').val("{{prev_filter['subtype']}}");
+            } 
+            if ("{{prev_filter['type']}}" != "None") {
+                $('#type_select').val("{{prev_filter['type']}}");
+            }
+            if ("{{prev_filter['size']}}" != "None") {
+                $('#size_select').val("{{prev_filter['size']}}");
+            }
+            if ("{{prev_filter['brand']}}" != "None") {
+                $('#brand_select').val("{{prev_filter['brand']}}");
+            }
+            if ("{{prev_filter['condition']}}" != "None") {
+                $('#condition_select').val("{{prev_filter['condition']}}");
+            }
+            if ("{{prev_filter['color']}}" != "None") {
+                $('#color_select').val("{{prev_filter['color']}}");
+            }
+            if ("{{prev_search}}" != "None") {
+                $("#search").val("{{prev_search}}");
+            }
+
             $('#search_button').click(getResults);
             $('#apply_button').click(getResults);
 
