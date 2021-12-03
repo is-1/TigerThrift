@@ -103,15 +103,18 @@
                 </div>
             </ul>
         <!--sort by-->
-        <button class="btn dropdown-toggle" type="button" id="dropdownMenu"
+        <button class="btn dropdown-toggle" type="button" id="sort_menu"
             data-bs-toggle="dropdown" aria-expanded="false">
             Sort By
         </button>
-        <ul class="dropdown-menu w-auto" aria-labelledby="dropdownMenu" id="sort_select" name ="type">
-            <option class="dropdown-item" value="oldest to newest">Oldest to Newest</option>
-            <option class="dropdown-item" value="newest to oldest">Newest to Oldest</option>
-            <option class="dropdown-item" value="price low to high">Price Low to High</option>
-            <option class="dropdown-item" value="price high to low">Price High to Low</option> 
+        <ul class="dropdown-menu w-auto" aria-labelledby="sort_menu" id="sort_dropdown" name ="type">
+            <label id="sort_label">Sort By</label>
+            <select id="sort_select" name ="type" class="form-control">
+            <option value="Oldest to Newest">Oldest to Newest</option>
+            <option value="Newest to Oldest">Newest to Oldest</option>
+            <option value="Price Low to High">Price Low to High</option>
+            <option value="Price High to Low">Price High to Low</option> 
+            </select>
         </ul>
         <!--<div class="d-flex">-->
             <!--filter dropdown-->
@@ -328,7 +331,13 @@
                  $('#gender_select').val('');
             });
 
+            // old select
+            // $("#sort_select").change(function(){
+            //     getResults();
+            // });
+
             $("#sort_select").change(function(){
+                $('#sort_menu').text($("#sort_select").val());
                 getResults();
             });
 
