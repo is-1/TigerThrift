@@ -42,13 +42,7 @@
                     {% for item in curr_reserved_items %}
                     {% if item['status'] == 1 %} 
                         <div class="card" style="width:250px; margin:30px;">
-                            {% if item['photolink'] == "google.com" %}
-                            <img class="card-img-top" src="static/item.png" alt="item photo">
-                            {% elif item['photolink'] == "https://www.google.com/" %}
-                            <img class="card-img-top" src="static/item.png" alt="item photo">
-                            {% else %}
                             <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
-                            {% endif %}
                             <div class="card-body">
                                 <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
                                 <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
@@ -156,13 +150,7 @@
                     {% if item['status'] == 2 %}
                     {% if item['sellernetid'] == user_info['netid']%}
                     <div class="card" style="width:250px; ; margin:30px;">
-                        {% if item['photolink'] == "google.com" %}
-                        <img class="card-img-top" src="static/item.png" alt="item photo">
-                        {% elif item['photolink'] == "https://www.google.com/" %}
-                        <img class="card-img-top" src="static/item.png" alt="item photo">
-                        {% else %}
                         <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
-                        {% endif %}
                         <div class="card-body">
                             <h4 class="card-title">{{item['prodname']}}</h4>
                             <p class ="card-text">Buyer: {{item['buyer_full_name']}} ({{item['buyernetid']}})</p>
@@ -190,13 +178,7 @@
                     <!-- item is currently reserved -->
                     {% if item['status'] == 2 %} 
                         <div class="card" style="width:250px; ; margin:30px;">
-                            {% if item['photolink'] == "google.com" %}
-                            <img class="card-img-top" src="static/item.png" alt="item photo">
-                            {% elif item['photolink'] == "https://www.google.com/" %}
-                            <img class="card-img-top" src="static/item.png" alt="item photo">
-                            {% else %}
                             <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
-                            {% endif %}
                             <div class="card-body">
                                 <h4 class="card-title">{{item['prodname']}}</h4>
                                 <p class="card-text">Purchase completed on<br>{{item['purchase_completed']}}</p>
