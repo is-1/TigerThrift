@@ -432,6 +432,9 @@ def items_sold_in_past(user_info):
                     cursor.execute(stmt_str, [item['itemid']])
                     buyernetid = cursor.fetchone()[0]
                     item['buyernetid'] = buyernetid
+                    stmt_str = ('SELECT full_name from users where netid = %s')
+                    cursor.execute(stmt_str, [item['buyernetid']])
+                    item['buyer_full_name'] = cursor.fetchone()[0]
                     # error if item in reservation table is not marked as reserved in items table
                     if item['status'] == 2:
                         results.append(item)
@@ -615,6 +618,25 @@ def search_items(search, filter, sort):
 
 
 # delete item from shop page and respective tables (seller wants to take item off market)
-# def delete_item()
+def remove_item(itemid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                # insert item into items table
+                stmt_str = ('DELETE FROM items WHERE itemid=%s;')
+                cursor.execute(stmt_str, [itemid])
+                stmt_str = 'DELETE FROM sellers WHERE itemid=%s;'
+                cursor.execute(stmt_str, [itemid])
+                print("itemid", itemid, "was deleted")
+                connection.commit()
+
+    except Exception as ex:
+       print(ex, file=stderr)
+       #exit(1)
 
     
