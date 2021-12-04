@@ -11,7 +11,7 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, add_item, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item
+from database import add_user, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item
 from sendemail import send_buyer_notification, send_seller_notification, send_buyer_reminder, send_seller_reminder
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -118,9 +118,9 @@ def is_authenticated():
 # Home page
 @app.route('/buy', methods=['GET'])
 def buy():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username = 'katelynr'
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -134,12 +134,37 @@ def buy():
     
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username = 'katelynr'
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
+    user_info = get_user_info(username)
+    add_user(user_info)
+    html = render_template('sell.html')
+    response = make_response(html)
+    return response
+
+@app.route('/edit_item', methods=['GET', 'POST'])
+def edit_item():
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
+    user_info = get_user_info(username)
+    add_user(user_info)
+    item = request.args.get('item')
+    print("item info sent to be edited:", item)
+    html = render_template('edit.html', item=item)
+    response = make_response(html)
+    return response
+
+@app.route('/success_edit', methods=['GET', 'POST'])
+def success_edit():
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
+    itemid = request.form.get('itemid')
     prodname = request.form.get('prodname')
     gender = request.form.get('gender')
     price = request.form.get('price')
@@ -157,29 +182,32 @@ def sell():
 
     # # call function
     if prodname is not None:
-        item_details = {'prodname': prodname,
-        'type': itemtype,
-        'subtype': subtype,
+        item_details = {'itemid': itemid,
+        'prodname': titlecase(prodname),
+        'type': titlecase(itemtype),
+        'subtype': titlecase(subtype),
         'desc': description,
-        'gender': gender,
+        'gender': titlecase(gender),
         'price': price,
-        'size': size,
-        'brand': brand,
-        'condition': condition,
-        'color': color,
-        'photolink': photolink,
+        'size': titlecase(size),
+        'brand': titlecase(brand),
+        'condition': titlecase(condition),
+        'color': titlecase(color),
+        'photolink': photolink, 
         'photolink1': photolink1,
         'photolink2': photolink2,
         'photolink3': photolink3}
-        add_item(item_details, user_info)
-    html = render_template('sell.html')
+        edit_item_db(item_details, user_info)
+    html = render_template('success_edit.html') # type this now!!! 
+    print("item was successfully edited!!!")
     response = make_response(html)
     return response
 
 @app.route('/success_sell', methods=['GET', 'POST'])
 def success_sell():
-    is_authenticated()
-    username = CasClient().authenticate()
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username='katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -222,9 +250,9 @@ def success_sell():
 
 @app.route('/searchresults', methods=['GET'])
 def search_results():
-    CasClient().authenticate()
-    is_authenticated()
-    username = CasClient().authenticate()
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -258,8 +286,9 @@ def search_results():
 
 @app.route('/reserve', methods=['POST'])
 def reserve():
-    is_authenticated()
-    username = CasClient().authenticate()
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     buyer = {'name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
@@ -329,8 +358,9 @@ def delete_item():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    is_authenticated()
-    username = CasClient().authenticate()
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     
@@ -354,7 +384,9 @@ def profile():
 
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
-    username = CasClient().authenticate()
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 

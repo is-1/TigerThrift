@@ -83,7 +83,7 @@
                     {% endif %}
                 </div>
             </div>
-            <!--Items Currently Active-->
+            <!--Items Currently Active, THESE ARE ONES YOU CAN EDIT-->
             <div id="active_row">
                 <!-- <h4 class="text-center" style="margin: 0;">Items Currently Active</h4> -->
                 <div id=search_results class="card-deck row justify-content-center">
@@ -110,6 +110,12 @@
                                     <form action="itemdetails" method='GET'>
                                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                                         <button class="card-text btn btn-dark btn-sm">details</button>
+                                    </form>
+                                </div>
+                                <div class="p-2 ps-0">
+                                    <form action="edit_item" method='GET'>
+                                        <input type = "hidden" name="item" value="{{item}}">
+                                        <button class="card-text btn btn-dark btn-sm">edit item</button>
                                     </form>
                                 </div>
                                 <div class="p-2 ps-0">

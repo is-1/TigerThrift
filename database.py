@@ -131,6 +131,36 @@ def add_item(item, user_info):
        print(ex, file=stderr)
        #exit(1)
 
+def edit_item_db(item, user_info):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                
+                # get time stamp
+                f = '%Y-%m-%d %H:%M:%S'
+                now = datetime.utcnow()
+                dt = now.strftime(f)
+
+                # add user if first time user
+                # when CAS authenticates, do this, move it
+                add_user(user_info)
+                
+                # insert item into items table
+                stmt_str = ('UPDATE items SET type=%s, subtype=%s, size=%s, gender=%s, price=%s, color=%s, condition=%s, brand=%s, "desc"=%s, posted=%s, photolink=%s, status=0, sellernetid=%s, prodname=%s, photolink=%s, photolink2=%s, photolink3=%s) WHERE itemid=%s;')
+                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], dt, item['photolink'], user_info['netid'], item['prodname'], item['photolink1'], item['photolink2'], item['photolink3'], item['itemid']])
+                print("updated item details in database!")
+
+                connection.commit()
+
+    except Exception as ex:
+       print(ex, file=stderr)
+       #exit(1)
+
 def item_details(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
