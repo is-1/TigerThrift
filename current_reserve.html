@@ -6,13 +6,7 @@
     <!-- item is currently reserved -->
     {% if item['status'] == 1 %} 
         <div class="card" style="width:250px; margin:30px;">
-            {% if item['photolink'] == "google.com" %}
-            <img class="card-img-top" src="static/item.png" alt="item photo">
-            {% elif item['photolink'] == "https://www.google.com/" %}
-            <img class="card-img-top" src="static/item.png" alt="item photo">
-            {% else %}
             <img class="card-img-top" src="{{item['photolink']}}" alt="item photo">
-            {% endif %}
             <div class="card-body">
                 <h4 class="card-title">{{item['prodname']}}</h4>
                 <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>

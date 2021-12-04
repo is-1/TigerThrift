@@ -14,16 +14,16 @@
     <div class="container-fluid px-5">
         <h3 class="text-center pb-3"><strong>How to Use TigerThrift!</strong></h3>
         <div class="row px-5" id="sidebar">
-            <a id="buy_tutorial_button" class="col text-center" style="min-width: 210px; padding: 10px;">
+            <a id="buy_tutorial_button" class="col text-center rounded-top" style="min-width: 210px; padding: 10px;">
                 how to purchase an item
             </a>
-            <a id="sell_tutorial_button" class="col text-center" style="min-width: 210px; padding: 10px;">
+            <a id="sell_tutorial_button" class="col text-center rounded-top" style="min-width: 210px; padding: 10px;">
                 how to sell an item
             </a>
         </div>
         <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto" id="buy_tutorial">
-            <h4 class="text-center pt-3">how to purchase an item</h4>
-            <ol type = "1">
+            <!--<h4 class="text-center pt-3">how to purchase an item</h4>-->
+            <ol type = "1" class="pt-3">
                 <li>Go to the <a href="buy">buy page</a>.</li>
                 <li>Filter or use the sort button to go through items.</li>
                 <li><strong>Click on the details button</strong> if you want to learn more about a item.</li>
@@ -40,8 +40,8 @@
             </div>
         </div>
         <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto" id="sell_tutorial">
-            <h4 class="text-center pt-3">how to sell an item</h4>
-            <ol type = "1">
+            <!--<h4 class="text-center pt-3">how to sell an item</h4>-->
+            <ol type = "1" class="pt-3">
                 <li>Go to the <a href="sell">sell page</a>.</li>
                 <li>Fill out the form with all the necessary details. For photos, you can <strong>upload up to 4 photos!</strong></li>
                 <li>If you want to purchase a item, click the 'reserve' button.</li>
@@ -72,14 +72,38 @@
             function setup(){
                 $("#buy_tutorial").show();
                 $("#sell_tutorial").hide();
+                document.getElementById("sell_tutorial_button").style.borderTop = "none";
+                document.getElementById("sell_tutorial_button").style.borderRight = "none";
+                document.getElementById("sell_tutorial_button").style.borderLeft = "none";
+                document.getElementById("sell_tutorial_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("buy_tutorial_button").style.borderTop = "1px solid #000000";
+                document.getElementById("buy_tutorial_button").style.borderLeft = "1px solid #000000";
+                document.getElementById("buy_tutorial_button").style.borderRight = "1px solid #000000";
+                document.getElementById("buy_tutorial_button").style.borderBottom = "none";
 
                 $("#buy_tutorial_button").click(function(){
                     hideAll();
+                    document.getElementById("sell_tutorial_button").style.borderTop = "none";
+                    document.getElementById("sell_tutorial_button").style.borderRight = "none";
+                    document.getElementById("sell_tutorial_button").style.borderLeft = "none";
+                    document.getElementById("sell_tutorial_button").style.borderBottom = "1px solid #000000";
+                    document.getElementById("buy_tutorial_button").style.borderTop = "1px solid #000000";
+                    document.getElementById("buy_tutorial_button").style.borderLeft = "1px solid #000000";
+                    document.getElementById("buy_tutorial_button").style.borderRight = "1px solid #000000";
+                    document.getElementById("buy_tutorial_button").style.borderBottom = "none";
                     $("#buy_tutorial").show();
                 });
 
                 $("#sell_tutorial_button").click(function(){
                     hideAll();
+                    document.getElementById("buy_tutorial_button").style.borderTop = "none";
+                    document.getElementById("buy_tutorial_button").style.borderRight = "none";
+                    document.getElementById("buy_tutorial_button").style.borderLeft = "none";
+                    document.getElementById("buy_tutorial_button").style.borderBottom = "1px solid #000000";
+                    document.getElementById("sell_tutorial_button").style.borderTop = "1px solid #000000";
+                    document.getElementById("sell_tutorial_button").style.borderLeft = "1px solid #000000";
+                    document.getElementById("sell_tutorial_button").style.borderRight = "1px solid #000000";
+                    document.getElementById("sell_tutorial_button").style.borderBottom = "none";
                     $("#sell_tutorial").show();
                 });
             }

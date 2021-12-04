@@ -123,11 +123,32 @@ def buy():
     username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
+    search = request.args.get('search')
 
-    items = search_items(None, None, None)
+    gender = request.args.get('gender')
+    size = request.args.get('size')
+    brand = request.args.get('brand')
+    type = request.args.get('type')
+    subtype = request.args.get('subtype')
+    condition = request.args.get('condition')
+    color = request.args.get('color')
+
+    sort = request.args.get('sort')
+
+    # filter = {"subtype" : "sneakers"} #placeholder
+    filter = {"gender": gender, "type": type, 
+    "subtype": subtype, "size": size, "condition": condition,
+    "color": color, "brand": brand}
+
+    print("search: "  + str(search))
+    print("filter: " + str(filter))
+    print("sort: " + str(sort))
+
+    items = search_items(search, filter, sort)
+
     brands = all_brands()
 
-    html = render_template('buy.html', items=items, brands=brands, user_info=user_info)
+    html = render_template('buy.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
 
     response = make_response(html)
     return response
@@ -265,8 +286,8 @@ def search_results():
     subtype = request.args.get('subtype')
     condition = request.args.get('condition')
     color = request.args.get('color')
-    sort = request.args.get('sort')
 
+    sort = request.args.get('sort')
 
     # filter = {"subtype" : "sneakers"} #placeholder
     filter = {"gender": gender, "type": type, 
@@ -281,6 +302,9 @@ def search_results():
     html = render_template('searchresults.html', items=items, user_info=user_info)
 
     response = make_response(html)
+    response.set_cookie('search', str(search))
+    response.set_cookie('filter', json.dumps(filter))
+    response.set_cookie('sort', str(sort))
 
     return response
 
@@ -391,12 +415,20 @@ def itemdetails():
     add_user(user_info)
 
     itemid = request.args.get('itemid')
+    search = request.cookies.get('search')
+    filter = json.loads(request.cookies.get('filter'))
+    sort = request.cookies.get('sort')
 
     item = item_details(itemid)
     
     print("item = " + str(item))
+    print("previous search = " + str(search))
+    print("previous filter = " + str(filter))
+    print("previous type = " + filter['type'])
+    print("type of filter = " + str(type(filter)))
+    print("previous sort = " + str(sort))
 
-    html = render_template('itemdetails.html', item=item, user_info = user_info)
+    html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
     response = make_response(html)
     return response
 

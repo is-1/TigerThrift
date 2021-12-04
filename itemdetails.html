@@ -46,6 +46,15 @@
         {% endif %}
         <div class="row pt-3 px-5 align-items-center">
             <form action="buy" method='GET'>
+                <input type = "hidden" name="search" value="{{prev_search}}">
+                <input type = "hidden" name="gender" value="{{ prev_filter['gender'] }}">
+                <input type = "hidden" name="type" value="{{ prev_filter['type'] }}">
+                <input type = "hidden" name="subtype" value="{{ prev_filter['subtype'] }}">
+                <input type = "hidden" name="size" value="{{ prev_filter['size'] }}">
+                <input type = "hidden" name="condition" value="{{ prev_filter['condition'] }}">
+                <input type = "hidden" name="color" value="{{ prev_filter['color'] }}">
+                <input type = "hidden" name="brand" value="{{ prev_filter['brand'] }}">
+                <input type = "hidden" name="sort" value="{{ prev_sort }}">
                 <button class="card-text btn btn-dark">← go back</button>
             </form>
         </div>

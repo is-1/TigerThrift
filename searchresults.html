@@ -5,33 +5,24 @@
     {% for item in items %}
     {% if item['status'] == 0 %}
     <div class="card" style="width:250px; height:500px; margin:30px;">
-        {% if item['photolink'] == "google.com" %}
-        <img class="card-img-top" src="static/item.png" alt="item photo">
-        {% elif item['photolink'] == "https://www.google.com/" %}
-        <img class="card-img-top" src="static/item.png" alt="item photo">
-        {% else %}
         <img class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;"src="{{item['photolink']}}" alt="item photo">
-        {% endif %}
-        
         <div class="card-body">
             <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
             <p class="card-text">Price: {{item['price']}}</p>
             <p class="card-text">Condition: {{item['condition']}}</p>
             <p class="card-text">Brand: {{item['brand']}}</p>
             <div class="d-flex align-self-end">
-                <div class="mr-auto pe-3"> 
+                <div class="pe-3"> 
                     <form action="itemdetails" method='GET'>
                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                         <button class="card-text btn btn-dark btn-sm"> more details</button>
                     </form>
                 </div>
                 {% if item['sellernetid'] != user_info['netid'] %}
-                <div class="p-2">
-                    <form action="reserve" method='POST'>
-                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                        <button class="card-text btn btn-dark btn-sm">reserve</button>
-                   </form>
-                </div>
+                <form action="reserve" method='POST'>
+                    <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                    <button class="card-text btn btn-dark btn-sm">reserve</button>
+                </form>
                 {% endif %}
             </div>
         </div>
