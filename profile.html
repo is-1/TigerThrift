@@ -212,6 +212,7 @@
         document.getElementById("profile_header").style.color = "#2B6FF4";
         document.getElementById("about_header").style.color = "#000000";
         document.getElementById("tutorial_header").style.color = "#000000";
+
         function hideAll() {
             $("#reserve_row").hide();
             $("#active_row").hide();
@@ -223,6 +224,11 @@
                 $("#with_phone").hide();
                 $("#without_phone").show();
             }
+            else {
+                $("#with_phone").show();
+                $("#without_phone").hide();
+            }
+            
             $("#reserve_row").show();
             $("#active_row").hide();
             $("#past_row").hide();
