@@ -58,12 +58,6 @@
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <style>
-            a.current{
-                color: #640200;
-                background-color: #000000;
-            }
-        </style>
         <script>
             function hideAll() {
                 $("#buy_tutorial").hide();
@@ -72,37 +66,25 @@
             function setup(){
                 $("#buy_tutorial").show();
                 $("#sell_tutorial").hide();
-                document.getElementById("sell_tutorial_button").style.borderTop = "none";
-                document.getElementById("sell_tutorial_button").style.borderRight = "none";
-                document.getElementById("sell_tutorial_button").style.borderLeft = "none";
+                document.getElementById("sell_tutorial_button").style.border = "none";
                 document.getElementById("sell_tutorial_button").style.borderBottom = "1px solid #000000";
-                document.getElementById("buy_tutorial_button").style.borderTop = "1px solid #000000";
-                document.getElementById("buy_tutorial_button").style.borderLeft = "1px solid #000000";
-                document.getElementById("buy_tutorial_button").style.borderRight = "1px solid #000000";
+                document.getElementById("buy_tutorial_button").style.border = "1px solid #000000";
                 document.getElementById("buy_tutorial_button").style.borderBottom = "none";
 
                 $("#buy_tutorial_button").click(function(){
                     hideAll();
-                    document.getElementById("sell_tutorial_button").style.borderTop = "none";
-                    document.getElementById("sell_tutorial_button").style.borderRight = "none";
-                    document.getElementById("sell_tutorial_button").style.borderLeft = "none";
+                    document.getElementById("sell_tutorial_button").style.border = "none";
                     document.getElementById("sell_tutorial_button").style.borderBottom = "1px solid #000000";
-                    document.getElementById("buy_tutorial_button").style.borderTop = "1px solid #000000";
-                    document.getElementById("buy_tutorial_button").style.borderLeft = "1px solid #000000";
-                    document.getElementById("buy_tutorial_button").style.borderRight = "1px solid #000000";
+                    document.getElementById("buy_tutorial_button").style.border = "1px solid #000000";
                     document.getElementById("buy_tutorial_button").style.borderBottom = "none";
                     $("#buy_tutorial").show();
                 });
 
                 $("#sell_tutorial_button").click(function(){
                     hideAll();
-                    document.getElementById("buy_tutorial_button").style.borderTop = "none";
-                    document.getElementById("buy_tutorial_button").style.borderRight = "none";
-                    document.getElementById("buy_tutorial_button").style.borderLeft = "none";
+                    document.getElementById("buy_tutorial_button").style.border = "none";
                     document.getElementById("buy_tutorial_button").style.borderBottom = "1px solid #000000";
-                    document.getElementById("sell_tutorial_button").style.borderTop = "1px solid #000000";
-                    document.getElementById("sell_tutorial_button").style.borderLeft = "1px solid #000000";
-                    document.getElementById("sell_tutorial_button").style.borderRight = "1px solid #000000";
+                    document.getElementById("sell_tutorial_button").style.border = "1px solid #000000";
                     document.getElementById("sell_tutorial_button").style.borderBottom = "none";
                     $("#sell_tutorial").show();
                 });

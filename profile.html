@@ -18,22 +18,23 @@
             <p class="text-left" style="text-transform:lowercase">{{user_info['email']}}</p>
         </div>
         <div class="row px-5" id="sidebar">
-            <a id="reserve_button" class="col text-center" style="min-width: 210px; padding: 10px;">
-                <div>Your Reservations</div>
+            <a id="reserve_button" class="col text-center rounded-top" style="min-width: 210px; padding: 10px;">
+                Your Reservations
             </a>
-            <a id="past_button" class="col text-center" style="min-width: 210px; padding: 10px;">
-                <div>Past Purchases</div>
+            <a id="past_button" class="col text-center rounded-top" style="min-width: 210px; padding: 10px;">
+                Past Purchases
             </a>
-            <a id="active_button" class="col text-center" style="min-width: 210px; padding: 10px;">
-                <div>Items You're Selling</div>
+            <a id="active_button" class="col text-center rounded-top" style="min-width: 210px; padding: 10px;">
+                Items You're Selling
             </a>
-            <a id="sold_button" class="col text-center" style="min-width: 210px; padding:10px;">
-                <div>Past Sold Items</div>
+            <a id="sold_button" class="col text-center rounded-top" style="min-width: 210px; padding:10px;">
+                Past Sold Items
             </a>
         </div>
-        <div class="row pt-3">
+        <div class="pt-3">
             <!--Items Currently On Reserve-->
-            <div id="reserve_row">
+            <div id="reserve_row"
+                style="padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
                 <!-- <h4 class="text-center" style="margin: 0;">Items Currently On Reserve</h4> -->
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if curr_reserved_items|length == 0 %}
@@ -69,7 +70,8 @@
                 </div>
             </div>
             <!--Items You're Selling-->
-            <div id="active_row">
+            <div id="active_row"
+                style="padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
                 <div class="row px-5" id="sidebar">
                     <a id="items_curr_reserved_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                         items currently reserved by others
@@ -140,7 +142,8 @@
                 </div>
             </div>
             <!--Items Sold In the Past-->
-            <div id="sold_row">
+            <div id="sold_row"
+                style="padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
                 <!-- <h4 class="text-center" style="margin: 0;">Items Sold In the Past</h4> -->
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if past_sold_items|length == 0 %}
@@ -168,7 +171,8 @@
                 </div>
             </div>
             <!--PAST PURCHASED--> 
-            <div id="past_row">               
+            <div id="past_row"
+                style="padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">             
                 <!-- <h4 class="text-center" style="margin: 0;">Past Purchases</h4> -->
                 <div id=search_results class="card-deck row justify-content-center">
                     {% if purchased_items|length == 0 %}
@@ -203,19 +207,43 @@
             $("#active_row").hide();
             $("#past_row").hide();
             $("#sold_row").hide();
-            }
+        }
         function setup(){
             $("#reserve_row").show();
             $("#active_row").hide();
             $("#past_row").hide();
             $("#sold_row").hide();
+            document.getElementById("reserve_button").style.border = "1px solid #000000";
+            document.getElementById("reserve_button").style.borderBottom = "none";
+            document.getElementById("active_button").style.borderBottom = "none";
+            document.getElementById("active_button").style.borderBottom = "1px solid #000000";
+            document.getElementById("past_button").style.borderBottom = "none";
+            document.getElementById("past_button").style.borderBottom = "1px solid #000000";
+            document.getElementById("sold_button").style.borderBottom = "none";
+            document.getElementById("sold_button").style.borderBottom = "1px solid #000000";
 
             $("#reserve_button").click(function(){
                 hideAll();
+                document.getElementById("reserve_button").style.border = "1px solid #000000";
+                document.getElementById("reserve_button").style.borderBottom = "none";
+                document.getElementById("active_button").style.borderBottom = "none";
+                document.getElementById("active_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("past_button").style.borderBottom = "none";
+                document.getElementById("past_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("sold_button").style.borderBottom = "none";
+                document.getElementById("sold_button").style.borderBottom = "1px solid #000000";
                 $("#reserve_row").show();
             });
             $("#active_button").click(function(){
                 hideAll();
+                document.getElementById("active_button").style.border = "1px solid #000000";
+                document.getElementById("active_button").style.borderBottom = "none";
+                document.getElementById("reserve_button").style.borderBottom = "none";
+                document.getElementById("reserve_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("past_button").style.borderBottom = "none";
+                document.getElementById("past_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("sold_button").style.borderBottom = "none";
+                document.getElementById("sold_button").style.borderBottom = "1px solid #000000";
                 $("#active_row").show();
 
                 function active_hideAll() {
@@ -240,10 +268,26 @@
             });
             $("#past_button").click(function(){
                 hideAll();
+                document.getElementById("past_button").style.border = "1px solid #000000";
+                document.getElementById("past_button").style.borderBottom = "none";
+                document.getElementById("reserve_button").style.borderBottom = "none";
+                document.getElementById("reserve_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("active_button").style.borderBottom = "none";
+                document.getElementById("active_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("sold_button").style.borderBottom = "none";
+                document.getElementById("sold_button").style.borderBottom = "1px solid #000000";
                 $("#past_row").show();
             });
             $("#sold_button").click(function(){
                 hideAll();
+                document.getElementById("sold_button").style.border = "1px solid #000000";
+                document.getElementById("sold_button").style.borderBottom = "none";
+                document.getElementById("reserve_button").style.borderBottom = "none";
+                document.getElementById("reserve_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("active_button").style.borderBottom = "none";
+                document.getElementById("active_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("past_button").style.borderBottom = "none";
+                document.getElementById("past_button").style.borderBottom = "1px solid #000000";
                 $("#sold_row").show();
             });
         }
