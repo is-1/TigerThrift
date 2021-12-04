@@ -18,7 +18,7 @@
             style="border: 1px solid black;" placeholder="search by product name here..."/>
         </div>
         <!--filter dropdown-->
-        <div class="dropdown">
+        <!--<div class="dropdown">
             <button class="btn dropdown-toggle" type="button" id="dropdownMenu"
                 data-bs-toggle="dropdown" aria-expanded="false"> Filters
             </button>
@@ -101,9 +101,9 @@
                         <a>✖︎ clear</a>
                     </button>
                 </div>
-            </ul>
+            </ul>-->
         <!--sort by-->
-        <button class="btn dropdown-toggle" type="button" id="sort_menu"
+        <!--<button class="btn dropdown-toggle" type="button" id="sort_menu"
             data-bs-toggle="dropdown" aria-expanded="false">
             Sort By
         </button>
@@ -115,16 +115,16 @@
             <option value="price low to high">Price Low to High</option>
             <option value="price high to low">Price High to Low</option> 
             </select>
-        </ul>
-        <!--<div class="d-flex">-->
+        </ul>-->
+        <div class="d-flex mb-0">
             <!--filter dropdown-->
-            <!--<div class="dropdown">
+            <div class="me-auto">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenu"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Filters
                 </button>
                 <ul class="dropdown-menu w-auto rounded-0" aria-labelledby="dropdownMenu">
-                    <div class="row">
+                        <div class="row">
                         <li>
                             <div class="form-group p-2 float-start" style="max-width: 250px;">
                                 <label>Type</label>
@@ -203,18 +203,19 @@
                         </button>
                     </div>
                 </ul>
-            </div>-->
+            </div>
             <!--sort by-->
-            <!--<span class="mt-2">Sort By: </span>
+            <span class="mt-2">Sort By: </span>
             <div class="mt-2 ms-2">
                 <select id="sort_select" name="type" class="form-select form-select-sm" style="width: 200px">
-                    <option value="oldest to newest">Oldest to Newest</option>
                     <option value="newest to oldest">Newest to Oldest</option>
+                    <option value="oldest to newest">Oldest to Newest</option>
                     <option value="price low to high">Price Low to High</option>
                     <option value="newest to oldest">Price High to Low</option>
                 </select>
-            </div>-->
-        <!--</div>-->
+            </div>
+        </div>
+
     </div>
     <br>
     <span id="loadingmessage"></span>
