@@ -132,8 +132,24 @@ def buy():
     subtype = request.args.get('subtype')
     condition = request.args.get('condition')
     color = request.args.get('color')
-
     sort = request.args.get('sort')
+
+    if gender is None:
+        gender = ""
+    if size is None:
+        size = ""
+    if brand is None:
+        brand = ""
+    if type is None:
+        type = ""
+    if subtype is None:
+        subtype = ""
+    if condition is None:
+        condition = ""
+    if color is None:
+        color = ""
+    if sort is None:
+        sort = "newest to oldest"
 
     # filter = {"subtype" : "sneakers"} #placeholder
     filter = {"gender": gender, "type": type, 
