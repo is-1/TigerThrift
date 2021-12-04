@@ -224,16 +224,16 @@ def success_edit():
     # # call function
     if prodname is not None:
         item_details = {'itemid': itemid,
-        'prodname': prodname,
-        'type': itemtype,
-        'subtype': subtype,
+        'prodname': titlecase(prodname),
+        'type': titlecase(itemtype),
+        'subtype': titlecase(subtype),
         'desc': description,
-        'gender': gender,
+        'gender': titlecase(gender),
         'price': price,
-        'size': size,
-        'brand': brand,
-        'condition': condition,
-        'color': color,
+        'size': titlecase(size),
+        'brand': titlecase(brand),
+        'condition': titlecase(condition),
+        'color': titlecase(color),
         'photolink': photolink, 
         'photolink1': photolink1,
         'photolink2': photolink2,
@@ -349,7 +349,6 @@ def reserve():
     send_buyer_notification(buyer, product_name) # eecheck this
     send_buyer_reminder(buyer, product_name) # for testing
 
-    
     html = render_template('success_reserve.html')
     response = make_response(html)
     return response

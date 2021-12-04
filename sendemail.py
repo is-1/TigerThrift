@@ -1,12 +1,12 @@
 import os
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+from sendgrid.helpers.mail import Mail, From
 
 
 def send_seller_notification(seller, buyer, item): 
 
     message = Mail(
-        from_email= 'tigerthrift@princeton.edu',
+        from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= seller['email']
     )
         # subject='Test Notification Email',
@@ -34,7 +34,7 @@ def send_seller_notification(seller, buyer, item):
 def send_buyer_notification(buyer, item): 
 
     message = Mail(
-        from_email= 'tigerthrift@princeton.edu',
+        from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= buyer['email']
     )
         # subject='Test Notification Email',
@@ -58,7 +58,7 @@ def send_buyer_notification(buyer, item):
 
 def send_buyer_reminder(buyer, item):
     message = Mail(
-        from_email= 'tigerthrift@princeton.edu',
+        from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= buyer['email']
     )
         # subject='Test Notification Email',
@@ -83,7 +83,7 @@ def send_buyer_reminder(buyer, item):
 
 def send_seller_reminder(seller, buyer, item):
     message = Mail(
-        from_email= 'tigerthrift@princeton.edu',
+        from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= seller['email']
     )
         # subject='Test Notification Email',
