@@ -321,112 +321,105 @@
             $('#apply_button').click(getResults);
 
             $('#clear_button').click(function() {
-               $("#type_select").val('');
-               $("#subtype_select").empty();
+                $("#type_select").val('');
+                $("#subtype_select").empty();
                 $('#subtype_select').attr("disabled", true);
                 $("#size_select").empty();
                 $('#size_select').attr("disabled", true);
-                 $("#condition_select").val('');
-                 $("#brand_select").val('');
-                 $('#color_select').val('');
-                 $('#gender_select').val('');
+                $("#condition_select").val('');
+                $("#brand_select").val('');
+                $('#color_select').val('');
+                $('#gender_select').val('');
             });
-
-            // old select
-            // $("#sort_select").change(function(){
-            //     getResults();
-            // });
 
             $("#sort_select").change(function(){
                 $('#sort_menu').text($("#sort_select").val());
                 getResults();
             });
 
-
             $("#search").on('input', function (e) {
                 getResults();
-    });
+            });
+
             $("#search").on('keyup', function (e) {
-                    if (e.key === 'Enter' || e.keyCode === 13) {
-                        getResults();
-    }
-});
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    getResults();
+                }
+            });
 
-        $("#type_select").change(function(){
-                    let selected = $("#type_select").val();
-                    let subtypes = [];
-                    let sizes = [];
+            $("#type_select").change(function(){
+                let selected = $("#type_select").val();
+                let subtypes = [];
+                let sizes = [];
 
-                    console.log("selected: " + selected);
+                console.log("selected: " + selected);
 
-                    if (selected == "top") {
-                        subtypes.push("T-shirt", "Bodysuit", "Tanks",  "Shirt", "Blouse", "Blazer");
-                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)","XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
-                    }
+                if (selected == "top") {
+                    subtypes.push("T-shirt", "Bodysuit", "Tanks",  "Shirt", "Blouse", "Blazer");
+                    sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)","XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                }
 
-                    if (selected == "bottom") {
-                        subtypes.push("Pants", "Skirt", "Shorts", "Jeans");
-                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
+                if (selected == "bottom") {
+                    subtypes.push("Pants", "Skirt", "Shorts", "Jeans");
+                    sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
 "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”",
 "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
                     }
 
-                    if (selected == "dress") {
-                        subtypes.push("Casual", "Semi-Formal", "Formal");
-                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
-                    }
+                if (selected == "dress") {
+                    subtypes.push("Casual", "Semi-Formal", "Formal");
+                    sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                }
 
-                    if (selected == "outerwear") {
-                        subtypes.push("Coat", "Jacket", "Cardigan", "Crewneck", "Hoodie");
-                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
-                    }
+                if (selected == "outerwear") {
+                    subtypes.push("Coat", "Jacket", "Cardigan", "Crewneck", "Hoodie");
+                    sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                }
 
-                    if (selected == "shoes") {
-                        subtypes.push("Sneakers", "Sandals", "Boots", "Heels/Dress Shoes");
-                        sizes.push("5W", "5.5W", "6W", "6.5W", "7W", "7.5W", "8W", "8.5W", "9W", "9.5W", "10W", "10.5W", "11W", "11.5W", "12W", "12.5W", "13W",
+                if (selected == "shoes") {
+                    subtypes.push("Sneakers", "Sandals", "Boots", "Heels/Dress Shoes");
+                    sizes.push("5W", "5.5W", "6W", "6.5W", "7W", "7.5W", "8W", "8.5W", "9W", "9.5W", "10W", "10.5W", "11W", "11.5W", "12W", "12.5W", "13W",
                         "7M", "7.5M", "8M", "8.5M", "9M", "9.5M", "10M", "10.5M", "11M", "11.5M", "12M", "12.5M", "13M", "13.5M", "14M");
-                    }
+                }
 
-                    if (selected == "accessories") {
-                        subtypes.push("Hat", "Jewelry", "Watch", "Sunglasses", "Scarf", "Gloves", "Belt", "Bag", "Tie");
-                        sizes.push("One-size");
-                    } 
+                if (selected == "accessories") {
+                    subtypes.push("Hat", "Jewelry", "Watch", "Sunglasses", "Scarf", "Gloves", "Belt", "Bag", "Tie");
+                    sizes.push("One-size");
+                } 
 
-                    $("#subtype_select").empty();
-                    $('#subtype_select').attr("disabled", false);
+                $("#subtype_select").empty();
+                $('#subtype_select').attr("disabled", false);
 
-                    $("#size_select").empty();
-                    $('#size_select').attr("disabled", false);
-                    
-                    console.log("subtypes: " + subtypes);
-                    console.log("sizes: " + sizes);
+                $("#size_select").empty();
+                $('#size_select').attr("disabled", false);
 
-                    $('#subtype_select').append($('<option>', {
+                $('#subtype_select').append($('<option>', {
                             value: "",
                             text: "choose a subtype"
-                        })); 
+                })); 
 
-                    for (i in subtypes) {
-                        $('#subtype_select').append($('<option>', {
-                            value: subtypes[i].toLowerCase(),
-                            text: subtypes[i]
-                        }));
-                    }
+                for (i in subtypes) {
+                    $('#subtype_select').append($('<option>', {
+                        value: subtypes[i].toLowerCase(),
+                        text: subtypes[i]
+                    }));
+                }
 
+                $('#size_select').append($('<option>', {
+                    value: "",
+                    text: "choose a size"
+                }));
+
+                for (j in sizes) {
                     $('#size_select').append($('<option>', {
-                            value: "",
-                            text: "choose a size"
-                        }));
-                    for (j in sizes) {
-                        $('#size_select').append($('<option>', {
-                            value: sizes[j].toLowerCase(),
-                            text: sizes[j]
-                        }));
-                    }
-                });
-            }
+                        value: sizes[j].toLowerCase(),
+                        text: sizes[j]
+                    }));
+                }
+            });
+        }
 
-            $('#document').ready(setup);
+        $('#document').ready(setup);
 
     </script>
   </body>
