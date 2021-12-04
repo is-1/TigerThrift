@@ -118,9 +118,9 @@ def is_authenticated():
 # Home page
 @app.route('/buy', methods=['GET'])
 def buy():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     search = request.args.get('search')
@@ -171,33 +171,37 @@ def buy():
     
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     html = render_template('sell.html')
     response = make_response(html)
     return response
 
-@app.route('/edit_item', methods=['GET', 'POST'])
+@app.route('/edit_item', methods=['POST'])
 def edit_item():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
-    item = request.args.get('item')
-    print("item info sent to be edited:", item)
+    itemid =  request.form.get('itemid')
+
+    ## item = item_details(itemid)
+    item = item_details(itemid)
+    
+    print("item info sent to be edited:", str(item))
     html = render_template('edit.html', item=item)
     response = make_response(html)
     return response
 
-@app.route('/success_edit', methods=['GET', 'POST'])
+@app.route('/success_edit', methods=['POST'])
 def success_edit():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -242,9 +246,9 @@ def success_edit():
 
 @app.route('/success_sell', methods=['GET', 'POST'])
 def success_sell():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -287,9 +291,9 @@ def success_sell():
 
 @app.route('/searchresults', methods=['GET'])
 def search_results():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -326,9 +330,9 @@ def search_results():
 
 @app.route('/reserve', methods=['POST'])
 def reserve():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     buyer = {'name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
@@ -385,6 +389,7 @@ def complete_reservation():
 def delete_item():
     is_authenticated()
     username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 
@@ -398,9 +403,9 @@ def delete_item():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
     
@@ -424,9 +429,9 @@ def profile():
 
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     add_user(user_info)
 

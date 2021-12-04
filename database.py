@@ -140,7 +140,7 @@ def edit_item_db(item, user_info):
             #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
-                
+                print("entered edit item function!!!")
                 # get time stamp
                 f = '%Y-%m-%d %H:%M:%S'
                 now = datetime.utcnow()
@@ -149,10 +149,10 @@ def edit_item_db(item, user_info):
                 # add user if first time user
                 # when CAS authenticates, do this, move it
                 add_user(user_info)
-                
+                print("new item info!!",str(item))
                 # insert item into items table
-                stmt_str = ('UPDATE items SET type=%s, subtype=%s, size=%s, gender=%s, price=%s, color=%s, condition=%s, brand=%s, "desc"=%s, posted=%s, photolink=%s, status=0, sellernetid=%s, prodname=%s, photolink=%s, photolink2=%s, photolink3=%s) WHERE itemid=%s;')
-                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], dt, item['photolink'], user_info['netid'], item['prodname'], item['photolink1'], item['photolink2'], item['photolink3'], item['itemid']])
+                stmt_str = ('UPDATE items SET type=%s, subtype=%s, size=%s, gender=%s, price=%s, color=%s, condition=%s, brand=%s, "desc"=%s, posted=%s, status=0, sellernetid=%s, prodname=%s, photolink=%s, photolink1=%s, photolink2=%s, photolink3=%s WHERE itemid=%s;')
+                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], dt, user_info['netid'], item['prodname'], item['photolink'], item['photolink1'], item['photolink2'], item['photolink3'], item['itemid']])
                 print("updated item details in database!")
 
                 connection.commit()
@@ -192,7 +192,10 @@ def item_details(itemid):
                     'photolink': row[11],
                     'status': row[12],
                     'sellernetid': row[13],
-                    'prodname': row[14]
+                    'prodname': row[14],
+                    'photolink1': row[15],
+                    'photolink2': row[16],
+                    'photolink3': row[17]
                     }
 
                 return item
@@ -365,8 +368,6 @@ def seller_reservations(user_info):
                 row = cursor.fetchone()
                 results = []
                 while row is not None:
-                    print("Items reserved by OTJHERS!!!!")
-                    print(row)
                     reserved_time = row[3]
                     # get time stamp
                     f = '%Y-%m-%d %H:%M:%S'
