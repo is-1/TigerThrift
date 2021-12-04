@@ -14,7 +14,7 @@
     {% include 'header.html' %}
     <h3 class="text-center"><strong>Edit Your Item</strong></h3>
       <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
-        <form action="sell" value="" method = "POST">
+        <form action="success_edit" value="" method = "POST">
             <div class="form-group">
                 <label>Product Name</label>
                 <input class="form-control" type="text" name = "prodname" value="{{item['prodname']}}" required>
@@ -22,13 +22,13 @@
             <div class="form-group">
                 <label>Type</label>
                 <select id="type_select" name ="type" class="form-control" required>
-                    <option value=""{% if item['type'] == '' %} selected="selected"{% endif %}>choose a type of clothing</option>
-                    <option value="top" {% if item['type'] == 'top' %} selected="selected"{% endif %}>Top</option>
-                    <option value="bottom" {% if item['type'] == 'bottom' %} selected="selected"{% endif %}>Bottom</option>
-                    <option value="dress" {% if item['type'] == 'dress' %} selected="selected"{% endif %}>Dress</option>
-                    <option value="outerwear" {% if item['type'] == 'outerwear' %} selected="selected"{% endif %}>Outerwear</option>
-                    <option value="shoes" {% if item['type'] == 'shoes' %} selected="selected"{% endif %}>Shoes</option>
-                    <option value="accessories" {% if item['type'] == 'accessories' %} selected="selected"{% endif %}>Accessories</option>
+                    <option value="">choose a type of clothing</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="dress" >Dress</option>
+                    <option value="outerwear">Outerwear</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="accessories">Accessories</option>
                 </select>
 
             </div>
@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label>Gender</label>
-                <select name = "gender" class="form-control" required>
+                <select id="gender_select" name = "gender" class="form-control" required>
                     <option selected value="">choose a gender</option>
                     <option value="mens">Mens</option>
                     <option value="womens">Womens</option>
@@ -59,7 +59,7 @@
             </div>
             <div class="form-group">
                 <label>Condition</label>
-                <select name = "condition" class="form-control" required>
+                <select id="condition_select" name = "condition" class="form-control" required>
                     <option value="">choose a condition</option>
                     <option value="Brand New">Brand New</option>
                     <option value="Like New">Like New</option>
@@ -70,7 +70,7 @@
             </div>
             <div class="form-group">
                 <label>Color</label>
-                <select name = "color" class="form-control" required>
+                <select id= "color_select" name = "color" class="form-control" required>
                     <option value="">choose a color</option>
                     <option value="red">Red</option>
                     <option value="orange">Orange</option>
@@ -86,22 +86,22 @@
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea type="int" name = "description" class="form-control" value="{{item['desc']}}" required></textarea>
+                <textarea type="int" name = "description" class="form-control" value="{{item['desc']}}" required>{{item['desc']}}</textarea>
             </div>
             <div id="photoupload" class="form-grou m-2">
                 <div class="row">
-                    <img id="image" src="" class="col p-2">
-                    <img id="image1" src="" class="col p-2">
-                    <img id="image2" src="" class="col p-2">
-                    <img id="image3" src="" class="col p-2">
+                    <img id="image" src="{{item['photolink']}}" class="col p-2">
+                    <img id="image1" src="{{item['photolink1']}}" class="col p-2">
+                    <img id="image2" src="{{item['photolink2']}}" class="col p-2">
+                    <img id="image3" src="{{item['photolink3']}}" class="col p-2">
                     <button id="upload_widget" type="button" class="btn btn-dark">upload photo of item (up to 4)</button>
                 </div>
             </div>
             <br>
-            <input type="hidden" id="photolink" name ="photolink" value = "">
-            <input type="hidden" id="photolink1" name ="photolink1" value = "">
-            <input type="hidden" id="photolink2" name ="photolink2" value = "">
-            <input type="hidden" id="photolink3" name ="photolink3" value = "">
+            <input type="hidden" id="photolink" name ="photolink" value = "{{item['photolink']}}">
+            <input type="hidden" id="photolink1" name ="photolink1" value = "{{item['photolink1']}}">
+            <input type="hidden" id="photolink2" name ="photolink2" value = "{{item['photolink2']}}">
+            <input type="hidden" id="photolink3" name ="photolink3" value = "{{item['photolink3']}}">
 
             <div class="text-center pb-5">
             <form action="success_sell" method='POST'>
@@ -117,6 +117,7 @@
     
         <script type="text/javascript">  
             function setup() {
+                
                 var myWidget = cloudinary.createUploadWidget({
                     cloudName: 'dbnkmun6k', 
                     api_key : "535599746493582",
@@ -222,6 +223,41 @@
 
 
                 });
+                // set edit fields
+                if ("{{item['type']}}" != "None") {
+                    $("#type_select").val("{{item['type']}}").trigger('change');
+                }
+                if ("{{item['subtype']}}" != "None") {
+                    $('#subtype_select').attr("disabled", false);
+                    $("#subtype_select").val("{{item['subtype']}}");
+                }
+                if ("{{item['size']}}" != "None") {
+                    $('#size_select').attr("disabled", false);
+                    $("#size_select").val("{{item['size']}}");
+                }
+                if ("{{item['gender']}}" != "None") {
+                    $("#gender_select").val("{{item['gender']}}");
+                }
+                if ("{{item['condition']}}" != "None") {
+                    $("#condition_select").val("{{item['condition']}}");
+                }
+                if ("{{item['color']}}" != "None") {
+                    $("#color_select").val("{{item['color']}}");
+                }
+                if ("{{item['photolink']}}" != "None") {
+                    $("#image").val("{{item['photolink']}}");
+                }
+                if ("{{item['photolink1']}}" != "None") {
+                    $("#image1").val("{{item['photolink1']}}");
+                }
+                if ("{{item['photolink2']}}" != "None") {
+                    $("#image2").val("{{item['photolink2']}}");
+                }
+                if ("{{item['photolink3']}}" != "None") {
+                    $("#imag3").val("{{item['photolink3']}}");
+                }
+
+
             }
             //   if (imageUrl != null) {
             //       $('#image1').attr("src", imageUrl);
