@@ -11,7 +11,7 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item
+from database import add_user, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item
 from sendemail import send_buyer_notification, send_seller_notification, send_buyer_reminder, send_seller_reminder
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -73,15 +73,16 @@ def get_user_info(username):
         print("NOT AN UNDERGRAD!!!!")
         # return and do some error handling
         return
-    phone = '512-263-6973' # THIS IS HARDCODED...NEED TO CHANGE
     user_info = {'first_name': (r.json())['first_name'],
     'last_name': (r.json())['last_name'],
     'full_name': (r.json())['full_name'],
     'netid': netid,
     'email': ((r.json())['email']).lower(),
     'class_year': (r.json())['class_year'],
-    'phone': phone,
     'photo_link': (r.json())['photo_link']}
+    add_user(user_info)
+    user_info['phone'] = get_user_phone(netid)
+    print("user's currently logged phone number!!! ", user_info['phone'])
     return user_info
 
 @app.route('/login', methods=['GET'])
@@ -122,7 +123,6 @@ def buy():
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
     search = request.args.get('search')
 
     gender = request.args.get('gender')
@@ -175,8 +175,8 @@ def sell():
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
-    html = render_template('sell.html')
+    # add_user(user_info)
+    html = render_template('sell.html', user_info=user_info)
     response = make_response(html)
     return response
 
@@ -184,16 +184,16 @@ def sell():
 def edit_item():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
     itemid =  request.form.get('itemid')
 
     ## item = item_details(itemid)
     item = item_details(itemid)
     
     print("item info sent to be edited:", str(item))
-    html = render_template('edit.html', item=item)
+    html = render_template('edit.html', item=item, user_info=user_info)
     response = make_response(html)
     return response
 
@@ -203,7 +203,7 @@ def success_edit():
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
 
     itemid = request.form.get('itemid')
     prodname = request.form.get('prodname')
@@ -220,6 +220,8 @@ def success_edit():
     photolink1 = request.form.get('photolink1')
     photolink2 = request.form.get('photolink2')
     photolink3 = request.form.get('photolink3')
+    user_phone = request.form.get('phone')
+    print("user phone from edit-form", user_phone)
 
     # # call function
     if prodname is not None:
@@ -238,11 +240,13 @@ def success_edit():
         'photolink1': photolink1,
         'photolink2': photolink2,
         'photolink3': photolink3}
+        if str(user_phone) != "":
+            add_user_phone(netid=user_info['netid'], phone_number=user_phone)
         edit_item_db(item_details, user_info)
-    html = render_template('success_edit.html') # type this now!!! 
-    print("item was successfully edited!!!")
-    response = make_response(html)
-    return response
+        html = render_template('success_edit.html') # type this now!!! 
+        print("item was successfully edited!!!")
+        response = make_response(html)
+        return response
 
 @app.route('/success_sell', methods=['GET', 'POST'])
 def success_sell():
@@ -250,7 +254,7 @@ def success_sell():
     username = CasClient().authenticate()
     # username='katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
 
     prodname = request.form.get('prodname')
     gender = request.form.get('gender')
@@ -266,6 +270,8 @@ def success_sell():
     photolink1 = request.form.get('photolink1')
     photolink2 = request.form.get('photolink2')
     photolink3 = request.form.get('photolink3')
+    user_phone = request.form.get('phone')
+    print("user phone from sell-form", user_phone)
 
     # # call function
     if prodname is not None:
@@ -283,10 +289,12 @@ def success_sell():
         'photolink1': photolink1,
         'photolink2': photolink2,
         'photolink3': photolink3}
+        if str(user_phone) != "":
+            add_user_phone(netid=user_info['netid'], phone_number=user_phone)
         add_item(item_details, user_info)
-    html = render_template('success_sell.html')
-    response = make_response(html)
-    return response
+        html = render_template('success_sell.html')
+        response = make_response(html)
+        return response
 
 
 @app.route('/searchresults', methods=['GET'])
@@ -295,7 +303,7 @@ def search_results():
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
 
     search = request.args.get('search')
 
@@ -334,7 +342,7 @@ def reserve():
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
     buyer = {'name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
 
     itemid = request.form.get('itemid')
@@ -358,7 +366,7 @@ def cancel_reservation():
     is_authenticated()
     username = CasClient().authenticate()
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
 
     itemid = request.form.get('itemid')
     print("entered delete reserve")
@@ -373,7 +381,7 @@ def complete_reservation():
     is_authenticated()
     username = CasClient().authenticate()
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
 
     itemid = request.form.get('itemid')
     complete_reserve(user_info, itemid)
@@ -390,7 +398,7 @@ def delete_item():
     username = CasClient().authenticate()
     # username='katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
 
     itemid = request.form.get('itemid')
     remove_item(itemid)
@@ -406,7 +414,7 @@ def profile():
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
     
     items = search_items(None, None, None)
     curr_reserved_items = reserved_items(user_info)
@@ -432,7 +440,7 @@ def itemdetails():
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
-    add_user(user_info)
+    # add_user(user_info)
 
     itemid = request.args.get('itemid')
     search = request.cookies.get('search')

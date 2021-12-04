@@ -20,6 +20,11 @@
                 <input class="form-control" type="text" name = "prodname" value="{{item['prodname']}}" required>
             </div>
             <div class="form-group">
+                <label>Phone Number</label>
+                <input class="form-control" id ="phone" type="text" name = "phone">
+                <p>*if you would like reservers of this item to contact you via text</p>
+            </div>
+            <div class="form-group">
                 <label>Type</label>
                 <select id="type_select" name ="type" class="form-control" required>
                     <option value="">choose a type of clothing</option>
@@ -256,7 +261,12 @@
                 if ("{{item['photolink3']}}" != "None") {
                     $("#imag3").val("{{item['photolink3']}}");
                 }
-
+                if ("{{user_info['phone']}}" != "unknown") {
+                    $("#phone").val("{{user_info['phone']}}");
+                }
+                else {
+                    $('#phone').attr('placeholder', 'enter phone number');
+                }
 
             }
             //   if (imageUrl != null) {

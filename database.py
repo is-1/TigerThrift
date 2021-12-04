@@ -26,10 +26,50 @@ def add_user(user_info):
                     now = datetime.utcnow()
                     dt = now.strftime(f)
                     #print("started inserting into users table")
-                    stmt_str = ('INSERT INTO users (netid, email, joined, phone, first_name, last_name, full_name) VALUES (%s, %s, %s, %s, %s, %s, %s)')
-                    cursor.execute(stmt_str, [user_info['netid'], user_info['email'], dt, user_info['phone'], user_info['first_name'], user_info['last_name'], user_info['full_name']])
+                    stmt_str = ('INSERT INTO users (netid, email, joined, phone, first_name, last_name, full_name) VALUES (%s, %s, %s, %s, %s, %s)')
+                    cursor.execute(stmt_str, [user_info['netid'], user_info['email'], dt, 'unknown', user_info['first_name'], user_info['last_name'], user_info['full_name']])
                     #print("finished inserting into users table")
                 connection.commit()
+    
+    except Exception as ex:
+       print(ex, file=stderr)
+       #exit(1)
+
+# return false or return true
+def get_user_phone(netid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                # check if user is first time user, if so add to users table
+                stmt_str = 'SELECT phone FROM users WHERE netid=%s;'
+                cursor.execute(stmt_str, [netid])
+                row = cursor.fetchone() # returned as tuple boolean
+                phone_number = row[0]
+                connection.commit()
+                return phone_number # will either be None or the phone number itself
+    
+    except Exception as ex:
+       print(ex, file=stderr)
+       #exit(1)
+
+def add_user_phone(netid, phone_number):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                # check if user is first time user, if so add to users table
+                stmt_str = 'UPDATE users SET phone=%s WHERE netid=%s;'
+                cursor.execute(stmt_str, [phone_number, netid])
+                print("updated phone number in database")
+                connection.commit()
+                return phone_number # will either be None or the phone number itself
     
     except Exception as ex:
        print(ex, file=stderr)
