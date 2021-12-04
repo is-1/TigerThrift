@@ -225,24 +225,24 @@
                 });
                 // set edit fields
                 if ("{{item['type']}}" != "None") {
-                    $("#type_select").val("{{item['type']}}").trigger('change');
+                    $("#type_select").val("{{item['type']}}".toLowerCase()).trigger('change');
                 }
                 if ("{{item['subtype']}}" != "None") {
                     $('#subtype_select').attr("disabled", false);
-                    $("#subtype_select").val("{{item['subtype']}}");
+                    $("#subtype_select").val("{{item['subtype']}}".toLowerCase());
                 }
                 if ("{{item['size']}}" != "None") {
                     $('#size_select').attr("disabled", false);
-                    $("#size_select").val("{{item['size']}}");
+                    $("#size_select").val("{{item['size']}}".toLowerCase());
                 }
                 if ("{{item['gender']}}" != "None") {
-                    $("#gender_select").val("{{item['gender']}}");
+                    $("#gender_select").val("{{item['gender']}}".toLowerCase());
                 }
                 if ("{{item['condition']}}" != "None") {
                     $("#condition_select").val("{{item['condition']}}");
                 }
                 if ("{{item['color']}}" != "None") {
-                    $("#color_select").val("{{item['color']}}");
+                    $("#color_select").val("{{item['color']}}".toLowerCase());
                 }
                 if ("{{item['photolink']}}" != "None") {
                     $("#image").val("{{item['photolink']}}");
