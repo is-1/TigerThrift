@@ -61,11 +61,11 @@
                 <label>Condition</label>
                 <select id="condition_select" name = "condition" class="form-control" required>
                     <option value="">choose a condition</option>
-                    <option value="Brand New">Brand New</option>
-                    <option value="Like New">Like New</option>
-                    <option value="Gently Used">Gently Used</option>
-                    <option value="Fairly Used">Fairly Used</option>
-                    <option value="Very Used">Very Used</option>
+                    <option value="brand new">Brand New</option>
+                    <option value="like new">Like New</option>
+                    <option value="gently used">Gently Used</option>
+                    <option value="fairly used">Fairly Used</option>
+                    <option value="very used">Very Used</option>
                 </select>
             </div>
             <div class="form-group">
@@ -239,7 +239,7 @@
                     $("#gender_select").val("{{item['gender']}}".toLowerCase());
                 }
                 if ("{{item['condition']}}" != "None") {
-                    $("#condition_select").val("{{item['condition']}}");
+                    $("#condition_select").val("{{item['condition']}}".toLowerCase());
                 }
                 if ("{{item['color']}}" != "None") {
                     $("#color_select").val("{{item['color']}}".toLowerCase());
