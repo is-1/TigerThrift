@@ -221,14 +221,14 @@
         }
         function setup(){
             if ("{{user_info['phone']}}" != "unknown") {
-                $("#with_phone").hide();
-                $("#without_phone").show();
-            }
-            else {
                 $("#with_phone").show();
                 $("#without_phone").hide();
             }
-            
+            else {
+                $("#with_phone").hide();
+                $("#without_phone").show();
+            }
+
             $("#reserve_row").show();
             $("#active_row").hide();
             $("#past_row").hide();
