@@ -9,6 +9,25 @@
         <title>TigerThrift</title>
     </head>
   <body>
+      <!--header-->
+    <nav class="navbar navbar-expand-sm navbar-light bg-white" id="logged_out_navbar">
+        <div class="container-fluid">
+          <span class="navbar-text text-dark" style="padding-bottom:0;">
+            <a href="landing" style="text-decoration:none;"><h1><strong>TigerThrift</strong></h1></a>
+          </span>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <div class="navbar-nav">
+              <h5><a class="nav-item nav-link" href="about">About</a></h5>
+              <h5><a class="nav-item nav-link" href="tutorial">Tutorial</a></h5>
+              <h5><a class="nav-item nav-link link-secondary" href="login">Log In</a></h5>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <!--after header-->
     {% include 'header.html' %}
     <br>
     <div class="container-fluid px-5">
@@ -70,6 +89,14 @@
                 $("#sell_tutorial").hide();
             }
             function setup(){
+                if ("{{logged_in}}" == "False") {
+                    $("#logged_out_navbar").show();
+                    $("#logged_in_navbar").hide();
+                }
+                else {
+                    $("#logged_out_navbar").hide();
+                    $("#logged_in_navbar").show();
+                }
                 $("#buy_tutorial").show();
                 $("#sell_tutorial").hide();
                 document.getElementById("buy_tutorial_button").style.border = "1px solid #000000";
