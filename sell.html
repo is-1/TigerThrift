@@ -11,17 +11,13 @@
     </head>
   <body>
     {% include 'header.html' %}
-    <h3 class="text-center"><strong>Sell</strong></h3>
+    <h3 class="text-center"><strong>Sell an Item</strong></h3>
       <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
         <form action="sell" value="" method = "POST">
             <div class="form-group">
                 <label>Product Name</label>
-                <input class="form-control" type="text" name = "prodname" placeholder="enter product name" required>
-            </div>
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input class="form-control" id ="phone" type="text" name = "phone">
-                <p>*if you would like reservers of this item to contact you via text</p>
+                <input class="form-control" type="text" maxlength="45"
+                name = "prodname" placeholder="enter product name" required>
             </div>
             <div class="form-group">
                 <label>Type</label>
@@ -92,17 +88,29 @@
                 <label>Description</label>
                 <textarea type="int" name = "description" class="form-control" placeholder="enter decription of clothes" required></textarea>
             </div>
+            <div class="form-group">
+                <label>Phone Number (optional)</label>
+                <input class="form-control" id ="phone" type="text" name = "phone">
+                <p class="mb-0 text-secondary">*if you would like reservers of this item to contact you via text*</p>
+            </div>
             <div id="photoupload" class="form-grou m-2">
-                <div class="row">
-                    <img id="image" src="" class="col p-2">
-                    <img id="image1" src="" class="col p-2">
-                    <img id="image2" src="" class="col p-2">
-                    <img id="image3" src="" class="col p-2">
-                    <button id="upload_widget" type="button" class="btn btn-dark">upload photo of item (up to 4)</button>
+                <div class="card-body">
+                    <img id="image" src="" class="p-1">
+                    <i class="fa fa-trash-o text-center"></i>
                 </div>
+                <div class="card-body">
+                    <img id="image1" src="" class="p-1">
+                </div>
+                <div class="card-body">
+                    <img id="image2" src="" class="p-1">
+                </div>
+                <div class="card-body">
+                    <img id="image3" src="" class="p-1">
+                </div>
+                <button id="upload_widget" type="button" class="btn btn-dark">upload photo of item (up to 4)</button>
             </div>
             <br>
-            <input type="hidden" id="photolink" name ="photolink" value = "">
+            <input required type="hidden" id="photolink" name ="photolink" value = "">
             <input type="hidden" id="photolink1" name ="photolink1" value = "">
             <input type="hidden" id="photolink2" name ="photolink2" value = "">
             <input type="hidden" id="photolink3" name ="photolink3" value = "">
