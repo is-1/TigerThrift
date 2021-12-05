@@ -462,7 +462,6 @@ def itemdetails():
 
 @app.route('/about', methods=['GET'])
 def about():
-    # is_authenticated()
     # if not logged in
     if CasClient().authenticateFirst() == False:
         print("not logged in")
@@ -478,10 +477,17 @@ def about():
 
 @app.route('/tutorial', methods=['GET'])
 def tutorial():
-    is_authenticated()
-    html = render_template('tutorial.html')
-    response = make_response(html)
-    return response
+    # if not logged in
+    if CasClient().authenticateFirst() == False:
+        print("not logged in")
+        html = render_template('tutorial.html', logged_in=False)
+        response = make_response(html)
+        return response
+    # if logged in
+    else:
+        print("logged in")
+        html = render_template('tutorial.html', logged_in=True)
+        response = make_response(html)
 
 @app.route('/error', methods=['GET'])
 def error():
