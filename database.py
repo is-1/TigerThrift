@@ -687,8 +687,6 @@ def search_items(search, filter, sort):
     print(str(len(results)) + " items")
     return results
 
-
-
 # delete item from shop page and respective tables (seller wants to take item off market)
 def remove_item(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')

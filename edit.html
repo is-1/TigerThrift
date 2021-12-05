@@ -116,11 +116,19 @@
             <input type="hidden" id="photolink2" name ="photolink2" value = "{{item['photolink2']}}">
             <input type="hidden" id="photolink3" name ="photolink3" value = "{{item['photolink3']}}">
 
-            <div class="text-center pb-5">
             <form action="success_sell" method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                <button type="submit" class="btn btn-dark">edit item!</button> 
+                <button type="submit" class="btn btn-dark">save edits</button>
                 <!-- commented out values="GO" -->
+            </form>
+            
+            <div class="align-items-center">
+                <form action="profile" method='GET'>
+                    <button class="btn btn-dark">← go back</button>
+                </form>
+            <form action="delete_item" method='POST' class="pt-2">
+                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                <button class="card-text btn btn-dark">remove item</button>
             </form>
             </div>
         </form>
