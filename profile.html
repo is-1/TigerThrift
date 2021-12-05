@@ -159,7 +159,7 @@
                     <div class="card" style="width:250px; ; margin:30px;">
                         <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                         <div class="card-body">
-                            <h4 class="card-title">{{item['prodname']}}</h4>
+                            <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
                             <p class ="card-text">Buyer: {{item['buyer_full_name']}} ({{item['buyernetid']}})</p>
                             <p class="card-text">Purchase completed on<br>{{item['purchase_completed']}}</p>
                             <form action="itemdetails" method='GET'>
@@ -188,7 +188,7 @@
                         <div class="card" style="width:250px; ; margin:30px;">
                             <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo">
                             <div class="card-body">
-                                <h4 class="card-title">{{item['prodname']}}</h4>
+                                <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
                                 <p class="card-text">Purchase completed on<br>{{item['purchase_completed']}}</p>
                                 <form action="itemdetails" method='GET'>
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
