@@ -111,8 +111,12 @@
             <div class="text-center pb-5">
             <form action="success_sell" method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                <button type="submit" class="btn btn-dark">edit item!</button> 
+                <button type="submit" class="btn btn-dark">edit item</button>
                 <!-- commented out values="GO" -->
+            </form>
+            <form action="delete_item" method='POST' class="pt-2">
+                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                <button class="card-text btn btn-dark btn-sm">remove item</button>
             </form>
             </div>
         </form>
