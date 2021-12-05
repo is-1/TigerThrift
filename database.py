@@ -319,6 +319,61 @@ def days_between(d1, d2):
         return(mins_secs_left, " seconds left")
     return(time_left, " hours left")
 
+def curr_active_items(user_info):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    results = []
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+
+                stmt_str = 'SELECT * FROM items WHERE sellernetid = %s and status = 0'
+                cursor.execute(stmt_str, [user_info['netid']])
+                # connection.commit()
+                item_info = cursor.fetchone()
+
+                while item_info is not None:
+                    item = {'itemid': item_info[0],
+                    'type': item_info[1],
+                    'subtype': item_info[2],
+                    'desc': item_info[9],
+                    'gender': item_info[4],
+                    'price': item_info[5],
+                    'size': item_info[3],
+                    'brand': item_info[8],
+                    'condition': item_info[7],
+                    'color': item_info[6],
+                    'timestamp': item_info[10],
+                    'photolink': item_info[11],
+                    'status': item_info[12],
+                    'sellernetid': item_info[13],
+                    'prodname': item_info[14],
+                    }
+                    item_info = cursor.fetchone()
+                    results.append(item)
+                    # stmt_str = ('SELECT buyernetid from reservations where itemid = %s')
+                    # cursor.execute(stmt_str, [item['itemid']])
+                    # buyernetid = cursor.fetchone()[0]
+                    # item['buyernetid'] = buyernetid
+                    # stmt_str = ('SELECT full_name from users where netid = %s')
+                    # cursor.execute(stmt_str, [item['buyernetid']])
+                    # item['buyer_full_name'] = cursor.fetchone()[0]
+                    # # error if item in reservation table is not marked as reserved in items table
+                    # if item['status'] == 2:
+                    #     results.append(item)
+                    # elif item['status'] != 2:
+                    #     print("ERROR!! completed reservation not marked as status 2")
+                    
+                # print("printed curr_reserved items!!!! ")
+
+    except Exception as ex:
+       print(ex, file=stderr)
+        # exit(1)
+    
+    print("length of results: " + str((len(results))))
+    return results
 
 def reserved_items(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -390,6 +445,8 @@ def reserved_items(user_info):
     except Exception as ex:
        # print(ex, file=stderr)
         exit(1)
+    
+    
 def seller_reservations(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
