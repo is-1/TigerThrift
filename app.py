@@ -89,14 +89,14 @@ def get_user_info(username):
 def login():
     print("went into login function")
     CasClient().authenticate()
-    return redirect(url_for('buy')) # after authenticating, send to buy page 
+    return redirect(url_for('shop')) # after authenticating, send to shop page 
 
 @app.route('/', methods=['GET'])
 @app.route('/landing', methods=['GET'])
 def landing():
     if CasClient().authenticateFirst() != False:
         print("logged in")
-        return redirect(url_for('buy'))
+        return redirect(url_for('shop'))
     else: 
         html = render_template('landing.html')
         response = make_response(html)
@@ -117,8 +117,8 @@ def is_authenticated():
         return True
 
 # Home page
-@app.route('/buy', methods=['GET'])
-def buy():
+@app.route('/shop', methods=['GET'])
+def shop():
     is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
@@ -164,7 +164,7 @@ def buy():
 
     brands = all_brands()
 
-    html = render_template('buy.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
+    html = render_template('shop.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
 
     response = make_response(html)
     return response
