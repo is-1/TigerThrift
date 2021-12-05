@@ -26,7 +26,7 @@ def add_user(user_info):
                     now = datetime.utcnow()
                     dt = now.strftime(f)
                     #print("started inserting into users table")
-                    stmt_str = ('INSERT INTO users (netid, email, joined, phone, first_name, last_name, full_name) VALUES (%s, %s, %s, %s, %s, %s)')
+                    stmt_str = ('INSERT INTO users (netid, email, joined, phone, first_name, last_name, full_name) VALUES (%s, %s, %s, %s, %s, %s, %s)')
                     cursor.execute(stmt_str, [user_info['netid'], user_info['email'], dt, 'unknown', user_info['first_name'], user_info['last_name'], user_info['full_name']])
                     #print("finished inserting into users table")
                 connection.commit()
@@ -50,7 +50,7 @@ def get_user_phone(netid):
                 row = cursor.fetchone() # returned as tuple boolean
                 phone_number = row[0]
                 connection.commit()
-                return phone_number # will either be None or the phone number itself
+                return phone_number # will either be unknown or the phone number itself
     
     except Exception as ex:
        print(ex, file=stderr)
