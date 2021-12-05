@@ -488,6 +488,7 @@ def tutorial():
         print("logged in")
         html = render_template('tutorial.html', logged_in=True)
         response = make_response(html)
+        return response
 
 @app.route('/error', methods=['GET'])
 def error():
