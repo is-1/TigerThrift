@@ -468,7 +468,9 @@ def itemdetails():
     print("previous type = " + filter['type'])
     print("type of filter = " + str(type(filter)))
     print("previous sort = " + str(sort))
-
+    print("photolink1 = " + str(item['photolink1']))
+    print("photolink2 = " + str(item['photolink2']))
+    
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
     response = make_response(html)
     return response
