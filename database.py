@@ -151,9 +151,9 @@ def add_item(item, user_info):
                 
                 # insert item into items table
                 stmt_str = ('INSERT INTO items '
-                + '(type, subtype, size, gender, price, color, condition, brand, "desc", posted, photolink, status, sellernetid, prodname, photolink1, photolink2, photolink3) ' +
-                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, %s, %s, %s, %s, %s)")
-                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], dt, item['photolink'], user_info['netid'], item['prodname'], item['photolink1'], item['photolink2'], item['photolink3']])                # get most recent itemid inserted (item id of currently inserted item)
+                + '(type, subtype, size, gender, price, priceflexibility, color, condition, brand, "desc", posted, photolink, status, sellernetid, prodname, photolink1, photolink2, photolink3) ' +
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, %s, %s, %s, %s, %s)")
+                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['priceflexibility'], item['color'], item['condition'], item['brand'], item['desc'], dt, item['photolink'], user_info['netid'], item['prodname'], item['photolink1'], item['photolink2'], item['photolink3']])                # get most recent itemid inserted (item id of currently inserted item)
                 stmt_str = 'SELECT last_value FROM items_itemid_seq;'
                 cursor.execute(stmt_str)
                 row = cursor.fetchone()
@@ -191,8 +191,8 @@ def edit_item_db(item, user_info):
                 add_user(user_info)
                 print("new item info!!",str(item))
                 # insert item into items table
-                stmt_str = ('UPDATE items SET type=%s, subtype=%s, size=%s, gender=%s, price=%s, color=%s, condition=%s, brand=%s, "desc"=%s, posted=%s, status=0, sellernetid=%s, prodname=%s, photolink=%s, photolink1=%s, photolink2=%s, photolink3=%s WHERE itemid=%s;')
-                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['color'], item['condition'], item['brand'], item['desc'], dt, user_info['netid'], item['prodname'], item['photolink'], item['photolink1'], item['photolink2'], item['photolink3'], item['itemid']])
+                stmt_str = ('UPDATE items SET type=%s, subtype=%s, size=%s, gender=%s, price=%s, priceflexibility=%s, color=%s, condition=%s, brand=%s, "desc"=%s, posted=%s, status=0, sellernetid=%s, prodname=%s, photolink=%s, photolink1=%s, photolink2=%s, photolink3=%s WHERE itemid=%s;')
+                cursor.execute(stmt_str, [item['type'], item['subtype'], item['size'], item['gender'], item['price'], item['priceflexibility'], item['color'], item['condition'], item['brand'], item['desc'], dt, user_info['netid'], item['prodname'], item['photolink'], item['photolink1'], item['photolink2'], item['photolink3'], item['itemid']])
                 print("updated item details in database!")
 
                 connection.commit()
@@ -224,6 +224,7 @@ def item_details(itemid):
                     'desc': row[9],
                     'gender': row[4],
                     'price': row[5],
+                    'priceflexibility': row[18],
                     'size': row[3],
                     'brand': row[8],
                     'condition': row[7],

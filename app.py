@@ -184,7 +184,7 @@ def sell():
 def edit_item():
     is_authenticated()
     username = CasClient().authenticate()
-    #username = 'katelynr'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     itemid =  request.form.get('itemid')
@@ -209,6 +209,7 @@ def success_edit():
     prodname = request.form.get('prodname')
     gender = request.form.get('gender')
     price = request.form.get('price')
+    priceflexibility = request.form.get('priceflexibility')
     size = request.form.get('size')
     brand = request.form.get('brand')
     itemtype = request.form.get('type')
@@ -232,6 +233,7 @@ def success_edit():
         'desc': description,
         'gender': titlecase(gender),
         'price': price,
+        'priceflexibility': priceflexibility,
         'size': titlecase(size),
         'brand': titlecase(brand),
         'condition': titlecase(condition),
@@ -259,6 +261,7 @@ def success_sell():
     prodname = request.form.get('prodname')
     gender = request.form.get('gender')
     price = request.form.get('price')
+    priceflexibility = request.form.get('priceflexibility')
     size = request.form.get('size')
     brand = request.form.get('brand')
     itemtype = request.form.get('type')
@@ -281,6 +284,7 @@ def success_sell():
         'desc': description,
         'gender': titlecase(gender),
         'price': price,
+        'priceflexibility': priceflexibility,
         'size': titlecase(size),
         'brand': titlecase(brand),
         'condition': titlecase(condition),
@@ -488,6 +492,7 @@ def tutorial():
         print("logged in")
         html = render_template('tutorial.html', logged_in=True)
         response = make_response(html)
+        return response
 
 @app.route('/error', methods=['GET'])
 def error():
