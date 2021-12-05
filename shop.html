@@ -113,7 +113,7 @@
                     <option value="newest to oldest">Newest to Oldest</option>
                     <option value="oldest to newest">Oldest to Newest</option>
                     <option value="price low to high">Price Low to High</option>
-                    <option value="newest to oldest">Price High to Low</option>
+                    <option value="price high to low">Price High to Low</option>
                 </select>
             </div>
         </div>
@@ -238,6 +238,8 @@
                 $("#brand_select").val('');
                 $('#color_select').val('');
                 $('#gender_select').val('');
+
+                getResults();
             });
 
             $("#sort_select").change(function(){
@@ -296,12 +298,17 @@
                 } 
 
                 $("#subtype_select").empty();
-                $('#subtype_select').attr("disabled", false);
-
                 $("#size_select").empty();
-                $('#size_select').attr("disabled", false);
 
-                $('#subtype_select').append($('<option>', {
+                if (selected == "") {
+                    $('#subtype_select').attr("disabled", true);
+                    $('#size_select').attr("disabled", true);
+                }
+                else {
+                    $('#subtype_select').attr("disabled", false);
+                    $('#size_select').attr("disabled", false);
+
+                    $('#subtype_select').append($('<option>', {
                             value: "",
                             text: "choose a subtype"
                 })); 
@@ -318,11 +325,17 @@
                     text: "choose a size"
                 }));
 
+                $('#subtype_select').append($('<option>', {
+                    value: "",
+                    text: "choose a subtype"
+                }));
+
                 for (j in sizes) {
                     $('#size_select').append($('<option>', {
                         value: sizes[j].toLowerCase(),
                         text: sizes[j]
                     }));
+                }
                 }
             });
         }
