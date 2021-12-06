@@ -280,7 +280,7 @@
                 if ("{{item['photolink3']}}" != "None") {
                     $("#imag3").val("{{item['photolink3']}}");
                 }
-                if ("{{user_info['phone']}}" != "unknown") {
+                if ("{{user_info['phone']}}" != "unknown" || "{{user_info['phone']}}" != "None" ) {
                     $("#phone").val("{{user_info['phone']}}");
                 }
                 else {
