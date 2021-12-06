@@ -14,7 +14,7 @@
     {% include 'header.html' %}
     <h3 class="text-center"><strong>Edit Your Item</strong></h3>
       <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
-        <form action="success_edit" value="" method = "POST">
+        <form id="sell_form" action="success_edit" value="" method = "POST">
             <div class="form-group">
                 <label>Product Name</label>
                 <input class="form-control" type="text" name = "prodname" value="{{item['prodname']}}" required>
@@ -407,6 +407,15 @@
                         $('#upload_widget').text("upload a photo (up to 4)")
                     }
                 })
+
+                $('#sell_form').submit(function(){
+                if ($('#photolink').val() == "") {
+                    alert("Upload at least one photo!");
+                    return false;
+                }
+                else return True;
+            });
+    
             }
             $('#document').ready(setup);
         </script>

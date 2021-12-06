@@ -14,7 +14,7 @@
     {% include 'header.html' %}
     <h3 class="text-center"><strong>Sell an Item</strong></h3>
       <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
-        <form action="sell" value="" method = "POST">
+        <form id="sell_form" action="sell" value="" method = "POST">
             <div class="form-group">
                 <label style="letter-spacing: 0.1em;">Product Name</label>
                 <input class="form-control" type="text" maxlength="45" id="input_prod"
@@ -138,7 +138,7 @@
                 <button id="upload_widget" type="button" class="btn btn-dark mt-2" style="width: 100%; letter-spacing: 0.1em;">upload photo of item (up to 4)</button>
             </div>
             <br>
-            <input type="hidden" id="photolink" name ="photolink" value = "">
+            <input type="hidden" id="photolink" name ="photolink" value = "" required>
             <input type="hidden" id="photolink1" name ="photolink1" value = "">
             <input type="hidden" id="photolink2" name ="photolink2" value = "">
             <input type="hidden" id="photolink3" name ="photolink3" value = "">
@@ -465,6 +465,14 @@
             //   if (imageUrl != null) {
             //       $('#image1').attr("src", imageUrl);
             //   }
+            $('#sell_form').submit(function(){
+                if ($('#photolink').val() == "") {
+                    alert("Upload at least one photo!");
+                    return false;
+                }
+                else return True;
+            });
+    
             $('#document').ready(setup);
         </script>
       </div>
