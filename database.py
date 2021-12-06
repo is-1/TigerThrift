@@ -567,6 +567,7 @@ def items_sold_in_past(user_info):
                     # error if item in reservation table is not marked as reserved in items table
                     if item['status'] == 2:
                         results.append(item)
+                        print("appended item")
                     elif item['status'] != 2:
                         print("ERROR!! completed reservation not marked as status 2")
                     
