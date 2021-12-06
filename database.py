@@ -669,7 +669,7 @@ def search_items(search, filter, sort):
                 stmt_str = "SELECT * from items "
                 cmd_args = []
             
-                stmt_str += "where prodname LIKE %s AND status = 0"
+                stmt_str += "where upper(prodname) LIKE upper(%s) AND status = 0"
 
                 if search is None:
                     search = ""

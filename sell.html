@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label>Type</label>
                 <select id="type_select" name ="type" class="form-control" required>
-                    <option value="">choose a type of clothing</option>
+                    <option selected value="">choose a type of clothing</option>
                     <option value="top">Top</option>
                     <option value="bottom">Bottom</option>
                     <option value="dress">Dress</option>
@@ -34,11 +34,11 @@
             </div>
             <div class="form-group">
                 <label>Subtype</label>
-                <select id="subtype_select" name = "subtype" class="form-control" disabled required></select>
+                <select id="subtype_select" name = "subtype" class="form-control" disabled></select>
             </div>
             <div class="form-group">
                 <label>Size</label>
-                <select id="size_select" name = "size" class="form-control" disabled required></select>
+                <select id="size_select" name = "size" class="form-control" disabled></select>
             </div>
             <div class="form-group">
                 <label>Gender</label>
@@ -51,7 +51,12 @@
             </div>
             <div class="form-group">
                 <label>Price</label>
-                <input type="int" name = "price" class="form-control" placeholder="enter price" required>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">$</span>
+                    </div>
+                    <input type="int" name = "price" class="form-control" placeholder="enter price" required>
+                </div>
             </div>
             <div class="form-group">
                 <label>Price Flexibility</label>
@@ -69,11 +74,11 @@
                 <label>Condition</label>
                 <select name = "condition" class="form-control" required>
                     <option value="">choose a condition</option>
-                    <option value="Brand New">Brand New</option>
-                    <option value="Like New">Like New</option>
-                    <option value="Gently Used">Gently Used</option>
-                    <option value="Fairly Used">Fairly Used</option>
-                    <option value="Very Used">Very Used</option>
+                    <option value="brand new">Brand New</option>
+                    <option value="like new">Like New</option>
+                    <option value="gently used">Gently Used</option>
+                    <option value="fairly used">Fairly Used</option>
+                    <option value="very used">Very Used</option>
                 </select>
             </div>
             <div class="form-group">
@@ -200,44 +205,61 @@
                     console.log("selected: " + selected);
 
                     if (selected == "top") {
-                        subtypes.push("choose a subtype", "T-shirt", "Bodysuit", "Tanks",  "Shirt", "Blouse", "Blazer");
-                        sizes.push("choose a size", "XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)","XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                        subtypes.push("T-shirt", "Bodysuit", "Tanks",  "Shirt", "Blouse", "Blazer");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)","XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
                     }
 
                     if (selected == "bottom") {
-                        subtypes.push("choose a subtype", "Pants", "Skirt", "Shorts", "Jeans");
-                        sizes.push("choose a size", "XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
+                        subtypes.push("Pants", "Skirt", "Shorts", "Jeans");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
 "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”",
 "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
                     }
 
                     if (selected == "dress") {
-                        subtypes.push("choose a subtype", "Casual", "Semi-Formal", "Formal");
-                        sizes.push("choose a size", "XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                        subtypes.push("Casual", "Semi-Formal", "Formal");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
                     }
 
                     if (selected == "outerwear") {
-                        subtypes.push("choose a subtype", "Coat", "Jacket", "Cardigan", "Crewneck", "Hoodie");
-                        sizes.push("choose a size", "XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
+                        subtypes.push("Coat", "Jacket", "Cardigan", "Crewneck", "Hoodie");
+                        sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)");
                     }
 
                     if (selected == "shoes") {
-                        subtypes.push("choose a subtype", "Sneakers", "Sandals", "Boots", "Heels/Dress Shoes");
-                        sizes.push("choose a size", "5W", "5.5W", "6W", "6.5W", "7W", "7.5W", "8W", "8.5W", "9W", "9.5W", "10W", "10.5W", "11W", "11.5W", "12W", "12.5W", "13W",
+                        subtypes.push("Sneakers", "Sandals", "Boots", "Heels/Dress Shoes");
+                        sizes.push("5W", "5.5W", "6W", "6.5W", "7W", "7.5W", "8W", "8.5W", "9W", "9.5W", "10W", "10.5W", "11W", "11.5W", "12W", "12.5W", "13W",
                         "7M", "7.5M", "8M", "8.5M", "9M", "9.5M", "10M", "10.5M", "11M", "11.5M", "12M", "12.5M", "13M", "13.5M", "14M");
                     }
 
                     if (selected == "accessories") {
-                        subtypes.push("choose a subtype", "Hat", "Jewelry", "Watch", "Sunglasses", "Scarf", "Gloves", "Belt", "Bag", "Tie");
-                        sizes.push("choose a size", "One-size");
+                        subtypes.push("Hat", "Jewelry", "Watch", "Sunglasses", "Scarf", "Gloves", "Belt", "Bag", "Tie");
+                        sizes.push("One-size");
                     } 
 
                     $("#subtype_select").empty();
-                    $('#subtype_select').attr("disabled", false);
-
                     $("#size_select").empty();
+
+                if (selected == "") {
+                    $('#subtype_select').attr("disabled", true);
+                    $('#size_select').attr("disabled", true);
+                }
+                else {
+                    $('#subtype_select').attr("disabled", false);
                     $('#size_select').attr("disabled", false);
-                    
+                    $('#subtype_select').attr("required", true);
+                    $('#size_select').attr("required", true);
+
+                    $('#subtype_select').append($('<option>', {
+                            value: "",
+                            text: "choose a subtype"
+                })); 
+
+                $('#size_select').append($('<option>', {
+                            value: "",
+                            text: "choose a size"
+                })); 
+                   
                     console.log("subtypes: " + subtypes);
                     console.log("sizes: " + sizes);
 
@@ -254,9 +276,9 @@
                             text: sizes[j]
                         }));
                     }
-
-
+                }
                 });
+        
                 if ("{{user_info['phone']}}" != "unknown") {
                     $("#phone").val("{{user_info['phone']}}");
                 }

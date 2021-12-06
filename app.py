@@ -134,6 +134,8 @@ def shop():
     color = request.args.get('color')
     sort = request.args.get('sort')
 
+    if search is None:
+        search = ""
     if gender is None:
         gender = ""
     if size is None:
@@ -152,9 +154,9 @@ def shop():
         sort = "newest to oldest"
 
     # filter = {"subtype" : "sneakers"} #placeholder
-    filter = {"gender": gender, "type": type, 
-    "subtype": subtype, "size": size, "condition": condition,
-    "color": color, "brand": brand}
+    filter = {"gender": titlecase(gender), "type": titlecase(type), 
+    "subtype": titlecase(subtype), "size": titlecase(size), "condition": titlecase(condition),
+    "color": titlecase(color), "brand": titlecase(brand)}
 
     print("search: "  + str(search))
     print("filter: " + str(filter))
@@ -167,6 +169,10 @@ def shop():
     html = render_template('shop.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
 
     response = make_response(html)
+    response.set_cookie('search', str(search))
+    response.set_cookie('filter', json.dumps(filter))
+    response.set_cookie('sort', str(sort))
+
     return response
     
 @app.route('/sell', methods=['GET', 'POST'])
@@ -227,13 +233,13 @@ def success_edit():
     # # call function
     if prodname is not None:
         item_details = {'itemid': itemid,
-        'prodname': titlecase(prodname),
+        'prodname': prodname,
         'type': titlecase(itemtype),
         'subtype': titlecase(subtype),
         'desc': description,
         'gender': titlecase(gender),
         'price': price,
-        'priceflexibility': priceflexibility,
+        'priceflexibility': titlecase(priceflexibility),
         'size': titlecase(size),
         'brand': titlecase(brand),
         'condition': titlecase(condition),
@@ -278,13 +284,13 @@ def success_sell():
 
     # # call function
     if prodname is not None:
-        item_details = {'prodname': titlecase(prodname),
+        item_details = {'prodname': prodname,
         'type': titlecase(itemtype),
         'subtype': titlecase(subtype),
         'desc': description,
         'gender': titlecase(gender),
         'price': price,
-        'priceflexibility': priceflexibility,
+        'priceflexibility': titlecase(priceflexibility),
         'size': titlecase(size),
         'brand': titlecase(brand),
         'condition': titlecase(condition),
@@ -310,7 +316,6 @@ def search_results():
     # add_user(user_info)
 
     search = request.args.get('search')
-
     gender = request.args.get('gender')
     size = request.args.get('size')
     brand = request.args.get('brand')
@@ -322,9 +327,9 @@ def search_results():
     sort = request.args.get('sort')
 
     # filter = {"subtype" : "sneakers"} #placeholder
-    filter = {"gender": gender, "type": type, 
-    "subtype": subtype, "size": size, "condition": condition,
-    "color": color, "brand": brand}
+    filter = {"gender": titlecase(gender), "type": titlecase(type), 
+    "subtype": titlecase(subtype), "size": titlecase(size), "condition": titlecase(condition),
+    "color": titlecase(color), "brand": titlecase(brand)}
 
     print("search: "  + search)
     print("filter: " + str(filter))
@@ -470,7 +475,9 @@ def itemdetails():
     print("previous type = " + filter['type'])
     print("type of filter = " + str(type(filter)))
     print("previous sort = " + str(sort))
-
+    print("photolink1 = " + str(item['photolink1']))
+    print("photolink2 = " + str(item['photolink2']))
+    
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
     response = make_response(html)
     return response

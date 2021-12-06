@@ -14,9 +14,57 @@
     <div class="container-fluid">
         <div class="row justify-content-center pt-4 pb-4">
             <div class="col" style="width:300px">
-                <span class="d-flex justify-content-end">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        {% if item['photolink1'] != '' %}
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      {% endif %}
+                      {% if item['photolink1'] != '' %}
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      {% endif %}
+                      {% if item['photolink2'] != '' %}
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                      {% endif %}
+                      {% if item['photolink3'] != '' %}
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                      {% endif %}
+
+                    </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="{{item['photolink']}}" class="d-block w-100" alt="First Photo">
+                      </div>
+                      {% if item['photolink1'] != '' %}
+                      <div class="carousel-item">
+                        <img src="{{item['photolink1']}}" class="d-block w-100" alt="Second Photo">
+                      </div>
+                      {% endif %}
+                      {% if item['photolink2'] != '' %}
+                      <div class="carousel-item">
+                        <img src="{{item['photolink2']}}" class="d-block w-100" alt="Third Photo">
+                      </div>
+                      {% endif %}
+                      {% if item['photolink3'] != '' %}
+                      <div class="carousel-item">
+                        <img src="{{item['photolink3']}}" class="d-block w-100" alt="Fourth Photo">
+                      </div>
+                      {% endif %}
+                    </div>
+                    {% if item['photolink1'] != '' %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                    {% endif %}
+                  </div>
+                  
+                <!-- <span class="d-flex justify-content-end">
                     <img src="{{item['photolink']}}" alt="item photo">
-                </span>
+                </span> -->
             </div>
             <div class="col">
                 <span class = "align-middle">
@@ -26,9 +74,9 @@
                     <strong>Price Flexibility: </strong>{{ item['priceflexibility']}}<br>
                     <strong>Brand: </strong>{{item['brand'] }}<br>
                     <strong>Condition: </strong>{{ item['condition']}}<br>
-                    <!-- <strong>Type: </strong>{{item['type']}}<br>
+                    <strong>Type: </strong>{{item['type']}}<br>
                     <strong>Subtype: </strong>{{ item['subtype']}}<br>
-                    <strong>Gender: </strong>{{item['gender'] }}<br> -->
+                    <strong>Gender: </strong>{{item['gender'] }}<br>
                     <strong>Color: </strong>{{ item['color']}}<br>
                     <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
                     <strong>Description: </strong>{{ item['desc'] }}<br>
