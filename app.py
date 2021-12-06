@@ -188,9 +188,9 @@ def sell():
 
 @app.route('/edit_item', methods=['POST'])
 def edit_item():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     itemid =  request.form.get('itemid')
@@ -419,9 +419,9 @@ def delete_item():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 

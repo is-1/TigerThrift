@@ -1,3 +1,4 @@
+import re
 import os
 from sys import stderr
 from psycopg2 import connect
@@ -308,6 +309,14 @@ def days_between(d1, d2):
     #print("Current Date:", d1)
     #print("Reserved Date:", d2)
     time_left = timedelta(days=3) - (d1-d2)
+    # print("TIME LEFTTTTTT",time_left)
+    time_split = (re.split('[ :]', str(time_left)))[0]
+    if int(time_split) <= 0:
+        return("YOUR RESERVATION HAS EXPIRED! 0 days left")
+    # print(int(time_split))
+    # if time_left < 0:
+    #     print("TIME LEFT IS NEGATIVE")
+    #     return("TIME LEFT TO RESERVE HAS EXPIRED!")
     #print("Old time left:", (d1-d2))
     #print("Time left:", time_left)
     left = str(time_left).split(':', 1)

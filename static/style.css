@@ -42,6 +42,10 @@ body{
     border-color: black;
 }
 
+#time_left{
+    color: red;
+}
+
 h1{
     font-family: 'Work Sans', sans-serif;
     font-weight: 200;
