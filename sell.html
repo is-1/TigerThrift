@@ -303,9 +303,24 @@
                 }, false);
 
                 $("#delete_button").click(function(){
-                    $('#image').attr("src", "");
-                    $('#photolink').val("");
-                    $('#imagecard').hide();
+                    $('#image').attr("src", $('#image1').attr("src"));
+                    $('#image1').attr("src", $('#image2').attr("src"));
+                    $('#image2').attr("src", $('#image3').attr("src"));
+                    $('#image3').attr("src", "");
+                    if ($('#image').attr("src") == "") {
+                        $('#imagecard').hide();
+                    }
+                    if ($('#image1').attr("src") == "") {
+                        $('#imagecard1').hide();
+                    }
+                    if ($('#image2').attr("src") == "") {
+                        $('#imagecard2').hide();
+                    }
+                    $('#imagecard3').hide();
+                    $('#photolink').val($('#photolink1').val());
+                    $('#photolink1').val($('#photolink2').val());
+                    $('#photolink2').val($('#photolink3').val());
+                    $('#photolink3').val("");
                     numPhoto -= 1;
                     $('#upload_widget').attr("disabled", false)
                     if (numPhoto == 0) {
@@ -313,9 +328,19 @@
                     }
                 })
                 $("#delete_button1").click(function(){
-                    $('#image1').attr("src", "");
-                    $('#photolink1').val("");
-                    $('#imagecard1').hide();
+                    $('#image1').attr("src", $('#image2').attr("src"));
+                    $('#image2').attr("src", $('#image3').attr("src"));
+                    $('#image3').attr("src", "");
+                    if ($('#image1').attr("src") == "") {
+                        $('#imagecard1').hide();
+                    }
+                    if ($('#image2').attr("src") == "") {
+                        $('#imagecard2').hide();
+                    }
+                    $('#imagecard3').hide();
+                    $('#photolink1').val($('#photolink2').val());
+                    $('#photolink2').val($('#photolink3').val());
+                    $('#photolink3').val("");
                     numPhoto -= 1;
                     $('#upload_widget').attr("disabled", false)
                     if (numPhoto == 0) {
@@ -323,9 +348,14 @@
                     }
                 })
                 $("#delete_button2").click(function(){
-                    $('#photolink2').val("");
-                    $('#image2').attr("src", "");
-                    $('#imagecard2').hide();
+                    $('#image2').attr("src", $('#image3').attr("src"));
+                    $('#image3').attr("src", "");
+                    if ($('#image2').attr("src") == "") {
+                        $('#imagecard2').hide();
+                    }
+                    $('#imagecard3').hide();
+                    $('#photolink2').val($('#photolink3').val());
+                    $('#photolink3').val("");
                     numPhoto -= 1;
                     $('#upload_widget').attr("disabled", false)
                     if (numPhoto == 0) {
@@ -333,8 +363,8 @@
                     }
                 })
                 $("#delete_button3").click(function(){
-                    $('#photolink3').val("");
                     $('#image3').attr("src", "");
+                    $('#photolink3').val("");
                     $('#imagecard3').hide();
                     numPhoto -= 1;
                     $('#upload_widget').attr("disabled", false)
