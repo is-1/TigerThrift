@@ -424,8 +424,6 @@ def profile():
     # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
-
-    tab = request.args.get('tab')
     
     active_items = curr_active_items(user_info)
     # print(active_items)
@@ -442,17 +440,87 @@ def profile():
 
     if active_items is None:
         active_items = []
-    # curr_active_items = []
-    # for item in items:
-    #     if item['sellernetid'] == user_info['netid']:
-    #         if item['status'] == 0:
-    #             curr_active_items.append(item)
-    #         # if item['status'] == 1:
-    #         #     reserved_by_others_items.append(item)
+
     html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
 
     response = make_response(html)
     return response
+
+@app.route('/mypurchased', methods=['GET'])
+def my_purchased():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    purchased_items = past_purchases(user_info)
+
+    if purchased_items is None:
+        purchased_items = []
+        
+    html = render_template('mypurchased.html', user_info = user_info, purchased_items=purchased_items)
+
+    response = make_response(html)
+    return response
+
+@app.route('/myreserved', methods=['GET'])
+def my_reserved():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    curr_reserved_items = reserved_items(user_info)
+
+    if curr_reserved_items is None:
+        curr_reserved_items = []
+        
+    html = render_template('myreserved.html', user_info = user_info, curr_reserved_items=curr_reserved_items)
+
+    response = make_response(html)
+    return response
+
+@app.route('/myselling', methods=['GET'])
+def my_selling():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    active_items = curr_active_items(user_info)
+
+    if active_items is None:
+        active_items = []
+        
+    html = render_template('myselling.html', user_info = user_info, curr_active_items=active_items)
+
+    response = make_response(html)
+    return response
+
+@app.route('/mysold', methods=['GET'])
+def my_sold():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    past_sold_items = items_sold_in_past(user_info)
+
+    if past_sold_items is None:
+        past_sold_items = []
+        
+    html = render_template('mysold.html', user_info = user_info, past_sold_items=past_sold_items)
+
+    response = make_response(html)
+    return response
+
+
+
+
 
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
@@ -477,7 +545,7 @@ def itemdetails():
     print("previous sort = " + str(sort))
     print("photolink1 = " + str(item['photolink1']))
     print("photolink2 = " + str(item['photolink2']))
-    
+
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
     response = make_response(html)
     return response
