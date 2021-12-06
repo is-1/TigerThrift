@@ -251,6 +251,8 @@
                     document.getElementById("input_img3").style.borderColor = "#2B6FF4";
                 });
 
+                let numPhoto = 0;
+
                 var myWidget = cloudinary.createUploadWidget({
                     cloudName: 'dbnkmun6k', 
                     api_key : "535599746493582",
@@ -267,6 +269,7 @@
                                 console.log("photolink val : " + $('#photolink').val());
                                 $('#photolink').val(imageUrl);
                                 $('#imagecard').show();
+                                $('#upload_widget').text("upload another photo (up to 4)");
                             }
                             else if ($('#image1').attr("src") == '') {
                                 $('#image1').attr("src", imageUrl);
@@ -285,7 +288,11 @@
                                 $('#photolink3').val(imageUrl);
                                 console.log("photolink3 val : " + $('#photolink3').val());
                                 $('#imagecard3').show();
-                            }                                
+                            }
+                            numPhoto += 1;
+                            if (numPhoto == 4) {
+                            $('#upload_widget').attr("disabled", true);
+                            }                                                  
                         if (error){
                             console.log("error uploading");} 
                     }
@@ -298,18 +305,38 @@
                 $("#delete_button").click(function(){
                     $('#image').attr("src", "");
                     $('#imagecard').hide();
+                    numPhoto -= 1;
+                    $('#upload_widget').attr("disabled", false)
+                    if (numPhoto == 0) {
+                        $('#upload_widget').text("upload a photo (up to 4)")
+                    }
                 })
                 $("#delete_button1").click(function(){
                     $('#image1').attr("src", "");
                     $('#imagecard1').hide();
+                    numPhoto -= 1;
+                    $('#upload_widget').attr("disabled", false)
+                    if (numPhoto == 0) {
+                        $('#upload_widget').text("upload a photo (up to 4)")
+                    }
                 })
                 $("#delete_button2").click(function(){
                     $('#image2').attr("src", "");
                     $('#imagecard2').hide();
+                    numPhoto -= 1;
+                    $('#upload_widget').attr("disabled", false)
+                    if (numPhoto == 0) {
+                        $('#upload_widget').text("upload a photo (up to 4)")
+                    }
                 })
                 $("#delete_button3").click(function(){
                     $('#image3').attr("src", "");
                     $('#imagecard3').hide();
+                    numPhoto -= 1;
+                    $('#upload_widget').attr("disabled", false)
+                    if (numPhoto == 0) {
+                        $('#upload_widget').text("upload a photo (up to 4)")
+                    }
                 })
 
                 $("#type_select").change(function(){
