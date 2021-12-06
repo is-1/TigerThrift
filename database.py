@@ -1,3 +1,4 @@
+import re
 import os
 from sys import stderr
 from psycopg2 import connect
@@ -50,7 +51,7 @@ def get_user_phone(netid):
                 row = cursor.fetchone() # returned as tuple boolean
                 phone_number = row[0]
                 connection.commit()
-                return phone_number # will either be None or the phone number itself
+                return phone_number # will either be unknown or the phone number itself
     
     except Exception as ex:
        print(ex, file=stderr)
@@ -308,6 +309,14 @@ def days_between(d1, d2):
     #print("Current Date:", d1)
     #print("Reserved Date:", d2)
     time_left = timedelta(days=3) - (d1-d2)
+    # print("TIME LEFTTTTTT",time_left)
+    time_split = (re.split('[ :]', str(time_left)))[0]
+    if int(time_split) <= 0:
+        return("YOUR RESERVATION HAS EXPIRED! 0 days left")
+    # print(int(time_split))
+    # if time_left < 0:
+    #     print("TIME LEFT IS NEGATIVE")
+    #     return("TIME LEFT TO RESERVE HAS EXPIRED!")
     #print("Old time left:", (d1-d2))
     #print("Time left:", time_left)
     left = str(time_left).split(':', 1)
@@ -567,6 +576,7 @@ def items_sold_in_past(user_info):
                     # error if item in reservation table is not marked as reserved in items table
                     if item['status'] == 2:
                         results.append(item)
+                        print("appended item")
                     elif item['status'] != 2:
                         print("ERROR!! completed reservation not marked as status 2")
                     

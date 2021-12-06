@@ -428,10 +428,17 @@ def profile():
     tab = request.args.get('tab')
     
     active_items = curr_active_items(user_info)
+    # print(active_items)
     curr_reserved_items = reserved_items(user_info)
+    # print(curr_reserved_items)
     reserved_by_others = seller_reservations(user_info)
+    # print(reserved_by_others)
     past_sold_items = items_sold_in_past(user_info)
+    print("PAST SOLD ITEMS")
+    print(past_sold_items)
     purchased_items = past_purchases(user_info)
+    print("PURCHASED ITEMS")
+    print(purchased_items)
 
     if active_items is None:
         active_items = []
