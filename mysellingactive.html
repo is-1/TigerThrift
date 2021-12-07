@@ -2,7 +2,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="/static/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <html>
@@ -22,51 +22,19 @@
         <div id="active_row"
         style="padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
         <div class="row px-5" id="sidebar">
-            <form action="myselling/reserved" method='GET'>
+            <form action="/myselling/reserved" method='GET'>
                 <button id="items_curr_reserved_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                     items currently reserved by others
                 </button>
             </form>
-            <form action="myselling/active" method='GET'>
+            <form action="/myselling/active" method='GET'>
             <button id="items_curr_active_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                 items still active (not yet reserved by others)
             </button>
             </form>
         </div>
         <br>
-        <div id="items_curr_reserved">
-            <h4 class="text-center" style="margin: 0;">Items Currently Reserved By Others</h4>
-            <div id=search_results class="card-deck row justify-content-center">
-                {% if reserved_by_others|length == 0 %}
-                <h5 class="text-center pt-3">No items have yet been reserved!</h5>
-                {% else %}
-                {% for item in reserved_by_others %}
-                    <!-- item is currently reserved -->
-                    {% if item['status'] == 1 %} 
-                        <div class="card" style="width:250px; margin:30px;">
-                            <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
-                            <div class="card-body">
-                                <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
-                                <div class="d-flex align-self-end row">
-                                    <p class="card-text">Buyer: {{item['buyer_full_name']}} ({{item['buyernetid']}})</p>
-                                    {% if item['reservation_time_left'] == "YOUR RESERVATION HAS EXPIRED! 0 days left" %}
-                                    <p class="card-text" id=time_left style="color: red;"><i>YOUR RESERVATION HAS EXPIRED! Please email the buyer to confirm receipt of the sale, or let us know if the buyer is inactive.</i></p>
-                                    {% else %}
-                                    <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
-                                    {% endif %}
-                                    <form action="itemdetails" method='GET'>
-                                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button class="card-text btn btn-sm btn-dark">details</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-        <div id="items_still_active">
+        <div id="items_curr_active">
             <h4 class="text-center" style="margin: 0;">Items Still Active (not yet reserved by others)</h4>
             <div id=search_results class="card-deck row justify-content-center">
                 {% if curr_active_items|length == 0 %}
@@ -81,15 +49,15 @@
                             <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
                             <div class="mt-auto">
                                 <p class="card-text">Price: {{item['price']}}</p>
-                                <form action="itemdetails" method='GET'>
+                                <form action="/itemdetails" method='GET'>
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                                     <button class="card-text btn btn-dark btn-sm">details</button>
                                 </form>
-                                <form id="delete_form" action="delete_item" method='POST' class="pt-2">
+                                <form id="delete_form" action="/delete_item" method='POST' class="pt-2">
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                    <button class="card-text btn btn-dark btn-sm">remove item</button>
+                                    <button type="submit" class="card-text btn btn-dark btn-sm">remove item</button>
                                 </form>
-                                <form action="edit_item" method="POST" class="pt-2">
+                                <form action="/edit_item" method="POST" class="pt-2">
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                                     <button id="edit_button" class="card-text btn btn-dark btn-sm">edit item</button>
                                 </form>
@@ -106,19 +74,14 @@
         </div>
     </body>
     <script>
-        function active_hideAll() {
-            $("#items_curr_reserved").hide();
-            $("#items_still_active").hide();
-        }
-
         function setup(){
-            active_hideAll();
 
             document.getElementById("shop_header").style.color = "#000000";
             document.getElementById("sell_header").style.color = "#000000";
             document.getElementById("profile_header").style.color = "#2B6FF4";
             document.getElementById("about_header").style.color = "#000000";
             document.getElementById("tutorial_header").style.color = "#000000";
+            document.getElementById("items_curr_active_button").style.color = "#2B6FF4";
 
             if ("{{user_info['phone']}}" != "unknown") {
                 $("#with_phone").show();
@@ -129,27 +92,20 @@
                 $("#without_phone").show();
             }
 
-            $("#items_curr_reserved_button").click(function(){
-               $.get("myselling/reserved");
-            });
+            // $("#items_curr_reserved_button").click(function(){
+            //    $('#reserved_form').submit();
+            // });
 
-            $("#items_curr_active_button").click(function(){
-               $.get("myselling/active");
-            });
+            // $("#items_curr_active_button").click(function(){
+            //     $('#active_form').submit();
+            // });
             $('#delete_form').submit(function() {
                 let r = confirm("Are you sure you want to delete this item?");
-                if (r==true) {
-                        return true;
+                if (r == true) {
+                    return true;
                 }
                     return false;
             });
-
-            if ("status" == "reserved") {
-                $("#items_curr_reserved_button").trigger("click");
-            }
-            else {
-                $("#items_still_active_button").trigger("click");
-            }
     
         }
 
