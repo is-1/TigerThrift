@@ -25,12 +25,12 @@
         style="padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
         <div class="row px-5" id="sidebar">
             <form action="/myselling/reserved" method='GET'>
-                <button id="items_curr_reserved_button" class="col text-center" style="min-width: 210px; padding: 10px;">
+                <button type="submit" id="items_curr_reserved_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                     items currently reserved by others
                 </button>
             </form>
             <form action="/myselling/active" method='GET'>
-            <button id="items_curr_active_button" class="col text-center" style="min-width: 210px; padding: 10px;">
+            <button type="submit" id="items_curr_active_button" class="col text-center" style="min-width: 210px; padding: 10px;">
                 items still active (not yet reserved by others)
             </button>
             </form>
@@ -53,7 +53,7 @@
                                 <p class="card-text">Price: {{item['price']}}</p>
                                 <form action="/itemdetails" method='GET'>
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                    <button class="card-text btn btn-dark btn-sm">details</button>
+                                    <button type="submit" class="card-text btn btn-dark btn-sm">details</button>
                                 </form>
                                 <form id="delete_form" action="/delete_item" method='POST' class="pt-2">
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
@@ -61,7 +61,7 @@
                                 </form>
                                 <form action="/edit_item" method="POST" class="pt-2">
                                     <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                    <button id="edit_button" class="card-text btn btn-dark btn-sm">edit item</button>
+                                    <button type="submit" id="edit_button" class="card-text btn btn-dark btn-sm">edit item</button>
                                 </form>
                             </div>
                         </div>
@@ -102,19 +102,12 @@
                 $("#undergrad").show();
             }
 
-            // $("#items_curr_reserved_button").click(function(){
-            //    $('#reserved_form').submit();
-            // });
-
-            // $("#items_curr_active_button").click(function(){
-            //     $('#active_form').submit();
-            // });
             $('#delete_form').submit(function() {
                 let r = confirm("Are you sure you want to delete this item?");
                 if (r == true) {
                     return true;
                 }
-                    return false;
+                return false;
             });
     
         }

@@ -78,6 +78,18 @@
             </form>
           </div>
           {% endif %}
+          {% if item['status'] == 1 and isMine == True %}
+          <div class="text-center pt-2">
+            <form action="complete_reservation" method='POST' class="pt-2">
+                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                <button class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">sale complete <span style="color: #85c285;">✓</span></p></button>
+            </form>
+            <form id="cancel_form" action="cancel_reservation" method='POST' class="pt-2">
+                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                <button type="submit" class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+            </form>
+          </div>
+          {% endif %}
           <br>
           <span style="font-weight: 500;">
             {{ item['desc'] }}
@@ -95,7 +107,7 @@
           <hr>
         </div>
       </div>
-      <div class="row ps-5" id="back_form">
+      <div class="row ps-5 pt-4" id="back_form">
         <form action="{{route}}" method='GET'>
           <button id="back_button" class="btn btn-dark">← go back</button>
         </form>

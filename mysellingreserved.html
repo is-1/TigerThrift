@@ -39,10 +39,10 @@
         <div id="items_curr_reserved">
             <h4 class="text-center" style="margin: 0;">Items Currently Reserved By Others</h4>
             <div id=search_results class="card-deck row justify-content-center">
-                {% if reserved_by_others|length == 0 %}
+                {% if curr_active_items|length == 0 %}
                 <h5 class="text-center pt-3">No items have yet been reserved!</h5>
                 {% else %}
-                {% for item in reserved_by_others %}
+                {% for item in curr_active_items %}
                     <!-- item is currently reserved -->
                     {% if item['status'] == 1 %} 
                         <div class="card" style="width:250px; margin:30px;">

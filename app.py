@@ -11,7 +11,7 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items
+from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid
 from sendemail import send_buyer_notification, send_seller_notification, send_buyer_reminder, send_seller_reminder
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -425,7 +425,7 @@ def delete_item():
     
     html = render_template('success_item_deleted.html')
     response = make_response(html)
-    
+
     return response
  
 
@@ -591,8 +591,16 @@ def itemdetails():
     filter = json.loads(request.cookies.get('filter'))
     sort = request.cookies.get('sort')
     route = request.cookies.get('route')
+
     item = item_details(itemid)
-    
+
+    print("itemid = " + str(itemid))
+
+    if user_info['netid'] == reserved_netid(itemid):
+        isMine = True
+    else:
+        isMine = False
+
     print("route = " + str(route))
     print("item = " + str(item))
     print("previous search = " + str(search))
@@ -602,8 +610,10 @@ def itemdetails():
     print("previous sort = " + str(sort))
     print("photolink1 = " + str(item['photolink1']))
     print("photolink2 = " + str(item['photolink2']))
+    print("isMine = " + str(isMine))
+    print("reserved by = " + str(reserved_netid(itemid)))
 
-    html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route)
+    html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route, isMine=isMine)
     response = make_response(html)
     response.set_cookie('route', "/shop")
     return response
