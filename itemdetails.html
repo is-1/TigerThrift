@@ -12,8 +12,7 @@
   <body>
     {% include 'header.html' %}
     <div class="container-fluid">
-      <div  class="m-auto"></div>
-      <div class="row justify-content-center pt-4 pb-4"
+      <div class="row pt-4 justify-content-center"
         style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);">
         <div class="col" style="width: 350px;">
           <h4><strong style="letter-spacing: 0.1em;">{{ item['prodname']}}</strong></h4>
@@ -37,7 +36,7 @@
           </form>
           {% endif %}
         </div>
-        <div class="col justify-content-end">
+        <div class="col">
           <div id="carouselExampleIndicators" class="carousel slide"
           data-bs-ride="carousel" data-bs-interval="false">
           <div class="carousel-indicators" >
