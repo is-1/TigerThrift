@@ -15,95 +15,97 @@
     <h3 class="text-center"><strong>Sell an Item</strong></h3>
       <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
         <form id="sell_form" action="sell" value="" method = "POST">
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label style="letter-spacing: 0.1em;">Product Name</label>
                 <input class="form-control" type="text" maxlength="45" id="input_prod"
                 name = "prodname" placeholder="enter product name (up to 45 char)" required>
             </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Type</label>
-                <select id="type_select" name ="type" class="form-control" required>
-                    <option selected value="">choose a type of clothing</option>
-                    <option value="top">Top</option>
-                    <option value="bottom">Bottom</option>
-                    <option value="dress">Dress</option>
-                    <option value="outerwear">Outerwear</option>
-                    <option value="shoes">Shoes</option>
-                    <option value="accessories">Accessories</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Subtype</label>
-                <select id="subtype_select" name = "subtype" class="form-control" disabled></select>
-            </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Size</label>
-                <select id="size_select" name = "size" class="form-control" disabled></select>
-            </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Gender</label>
-                <select name = "gender" class="form-control" id="input_gender"required>
-                    <option selected value="">choose a gender</option>
-                    <option value="mens">Mens</option>
-                    <option value="womens">Womens</option>
-                    <option value="unisex">Unisex</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Price</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">$</span>
+            <div class="d-flex flex-wrap">
+                <div class="form-group col m-2" style="min-width: 230px;">
+                    <label style="letter-spacing: 0.1em;">Type</label>
+                    <select name = "type_select" class="form-control" id="type_select" required>
+                        <option selected value="">choose a type of clothing</option>
+                        <option value="top">Top</option>
+                        <option value="bottom">Bottom</option>
+                        <option value="dress">Dress</option>
+                        <option value="outerwear">Outerwear</option>
+                        <option value="shoes">Shoes</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+                <div class="form-group col m-2" style="min-width: 160px;">
+                    <label style="letter-spacing: 0.1em;">Subtype</label>
+                    <select id="subtype_select" name = "subtype" class="form-control" disabled></select>
+                </div>
+                <div class="form-group col m-2" style="min-width: 130px;">
+                    <label style="letter-spacing: 0.1em;">Size</label>
+                    <select id="size_select" name = "size" class="form-control" disabled></select>
+                </div>
+                <div class="form-group col m-2" style="min-width: 150px;">
+                    <label style="letter-spacing: 0.1em;">Gender</label>
+                    <select name = "gender" class="form-control" id="input_gender"required>
+                        <option selected value="">choose a gender</option>
+                        <option value="mens">Mens</option>
+                        <option value="womens">Womens</option>
+                        <option value="unisex">Unisex</option>
+                    </select>
+                </div>
+                <div class="form-group col m-2" style="min-width: 150px;">
+                    <label style="letter-spacing: 0.1em;">Price</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input type="int" name = "price" class="form-control" placeholder="enter price" id="input_price" required>
                     </div>
-                    <input type="int" name = "price" class="form-control" placeholder="enter price" id="input_price" required>
+                </div>
+                <div class="form-group col m-2" style="min-width: 220px;">
+                    <label style="letter-spacing: 0.1em;">Price Flexibility</label>
+                    <select name = "priceflexibility" class="form-control" id="input_price_flex" required>
+                        <option selected value="">choose a pricing option</option>
+                        <option value="price-fixed">Price-Fixed</option>
+                        <option value="price-negotiable">Price-Negotiable</option>
+                    </select>
+                </div>
+                <div class="form-group col m-2" style="min-width: 150px;">
+                    <label style="letter-spacing: 0.1em;">Brand</label>
+                    <input type="int" name="brand" class="form-control" placeholder="enter brand" id="input_brand" required>
+                </div>
+                <div class="form-group col m-2" style="min-width: 190px;">
+                    <label style="letter-spacing: 0.1em;">Condition</label>
+                    <select name = "condition" class="form-control" id="input_condition"required>
+                        <option value="">choose a condition</option>
+                        <option value="brand new">Brand New</option>
+                        <option value="like new">Like New</option>
+                        <option value="gently used">Gently Used</option>
+                        <option value="fairly used">Fairly Used</option>
+                        <option value="very used">Very Used</option>
+                    </select>
+                </div>
+                <div class="form-group col m-2" style="min-width: 150px;">
+                    <label style="letter-spacing: 0.1em;">Color</label>
+                    <select name = "color" class="form-control" id="input_color"required>
+                        <option value="">choose a color</option>
+                        <option value="red">Red</option>
+                        <option value="orange">Orange</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                        <option value="purple">Purple</option>
+                        <option value="brown">Brown</option>
+                        <option value="black">Black</option>
+                        <option value="gray">Gray</option>
+                        <option value="white">White</option>
+                        <option value="multicolored">Multi-colored</option>
+                    </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Price Flexibility</label>
-                <select name = "priceflexibility" class="form-control" id="input_price_flex" required>
-                    <option selected value="">choose a pricing option</option>
-                    <option value="price-fixed">Price-Fixed</option>
-                    <option value="price-negotiable">Price-Negotiable</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Brand</label>
-                <input type="int" name="brand" class="form-control" placeholder="enter brand" id="input_brand" required>
-            </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Condition</label>
-                <select name = "condition" class="form-control" id="input_condition"required>
-                    <option value="">choose a condition</option>
-                    <option value="brand new">Brand New</option>
-                    <option value="like new">Like New</option>
-                    <option value="gently used">Gently Used</option>
-                    <option value="fairly used">Fairly Used</option>
-                    <option value="very used">Very Used</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label style="letter-spacing: 0.1em;">Color</label>
-                <select name = "color" class="form-control" id="input_color"required>
-                    <option value="">choose a color</option>
-                    <option value="red">Red</option>
-                    <option value="orange">Orange</option>
-                    <option value="yellow">Yellow</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                    <option value="purple">Purple</option>
-                    <option value="brown">Brown</option>
-                    <option value="black">Black</option>
-                    <option value="gray">Gray</option>
-                    <option value="white">White</option>
-                    <option value="multicolored">Multi-colored</option>
-                </select>
-            </div>
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label style="letter-spacing: 0.1em;">Description</label>
                 <textarea type="int" name = "description" class="form-control" id="input_desc"
                     placeholder="enter decription of clothes" required></textarea>
             </div>
-            <div class="form-group">
+            <div class="form-group m-2">
                 <label style="letter-spacing: 0.1em;">Phone Number (optional)</label>
                 <input class="form-control" id ="phone" type="text" name="phone" id="input_phone">
                 <p class="mb-0 text-secondary">*if you would like reservers of this item to contact you via text*</p>
@@ -192,62 +194,80 @@
                 });*/
                 $("#type_select").click(function(){
                     noBorder();
+                    document.getElementById("type_select").style.color = "#2B6FF4";
                     document.getElementById("type_select").style.borderColor = "#2B6FF4";
                 });
                 $("#subtype_select").click(function(){
                     noBorder();
+                    document.getElementById("subtype_select").style.color = "#2B6FF4";
                     document.getElementById("subtype_select").style.borderColor = "#2B6FF4";
                 });
                 $("#size_select").click(function(){
                     noBorder();
+                    document.getElementById("size_select").style.color = "#2B6FF4";
                     document.getElementById("size_select").style.borderColor = "#2B6FF4";
                 });
                 $("#input_gender").click(function(){
                     noBorder();
+                    document.getElementById("input_gender").style.color = "#2B6FF4";
                     document.getElementById("input_gender").style.borderColor = "#2B6FF4";
                 });
                 $("#input_price").click(function(){
                     noBorder();
+
+                    document.getElementById("input_price").style.color = "#2B6FF4";
                     document.getElementById("input_price").style.borderColor = "#2B6FF4";
                 });
                 $("#input_price_flex").click(function(){
                     noBorder();
+
+                    document.getElementById("input_price_flex").style.color = "#2B6FF4";
                     document.getElementById("input_price_flex").style.borderColor = "#2B6FF4";
                 });
                 $("#input_brand").click(function(){
                     noBorder();
+                    document.getElementById("input_brand").style.color = "#2B6FF4";
                     document.getElementById("input_brand").style.borderColor = "#2B6FF4";
                 });
                 $("#input_condition").click(function(){
                     noBorder();
+
+                    document.getElementById("input_condition").style.color = "#2B6FF4";
                     document.getElementById("input_condition").style.borderColor = "#2B6FF4";
                 });
                 $("#input_color").click(function(){
                     noBorder();
+                    document.getElementById("input_color").style.color = "#2B6FF4";
                     document.getElementById("input_color").style.borderColor = "#2B6FF4";
                 });
                 $("#input_desc").click(function(){
                     noBorder();
+                    document.getElementById("input_desc").style.color = "#2B6FF4";
                     document.getElementById("input_desc").style.borderColor = "#2B6FF4";
                 });
                 $("#input_phone").click(function(){
                     noBorder();
+                    document.getElementById("input_phone").style.color = "#2B6FF4";
                     document.getElementById("input_phone").style.borderColor = "#2B6FF4";
                 });
                 $("#imagecard").click(function(){
                     noBorder();
+                    document.getElementById("input_img").style.color = "#2B6FF4";
                     document.getElementById("input_img").style.borderColor = "#2B6FF4";
                 });
                 $("#imagecard1").click(function(){
                     noBorder();
+                    document.getElementById("input_img1").style.color = "#2B6FF4";
                     document.getElementById("input_img1").style.borderColor = "#2B6FF4";
                 });
                 $("#imagecard2").click(function(){
                     noBorder();
+                    document.getElementById("input_img2").style.color = "#2B6FF4";
                     document.getElementById("input_img2").style.borderColor = "#2B6FF4";
                 });
                 $("#imagecard3").click(function(){
                     noBorder();
+                    document.getElementById("input_img3").style.color = "#2B6FF4";
                     document.getElementById("input_img3").style.borderColor = "#2B6FF4";
                 });
 
