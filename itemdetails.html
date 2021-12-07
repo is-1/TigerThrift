@@ -64,14 +64,11 @@
           </div>
           </div>
         <div class="col" style="min-width: 250px;">
-          <h4><strong style="letter-spacing: 0.2em; word-wrap:break-word;">{{ item['prodname']}}</strong></h4>
+          <h3><strong style="letter-spacing: 0.2em; word-wrap:break-word; font-weight: 600;">{{ item['prodname']}}</strong></h3>
 
-          <h5><strong style="letter-spacing: 0.1em; font-weight: 600;">{{ item['price']}} </strong><span style="font-size: smaller;">({{ item['priceflexibility']}})</span></h3>
-          <br>
-          <br>
-          <span style="font-weight: 500;">
-            {{ item['desc'] }}
-          </span>
+          <h4><strong style="letter-spacing: 0.1em; font-weight: 500;">{{ item['price']}} </strong><span style="font-size: smaller;">({{ item['priceflexibility']}})</span></h4>
+          <p style="letter-spacing: 0.1em; font-weight: 300;">Size: {{ item['size'] }} <br>
+            Brand: {{item['brand'] }}</p>
           <!-- only show reserve button if item is active status (not reserved, and still available) -->
           {% if item['status'] == 0 and user_info['netid'] != item['sellernetid'] %}
           <div class="text-center pt-2">
@@ -82,20 +79,20 @@
           </div>
           {% endif %}
           <br>
+          <span style="font-weight: 500;">
+            {{ item['desc'] }}
+          </span>
           <hr>
-          <h5 style="letter-spacing: 0.1em; font-weight: 500;">details</h3>
+          <h5 style="letter-spacing: 0.1em; font-weight: 500;">More Details</h3>
           <div class="ps-3">
-            <strong>Size: </strong>{{ item['size'] }}<br>
-            <strong>Brand: </strong>{{item['brand'] }}<br>
             <strong>Condition: </strong>{{ item['condition']}}<br>
-
-            <strong>Type: </strong>{{item['type']}}<br>
-            <strong>Subtype: </strong>{{ item['subtype']}}<br>
+            <strong>Type:   </strong>{{item['type']}}<br>
+            <strong>Subtype:   </strong>{{ item['subtype']}}<br>
             <strong>Clothing Gender: </strong>{{item['gender'] }}<br>
             <strong>Color: </strong>{{ item['color']}}<br>
             <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
           </div>
-          
+          <hr>
         </div>
       </div>
       <div class="row ps-5" id="back_form">
