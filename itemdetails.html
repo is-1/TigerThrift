@@ -30,10 +30,12 @@
           <strong>Description: </strong>{{ item['desc'] }}<br>
           <!-- only show reserve button if item is active status (not reserved, and still available) -->
           {% if item['status'] == 0 and user_info['netid'] != item['sellernetid'] %}
-          <form action="reserve" method='POST'>
-            <input type="hidden" name="itemid" value="{{item['itemid']}}">
-            <button class="card-text btn btn-dark mt-2">reserve item</button>
-          </form>
+          <div class="row">
+            <form action="reserve" method='POST'>
+              <input type="hidden" name="itemid" value="{{item['itemid']}}">
+              <button class="card-text btn btn-dark mt-2">reserve item</button>
+            </form>
+          </div>
           {% endif %}
         </div>
         <div class="col">
