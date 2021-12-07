@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- <link rel="stylesheet" href="style.css"> -->
+<link rel="shortcut icon" type="image/" href="/static/images/icon.png"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -14,7 +15,7 @@
     {% include 'header.html' %}
     <h3 class="text-center"><strong>Edit Your Item</strong></h3>
       <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
-        <form action="success_edit" value="" method = "POST">
+        <form id="sell_form" action="success_edit" value="" method = "POST">
             <div class="form-group">
                 <label>Product Name</label>
                 <input class="form-control" type="text" name = "prodname" value="{{item['prodname']}}" required>
@@ -101,20 +102,40 @@
                 <input class="form-control" id ="phone" type="text" name = "phone">
                 <p>*if you would like reservers of this item to contact you via text</p>
             </div>
-            <div id="photoupload" class="form-grou m-2">
-                <div class="row">
-                    <img id="image" src="{{item['photolink']}}" class="col p-2">
-                    <img id="image1" src="{{item['photolink1']}}" class="col p-2">
-                    <img id="image2" src="{{item['photolink2']}}" class="col p-2">
-                    <img id="image3" src="{{item['photolink3']}}" class="col p-2">
-                    <button id="upload_widget" type="button" class="btn btn-dark">upload photo of item (up to 4)</button>
+            <div id="photoupload" class="form-group m-2">
+                <div class="card-deck row justify-content-center">
+                    <div class="card m-2" style="width:250px" id="imagecard">
+                        <img id="image" src="" class="p-1" class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
+                        <button id="delete_button" class="btn" type="button">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </div>
+                    <div id="imagecard1" class="card m-2" style="width:250px;">
+                        <img id="image1" src="" class="p-1" class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
+                        <button id="delete_button1" class="btn" type="button">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </div>
+                    <div id="imagecard2" class="card m-2" style="width:250px;">
+                        <img id="image2" src="" class="p-1" class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
+                        <button id="delete_button2" class="btn" type="button">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </div>
+                    <div id="imagecard3" class="card m-2" style="width:250px;">
+                        <img id="image3" src="" class="p-1" class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
+                        <button id="delete_button3" class="btn" type="button">
+                            <i class="fa fa-trash-o"></i>
+                        </button>
+                    </div>
                 </div>
+                <button id="upload_widget" type="button" class="btn btn-dark mt-2" style="width: 100%; letter-spacing: 0.1em;">upload photo of item (up to 4)</button>
             </div>
             <br>
-            <input type="hidden" id="photolink" name ="photolink" value = "{{item['photolink']}}">
-            <input type="hidden" id="photolink1" name ="photolink1" value = "{{item['photolink1']}}">
-            <input type="hidden" id="photolink2" name ="photolink2" value = "{{item['photolink2']}}">
-            <input type="hidden" id="photolink3" name ="photolink3" value = "{{item['photolink3']}}">
+            <input type="hidden" id="photolink" name ="photolink" value = "">
+            <input type="hidden" id="photolink1" name ="photolink1" value = "">
+            <input type="hidden" id="photolink2" name ="photolink2" value = "">
+            <input type="hidden" id="photolink3" name ="photolink3" value = "">
 
             <form action="success_sell" method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
@@ -123,10 +144,11 @@
             </form>
             
             <div class="align-items-center">
-                <form action="profile" method='GET'>
+                <form id="back_form" action="{{route}}" method='GET'>
                     <button class="btn btn-dark">← go back</button>
                 </form>
-            <form action="delete_item" method='POST' class="pt-2">
+                </div>
+            <form id="delete_form" action="delete_item" method='POST' class="pt-2">
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                 <button class="card-text btn btn-dark">remove item</button>
             </form>
@@ -138,6 +160,12 @@
     
         <script type="text/javascript">  
             function setup() {
+                $('#imagecard').hide();
+                $('#imagecard1').hide();
+                $('#imagecard2').hide();
+                $('#imagecard3').hide();
+
+                let numPhoto = 0;
                 
                 var myWidget = cloudinary.createUploadWidget({
                     cloudName: 'dbnkmun6k', 
@@ -154,27 +182,37 @@
                                 $('#image').attr("src", imageUrl);
                                 console.log("photolink val : " + $('#photolink').val());
                                 $('#photolink').val(imageUrl);
+                                $('#imagecard').show();
+                                $('#upload_widget').text("upload another photo (up to 4)");
                             }
                             else if ($('#image1').attr("src") == '') {
                                 $('#image1').attr("src", imageUrl);
                                 $('#photolink1').val(imageUrl);
                                 console.log("photolink1 val : " + $('#photolink1').val());
+                                $('#imagecard1').show();
+                                $('#upload_widget').text("upload another photo (up to 4)");
                             }
                             else if ($('#image2').attr("src") == '') {
                                 $('#image2').attr("src", imageUrl);
                                 $('#photolink2').val(imageUrl);
                                 console.log("photolink2 val : " + $('#photolink2').val());
+                                $('#imagecard2').show();
+                                $('#upload_widget').text("upload another photo (up to 4)");
                             }
                             else if ($('#image3').attr("src") == '') {
                                 $('#image3').attr("src", imageUrl);
                                 $('#photolink3').val(imageUrl);
                                 console.log("photolink3 val : " + $('#photolink3').val());
-                            }                                
+                                $('#imagecard3').show();
+                                $('#upload_widget').attr("disabled", true);
+                            }
+                            numPhoto+=1;
+                        }                                
                         if (error){
                             console.log("error uploading");} 
                     }
-                }
                 )
+                
                 document.getElementById("upload_widget").addEventListener("click", function(){
                     myWidget.open();
                 }, false);
@@ -241,9 +279,8 @@
                             text: sizes[j]
                         }));
                     }
-
-
                 });
+
                 // set edit fields
                 if ("{{item['type']}}" != "None") {
                     $("#type_select").val("{{item['type']}}".toLowerCase()).trigger('change');
@@ -268,29 +305,136 @@
                 if ("{{item['color']}}" != "None") {
                     $("#color_select").val("{{item['color']}}".toLowerCase());
                 }
-                if ("{{item['photolink']}}" != "None") {
-                    $("#image").val("{{item['photolink']}}");
+                if ("{{item['photolink']}}" != "None" && "{{item['photolink']}}" != "") {
+                    $("#image").attr("src", "{{item['photolink']}}");
+                    $("#photolink").val("{{item['photolink']}}");
+                    numPhoto += 1;
+                    $('#imagecard').show();
                 }
-                if ("{{item['photolink1']}}" != "None") {
-                    $("#image1").val("{{item['photolink1']}}");
+                if ("{{item['photolink1']}}" != "None" && "{{item['photolink1']}}" != "") {
+                    $("#image1").attr("src", "{{item['photolink1']}}");
+                    $("#photolink1").val("{{item['photolink']}}");
+                    numPhoto += 1;
+                    $('#imagecard1').show();
                 }
-                if ("{{item['photolink2']}}" != "None") {
-                    $("#image2").val("{{item['photolink2']}}");
+
+                if ("{{item['photolink2']}}" != "None" && "{{item['photolink2']}}" != "") {
+                    $("#image2").attr("src", "{{item['photolink2']}}");
+                    $("#photolink2").val("{{item['photolink2']}}");
+                    numPhoto += 1;
+                    $('#imagecard2').show();
                 }
-                if ("{{item['photolink3']}}" != "None") {
-                    $("#imag3").val("{{item['photolink3']}}");
+
+                if ("{{item['photolink3']}}" != "None" && "{{item['photolink3']}}" != "") {
+                    $("#image3").attr("src", "{{item['photolink3']}}");
+                    $("#photolink3").val("{{item['photolink3']}}");
+                    numPhoto += 1;
+                    $('#imagecard3').show();
                 }
-                if ("{{user_info['phone']}}" != "unknown") {
+
+                if ("{{user_info['phone']}}" != "unknown" && "{{user_info['phone']}}" != "None" ) {
                     $("#phone").val("{{user_info['phone']}}");
                 }
                 else {
                     $('#phone').attr('placeholder', 'enter phone number');
                 }
 
+                $("#delete_button").click(function(){
+                    $('#image').attr("src", $('#image1').attr("src"));
+                    $('#image1').attr("src", $('#image2').attr("src"));
+                    $('#image2').attr("src", $('#image3').attr("src"));
+                    $('#image3').attr("src", "");
+                    if ($('#image').attr("src") == "") {
+                        $('#imagecard').hide();
+                    }
+                    if ($('#image1').attr("src") == "") {
+                        $('#imagecard1').hide();
+                    }
+                    if ($('#image2').attr("src") == "") {
+                        $('#imagecard2').hide();
+                    }
+                    $('#imagecard3').hide();
+                    $('#photolink').val($('#photolink1').val());
+                    $('#photolink1').val($('#photolink2').val());
+                    $('#photolink2').val($('#photolink3').val());
+                    $('#photolink3').val("");
+                    numPhoto -= 1;
+                    $('#upload_widget').attr("disabled", false)
+                    if (numPhoto == 0) {
+                        $('#upload_widget').text("upload a photo (up to 4)")
+                    }
+                })
+                $("#delete_button1").click(function(){
+                    $('#image1').attr("src", $('#image2').attr("src"));
+                    $('#image2').attr("src", $('#image3').attr("src"));
+                    $('#image3').attr("src", "");
+                    if ($('#image1').attr("src") == "") {
+                        $('#imagecard1').hide();
+                    }
+                    if ($('#image2').attr("src") == "") {
+                        $('#imagecard2').hide();
+                    }
+                    $('#imagecard3').hide();
+                    $('#photolink1').val($('#photolink2').val());
+                    $('#photolink2').val($('#photolink3').val());
+                    $('#photolink3').val("");
+                    numPhoto -= 1;
+                    $('#upload_widget').attr("disabled", false)
+                    if (numPhoto == 0) {
+                        $('#upload_widget').text("upload a photo (up to 4)")
+                    }
+                })
+                $("#delete_button2").click(function(){
+                    $('#image2').attr("src", $('#image3').attr("src"));
+                    $('#image3').attr("src", "");
+                    if ($('#image2').attr("src") == "") {
+                        $('#imagecard2').hide();
+                    }
+                    $('#imagecard3').hide();
+                    $('#photolink2').val($('#photolink3').val());
+                    $('#photolink3').val("");
+                    numPhoto -= 1;
+                    $('#upload_widget').attr("disabled", false)
+                    if (numPhoto == 0) {
+                        $('#upload_widget').text("upload a photo (up to 4)")
+                    }
+                })
+                $("#delete_button3").click(function(){
+                    $('#image3').attr("src", "");
+                    $('#photolink3').val("");
+                    $('#imagecard3').hide();
+                    numPhoto -= 1;
+                    $('#upload_widget').attr("disabled", false)
+                    if (numPhoto == 0) {
+                        $('#upload_widget').text("upload a photo (up to 4)")
+                    }
+                })
+
+                $('#sell_form').submit(function(){
+                if ($('#photolink').val() == "") {
+                    alert("Upload at least one photo!");
+                    return false;
+                }
+                else return True;
+            });
+
+                $('#back_form').submit(function() {
+                    let r = confirm("Are you sure you want to go back? Unsaved changes will be lost.");
+                    if (r==true) {
+                        return true;
+                    }
+                    return false;
+                });
+
+                $('#delete_form').submit(function() {
+                    let r = confirm("Are you sure you want to delete this item?");
+                    if (r==true) {
+                        return true;
+                    }
+                    return false;
+                });
+    
             }
-            //   if (imageUrl != null) {
-            //       $('#image1').attr("src", imageUrl);
-            //   }
             $('#document').ready(setup);
         </script>
       </div>

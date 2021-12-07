@@ -1,19 +1,37 @@
 <nav class="navbar navbar-expand-sm navbar-light" style="padding-bottom:0;" id="logged_in_navbar">
   <div class="container-fluid">
-    <span class="navbar-text text-dark" style="padding-bottom:0;">
-      <a href="/" style="text-decoration:none;"><h1><strong>TigerThrift</strong></h1></a>
-    </span>
+    <nav class="navbar navbar-light">
+      <div class="container-fluid">
+        <div class="d-flex flex-wrap p-0">
+          <a href="/" style="text-decoration:none; color: black;"><h1><strong>TigerThrift</strong></h1></a>
+          <img src="/static/images/icon.png" alt="" width="35" height="35" class="d-inline-block align-middle ps-2">
+        </div>
+      </div>
+    </nav>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" href="shop" id="shop_header">Shop</a>
-        <a class="nav-item nav-link" href="sell" id="sell_header">Sell</a>
-        <a class="nav-item nav-link" href="profile" id="profile_header">Profile</a>
-        <a class="nav-item nav-link" href="about" id="about_header">About</a>
-        <a class="nav-item nav-link" href="tutorial" id="tutorial_header">Tutorial</a>
-        <a class="nav-item nav-link" href="logout">Log Out</a>
+        <a class="nav-item nav-link" href="/shop" id="shop_header">Shop</a>
+        <a class="nav-item nav-link" href="/sell" id="sell_header">Sell</a>
+        <!--<a class="nav-item nav-link" href="profile" id="profile_header">Profile</a>-->
+        <div class="dropdown">
+          <a class="nav-item nav-link dropdown-toggle" href="/profile"
+            role="button" id="profile_header" data-bs-toggle="dropdown" aria-expanded="false">
+            My Account
+          </a>
+          <ul class="dropdown-menu">
+            <a class="dropdown-item" href="/profile">Profile</a>
+            <a class="dropdown-item" href="/mypurchased">My Purchased</a>
+            <a class="dropdown-item" href="/myreserved">My Reserved</a>
+            <a class="dropdown-item" href="/myselling">My Selling</a>
+            <a class="dropdown-item" href="/mysold">My Sold</a>
+            <a class="dropdown-item" href="/logout">Log Out</a>
+          </ul>
+        </div>
+        <a class="nav-item nav-link" href="/about" id="about_header">About</a>
+        <a class="nav-item nav-link" href="/tutorial" id="tutorial_header">Tutorial</a>
       </div>
     </div>
   </div>

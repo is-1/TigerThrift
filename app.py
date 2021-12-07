@@ -172,7 +172,7 @@ def shop():
     response.set_cookie('search', str(search))
     response.set_cookie('filter', json.dumps(filter))
     response.set_cookie('sort', str(sort))
-
+    response.set_cookie('route', "shop")
     return response
     
 @app.route('/sell', methods=['GET', 'POST'])
@@ -184,6 +184,8 @@ def sell():
     # add_user(user_info)
     html = render_template('sell.html', user_info=user_info)
     response = make_response(html)
+    response.set_cookie('route', "sell")
+
     return response
 
 @app.route('/edit_item', methods=['POST'])
@@ -194,12 +196,13 @@ def edit_item():
     user_info = get_user_info(username)
     # add_user(user_info)
     itemid =  request.form.get('itemid')
+    route = request.cookies.get('route')
 
     ## item = item_details(itemid)
     item = item_details(itemid)
     
     print("item info sent to be edited:", str(item))
-    html = render_template('edit.html', item=item, user_info=user_info)
+    html = render_template('edit.html', item=item, user_info=user_info, route=route)
     response = make_response(html)
     return response
 
@@ -304,6 +307,7 @@ def success_sell():
         add_item(item_details, user_info)
         html = render_template('success_sell.html')
         response = make_response(html)
+        response.set_cookie('route', "sell")
         return response
 
 
@@ -342,7 +346,7 @@ def search_results():
     response.set_cookie('search', str(search))
     response.set_cookie('filter', json.dumps(filter))
     response.set_cookie('sort', str(sort))
-
+    response.set_cookie('route', "shop")
     return response
 
 @app.route('/reserve', methods=['POST'])
@@ -424,8 +428,6 @@ def profile():
     # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
-
-    tab = request.args.get('tab')
     
     active_items = curr_active_items(user_info)
     # print(active_items)
@@ -442,16 +444,130 @@ def profile():
 
     if active_items is None:
         active_items = []
-    # curr_active_items = []
-    # for item in items:
-    #     if item['sellernetid'] == user_info['netid']:
-    #         if item['status'] == 0:
-    #             curr_active_items.append(item)
-    #         # if item['status'] == 1:
-    #         #     reserved_by_others_items.append(item)
+
     html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
 
     response = make_response(html)
+    response.set_cookie('route', "profile")
+
+    return response
+
+@app.route('/mypurchased', methods=['GET'])
+def my_purchased():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    purchased_items = past_purchases(user_info)
+
+    if purchased_items is None:
+        purchased_items = []
+        
+    html = render_template('mypurchased.html', user_info = user_info, purchased_items=purchased_items)
+
+    response = make_response(html)
+    response.set_cookie('route', "mypurchased")
+
+    return response
+
+@app.route('/myreserved', methods=['GET'])
+def my_reserved():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    curr_reserved_items = reserved_items(user_info)
+
+    if curr_reserved_items is None:
+        curr_reserved_items = []
+        
+    html = render_template('myreserved.html', user_info = user_info, curr_reserved_items=curr_reserved_items)
+    response = make_response(html)
+    response.set_cookie('route', "myreserved")
+
+    return response
+
+@app.route('/myselling', methods=['GET'])
+def my_selling():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    active_items = curr_active_items(user_info)
+
+    if active_items is None:
+        active_items = []
+        
+    html = render_template('myselling.html', user_info = user_info, curr_active_items=active_items)
+
+    response = make_response(html)
+    response.set_cookie('route', "myselling")
+
+    return response
+
+@app.route('/myselling/active', methods=['GET'])
+def my_selling_active():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    active_items = curr_active_items(user_info)
+
+    if active_items is None:
+        active_items = []
+        
+    html = render_template('mysellingactive.html', user_info = user_info, curr_active_items=active_items, status="active")
+
+    response = make_response(html)
+    response.set_cookie('route', "myselling/active")
+
+    return response
+
+@app.route('/myselling/reserved', methods=['GET'])
+def my_selling_reserved():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    active_items = curr_active_items(user_info)
+
+    if active_items is None:
+        active_items = []
+        
+    html = render_template('mysellingreserved.html', user_info = user_info, curr_active_items=active_items, status="reserved")
+
+    response = make_response(html)
+    response.set_cookie('route', "myselling/reserved")
+
+    return response
+
+@app.route('/mysold', methods=['GET'])
+def my_sold():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    user_info = get_user_info(username)
+    # add_user(user_info)
+
+    past_sold_items = items_sold_in_past(user_info)
+
+    if past_sold_items is None:
+        past_sold_items = []
+        
+    html = render_template('mysold.html', user_info = user_info, past_sold_items=past_sold_items)
+
+    response = make_response(html)
+    response.set_cookie('route', "mysold")
     return response
 
 @app.route('/itemdetails', methods=['GET'])
@@ -466,9 +582,10 @@ def itemdetails():
     search = request.cookies.get('search')
     filter = json.loads(request.cookies.get('filter'))
     sort = request.cookies.get('sort')
-
+    route = request.cookies.get('route')
     item = item_details(itemid)
     
+    print("route = " + str(route))
     print("item = " + str(item))
     print("previous search = " + str(search))
     print("previous filter = " + str(filter))
@@ -477,9 +594,10 @@ def itemdetails():
     print("previous sort = " + str(sort))
     print("photolink1 = " + str(item['photolink1']))
     print("photolink2 = " + str(item['photolink2']))
-    
-    html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
+
+    html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route)
     response = make_response(html)
+    response.set_cookie('route', "shop")
     return response
 
 @app.route('/about', methods=['GET'])
@@ -489,13 +607,14 @@ def about():
         print("not logged in")
         html = render_template('about.html', logged_in=False)
         response = make_response(html)
-        return response
     # if logged in
     else:
         print("logged in")
         html = render_template('about.html', logged_in=True)
         response = make_response(html)
-        return response
+    
+    response.set_cookie('route', "about")
+    return response
 
 @app.route('/tutorial', methods=['GET'])
 def tutorial():
@@ -504,13 +623,14 @@ def tutorial():
         print("not logged in")
         html = render_template('tutorial.html', logged_in=False)
         response = make_response(html)
-        return response
     # if logged in
     else:
         print("logged in")
         html = render_template('tutorial.html', logged_in=True)
         response = make_response(html)
-        return response
+    
+    response.set_cookie('route', "tutorial")
+    return response
 
 @app.route('/error', methods=['GET'])
 def error():
