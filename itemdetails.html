@@ -96,7 +96,6 @@
             <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
           </div>
           
-
         </div>
       </div>
       <div class="row ps-5" id="back_form">
@@ -104,20 +103,18 @@
           <button id="back_button" class="btn btn-dark">← go back</button>
         </form>
       </div>
-    </div>
   </body>
 
-  <script>
-      function setup() {
-        $('#shop_form').hide();
-        $('#back_form').hide();
-          if ("{{route}}" == 'shop') {
-              $('#shop_form').show();
-          }
-          else {
-              $('#back_form').show();
-          }
-      }
-      $('#document').ready(setup);
-  </script>
+<script>
+
+    function setup() {
+        if ("{{route}}" == "" || "{{route}}" == "None") {
+            $("#back_form").hide();
+        }
+    }
+
+    $("#document").ready(setup);
+
+
+</script>
 </html>

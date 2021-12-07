@@ -179,7 +179,7 @@ def shop():
     response.set_cookie('search', str(search))
     response.set_cookie('filter', json.dumps(filter))
     response.set_cookie('sort', str(sort))
-    response.set_cookie('route', "shop")
+    response.set_cookie('route', "/shop")
     return response
     
 @app.route('/sell', methods=['GET', 'POST'])
@@ -191,7 +191,7 @@ def sell():
     # add_user(user_info)
     html = render_template('sell.html', user_info=user_info)
     response = make_response(html)
-    response.set_cookie('route', "sell")
+    response.set_cookie('route', "/sell")
 
     return response
 
@@ -314,7 +314,7 @@ def success_sell():
         add_item(item_details, user_info)
         html = render_template('success_sell.html')
         response = make_response(html)
-        response.set_cookie('route', "sell")
+        response.set_cookie('route', "/sell")
         return response
 
 
@@ -353,7 +353,7 @@ def search_results():
     response.set_cookie('search', str(search))
     response.set_cookie('filter', json.dumps(filter))
     response.set_cookie('sort', str(sort))
-    response.set_cookie('route', "shop")
+    response.set_cookie('route', "/shop")
     return response
 
 @app.route('/reserve', methods=['POST'])
@@ -425,6 +425,7 @@ def delete_item():
     
     html = render_template('success_item_deleted.html')
     response = make_response(html)
+    
     return response
  
 
@@ -455,7 +456,7 @@ def profile():
     html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
 
     response = make_response(html)
-    response.set_cookie('route', "profile")
+    response.set_cookie('route', "/profile")
 
     return response
 
@@ -475,7 +476,7 @@ def my_purchased():
     html = render_template('mypurchased.html', user_info = user_info, purchased_items=purchased_items)
 
     response = make_response(html)
-    response.set_cookie('route', "mypurchased")
+    response.set_cookie('route', "/mypurchased")
 
     return response
 
@@ -494,7 +495,7 @@ def my_reserved():
         
     html = render_template('myreserved.html', user_info = user_info, curr_reserved_items=curr_reserved_items)
     response = make_response(html)
-    response.set_cookie('route', "myreserved")
+    response.set_cookie('route', "/myreserved")
 
     return response
 
@@ -514,7 +515,7 @@ def my_selling():
     html = render_template('myselling.html', user_info = user_info, curr_active_items=active_items)
 
     response = make_response(html)
-    response.set_cookie('route', "myselling")
+    response.set_cookie('route', "/myselling")
 
     return response
 
@@ -534,7 +535,7 @@ def my_selling_active():
     html = render_template('mysellingactive.html', user_info = user_info, curr_active_items=active_items, status="active")
 
     response = make_response(html)
-    response.set_cookie('route', "myselling/active")
+    response.set_cookie('route', "/myselling/active")
 
     return response
 
@@ -554,7 +555,7 @@ def my_selling_reserved():
     html = render_template('mysellingreserved.html', user_info = user_info, curr_active_items=active_items, status="reserved")
 
     response = make_response(html)
-    response.set_cookie('route', "myselling/reserved")
+    response.set_cookie('route', "/myselling/reserved")
 
     return response
 
@@ -574,7 +575,7 @@ def my_sold():
     html = render_template('mysold.html', user_info = user_info, past_sold_items=past_sold_items)
 
     response = make_response(html)
-    response.set_cookie('route', "mysold")
+    response.set_cookie('route', "/mysold")
     return response
 
 @app.route('/itemdetails', methods=['GET'])
@@ -604,7 +605,7 @@ def itemdetails():
 
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route)
     response = make_response(html)
-    response.set_cookie('route', "shop")
+    response.set_cookie('route', "/shop")
     return response
 
 @app.route('/about', methods=['GET'])
@@ -620,7 +621,7 @@ def about():
         html = render_template('about.html', logged_in=True)
         response = make_response(html)
     
-    response.set_cookie('route', "about")
+    response.set_cookie('route', "/about")
     return response
 
 @app.route('/tutorial', methods=['GET'])
@@ -636,7 +637,7 @@ def tutorial():
         html = render_template('tutorial.html', logged_in=True)
         response = make_response(html)
     
-    response.set_cookie('route', "tutorial")
+    response.set_cookie('route', "/tutorial")
     return response
 
 @app.route('/error', methods=['GET'])
