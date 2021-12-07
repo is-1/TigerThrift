@@ -162,7 +162,7 @@ def shop():
 
     # filter = {"subtype" : "sneakers"} #placeholder
     filter = {"gender": titlecase(gender), "type": titlecase(type), 
-    "subtype": titlecase(subtype), "size": titlecase(size), "condition": titlecase(condition),
+    "subtype": titlecase(subtype), "size": size.upper(), "condition": titlecase(condition),
     "color": titlecase(color), "brand": titlecase(brand)}
 
     print("search: "  + str(search))
@@ -250,7 +250,7 @@ def success_edit():
         'gender': titlecase(gender),
         'price': price,
         'priceflexibility': titlecase(priceflexibility),
-        'size': titlecase(size),
+        'size': size.upper(),
         'brand': titlecase(brand),
         'condition': titlecase(condition),
         'color': titlecase(color),
@@ -301,7 +301,7 @@ def success_sell():
         'gender': titlecase(gender),
         'price': price,
         'priceflexibility': titlecase(priceflexibility),
-        'size': titlecase(size),
+        'size': size.upper(),
         'brand': titlecase(brand),
         'condition': titlecase(condition),
         'color': titlecase(color),
@@ -339,7 +339,7 @@ def search_results():
 
     # filter = {"subtype" : "sneakers"} #placeholder
     filter = {"gender": titlecase(gender), "type": titlecase(type), 
-    "subtype": titlecase(subtype), "size": titlecase(size), "condition": titlecase(condition),
+    "subtype": titlecase(subtype), "size": size.upper(), "condition": titlecase(condition),
     "color": titlecase(color), "brand": titlecase(brand)}
 
     print("search: "  + search)
