@@ -19,7 +19,15 @@
           <form method="get" action="/shop">
             <button type="submit" class="btn btn-dark">browse other items</button>
           </form>
+          <form method="get" action="/myreserved">
+            <button type="submit" class="btn btn-dark">view reservations</button>
+          </form>
+          <form id="cancel_form" action="cancel_reservation" method='POST' class="pt-2">
+            <input type = "hidden" name="itemid" value="{{itemid}}">
+            <button type="submit" class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+        </form>
         </div>
+
     </div>
   </body>
 </html>

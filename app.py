@@ -11,7 +11,7 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items
+from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid
 from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_buyer_reservation_reminder, send_seller_reservation_reminder, send_buyer_expiration_notification, send_seller_expiration_notification
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -162,7 +162,7 @@ def shop():
 
     # filter = {"subtype" : "sneakers"} #placeholder
     filter = {"gender": titlecase(gender), "type": titlecase(type), 
-    "subtype": titlecase(subtype), "size": titlecase(size), "condition": titlecase(condition),
+    "subtype": titlecase(subtype), "size": size.upper(), "condition": titlecase(condition),
     "color": titlecase(color), "brand": titlecase(brand)}
 
     print("search: "  + str(search))
@@ -179,7 +179,7 @@ def shop():
     response.set_cookie('search', str(search))
     response.set_cookie('filter', json.dumps(filter))
     response.set_cookie('sort', str(sort))
-    response.set_cookie('route', "shop")
+    response.set_cookie('route', "/shop")
     return response
     
 @app.route('/sell', methods=['GET', 'POST'])
@@ -191,7 +191,7 @@ def sell():
     # add_user(user_info)
     html = render_template('sell.html', user_info=user_info)
     response = make_response(html)
-    response.set_cookie('route', "sell")
+    response.set_cookie('route', "/sell")
 
     return response
 
@@ -250,7 +250,7 @@ def success_edit():
         'gender': titlecase(gender),
         'price': price,
         'priceflexibility': titlecase(priceflexibility),
-        'size': titlecase(size),
+        'size': size.upper(),
         'brand': titlecase(brand),
         'condition': titlecase(condition),
         'color': titlecase(color),
@@ -301,7 +301,7 @@ def success_sell():
         'gender': titlecase(gender),
         'price': price,
         'priceflexibility': titlecase(priceflexibility),
-        'size': titlecase(size),
+        'size': size.upper(),
         'brand': titlecase(brand),
         'condition': titlecase(condition),
         'color': titlecase(color),
@@ -314,7 +314,7 @@ def success_sell():
         add_item(item_details, user_info)
         html = render_template('success_sell.html')
         response = make_response(html)
-        response.set_cookie('route', "sell")
+        response.set_cookie('route', "/sell")
         return response
 
 
@@ -339,7 +339,7 @@ def search_results():
 
     # filter = {"subtype" : "sneakers"} #placeholder
     filter = {"gender": titlecase(gender), "type": titlecase(type), 
-    "subtype": titlecase(subtype), "size": titlecase(size), "condition": titlecase(condition),
+    "subtype": titlecase(subtype), "size": size.upper(), "condition": titlecase(condition),
     "color": titlecase(color), "brand": titlecase(brand)}
 
     print("search: "  + search)
@@ -353,7 +353,7 @@ def search_results():
     response.set_cookie('search', str(search))
     response.set_cookie('filter', json.dumps(filter))
     response.set_cookie('sort', str(sort))
-    response.set_cookie('route', "shop")
+    response.set_cookie('route', "/shop")
     return response
 
 @app.route('/reserve', methods=['POST'])
@@ -368,8 +368,16 @@ def reserve():
     itemid = request.form.get('itemid')
 
     sellernetid, seller_first_name, seller_email, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+    
     # get seller from database eventually, USE USERS TABLE 
+
+    if sellernetid is None:
+        html = render_template('error.html')
+        response = make_response(html)
+        return response
+
     seller = {'first_name': str(seller_first_name), 'full_name': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
+
 
     # change to item object, or item name based on itemid
     send_seller_reservation_notification(seller, buyer, product_name) # check this
@@ -377,7 +385,7 @@ def reserve():
     # send_buyer_reservation_notification(seller, buyer, product_name) # eecheck this
     send_buyer_reservation_notification(seller, buyer, product_name) # for testing
 
-    html = render_template('success_reserve.html')
+    html = render_template('success_reserve.html', itemid=itemid)
     response = make_response(html)
     return response
 
@@ -425,6 +433,7 @@ def delete_item():
     
     html = render_template('success_item_deleted.html')
     response = make_response(html)
+
     return response
  
 
@@ -455,7 +464,7 @@ def profile():
     html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
 
     response = make_response(html)
-    response.set_cookie('route', "profile")
+    response.set_cookie('route', "/profile")
 
     return response
 
@@ -475,7 +484,7 @@ def my_purchased():
     html = render_template('mypurchased.html', user_info = user_info, purchased_items=purchased_items)
 
     response = make_response(html)
-    response.set_cookie('route', "mypurchased")
+    response.set_cookie('route', "/mypurchased")
 
     return response
 
@@ -494,7 +503,7 @@ def my_reserved():
         
     html = render_template('myreserved.html', user_info = user_info, curr_reserved_items=curr_reserved_items)
     response = make_response(html)
-    response.set_cookie('route', "myreserved")
+    response.set_cookie('route', "/myreserved")
 
     return response
 
@@ -514,7 +523,7 @@ def my_selling():
     html = render_template('myselling.html', user_info = user_info, curr_active_items=active_items)
 
     response = make_response(html)
-    response.set_cookie('route', "myselling")
+    response.set_cookie('route', "/myselling")
 
     return response
 
@@ -534,7 +543,7 @@ def my_selling_active():
     html = render_template('mysellingactive.html', user_info = user_info, curr_active_items=active_items, status="active")
 
     response = make_response(html)
-    response.set_cookie('route', "myselling/active")
+    response.set_cookie('route', "/myselling/active")
 
     return response
 
@@ -554,7 +563,7 @@ def my_selling_reserved():
     html = render_template('mysellingreserved.html', user_info = user_info, curr_active_items=active_items, status="reserved")
 
     response = make_response(html)
-    response.set_cookie('route', "myselling/reserved")
+    response.set_cookie('route', "/myselling/reserved")
 
     return response
 
@@ -574,7 +583,7 @@ def my_sold():
     html = render_template('mysold.html', user_info = user_info, past_sold_items=past_sold_items)
 
     response = make_response(html)
-    response.set_cookie('route', "mysold")
+    response.set_cookie('route', "/mysold")
     return response
 
 @app.route('/itemdetails', methods=['GET'])
@@ -590,8 +599,16 @@ def itemdetails():
     filter = json.loads(request.cookies.get('filter'))
     sort = request.cookies.get('sort')
     route = request.cookies.get('route')
+
     item = item_details(itemid)
-    
+
+    print("itemid = " + str(itemid))
+
+    if user_info['netid'] == reserved_netid(itemid):
+        isMine = True
+    else:
+        isMine = False
+
     print("route = " + str(route))
     print("item = " + str(item))
     print("previous search = " + str(search))
@@ -601,10 +618,12 @@ def itemdetails():
     print("previous sort = " + str(sort))
     print("photolink1 = " + str(item['photolink1']))
     print("photolink2 = " + str(item['photolink2']))
+    print("isMine = " + str(isMine))
+    print("reserved by = " + str(reserved_netid(itemid)))
 
-    html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route)
+    html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route, isMine=isMine)
     response = make_response(html)
-    response.set_cookie('route', "shop")
+    response.set_cookie('route', "/shop")
     return response
 
 @app.route('/about', methods=['GET'])
@@ -620,7 +639,7 @@ def about():
         html = render_template('about.html', logged_in=True)
         response = make_response(html)
     
-    response.set_cookie('route', "about")
+    response.set_cookie('route', "/about")
     return response
 
 @app.route('/tutorial', methods=['GET'])
@@ -636,7 +655,7 @@ def tutorial():
         html = render_template('tutorial.html', logged_in=True)
         response = make_response(html)
     
-    response.set_cookie('route', "tutorial")
+    response.set_cookie('route', "/tutorial")
     return response
 
 @app.route('/error', methods=['GET'])

@@ -12,11 +12,13 @@
   </head>
   <body>
     <!--header-->
-    <nav class="navbar navbar-expand-sm navbar-light bg-white" id="logged_out_navbar">
+    <nav class="navbar navbar-expand-sm navbar-light bg-white pb-0 pt-3" id="logged_out_navbar">
       <div class="container-fluid">
-        <span class="navbar-text text-dark" style="padding-bottom:0;">
-          <a href="landing" style="text-decoration:none;"><h1><strong>TigerThrift</strong></h1></a>
-        </span>
+        <div class="d-flex flex-wrap p-0">
+          <a href="/" style="text-decoration:none; color: black;"><h1><strong>TigerThrift</strong></h1></a>
+          <a href="/"><img src="/static/images/icon.png" class="img-fluid align-middle ps-2"
+            style="max-height: 38px; max-width: 38px;"></a>
+        </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -47,14 +49,14 @@
           </p>
           <div class="text-center">
             <form action="tutorial" method='GET'>
-                <button class="card-text btn btn-sm btn-dark">click here for a tutorial</button>
+                <button class="card-text btn btn-dark">Click Here for a Tutorial</button>
             </form>
           </div>
           <!-- team -->
           <h4 class="text-center pt-5">Team</h4>
           <p class="text-center">Katie Chou '23, Katelyn Rodrigues '23, Iroha Shirai '23</p>
           <div class="text-center">
-            <button class="btn btn-sm btn-dark" href="mailto: tigerthrift@princeton.edu">
+            <button class="btn btn-dark" href="mailto: tigerthrift@princeton.edu">
               Contact Us <i class="fa fa-envelope"></i></a></button>
           </div>
         </div>

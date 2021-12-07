@@ -64,14 +64,11 @@
           </div>
           </div>
         <div class="col" style="min-width: 250px;">
-          <h4><strong style="letter-spacing: 0.2em; word-wrap:break-word;">{{ item['prodname']}}</strong></h4>
+          <h3><strong style="letter-spacing: 0.2em; word-wrap:break-word; font-weight: 600;">{{ item['prodname']}}</strong></h3>
 
-          <h5><strong style="letter-spacing: 0.1em; font-weight: 600;">{{ item['price']}} </strong><span style="font-size: smaller;">({{ item['priceflexibility']}})</span></h3>
-          <br>
-          <br>
-          <span style="font-weight: 500;">
-            {{ item['desc'] }}
-          </span>
+          <h4><strong style="letter-spacing: 0.1em; font-weight: 500;">{{ item['price']}} </strong><span style="font-size: smaller;">({{ item['priceflexibility']}})</span></h4>
+          <p style="letter-spacing: 0.1em; font-weight: 300;">Size: {{ item['size'] }} <br>
+            Brand: {{item['brand'] }}</p>
           <!-- only show reserve button if item is active status (not reserved, and still available) -->
           {% if item['status'] == 0 and user_info['netid'] != item['sellernetid'] %}
           <div class="text-center pt-2">
@@ -81,43 +78,72 @@
             </form>
           </div>
           {% endif %}
+          {% if item['status'] == 1 and isMine == True %}
+          <div class="text-center pt-2">
+            <form action="complete_reservation" method='POST' class="pt-2">
+                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                <button class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">sale complete <span style="color: #85c285;">✓</span></p></button>
+            </form>
+            <form id="cancel_form" action="cancel_reservation" method='POST' class="pt-2">
+                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                <button type="submit" class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+            </form>
+          </div>
+          {% endif %}
           <br>
+          <span style="font-weight: 500;">
+            {{ item['desc'] }}
+          </span>
           <hr>
-          <h5 style="letter-spacing: 0.1em; font-weight: 500;">details</h3>
+          <h5 style="letter-spacing: 0.1em; font-weight: 500;">More Details</h3>
           <div class="ps-3">
-            <strong>Size: </strong>{{ item['size'] }}<br>
-            <strong>Brand: </strong>{{item['brand'] }}<br>
             <strong>Condition: </strong>{{ item['condition']}}<br>
-
-            <strong>Type: </strong>{{item['type']}}<br>
-            <strong>Subtype: </strong>{{ item['subtype']}}<br>
+            <strong>Type:   </strong>{{item['type']}}<br>
+            <strong>Subtype:   </strong>{{ item['subtype']}}<br>
             <strong>Clothing Gender: </strong>{{item['gender'] }}<br>
             <strong>Color: </strong>{{ item['color']}}<br>
             <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
           </div>
-          
-
+          <hr>
         </div>
       </div>
-      <div class="row ps-5" id="back_form">
+      <div class="row ps-5 pt-4" id="back_form">
         <form action="{{route}}" method='GET'>
-          <button id="back_button" class="btn btn-dark">← go back</button>
+          <button type="submit" id="back_button" class="btn btn-dark">← go back</button>
         </form>
-      </div>
+    </div>
+    <div class="row ps-5 pt-4" id="shop_form">
+        <form action="/shop" method='GET'>
+            <input type = "hidden" name="search" value="{{prev_search}}">
+            <input type = "hidden" name="gender" value="{{ prev_filter['gender'] }}">
+            <input type = "hidden" name="type" value="{{ prev_filter['type'] }}">
+            <input type = "hidden" name="subtype" value="{{ prev_filter['subtype'] }}">
+            <input type = "hidden" name="size" value="{{ prev_filter['size'] }}">
+            <input type = "hidden" name="condition" value="{{ prev_filter['condition'] }}">
+            <input type = "hidden" name="color" value="{{ prev_filter['color'] }}">
+            <input type = "hidden" name="brand" value="{{ prev_filter['brand'] }}">
+            <input type = "hidden" name="sort" value="{{ prev_sort }}">
+            <button  type="submit"  class="card-text btn btn-dark">← go back</button>
+        </form>
     </div>
   </body>
 
-  <script>
-      function setup() {
-        $('#shop_form').hide();
-        $('#back_form').hide();
-          if ("{{route}}" == 'shop') {
-              $('#shop_form').show();
-          }
-          else {
-              $('#back_form').show();
-          }
-      }
-      $('#document').ready(setup);
-  </script>
+<script>
+
+    function setup() {
+        $("#shop_form").hide();
+
+        if ("{{route}}" == "" || "{{route}}" == "None") {
+            $("#back_form").hide();
+        }
+        if ("{{route}}" == "/shop") {
+            $("#back_form").hide();
+            $("#shop_form").show();
+        }
+    }
+
+    $("#document").ready(setup);
+
+
+</script>
 </html>
