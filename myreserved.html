@@ -47,9 +47,9 @@
                             <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                             <button class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">sale complete <span style="color: #85c285;">✓</span></p></button>
                         </form>
-                        <form action="cancel_reservation" method='POST' class="pt-2">
+                        <form id="cancel_form" action="cancel_reservation" method='POST' class="pt-2">
                             <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                            <button class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+                            <button type="submit" class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
                         </form>
                     </div>
                 </div>
@@ -76,8 +76,16 @@
                 $("#with_phone").hide();
                 $("#without_phone").show();
             }
+
+            $('#cancel_form').submit(function() {
+                let r = confirm("Are you sure you want to cancel your reservation?");
+                if (r==true) {
+                        return true;
+                }
+                    return false;
+            });
         }
-        $('#document').ready(setup);dy(setup);
+        $('#document').ready(setup);
 
     </script>
 </body>

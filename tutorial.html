@@ -89,6 +89,9 @@
                 $("#sell_tutorial").hide();
             }
             function setup(){
+                $("#sell_tutorial").hide();
+                $("#buy_tutorial").show();
+                
                 if ("{{logged_in}}" == "False") {
                     $("#logged_out_navbar").show();
                     $("#logged_in_navbar").hide();
@@ -97,8 +100,6 @@
                     $("#logged_out_navbar").hide();
                     $("#logged_in_navbar").show();
                 }
-                $("#buy_tutorial").show();
-                $("#sell_tutorial").hide();
                 document.getElementById("buy_tutorial_button").style.border = "1px solid #000000";
                 document.getElementById("buy_tutorial_button").style.borderBottom = "none";
                 document.getElementById("buy_tutorial_button").style.color = "#2B6FF4";
