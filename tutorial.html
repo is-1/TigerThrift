@@ -10,12 +10,14 @@
         <title>TigerThrift</title>
     </head>
   <body>
-      <!--header-->
-    <nav class="navbar navbar-expand-sm navbar-light bg-white" id="logged_out_navbar">
+    <!--header-->
+      <nav class="navbar navbar-expand-sm navbar-light bg-white" id="logged_out_navbar">
         <div class="container-fluid">
-          <span class="navbar-text text-dark" style="padding-bottom:0;">
-            <a href="landing" style="text-decoration:none;"><h1><strong>TigerThrift</strong></h1></a>
-          </span>
+          <div class="d-flex flex-wrap p-0">
+            <a href="/" style="text-decoration:none; color: black;"><h1><strong>TigerThrift</strong></h1></a>
+            <a href="/"><img src="/static/images/icon.png" class="img-fluid align-middle ps-2"
+              style="max-height: 38px; max-width: 38px;"></a>
+          </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -27,7 +29,7 @@
             </div>
           </div>
         </div>
-    </nav>
+      </nav>
     <!--after header-->
     {% include 'header.html' %}
     <br>
