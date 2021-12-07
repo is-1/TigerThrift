@@ -337,8 +337,10 @@ def days_between(d1, d2):
     time_left = timedelta(days=3) - (d1-d2)
     # print("TIME LEFTTTTTT",time_left)
     time_split = (re.split('[ :]', str(time_left)))[0]
-    if int(time_split) <= 0:
+    print(str(time_split))
+    if int(time_split) < 0:
         return("YOUR RESERVATION HAS EXPIRED! 0 days left")
+        # send email that reservation has expired
     # print(int(time_split))
     # if time_left < 0:
     #     print("TIME LEFT IS NEGATIVE")
@@ -348,11 +350,20 @@ def days_between(d1, d2):
     left = str(time_left).split(':', 1)
     time_left = left[0]
     mins_secs_left = left[1]
+    print("helloooo", str(time_left))
+    if "day" not in str(time_left):
+        hours_left = (str(time_left).split(', ', 1))[-1] # hours left on 0th day
+        print("YOUR RESERVATION IS ABOUT TO EXPIRE! Only", str(hours_left), "hours left!")
+        # send email that you only have hours_left number of hours left to complete reservation
+        return("YOUR RESERVATION WILL EXPIRE IN ", str(hours_left), " HOURS!")
     #print(mins_secs_left)
     #print("Adjusted date:", time_left, " hours!")
+    # I DONT THINK THIS EVER GETS HIT
     if time_left == str(0):
         mins_secs_left = mins_secs_left.replace(":", " minutes ")
         return(mins_secs_left, " seconds left")
+    print("TIME LEFT:", time_left)
+    print("Time Left Split:", (str(time_left).split(', ', 1))[-1])
     return(time_left, " hours left")
 
 def curr_active_items(user_info):

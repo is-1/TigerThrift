@@ -12,7 +12,7 @@ from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
 from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items
-from sendemail import send_buyer_notification, send_seller_notification, send_buyer_reminder, send_seller_reminder
+from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_buyer_reservation_reminder, send_seller_reservation_reminder, send_buyer_expiration_notification, send_seller_expiration_notification
 from casclient import CasClient
 from keys import APP_SECRET_KEY
 
@@ -199,7 +199,7 @@ def sell():
 def edit_item():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     itemid =  request.form.get('itemid')
@@ -217,7 +217,7 @@ def edit_item():
 def success_edit():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -363,19 +363,19 @@ def reserve():
     # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
-    buyer = {'name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email']} # add full name 
+    buyer = {'first_name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email'], 'full_name': user_info['full_name']} # add full name 
 
     itemid = request.form.get('itemid')
 
     sellernetid, seller_first_name, seller_email, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
     # get seller from database eventually, USE USERS TABLE 
-    seller = {'name': str(seller_first_name), 'netid': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
+    seller = {'first_name': str(seller_first_name), 'full_name': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
 
     # change to item object, or item name based on itemid
-    send_seller_notification(seller, buyer, product_name) # check this
-    send_seller_reminder(seller, buyer, product_name) # for testing
-    send_buyer_notification(buyer, product_name) # eecheck this
-    send_buyer_reminder(buyer, product_name) # for testing
+    send_seller_reservation_notification(seller, buyer, product_name) # check this
+    # send_seller_reservation_notification(seller, buyer, product_name) # for testing
+    # send_buyer_reservation_notification(seller, buyer, product_name) # eecheck this
+    send_buyer_reservation_notification(seller, buyer, product_name) # for testing
 
     html = render_template('success_reserve.html')
     response = make_response(html)
@@ -483,7 +483,7 @@ def my_purchased():
 def my_reserved():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'kc42'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -502,7 +502,7 @@ def my_reserved():
 def my_selling():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -522,7 +522,7 @@ def my_selling():
 def my_selling_active():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -542,7 +542,7 @@ def my_selling_active():
 def my_selling_reserved():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
+    #username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
