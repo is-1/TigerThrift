@@ -20,15 +20,23 @@
             <p class="text-left" style="text-transform:lowercase" id="without_phone">{{user_info['email']}}</p>
             <p class="text-left" style="text-transform:lowercase" id="with_phone">{{user_info['email']}} | {{user_info['phone']}}</p>
         </div>
-        <div class="row p-0" id="sidebar">
+        <h4 class="text-center">Items Selling</h4>
+        <div class="d-flex justify-content-center row">
             <!--<form action="myselling/reserved" method='GET' class="col"></form>
             <form action="myselling/active" method='GET' class="col"></form>-->
+<<<<<<< HEAD
             <a href="/myselling/reserved" id="items_curr_reserved_button" class="col text-center rounded-top" style="max-width:500px; padding: 10px;">
                 items currently reserved by others
             </a>
             <a href="/myselling/active" id="items_curr_active_button" class="col text-center rounded-top" style="max-width:500px; padding: 10px;">
+=======
+            <button id="items_curr_reserved_button" class="btn text-center rounded-0" style="min-width:250px; max-width:400px; padding: 10px;">
+                items currently reserved by others
+            </button>
+            <button id="items_curr_active_button" class="btn text-center rounded-0" style="min-width:250px; max-width:400px; padding: 10px;">
+>>>>>>> 10c4f7f7e77d34e3d4e5f60e62ad87e3d27199bd
                 items still active (not yet reserved by others)
-            </a>
+            </button>
         </div>
         <div id="items_curr_reserved" class="m-auto p-0"
             style="max-width: 750px; padding-left: min(30px, 10%); padding-right: min(30px, 10%);">
@@ -123,6 +131,11 @@
                 $("#undergrad").show();
             }
 
+            document.getElementById("items_curr_reserved_button").style.color = "#2B6FF4";
+            document.getElementById("items_curr_reserved_button").style.borderBottom = "2px solid #2B6FF4";
+            document.getElementById("items_curr_active_button").style.color = "#000000";
+            document.getElementById("items_curr_active_button").style.borderBottom = "2px solid #ffffff";
+            /*
             document.getElementById("items_curr_reserved_button").style.border = "1px solid #000000";
             document.getElementById("items_curr_reserved_button").style.borderBottom = "none";
             document.getElementById("items_curr_reserved_button").style.color = "#2B6FF4";
@@ -131,10 +144,16 @@
             document.getElementById("items_curr_active_button").style.borderBottom = "1px solid #000000";
             document.getElementById("items_curr_active_button").style.backgroundColor = "#d3d3d3";
             document.getElementById("items_curr_active_button").style.color = "#000000";
+            */
 
             $("#items_curr_reserved_button").click(function(){
+                
                 /*$.get("myselling/reserved");*/
-                document.getElementById("items_curr_reserved_button").style.border = "1px solid #000000";
+                document.getElementById("items_curr_reserved_button").style.color = "#2B6FF4";
+                document.getElementById("items_curr_reserved_button").style.borderBottom = "2px solid #2B6FF4";
+                document.getElementById("items_curr_active_button").style.color = "#000000";
+                document.getElementById("items_curr_active_button").style.borderBottom = "2px solid #ffffff";
+                /*document.getElementById("items_curr_reserved_button").style.border = "1px solid #000000";
                 document.getElementById("items_curr_reserved_button").style.borderBottom = "none";
                 document.getElementById("items_curr_reserved_button").style.color = "#2B6FF4";
                 document.getElementById("items_curr_reserved_button").style.backgroundColor = "#ffffff";
@@ -143,13 +162,17 @@
                 document.getElementById("items_curr_active_button").style.backgroundColor = "#d3d3d3";
                 document.getElementById("items_curr_active_button").style.color = "#000000";
                 // $("#items_still_active").hide();
-                // $("#items_curr_reserved").show();
+                // $("#items_curr_reserved").show();*/
 
             });
 
             $("#items_curr_active_button").click(function(){
                 /*$.get("myselling/active");*/
-                document.getElementById("items_curr_active_button").style.border = "1px solid #000000";
+                document.getElementById("items_curr_reserved_button").style.color = "#000000";
+                document.getElementById("items_curr_reserved_button").style.borderBottom = "2px solid #ffffff";
+                document.getElementById("items_curr_active_button").style.color = "#2B6FF4";
+                document.getElementById("items_curr_active_button").style.borderBottom = "2px solid #2B6FF4";
+                /*document.getElementById("items_curr_active_button").style.border = "1px solid #000000";
                 document.getElementById("items_curr_active_button").style.borderBottom = "none";
                 document.getElementById("items_curr_active_button").style.color = "#2B6FF4";
                 document.getElementById("items_curr_active_button").style.backgroundColor = "#ffffff";
@@ -158,7 +181,7 @@
                 document.getElementById("items_curr_reserved_button").style.backgroundColor = "#d3d3d3";
                 document.getElementById("items_curr_reserved_button").style.color = "#000000";
                 // $("#items_curr_reserved").hide();
-                // $("#items_still_active").show();
+                // $("#items_still_active").show();*/
             });
 
             $('#delete_form').submit(function() {
