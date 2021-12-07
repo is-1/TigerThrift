@@ -24,16 +24,12 @@
         <div id="active_row"
         style="padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
         <div class="row px-5" id="sidebar">
-            <form action="/myselling/reserved" method='GET'>
-                <button id="items_curr_reserved_button" class="col text-center" style="min-width: 210px; padding: 10px;">
-                    items currently reserved by others
-                </button>
-            </form>
-            <form action="/myselling/active" method='GET'>
-            <button id="items_curr_active_button" class="col text-center" style="min-width: 210px; padding: 10px;">
+            <a href="/myselling/reserved" id="items_curr_reserved_button" class="col text-center rounded-top" style="max-width:500px; padding: 10px;">
+                items currently reserved by others
+            </a>
+            <a href="/myselling/active" id="items_curr_active_button" class="col text-center rounded-top" style="max-width:500px; padding: 10px;">
                 items still active (not yet reserved by others)
-            </button>
-            </form>
+            </a>
         </div>
         <br>
         <div id="items_curr_reserved">
@@ -97,6 +93,34 @@
                 $("#faculty").hide();
                 $("#undergrad").show();
             }
+            $("#items_curr_reserved_button").click(function(){
+                /*$.get("myselling/reserved");*/
+                document.getElementById("items_curr_reserved_button").style.border = "1px solid #000000";
+                document.getElementById("items_curr_reserved_button").style.borderBottom = "none";
+                document.getElementById("items_curr_reserved_button").style.color = "#2B6FF4";
+                document.getElementById("items_curr_reserved_button").style.backgroundColor = "#ffffff";
+                document.getElementById("items_curr_active_button").style.border = "none";
+                document.getElementById("items_curr_active_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("items_curr_active_button").style.backgroundColor = "#d3d3d3";
+                document.getElementById("items_curr_active_button").style.color = "#000000";
+                // $("#items_still_active").hide();
+                // $("#items_curr_reserved").show();
+
+            });
+
+            $("#items_curr_active_button").click(function(){
+                /*$.get("myselling/active");*/
+                document.getElementById("items_curr_active_button").style.border = "1px solid #000000";
+                document.getElementById("items_curr_active_button").style.borderBottom = "none";
+                document.getElementById("items_curr_active_button").style.color = "#2B6FF4";
+                document.getElementById("items_curr_active_button").style.backgroundColor = "#ffffff";
+                document.getElementById("items_curr_reserved_button").style.border = "none";
+                document.getElementById("items_curr_reserved_button").style.borderBottom = "1px solid #000000";
+                document.getElementById("items_curr_reserved_button").style.backgroundColor = "#d3d3d3";
+                document.getElementById("items_curr_reserved_button").style.color = "#000000";
+                // $("#items_curr_reserved").hide();
+                // $("#items_still_active").show();
+            });
             $('#delete_form').submit(function() {
                 let r = confirm("Are you sure you want to delete this item?");
                 if (r==true) {
@@ -105,6 +129,7 @@
                     return false;
             });
     
+                $("#items_curr_reserved_button").trigger("click");
         }
 
         $('#document').ready(setup);

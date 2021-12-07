@@ -23,10 +23,10 @@
         <div class="row p-0" id="sidebar">
             <!--<form action="myselling/reserved" method='GET' class="col"></form>
             <form action="myselling/active" method='GET' class="col"></form>-->
-            <a id="items_curr_reserved_button" class="col text-center rounded-top" style="max-width:500px; padding: 10px;">
+            <a href="/myselling/reserved" id="items_curr_reserved_button" class="col text-center rounded-top" style="max-width:500px; padding: 10px;">
                 items currently reserved by others
             </a>
-            <a id="items_curr_active_button" class="col text-center rounded-top" style="max-width:500px; padding: 10px;">
+            <a href="/myselling/active" id="items_curr_active_button" class="col text-center rounded-top" style="max-width:500px; padding: 10px;">
                 items still active (not yet reserved by others)
             </a>
         </div>
@@ -81,7 +81,7 @@
                                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                                         <button class="card-text btn btn-dark btn-sm">details</button>
                                     </form>
-                                    <form id="delete_form" action="delete_item" method='POST' class="pt-2">
+                                    <form id="delete_form" action="delete_item" onSubmit="confirm('Are you sure you want to delete this item?');" method='POST' class="pt-2">
                                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                                         <button class="card-text btn btn-dark btn-sm">remove item</button>
                                     </form>
@@ -103,7 +103,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         function setup(){
-            $("#items_curr_reserved").show();
+            $("#items_curr_reserved").hide();
             $("#items_still_active").hide();
             
             if ("{{user_info['phone']}}" != "unknown") {
@@ -142,8 +142,8 @@
                 document.getElementById("items_curr_active_button").style.borderBottom = "1px solid #000000";
                 document.getElementById("items_curr_active_button").style.backgroundColor = "#d3d3d3";
                 document.getElementById("items_curr_active_button").style.color = "#000000";
-                $("#items_still_active").hide();
-                $("#items_curr_reserved").show();
+                // $("#items_still_active").hide();
+                // $("#items_curr_reserved").show();
 
             });
 
@@ -157,8 +157,8 @@
                 document.getElementById("items_curr_reserved_button").style.borderBottom = "1px solid #000000";
                 document.getElementById("items_curr_reserved_button").style.backgroundColor = "#d3d3d3";
                 document.getElementById("items_curr_reserved_button").style.color = "#000000";
-                $("#items_curr_reserved").hide();
-                $("#items_still_active").show();
+                // $("#items_curr_reserved").hide();
+                // $("#items_still_active").show();
             });
 
             $('#delete_form').submit(function() {

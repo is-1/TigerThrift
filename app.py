@@ -368,7 +368,14 @@ def reserve():
     itemid = request.form.get('itemid')
 
     sellernetid, seller_first_name, seller_email, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+    
     # get seller from database eventually, USE USERS TABLE 
+
+    if sellernetid is None:
+        html = render_template('error.html')
+        response = make_response(html)
+        return response
+
     seller = {'name': str(seller_first_name), 'netid': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
 
     # change to item object, or item name based on itemid
@@ -377,7 +384,7 @@ def reserve():
     send_buyer_notification(buyer, product_name) # eecheck this
     send_buyer_reminder(buyer, product_name) # for testing
 
-    html = render_template('success_reserve.html')
+    html = render_template('success_reserve.html', itemid=itemid)
     response = make_response(html)
     return response
 
