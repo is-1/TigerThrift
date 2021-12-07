@@ -17,6 +17,12 @@ body{
 #navbarNav a:hover{
     color: #2B6FF4;
 }
+#navbarNav .dropdown-menu a:active{
+    color: #2B6FF4;
+    background-color: lightgray;
+}
+
+
 #navbarNav .dropdown-item{
     font-size: 15px;
 }
