@@ -11,7 +11,7 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items
+from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items
 from sendemail import send_buyer_notification, send_seller_notification, send_buyer_reminder, send_seller_reminder
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -67,6 +67,13 @@ def get_user_info(username):
     print("USERNAME (from cas): " + username)
     netid = username
 
+    # whitelisting instructors who are not undergrads (prof. dondero and TAs)
+    if netid in ['rdondero', 'bb5943', 'jg41', 'anatk', 'dorothyz']:
+        # don't need to add_user bc we added them to database already
+        user_info = get_whitelist_user_info(netid)
+        return user_info
+
+    # get info and make sure user is an undergrad
     r = requests.get(url=urllib.parse.urljoin(TIGERBOOK_API, netid),headers=get_wsse_headers(TIGERBOOK_USR, TIGERBOOK_KEY))
     # Only do if undergrad
     if str(r) == "<Response [404]>":
@@ -263,7 +270,7 @@ def success_edit():
 def success_sell():
     is_authenticated()
     username = CasClient().authenticate()
-    username='katelynr'
+    # username='katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 

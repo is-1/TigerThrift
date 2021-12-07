@@ -36,6 +36,32 @@ def add_user(user_info):
        print(ex, file=stderr)
        #exit(1)
 
+def get_whitelist_user_info(netid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                # check if user is first time user, if so add to users table
+                stmt_str = 'SELECT * FROM users WHERE netid=%s;'
+                cursor.execute(stmt_str, [netid])
+                row = cursor.fetchone() # returned as tuple boolean
+                user_info = {'first_name': row[4],
+                'last_name': row[5],
+                'full_name': row[6],
+                'netid': netid,
+                'email': row[1],
+                'class_year': 'faculty'} # removed photo_link (hopefully we don't need that)
+                user_info['phone'] = get_user_phone(netid)
+                connection.commit()
+                return user_info # will either be unknown or the phone number itself
+    
+    except Exception as ex:
+       print(ex, file=stderr)
+       #exit(1)
+
 # return false or return true
 def get_user_phone(netid):
     DATABASE_URL = os.environ.get('DATABASE_URL')

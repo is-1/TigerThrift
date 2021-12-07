@@ -15,7 +15,8 @@
             <div class="container-fluid">
                 <div class="row text-center">
                     <h3 class="text-left"><strong>{{user_info['full_name']}}</strong></h3>
-                    <p class="text-left mb-0" style="text-transform:lowercase">{{user_info['netid']}} | class of 20{{user_info['class_year']}}</p>
+                    <p class="text-left mb-0" style="text-transform:lowercase" id="faculty">{{user_info['netid']}} | {{user_info['class_year']}}</p>
+                    <p class="text-left mb-0" style="text-transform:lowercase" id="undergrad">{{user_info['netid']}} | class of 20{{user_info['class_year']}}</p>
                     <p class="text-left" style="text-transform:lowercase" id="without_phone">{{user_info['email']}}</p>
                     <p class="text-left" style="text-transform:lowercase" id="with_phone">{{user_info['email']}} | {{user_info['phone']}}</p>
                 </div>
@@ -62,6 +63,14 @@
             else {
                 $("#with_phone").hide();
                 $("#without_phone").show();
+            }
+            if ("{{user_info['class_year']}}" == "faculty") {
+                $("#faculty").show();
+                $("#undergrad").hide();
+            }
+            else {
+                $("#faculty").hide();
+                $("#undergrad").show();
             }
         }
 
