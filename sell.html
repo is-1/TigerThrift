@@ -41,7 +41,9 @@
                     <label style="letter-spacing: 0.1em;">Size</label>
                     <select id="size_select" name = "size" class="form-control" disabled></select>
                 </div>
-                <div class="form-group col m-2" style="min-width: 150px;">
+            </div>
+            <span class="form-group mx-0 row">
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
                     <label style="letter-spacing: 0.1em;">Gender</label>
                     <select name = "gender" class="form-control" id="input_gender"required>
                         <option selected value="">choose a gender</option>
@@ -50,39 +52,7 @@
                         <option value="unisex">Unisex</option>
                     </select>
                 </div>
-                <div class="form-group col m-2" style="min-width: 150px;">
-                    <label style="letter-spacing: 0.1em;">Price</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">$</span>
-                        </div>
-                        <input type="int" name = "price" class="form-control" placeholder="enter price" id="input_price" required>
-                    </div>
-                </div>
-                <div class="form-group col m-2" style="min-width: 220px;">
-                    <label style="letter-spacing: 0.1em;">Price Flexibility</label>
-                    <select name = "priceflexibility" class="form-control" id="input_price_flex" required>
-                        <option selected value="">choose a pricing option</option>
-                        <option value="price-fixed">Price-Fixed</option>
-                        <option value="price-negotiable">Price-Negotiable</option>
-                    </select>
-                </div>
-                <div class="form-group col m-2" style="min-width: 150px;">
-                    <label style="letter-spacing: 0.1em;">Brand</label>
-                    <input type="int" name="brand" class="form-control" placeholder="enter brand" id="input_brand" required>
-                </div>
-                <div class="form-group col m-2" style="min-width: 190px;">
-                    <label style="letter-spacing: 0.1em;">Condition</label>
-                    <select name = "condition" class="form-control" id="input_condition"required>
-                        <option value="">choose a condition</option>
-                        <option value="brand new">Brand New</option>
-                        <option value="like new">Like New</option>
-                        <option value="gently used">Gently Used</option>
-                        <option value="fairly used">Fairly Used</option>
-                        <option value="very used">Very Used</option>
-                    </select>
-                </div>
-                <div class="form-group col m-2" style="min-width: 150px;">
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
                     <label style="letter-spacing: 0.1em;">Color</label>
                     <select name = "color" class="form-control" id="input_color"required>
                         <option value="">choose a color</option>
@@ -99,7 +69,43 @@
                         <option value="multicolored">Multi-colored</option>
                     </select>
                 </div>
-            </div>
+            </span>
+            <span class="form-group mx-0 row">
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label style="letter-spacing: 0.1em;">Condition</label>
+                    <select name = "condition" class="form-control" id="input_condition"required>
+                        <option value="">choose a condition</option>
+                        <option value="brand new">Brand New</option>
+                        <option value="like new">Like New</option>
+                        <option value="gently used">Gently Used</option>
+                        <option value="fairly used">Fairly Used</option>
+                        <option value="very used">Very Used</option>
+                    </select>
+                </div>
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label style="letter-spacing: 0.1em;">Brand</label>
+                    <input type="int" name="brand" class="form-control" placeholder="enter brand" id="input_brand" required>
+                </div>
+            </span>
+            <span class="form-group mx-0 row">
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label style="letter-spacing: 0.1em;">Price</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input type="int" name = "price" class="form-control" placeholder="enter price" id="input_price" required>
+                    </div>
+                </div>
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label style="letter-spacing: 0.1em;">Price Flexibility</label>
+                    <select name = "priceflexibility" class="form-control" id="input_price_flex" required>
+                        <option selected value="">choose a pricing option</option>
+                        <option value="price-fixed">Price-Fixed</option>
+                        <option value="price-negotiable">Price-Negotiable</option>
+                    </select>
+                </div>
+            </span>
             <div class="form-group m-2">
                 <label style="letter-spacing: 0.1em;">Description</label>
                 <textarea type="int" name = "description" class="form-control" id="input_desc"
