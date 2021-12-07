@@ -17,6 +17,9 @@ body{
 #navbarNav a:hover{
     color: #2B6FF4;
 }
+#navbarNav .dropdown-item{
+    font-size: 15px;
+}
 
 #sidebar a{
     font-family: 'Work Sans', sans-serif;
