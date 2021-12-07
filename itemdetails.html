@@ -12,7 +12,31 @@
   <body>
     {% include 'header.html' %}
     <div class="container-fluid">
-      <div class="row justify-content-center pt-4 pb-4">
+      <div  class="m-auto"></div>
+      <div class="row justify-content-center pt-4 pb-4"
+        style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);">
+        <div class="col" style="width: 350px;">
+          <h4><strong style="letter-spacing: 0.1em;">{{ item['prodname']}}</strong></h4>
+          <hr>
+          <strong>Price: </strong>{{ item['price']}}<br>
+          <strong>Price Flexibility: </strong>{{ item['priceflexibility']}}<br>
+          <strong>Size: </strong>{{ item['size'] }}<br>
+          <strong>Brand: </strong>{{item['brand'] }}<br>
+          <strong>Condition: </strong>{{ item['condition']}}<br>
+          <strong>Type: </strong>{{item['type']}}<br>
+          <strong>Subtype: </strong>{{ item['subtype']}}<br>
+          <strong>Clothing gender: </strong>{{item['gender'] }}<br>
+          <strong>Color: </strong>{{ item['color']}}<br>
+          <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
+          <strong>Description: </strong>{{ item['desc'] }}<br>
+          <!-- only show reserve button if item is active status (not reserved, and still available) -->
+          {% if item['status'] == 0 and user_info['netid'] != item['sellernetid'] %}
+          <form action="reserve" method='POST'>
+            <input type="hidden" name="itemid" value="{{item['itemid']}}">
+            <button class="card-text btn btn-dark mt-2">reserve item</button>
+          </form>
+          {% endif %}
+        </div>
         <div class="col justify-content-end">
           <div id="carouselExampleIndicators" class="carousel slide"
           data-bs-ride="carousel" data-bs-interval="false">
@@ -68,30 +92,7 @@
           </button>
           {% endif %}
         </div>
-        </div>
-        <div class="col">
-            <h4><strong style="letter-spacing: 0.1em;">{{ item['prodname']}}</strong></h4>
-            <strong>Price: </strong>{{ item['price']}}<br>
-            <strong>Price Flexibility: </strong>{{ item['priceflexibility']}}<br>
-            <strong>Size: </strong>{{ item['size'] }}<br>
-            <strong>Brand: </strong>{{item['brand'] }}<br>
-            <strong>Condition: </strong>{{ item['condition']}}<br>
-            <strong>Type: </strong>{{item['type']}}<br>
-            <strong>Subtype: </strong>{{ item['subtype']}}<br>
-            <strong>Clothing gender: </strong>{{item['gender'] }}<br>
-            <strong>Color: </strong>{{ item['color']}}<br>
-            <strong>Seller NetId: </strong>{{ item['sellernetid'] }}<br>
-            <strong>Description: </strong>{{ item['desc'] }}<br>
-            <!-- only show reserve button if item is active status (not reserved, and still available) -->
-            {% if item['status'] == 0 and user_info['netid'] != item['sellernetid'] %}
-            <form action="reserve" method='POST'>
-              <input type="hidden" name="itemid" value="{{item['itemid']}}">
-              <button class="card-text btn btn-dark mt-2">reserve item</button>
-            </form>
-            {% endif %}
-        </div>
       </div>
-
       <div class="ps-5" id="back_form">
           <form action="{{route}}" method='GET'>
             <button id='back_button' class="card-text btn btn-dark">← go back</button>
