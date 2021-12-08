@@ -16,15 +16,15 @@
         <p class="text-center pt-2">An email notification was sent to you and the seller.</p>
         <br>
         <div class="text-center">
-          <form method="get" action="/shop">
+          <form method="get" action="/shop" class="pb-2">
             <button type="submit" class="btn btn-dark">browse other items</button>
           </form>
-          <form method="get" action="/myreserved">
+          <form method="get" action="/myreserved" class="pb-2">
             <button type="submit" class="btn btn-dark">view reservations</button>
           </form>
-          <form id="cancel_form" action="cancel_reservation" method='POST' class="pt-2">
+          <form id="cancel_form" action="cancel_reservation" method='POST'>
             <input type = "hidden" name="itemid" value="{{itemid}}">
-            <button type="submit" class="card-text btn btn-sm btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+            <button type="submit" class="card-text btn btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
         </form>
         </div>
 
