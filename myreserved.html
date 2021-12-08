@@ -37,9 +37,9 @@
                     <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
                     <div class="d-flex align-self-end row">
                         {% if item['reservation_time_left'] ==  "YOUR RESERVATION HAS EXPIRED! 0 days left" %}
-                        <p class="card-text" id=time_left style="color: red;"><i>YOUR RESERVATION HAS EXPIRED! Please email the seller, acknowledge receipt of the sale, or cancel the reservation.</i></p>
+                        <p class="card-text" id=time_left style="color: red;"><i>YOUR RESERVATION HAS EXPIRED! Please contact the seller to complete your purchase, or cancel the reservation.</i></p>
                         {% elif "YOUR RESERVATION WILL EXPIRE IN" in item['reservation_time_left'] %}
-                        <p class="card-text" id=time_left style="color: red;"><i>{{item['reservation_time_left']}} Please email the buyer to confirm receipt of the sale, or let us know if the buyer is inactive.</i></p>
+                        <p class="card-text" id=time_left style="color: red;"><i>{{item['reservation_time_left']}} Please contact the seller to purchase your item, or let us know if the seller is inactive.</i></p>
                         {% else %}
                         <p class="card-text"><i>{{item['reservation_time_left']}} to complete reservation</i></p>
                         {% endif %}
