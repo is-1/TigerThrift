@@ -55,7 +55,7 @@
                                     </form>
                                     <form action="/edit_item" method="POST" class="pt-2">
                                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button type="submit" id="edit_button" class="card-text btn btn-dark btn-sm">edit item</button>
+                                        <button type="submit" id="edit_button" class="card-text btn btn-dark btn-sm">edit</button>
                                     </form>
                                 </div>
                             </div>
@@ -117,13 +117,13 @@
                 // $("#items_still_active").show();
             });
 
-            $('#delete_form').submit(function() {
-                let r = confirm("Are you sure you want to delete this item?");
-                if (r == true) {
-                    return true;
-                }
-                return false;
-            });
+            // $('#delete_form').submit(function() {
+            //     let r = confirm("Are you sure you want to delete this item?");
+            //     if (r == true) {
+            //         return true;
+            //     }
+            //     return false;
+            // });
         }
 
         $('#document').ready(setup);
