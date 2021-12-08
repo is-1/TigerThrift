@@ -29,6 +29,9 @@ def send_seller_reservation_notification(seller, buyer, item_name):
         print(response.headers)
     except Exception as e:
         print(str(e))
+        return False
+
+    return True
 
 
 def send_buyer_reservation_notification(seller, buyer, item_name): 
@@ -57,6 +60,10 @@ def send_buyer_reservation_notification(seller, buyer, item_name):
         print(response.headers)
     except Exception as e:
         print(str(e))
+        return False
+
+    return True
+
 
 def send_buyer_reservation_reminder(seller, buyer, item_name):
     message = Mail(
@@ -87,6 +94,9 @@ def send_buyer_reservation_reminder(seller, buyer, item_name):
     
     except Exception as e:
         print(str(e))
+        return False
+    
+    return True
 
 def send_seller_reservation_reminder(seller, buyer, item_name):
     message = Mail(
@@ -117,6 +127,10 @@ def send_seller_reservation_reminder(seller, buyer, item_name):
     
     except Exception as e:
         print(str(e))
+        return False
+    
+    return True
+
 
 def send_buyer_expiration_notification(seller, buyer, item_name):
     message = Mail(
@@ -147,6 +161,10 @@ def send_buyer_expiration_notification(seller, buyer, item_name):
     
     except Exception as e:
         print(str(e))
+        return False
+
+    return True
+
 
 def send_seller_expiration_notification(seller, buyer, item_name):
     message = Mail(
@@ -176,3 +194,6 @@ def send_seller_expiration_notification(seller, buyer, item_name):
     
     except Exception as e:
         print(str(e))
+        return False
+    
+    return True

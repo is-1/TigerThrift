@@ -378,12 +378,28 @@ def reserve():
 
     seller = {'first_name': str(seller_first_name), 'full_name': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
 
-
     # change to item object, or item name based on itemid
-    send_seller_reservation_notification(seller, buyer, product_name) # check this
+    success_send = send_seller_reservation_notification(seller, buyer, product_name) # check this
     # send_seller_reservation_notification(seller, buyer, product_name) # for testing
     # send_buyer_reservation_notification(seller, buyer, product_name) # eecheck this
-    send_buyer_reservation_notification(seller, buyer, product_name) # for testing
+
+    # try again if failed
+    if success_send == False:
+        success_send = send_seller_reservation_notification(seller, buyer, product_name)
+        if success_send == False:
+            print("error, tried twice seller notification not sent for itemid " + str(itemid))
+            html = render_template('error.html', itemid=itemid)
+            response = make_response(html)
+            return response
+
+    success_send = send_buyer_reservation_notification(seller, buyer, product_name) # for testing
+    if success_send == False:
+        success_send = send_buyer_reservation_notification(seller, buyer, product_name)
+        if success_send == False:
+            print("error, tried twice buyer notification not sent for itemid " + str(itemid))
+            html = render_template('error.html', itemid=itemid)
+            response = make_response(html)
+            return response
 
     html = render_template('success_reserve.html', itemid=itemid)
     response = make_response(html)
