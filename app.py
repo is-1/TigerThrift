@@ -575,8 +575,8 @@ def my_selling_reserved():
     # active_items = curr_active_items(user_info)
     reserved_by_others = seller_reservations(user_info)
 
-    if active_items is None:
-        active_items = []
+    if reserved_by_others is None:
+        reserved_by_others = []
         
     html = render_template('mysellingreserved.html', user_info = user_info, reserved_by_others=reserved_by_others, status="reserved")
 
