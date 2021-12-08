@@ -109,7 +109,7 @@
     <script>
         function setup(){
             $("#items_curr_reserved_button").trigger("click");
-            
+
             if ("{{user_info['phone']}}" != "unknown") {
                 $("#with_phone").show();
                 $("#without_phone").hide();
@@ -128,12 +128,12 @@
             }
 
             $("#items_curr_reserved_button").click(function(){
-                $.get("myselling/reserved");
+                $.get("/myselling/reserved");
 
             });
 
             $("#items_curr_active_button").click(function(){
-                $.get("myselling/active");
+                $.get("/myselling/active");
             });
 
             $('#delete_form').submit(function() {

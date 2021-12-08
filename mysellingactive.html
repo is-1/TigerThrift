@@ -71,7 +71,7 @@
 </body>
     <script>
         function setup(){
-            $.get("myselling/reserved");
+            $.get("/myselling/reserved");
 
             document.getElementById("shop_header").style.color = "#000000";
             document.getElementById("sell_header").style.color = "#000000";
@@ -105,14 +105,14 @@
             }
             
             $("#items_curr_reserved_button").click(function(){
-                $.get("myselling/reserved");
+                $.get("/myselling/reserved");
                 // $("#items_still_active").hide();
                 // $("#items_curr_reserved").show();
 
             });
 
             $("#items_curr_active_button").click(function(){
-                $.get("myselling/active");
+                $.get("/myselling/active");
                 // $("#items_curr_reserved").hide();
                 // $("#items_still_active").show();
             });
