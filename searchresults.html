@@ -4,10 +4,10 @@
     {% endif %}
     {% for item in items %}
     {% if item['status'] == 0 %}
-    <div class="card" style="width:250px; height:500px; margin:30px;">
+    <div class="card" style="width:250px; height:500px; margin:30px;" onClick="$(`#details_form{{item['itemid']}}`).submit()">
         <!-- <img class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;"
                 src="{{item['photolink']}}" alt="item photo"> -->
-                <div id="carouselIndicators{{item['itemid']}}" class="carousel carousel-dark slide" data-bs-wrap="false">
+                <div id="carouselIndicators{{item['itemid']}}" class="carousel carousel-dark slide" data-bs-interval="false" data-bs-ride="false">
                     <div class="carousel-indicators">
                       {% if item['photolink1'] != '' %}
                       <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -17,7 +17,7 @@
                       <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="2" aria-label="Slide 3"></button>
                       {% endif %}
                       {% if item['photolink3'] != '' %}
-                      <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="2" aria-label="Slide 4"></button>
+                      <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="3" aria-label="Slide 4"></button>
                       {% endif %}
                     </div>
                     <div class="carousel-inner">
@@ -58,7 +58,7 @@
             <p class="card-text">Brand: {{item['brand']}}</p>
             <div class="d-flex align-self-end">
                 <div class="pe-3"> 
-                    <form action="itemdetails" method='GET'>
+                    <form id="details_form{{item['itemid']}}" action="itemdetails" method='GET'>
                         <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                         <button class="card-text btn btn-dark btn-sm"> more details</button>
                     </form>

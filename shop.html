@@ -308,14 +308,7 @@
                     $('#subtype_select').attr("disabled", false);
                     $('#size_select').attr("disabled", false);
 
-                for (i in subtypes) {
-                    $('#subtype_select').append($('<option>', {
-                        value: subtypes[i].toLowerCase(),
-                        text: subtypes[i]
-                    }));
-                }
-
-                $('#size_select').append($('<option>', {
+                    $('#size_select').append($('<option>', {
                     value: "",
                     text: "choose a size"
                 }));
@@ -324,6 +317,14 @@
                     value: "",
                     text: "choose a subtype"
                 }));
+                
+                for (i in subtypes) {
+                    $('#subtype_select').append($('<option>', {
+                        value: subtypes[i].toLowerCase(),
+                        text: subtypes[i]
+                    }));
+                }
+
 
                 for (j in sizes) {
                     $('#size_select').append($('<option>', {
@@ -336,6 +337,13 @@
         }
 
         $('#document').ready(setup);
+
+        // reload if back button hit
+        window.onpageshow = function(event) {
+		if (event.persisted) {
+			window.location.reload();
+		}
+	};
 
     </script>
   </body>
