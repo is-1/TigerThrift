@@ -11,22 +11,25 @@
     </head>
   <body>
     {% include 'header.html' %}
-    <div class="container-fluid align-items-center">
+    <div class="container-fluid">
         <h3 class="text-center"><strong>Item was reserved!</strong></h3>
         <p class="text-center pt-2">An email notification was sent to you and the seller.</p>
         <br>
         <div class="d-flex justify-content-center">
-          <form method="get" action="/shop" class="p-2">
-            <button type="submit" class="btn btn-dark">browse other items</button>
+          <form method="get" action="/myreserved" class="p-2">
+            <button type="submit" class="btn btn-dark" style="letter-spacing: 0.1em;">view reservations</button>
           </form>
         </div>
         <div class="d-flex justify-content-center">
-          <form method="get" action="/myreserved" class="p-2">
-            <button type="submit" class="btn btn-dark">view reservations</button>
-          </form>
           <form id="cancel_form" action="cancel_reservation" method='POST' class="p-2">
             <input type = "hidden" name="itemid" value="{{itemid}}">
-            <button type="submit" class="card-text btn btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+            <button type="submit" class="card-text btn btn-dark">
+              <p style="color:white; letter-spacing: 0.1em;" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+          </form>
+        </div>
+        <div class="justify-content-start">
+          <form method="get" action="/shop" class="ps-5">
+            <button type="submit" class="btn btn-dark" style="letter-spacing: 0.1em;">← browse other items</button>
           </form>
         </div>
     </div>
