@@ -566,9 +566,9 @@ def my_selling_active():
 @app.route('/myselling', methods=['GET'])
 @app.route('/myselling/reserved', methods=['GET'])
 def my_selling_reserved():
-    is_authenticated()
-    username = CasClient().authenticate()
-    #username = 'katelynr'
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
