@@ -444,6 +444,7 @@ def curr_active_items(user_info):
 def reserved_netid(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     buyernetid = ""
+    buyer_full_name = ""
     try:
        # with connect(
             #host='localhost', port=5432, user='rmd', password='TigerThrift',

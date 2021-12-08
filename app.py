@@ -637,7 +637,8 @@ def itemdetails():
 
     print("itemid = " + str(itemid))
     buyernetid, buyer_full_name = reserved_netid(itemid)
-    if user_info['netid'] == buyernetid:
+    
+    if buyernetid is not None and user_info['netid'] == buyernetid:
         isMine = True
     else:
         isMine = False
