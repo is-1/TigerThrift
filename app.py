@@ -572,12 +572,13 @@ def my_selling_reserved():
     user_info = get_user_info(username)
     # add_user(user_info)
 
-    active_items = curr_active_items(user_info)
+    # active_items = curr_active_items(user_info)
+    reserved_by_others = seller_reservations(user_info)
 
     if active_items is None:
         active_items = []
         
-    html = render_template('mysellingreserved.html', user_info = user_info, curr_active_items=active_items, status="reserved")
+    html = render_template('mysellingreserved.html', user_info = user_info, reserved_by_others=reserved_by_others, status="reserved")
 
     response = make_response(html)
     response.set_cookie('route', "/myselling/reserved")
