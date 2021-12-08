@@ -791,7 +791,10 @@ def search_items(search, filter, sort):
                     'photolink': row[11],
                     'status': row[12],
                     'sellernetid': row[13],
-                    'prodname': row[14]
+                    'prodname': row[14],
+                    'photolink1': row[15],
+                    'photolink2': row[16],
+                    'photolink3': row[17],
                     }
                     results.append(item)
                     row = cursor.fetchone()
