@@ -197,3 +197,61 @@ def send_seller_expiration_notification(seller, buyer, item_name):
         return False
     
     return True
+
+def send_seller_cancellation(seller, buyer, item_name): 
+
+    message = Mail(
+        from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
+        to_emails= seller['email']
+    )
+        # subject='Test Notification Email',
+        # html_content='<strong>you have reserved an item</strong>')
+
+    message.dynamic_template_data = {
+        'seller': seller['first_name'],
+        'buyer': buyer['full_name'],
+        'prodname': item_name
+    }
+
+    message.template_id = 'd-f7da6e2552fe4b4db07a1c9d7ac69c6c'
+
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(str(e))
+        return False
+
+    return True
+
+
+def send_buyer_cancellation(seller, buyer, item_name): 
+
+    message = Mail(
+        from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
+        to_emails= buyer['email']
+    )
+        # subject='Test Notification Email',
+        # html_content='<strong>you have reserved an item</strong>')
+
+    message.dynamic_template_data = {
+        'buyer': buyer['first_name'],
+        'prodname': item_name
+    }
+
+    message.template_id = 'd-e4185b77ade44789ac3897c6fe92ca70'
+
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(str(e))
+        return False
+
+    return True

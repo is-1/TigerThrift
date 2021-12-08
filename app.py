@@ -11,8 +11,8 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid
-from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_buyer_reservation_reminder, send_seller_reservation_reminder, send_buyer_expiration_notification, send_seller_expiration_notification
+from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, get_seller_and_item_info, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid
+from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_seller_cancellation, send_buyer_cancellation
 from casclient import CasClient
 from keys import APP_SECRET_KEY
 
@@ -207,7 +207,7 @@ def sell():
 def edit_item():
     is_authenticated()
     username = CasClient().authenticate()
-    #username = 'katelynr'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     itemid =  request.form.get('itemid')
@@ -225,7 +225,7 @@ def edit_item():
 def success_edit():
     is_authenticated()
     username = CasClient().authenticate()
-    #username = 'katelynr'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -375,7 +375,7 @@ def reserve():
 
     itemid = request.form.get('itemid')
 
-    sellernetid, seller_first_name, seller_email, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+    sellernetid, seller_first_name, seller_full_name, seller_email, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
     
     # get seller from database eventually, USE USERS TABLE 
 
@@ -384,7 +384,7 @@ def reserve():
         response = make_response(html)
         return response
 
-    seller = {'first_name': str(seller_first_name), 'full_name': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
+    seller = {'first_name': str(seller_first_name), 'full_name': str(seller_full_name), 'email': str(seller_email)} # get seller info (from users table)
 
     # change to item object, or item name based on itemid
     success_send = send_seller_reservation_notification(seller, buyer, product_name) # check this
@@ -417,12 +417,17 @@ def reserve():
 def cancel_reservation():
     is_authenticated()
     username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
-
+    buyer = {'first_name': user_info['first_name'], 'full_name': user_info['full_name'], 'email': user_info['email']}
     itemid = request.form.get('itemid')
-    print("entered delete reserve")
+    seller, item_name = get_seller_and_item_info(itemid)
     delete_reserve(user_info, itemid)
+    print("successfully deleted item from db")
+    # send cancellation email confirmation to buyer and seller, make sure to include correct parameters
+    send_seller_cancellation(seller, buyer, str(item_name))
+    send_buyer_cancellation(seller, buyer, str(item_name))
     
     html = render_template('success_cancel_reservation.html')
     response = make_response(html)
@@ -432,13 +437,15 @@ def cancel_reservation():
 def complete_reservation():
     is_authenticated()
     username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
     itemid = request.form.get('itemid')
+    buyernetid, buyer_full_name = reserved_netid(itemid)
     complete_reserve(user_info, itemid)
     
-    html = render_template('success_complete_reservation.html')
+    html = render_template('success_complete_reservation.html', buyer_full_name=buyer_full_name)
     response = make_response(html)
     return response
 
@@ -516,7 +523,7 @@ def my_purchased():
 def my_reserved():
     is_authenticated()
     username = CasClient().authenticate()
-    #username = 'kc42'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -555,7 +562,7 @@ def my_reserved():
 def my_selling_active():
     is_authenticated()
     username = CasClient().authenticate()
-    #username = 'katelynr'
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -629,8 +636,8 @@ def itemdetails():
     item = item_details(itemid)
 
     print("itemid = " + str(itemid))
-
-    if user_info['netid'] == reserved_netid(itemid):
+    buyernetid, buyer_full_name = reserved_netid(itemid)
+    if user_info['netid'] == buyernetid:
         isMine = True
     else:
         isMine = False
@@ -645,7 +652,7 @@ def itemdetails():
     print("photolink1 = " + str(item['photolink1']))
     print("photolink2 = " + str(item['photolink2']))
     print("isMine = " + str(isMine))
-    print("reserved by = " + str(reserved_netid(itemid)))
+    print("reserved by = " + str(buyernetid))
 
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route, isMine=isMine)
     response = make_response(html)

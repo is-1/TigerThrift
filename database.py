@@ -140,11 +140,12 @@ def reserve_item(buyernetid, itemid):
 
                     print("reservation complete")
 
-                    stmt_str = ('SELECT first_name, email from users where netid = %s')
+                    stmt_str = ('SELECT first_name, full_name, email from users where netid = %s')
                     cursor.execute(stmt_str, [sellernetid])
                     row = cursor.fetchone()
                     seller_first_name = row[0]
-                    seller_email = row[1]
+                    seller_full_name = row[1]
+                    seller_email = row[2]
                     print("SELLER FIRST_NAME: ", seller_first_name)
                     print("SELLER EMAIL: ", seller_email)
                     connection.commit()
@@ -153,7 +154,7 @@ def reserve_item(buyernetid, itemid):
        print(ex, file=stderr)
        #exit(1)
 
-    return sellernetid, seller_first_name, seller_email, prodname
+    return sellernetid, seller_first_name, seller_full_name, seller_email, prodname
     
 
 # when user uploads an item, update necessary tables
@@ -298,6 +299,37 @@ def delete_reserve(user_info, itemid):
        print(ex, file=stderr)
        # exit(1)
 
+def get_seller_and_item_info(itemid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+
+                stmt_str = "SELECT sellernetid, prodname FROM items WHERE itemid=%s;"
+                cursor.execute(stmt_str, [itemid])
+                info = cursor.fetchone()
+                sellernetid = info[0]
+                item_name = info[1]
+                stmt_str = "SELECT first_name, full_name, email FROM users WHERE netid=%s;"
+                cursor.execute(stmt_str, [sellernetid])
+                row = cursor.fetchone()
+                seller_first_name = row[0]
+                seller_full_name = row[1]
+                seller_email = row[2]
+                seller = {'first_name': seller_first_name,
+                'full_name': seller_full_name,
+                'email': seller_email}
+                return seller, item_name
+    except Exception as ex:
+       print(ex, file=stderr)
+       # exit(1)
+
+
+
 def complete_reserve(user_info, itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -425,13 +457,18 @@ def reserved_netid(itemid):
                 # connection.commit()
                 row = cursor.fetchone()
                 buyernetid = row[0]
-                print("buyernetid =" + buyernetid)
+                # print("buyernetid =" + buyernetid)
+
+                stmt_str = 'SELECT full_name FROM users WHERE netid = %s;'
+                cursor.execute(stmt_str, [str(buyernetid)])
+                buyer_full_name = cursor.fetchone()[0]
+                # print("buyerfullname =" + str(buyer_full_name))
     
     except Exception as ex:
         print(ex, file=stderr)
        # exit(1)
     
-    return buyernetid
+    return str(buyernetid), str(buyer_full_name)
     
 
 def reserved_items(user_info):
@@ -566,6 +603,7 @@ def seller_reservations(user_info):
     except Exception as ex:
        # print(ex, file=stderr)
         exit(1)
+
 def items_sold_in_past(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -635,6 +673,7 @@ def items_sold_in_past(user_info):
     except Exception as ex:
        # print(ex, file=stderr)
         exit(1)
+
 def past_purchases(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -686,6 +725,9 @@ def past_purchases(user_info):
                     'prodname': item_info[14],
                     'purchase_completed': str(purchased_date)
                     }
+                    stmt_str = ('SELECT full_name from users where netid=%s;')
+                    cursor.execute(stmt_str, [item['sellernetid']])
+                    item['seller_full_name'] = cursor.fetchone()[0]
                     # error if item in reservation table is not marked as reserved in items table
                     if item['status'] == 2:
                         results.append(item)

@@ -34,6 +34,7 @@
                     <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
                     <div class="card-body">
                         <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
+                        <p class ="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
                         <p class="card-text">Purchase completed on<br>{{item['purchase_completed']}}</p>
                         <form action="itemdetails" method='GET'>
                             <input type = "hidden" name="itemid" value="{{item['itemid']}}">
