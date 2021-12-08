@@ -50,8 +50,8 @@ def days_between(d1, d2, seller, buyer, item_name):
     print("Time Left Split:", (str(time_left).split(', ', 1))[-1])
     return(time_left, " hours left")
 
-# @sched.scheduled_job('cron', day_of_week='mon-sun', hour=17)
-@sched.scheduled_job('interval', minutes=2)
+# @sched.scheduled_job('interval', minutes=2)
+@sched.scheduled_job('cron', day_of_week=0-6, hour=22)
 def scheduled_job():
     print('This job is run every day at 5pm.')
     DATABASE_URL = os.environ.get('DATABASE_URL')
