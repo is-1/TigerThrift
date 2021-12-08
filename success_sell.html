@@ -15,15 +15,22 @@
         <h3 class="text-center"><strong>Your item was added to the store!</strong></h3>
         <p class="text-center pt-2">Browse the store or visit your selling page to view your item for sale.</p>
         <br>
-        <div class="text-center">
-          <form method="get" action="/shop">
-            <button type="submit" class="btn btn-dark">browse items</button>
-          </form>
+
+        <div class="d-flex justify-content-center">
           <form method="get" action="/sell">
-            <button type="submit" class="btn btn-dark">list another item</button>
+            <button type="submit" class="btn btn-dark" style="letter-spacing: 0.1em;">list another item</button>
           </form>
-          <form method="get" action="/myselling/active">
-            <button type="submit" class="btn btn-dark">view selling</button>
+        </div>
+        <div class="d-flex justify-content-center">
+          <form id="cancel_form" action="cancel_reservation" method='POST' class="pt-3">
+            <input type = "hidden" name="itemid" value="{{itemid}}">
+            <button type="submit" class="card-text btn btn-dark">
+              <p style="color:white; letter-spacing: 0.1em;" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+          </form>
+        </div>
+        <div class="justify-content-start">
+          <form method="get" action="/shop" class="ps-5">
+            <button type="submit" class="btn btn-dark" style="letter-spacing: 0.1em;">← browse more</button>
           </form>
         </div>
     </div>

@@ -14,99 +14,104 @@
   <body>
     {% include 'header.html' %}
     <h3 class="text-center"><strong>Edit Your Item</strong></h3>
+    <div style="padding-left: min(50px, 10%);">
+        <form id="back_form" action="{{route}}" method='GET'>
+            <button class="btn btn-white rounded-0" style="font-weight: 600; letter-spacing: 0.1em;">← go back</button>
+        </form>
+        </div>
+    </div>
       <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
         <form id="sell_form" action="success_edit" value="" method = "POST">
             <div class="form-group m-2">
                 <label id="input_prod_text" style="letter-spacing: 0.1em;">Product Name</label>
                 <input id="input_prod" class="form-control" type="text" maxlength="45" name = "prodname" value="{{item['prodname']}}" required>
             </div>
-        <div class="d-flex flex-wrap">
-            <div class="form-group col m-2" style="min-width: 230px;">
-                <label id="type_select_text" style="letter-spacing: 0.1em;" >Type</label>
-                <select id="type_select" name ="type" class="form-control" required>
-                    <option value="">choose a type of clothing</option>
-                    <option value="top">Top</option>
-                    <option value="bottom">Bottom</option>
-                    <option value="dress" >Dress</option>
-                    <option value="outerwear">Outerwear</option>
-                    <option value="shoes">Shoes</option>
-                    <option value="accessories">Accessories</option>
-                </select>
-
-            </div>
-            <div class="form-group col m-2" style="min-width: 160px;">
-                <label id="subtype_select_text" style="letter-spacing: 0.1em;">Subtype</label>
-                <select id="subtype_select" name = "subtype" class="form-control" disabled required></select>
-            </div>
-            <div class="form-group col m-2" style="min-width: 130px;">
-                <label id="size_select_text" style="letter-spacing: 0.1em;">Size</label>
-                <select id="size_select" name = "size" class="form-control" disabled required></select>
-            </div>
-        </div>
-        <span class="form-group mx-0 row">
-            <div class="form-group col m-2 p-0" style="min-width: 230px;">
-                <label id="input_gender_text" style="letter-spacing: 0.1em;">Clothing Gender</label>
-                <select id="input_gender" name = "gender" class="form-control" required>
-                    <option selected value="">choose a gender</option>
-                    <option value="mens">Men's Wear</option>
-                    <option value="womens">Women's Wear</option>
-                    <option value="unisex">Unisex</option>
-                </select>
-            </div>
-            <div class="form-group col m-2 p-0" style="min-width: 230px;">
-                <label id="input_color_text" style="letter-spacing: 0.1em;">Color</label>
-                <select id= "input_color" name = "color" class="form-control" required>
-                    <option value="">choose a color</option>
-                    <option value="red">Red</option>
-                    <option value="orange">Orange</option>
-                    <option value="yellow">Yellow</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                    <option value="purple">Purple</option>
-                    <option value="brown">Brown</option>
-                    <option value="black">Black</option>
-                    <option value="gray">Gray</option>
-                    <option value="white">White</option>
-                    <option value="multicolored">Multi-colored</option>
-                </select>
-            </div>
-        </span>
-        <span class="form-group mx-0 row">
-            <div class="form-group col m-2 p-0" style="min-width: 230px;">
-                <label id="input_condition_text" style="letter-spacing: 0.1em;">Condition</label>
-                <select id="input_condition" name = "condition" class="form-control" required>
-                    <option value="">choose a condition</option>
-                    <option value="brand new">Brand New</option>
-                    <option value="like new">Like New</option>
-                    <option value="gently used">Gently Used</option>
-                    <option value="fairly used">Fairly Used</option>
-                    <option value="very used">Very Used</option>
-                </select>
-            </div>
-            <div class="form-group col m-2 p-0" style="min-width: 230px;">
-                <label id="input_brand_text" style="letter-spacing: 0.1em;">Brand</label>
-                <input id="input_brand" type="int" name = "brand" class="form-control" value="{{item['brand']}}" required>
-            </div>
-        </span>
-        <span class="form-group mx-0 row">
-            <div class="form-group col m-2 p-0" style="min-width: 230px;">
-                <label id="input_price_text" style="letter-spacing: 0.1em;">Price</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">$</span>
-                    </div>
-                    <input id="input_price" type="int" name = "price" class="form-control" value="{{item['price']}}" required>
+            <div class="d-flex flex-wrap">
+                <div class="form-group col m-2" style="min-width: 230px;">
+                    <label id="type_select_text" style="letter-spacing: 0.1em;" >Type</label>
+                    <select id="type_select" name ="type" class="form-control" required>
+                        <option value="">choose a type of clothing</option>
+                        <option value="top">Top</option>
+                        <option value="bottom">Bottom</option>
+                        <option value="dress" >Dress</option>
+                        <option value="outerwear">Outerwear</option>
+                        <option value="shoes">Shoes</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+                <div class="form-group col m-2" style="min-width: 160px;">
+                    <label id="subtype_select_text" style="letter-spacing: 0.1em;">Subtype</label>
+                    <select id="subtype_select" name = "subtype" class="form-control" disabled required></select>
+                </div>
+                <div class="form-group col m-2" style="min-width: 130px;">
+                    <label id="size_select_text" style="letter-spacing: 0.1em;">Size</label>
+                    <select id="size_select" name = "size" class="form-control" disabled required></select>
                 </div>
             </div>
-            <div class="form-group col m-2 p-0" style="min-width: 230px;">
-                <label id="input_price_flex_text" style="letter-spacing: 0.1em;">Price Flexibility</label>
-                <select id="input_price_flex" name = "priceflexibility" class="form-control" required>
-                    <option selected value="">choose a pricing option</option>
-                    <option value="price-fixed">Price-Fixed</option>
-                    <option value="price-negotiable">Price-Negotiable</option>
-                </select>
-            </div>
-        </span>
+            <span class="form-group mx-0 row">
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label id="input_gender_text" style="letter-spacing: 0.1em;">Clothing Gender</label>
+                    <select id="input_gender" name = "gender" class="form-control" required>
+                        <option selected value="">choose a gender</option>
+                        <option value="mens">Men's Wear</option>
+                        <option value="womens">Women's Wear</option>
+                        <option value="unisex">Unisex</option>
+                    </select>
+                </div>
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label id="input_color_text" style="letter-spacing: 0.1em;">Color</label>
+                    <select id= "input_color" name = "color" class="form-control" required>
+                        <option value="">choose a color</option>
+                        <option value="red">Red</option>
+                        <option value="orange">Orange</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                        <option value="purple">Purple</option>
+                        <option value="brown">Brown</option>
+                        <option value="black">Black</option>
+                        <option value="gray">Gray</option>
+                        <option value="white">White</option>
+                        <option value="multicolored">Multi-colored</option>
+                    </select>
+                </div>
+            </span>
+            <span class="form-group mx-0 row">
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label id="input_condition_text" style="letter-spacing: 0.1em;">Condition</label>
+                    <select id="input_condition" name = "condition" class="form-control" required>
+                        <option value="">choose a condition</option>
+                        <option value="brand new">Brand New</option>
+                        <option value="like new">Like New</option>
+                        <option value="gently used">Gently Used</option>
+                        <option value="fairly used">Fairly Used</option>
+                        <option value="very used">Very Used</option>
+                    </select>
+                </div>
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label id="input_brand_text" style="letter-spacing: 0.1em;">Brand</label>
+                    <input id="input_brand" type="int" name = "brand" class="form-control" value="{{item['brand']}}" required>
+                </div>
+            </span>
+            <span class="form-group mx-0 row">
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label id="input_price_text" style="letter-spacing: 0.1em;">Price</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">$</span>
+                        </div>
+                        <input id="input_price" type="int" name = "price" class="form-control" value="{{item['price']}}" required>
+                    </div>
+                </div>
+                <div class="form-group col m-2 p-0" style="min-width: 230px;">
+                    <label id="input_price_flex_text" style="letter-spacing: 0.1em;">Price Flexibility</label>
+                    <select id="input_price_flex" name = "priceflexibility" class="form-control" required>
+                        <option selected value="">choose a pricing option</option>
+                        <option value="price-fixed">Price-Fixed</option>
+                        <option value="price-negotiable">Price-Negotiable</option>
+                    </select>
+                </div>
+            </span>
             <div class="form-group m-2">
                 <label id="input_desc_text" style="letter-spacing: 0.1em;">Description</label>
                 <textarea id="input_desc" type="int" name = "description" class="form-control" value="{{item['desc']}}" required>{{item['desc']}}</textarea>
@@ -150,24 +155,20 @@
             <input type="hidden" id="photolink1" name ="photolink1" value = "">
             <input type="hidden" id="photolink2" name ="photolink2" value = "">
             <input type="hidden" id="photolink3" name ="photolink3" value = "">
-
-            <form action="success_sell" method='POST'>
+        </form>
+        <div class="d-flex justify-content-center mb-5">
+            <form id="delete_form" action="delete_item" method='POST' class="col text-center">
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                <button type="submit" class="btn btn-dark">save edits</button>
+                <button class="btn btn-dark align-items-center" style="width: 75%; letter-spacing: 0.3em;">remove item <i class="fa fa-trash-o"></i></button>
+            </form>
+            <form action="success_sell" method='POST' class="col text-center">
+                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
+                <button type="submit" class="btn btn-dark align-items-center" style="width: 75%; letter-spacing: 0.3em;">save edits <span style="color: #85c285;">✓</span></button>
                 <!-- commented out values="GO" -->
             </form>
-            
-            <div class="align-items-center">
-                <form id="back_form" action="{{route}}" method='GET'>
-                    <button class="btn btn-dark">← go back</button>
-                </form>
-                </div>
-            <form id="delete_form" action="delete_item" method='POST' class="pt-2">
-                <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                <button class="card-text btn btn-dark">remove item</button>
-            </form>
-            </div>
-        </form>
+        </div>
+    </div>
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
         <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>  
@@ -462,7 +463,6 @@
             }
             $('#document').ready(setup);
         </script>
-      </div>
   </body>
 </html>
         

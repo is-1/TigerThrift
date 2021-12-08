@@ -120,3 +120,14 @@ select:active,
     color: #ffffff;
     transform: translateY(-10px);
 }
+
+#back_form button:hover{
+    color:#2B6FF4;
+    border-bottom:1px solid #2B6FF4;
+}
+
+
+#shop_form button:hover{
+    color:#2B6FF4;
+    border-bottom:1px solid #2B6FF4;
+}

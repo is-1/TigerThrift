@@ -12,8 +12,26 @@
     </head>
   <body>
     {% include 'header.html' %}
-
-    <div class="container-fluid px-5 pb-5">
+    <div style="padding-left: min(50px, 10%);" id="back_form">
+      <form action="{{route}}" method='GET'>
+        <button type="submit" id="back_button" 
+          class="btn btn-white rounded-0" style="font-weight: 600; letter-spacing: 0.1em;">← go back</button>
+      </form>
+    </div>
+    <div style="padding-left: min(50px, 10%);" id="shop_form">
+        <form action="/shop" method='GET'>
+            <input type = "hidden" name="search" value="{{prev_search}}">
+            <input type = "hidden" name="gender" value="{{ prev_filter['gender'] }}">
+            <input type = "hidden" name="type" value="{{ prev_filter['type'] }}">
+            <input type = "hidden" name="subtype" value="{{ prev_filter['subtype'] }}">
+            <input type = "hidden" name="size" value="{{ prev_filter['size'] }}">
+            <input type = "hidden" name="condition" value="{{ prev_filter['condition'] }}">
+            <input type = "hidden" name="color" value="{{ prev_filter['color'] }}">
+            <input type = "hidden" name="brand" value="{{ prev_filter['brand'] }}">
+            <input type = "hidden" name="sort" value="{{ prev_sort }}">
+            <button type="submit" class="btn btn-white rounded-0" style="font-weight: 600; letter-spacing: 0.1em;">← go back</button>
+        </form>
+    </div>
       <div class="m-auto pt-5 row" style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);">
         <div class="col" style="min-width: 250px;">
           <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -102,25 +120,6 @@
           </div>
           <hr>
         </div>
-      </div>
-      <div class="row ps-5 pt-4" id="back_form">
-        <form action="{{route}}" method='GET'>
-          <button type="submit" id="back_button" class="btn btn-dark">← go back</button>
-        </form>
-      </div>
-      <div class="row ps-5 pt-4" id="shop_form">
-          <form action="/shop" method='GET'>
-              <input type = "hidden" name="search" value="{{prev_search}}">
-              <input type = "hidden" name="gender" value="{{ prev_filter['gender'] }}">
-              <input type = "hidden" name="type" value="{{ prev_filter['type'] }}">
-              <input type = "hidden" name="subtype" value="{{ prev_filter['subtype'] }}">
-              <input type = "hidden" name="size" value="{{ prev_filter['size'] }}">
-              <input type = "hidden" name="condition" value="{{ prev_filter['condition'] }}">
-              <input type = "hidden" name="color" value="{{ prev_filter['color'] }}">
-              <input type = "hidden" name="brand" value="{{ prev_filter['brand'] }}">
-              <input type = "hidden" name="sort" value="{{ prev_sort }}">
-              <button  type="submit"  class="card-text btn btn-dark">← go back</button>
-          </form>
       </div>
     </div>
   </body>
