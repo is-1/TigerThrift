@@ -378,12 +378,28 @@ def reserve():
 
     seller = {'first_name': str(seller_first_name), 'full_name': str(sellernetid), 'email': str(seller_email)} # get seller info (from users table)
 
-
     # change to item object, or item name based on itemid
-    send_seller_reservation_notification(seller, buyer, product_name) # check this
+    success_send = send_seller_reservation_notification(seller, buyer, product_name) # check this
     # send_seller_reservation_notification(seller, buyer, product_name) # for testing
     # send_buyer_reservation_notification(seller, buyer, product_name) # eecheck this
-    send_buyer_reservation_notification(seller, buyer, product_name) # for testing
+
+    # try again if failed
+    if success_send == False:
+        success_send = send_seller_reservation_notification(seller, buyer, product_name)
+        if success_send == False:
+            print("error, tried twice seller notification not sent for itemid " + str(itemid))
+            html = render_template('error.html', itemid=itemid)
+            response = make_response(html)
+            return response
+
+    success_send = send_buyer_reservation_notification(seller, buyer, product_name) # for testing
+    if success_send == False:
+        success_send = send_buyer_reservation_notification(seller, buyer, product_name)
+        if success_send == False:
+            print("error, tried twice buyer notification not sent for itemid " + str(itemid))
+            html = render_template('error.html', itemid=itemid)
+            response = make_response(html)
+            return response
 
     html = render_template('success_reserve.html', itemid=itemid)
     response = make_response(html)
@@ -507,25 +523,25 @@ def my_reserved():
 
     return response
 
-@app.route('/myselling', methods=['GET'])
-def my_selling():
-    is_authenticated()
-    username = CasClient().authenticate()
-    #username = 'katelynr'
-    user_info = get_user_info(username)
+#@app.route('/myselling', methods=['GET'])
+#def my_selling():
+#    is_authenticated()
+#    username = CasClient().authenticate()
+#    #username = 'katelynr'
+#    user_info = get_user_info(username)
     # add_user(user_info)
 
-    active_items = curr_active_items(user_info)
+#    active_items = curr_active_items(user_info)
 
-    if active_items is None:
-        active_items = []
+#    if active_items is None:
+#        active_items = []
         
-    html = render_template('myselling.html', user_info = user_info, curr_active_items=active_items)
+#    html = render_template('myselling.html', user_info = user_info, curr_active_items=active_items)
 
-    response = make_response(html)
-    response.set_cookie('route', "/myselling")
+#    response = make_response(html)
+#    response.set_cookie('route', "/myselling")
 
-    return response
+#    return response
 
 @app.route('/myselling/active', methods=['GET'])
 def my_selling_active():
@@ -547,6 +563,7 @@ def my_selling_active():
 
     return response
 
+@app.route('/myselling', methods=['GET'])
 @app.route('/myselling/reserved', methods=['GET'])
 def my_selling_reserved():
     is_authenticated()

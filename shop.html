@@ -308,11 +308,6 @@
                     $('#subtype_select').attr("disabled", false);
                     $('#size_select').attr("disabled", false);
 
-                    $('#subtype_select').append($('<option>', {
-                            value: "",
-                            text: "choose a subtype"
-                })); 
-
                 for (i in subtypes) {
                     $('#subtype_select').append($('<option>', {
                         value: subtypes[i].toLowerCase(),
