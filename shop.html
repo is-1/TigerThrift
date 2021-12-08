@@ -337,6 +337,13 @@
 
         $('#document').ready(setup);
 
+        // reload if back button hit
+        window.onpageshow = function(event) {
+		if (event.persisted) {
+			window.location.reload();
+		}
+	};
+
     </script>
   </body>
 </html>
