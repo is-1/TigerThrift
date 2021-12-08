@@ -15,19 +15,20 @@
         <h3 class="text-center"><strong>Item was reserved!</strong></h3>
         <p class="text-center pt-2">An email notification was sent to you and the seller.</p>
         <br>
-        <div class="text-center">
-          <form method="get" action="/shop" class="pb-2">
+        <div class="d-flex justify-content-center">
+          <form method="get" action="/shop" class="p-2">
             <button type="submit" class="btn btn-dark">browse other items</button>
           </form>
-          <form method="get" action="/myreserved" class="pb-2">
+        </div>
+        <div class="d-flex justify-content-center">
+          <form method="get" action="/myreserved" class="p-2">
             <button type="submit" class="btn btn-dark">view reservations</button>
           </form>
-          <form id="cancel_form" action="cancel_reservation" method='POST'>
+          <form id="cancel_form" action="cancel_reservation" method='POST' class="p-2">
             <input type = "hidden" name="itemid" value="{{itemid}}">
             <button type="submit" class="card-text btn btn-dark"><p style="color:white" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
-        </form>
+          </form>
         </div>
-
     </div>
   </body>
 </html>
