@@ -93,7 +93,7 @@ def scheduled_job():
 
                     stmt_str = ('SELECT * from users where netid = %s')
                     cursor.execute(stmt_str, [item['sellernetid']])
-                    info = cursor.fetchone()
+                    row = cursor.fetchone()
                     seller = {'netid': row[0],
                     'email': row[1],
                     'phone': row[3],

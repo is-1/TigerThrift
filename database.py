@@ -376,11 +376,10 @@ def curr_active_items(user_info):
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
-                stmt_str = 'SELECT * FROM items WHERE sellernetid = %s'
+                stmt_str = 'SELECT * FROM items WHERE sellernetid = %s and status = 0'
                 cursor.execute(stmt_str, [user_info['netid']])
                 # connection.commit()
                 item_info = cursor.fetchone()
-
                 while item_info is not None:
                     item = {'itemid': item_info[0],
                     'type': item_info[1],
@@ -400,18 +399,6 @@ def curr_active_items(user_info):
                     }
                     item_info = cursor.fetchone()
                     results.append(item)
-                    stmt_str = ('SELECT buyernetid from reservations where itemid = %s')
-                    cursor.execute(stmt_str, [item['itemid']])
-                    buyernetid = cursor.fetchone()[0]
-                    item['buyernetid'] = buyernetid
-                    stmt_str = ('SELECT full_name from users where netid = %s')
-                    cursor.execute(stmt_str, [item['buyernetid']])
-                    item['buyer_full_name'] = cursor.fetchone()[0]
-                    # error if item in reservation table is not marked as reserved in items table
-                    if item['status'] == 2:
-                        results.append(item)
-                    elif item['status'] != 2:
-                        print("ERROR!! completed reservation not marked as status 2")
                     
                 # print("printed curr_reserved items!!!! ")
 
