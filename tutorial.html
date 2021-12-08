@@ -37,10 +37,10 @@
         <h3 class="text-center pb-3"><strong>How to Use TigerThrift!</strong></h3>
         <div class="row px-2" id="sidebar">
             <a id="buy_tutorial_button" class="col text-center rounded-top" style="min-width: 100px; padding: 10px;">
-                how to purchase
+                How to Purchase
             </a>
             <a id="sell_tutorial_button" class="col text-center rounded-top" style="min-width: 100px; padding: 10px;">
-                how to sell
+                How to Sell
             </a>
         </div>
         <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto" id="buy_tutorial">
@@ -53,11 +53,10 @@
                 <li>You've sucessfully reserved the item! Now, wait for the seller to reach out to you by email. They have 5 days to respond to your request.</li>
                 <li>Go to your <a href="profile">profile</a> to see your reserved item. Here, you can see the time left for the buyer to reach out to you. If necessary, you also have the option to cancel a reservation.</li>
                 <li>Once the seller reaches out to you, <strong>schedule a time with the seller</strong> to pay for and receive the item.</li>
-                <li>Make sure to <strong>click the 'sale complete' button</strong> after completing the transaction!</li>
             </ol>
             <div class="text-center">
                 <form action="shop" method='GET'>
-                    <button class="card-text btn btn-dark">Find an item to purchase!</button>
+                    <button class="card-text btn btn-dark">find an item to purchase!</button>
                 </form>
             </div>
         </div>
@@ -75,7 +74,7 @@
             </ol>
             <div class="text-center">
                 <form action="sell" method='GET'>
-                    <button class="card-text btn btn-dark">List your first item!</button>
+                    <button class="card-text btn btn-dark">list your first item!</button>
                 </form>
             </div>
         </div>
@@ -112,15 +111,6 @@
                 document.getElementById("sell_tutorial_button").style.color = "#000000";
                 document.getElementById("sell_tutorial_button").style.border = "2px solid #ffffff";
                 document.getElementById("sell_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
-                
-/*                document.getElementById("buy_tutorial_button").style.border = "1px solid #000000";
-                document.getElementById("buy_tutorial_button").style.borderBottom = "none";
-                document.getElementById("buy_tutorial_button").style.color = "#2B6FF4";
-                document.getElementById("buy_tutorial_button").style.backgroundColor = "#ffffff";
-                document.getElementById("sell_tutorial_button").style.border = "none";
-                document.getElementById("sell_tutorial_button").style.borderBottom = "1px solid #000000";
-                document.getElementById("sell_tutorial_button").style.backgroundColor = "#d3d3d3";
-                document.getElementById("sell_tutorial_button").style.color = "#000000";*/
 
                 $("#buy_tutorial_button").click(function(){
                     hideAll();
@@ -130,14 +120,6 @@
                     document.getElementById("sell_tutorial_button").style.color = "#000000";
                     document.getElementById("sell_tutorial_button").style.border = "2px solid #ffffff";
                     document.getElementById("sell_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
-                    /*document.getElementById("buy_tutorial_button").style.border = "1px solid #000000";
-                    document.getElementById("buy_tutorial_button").style.borderBottom = "none";
-                    document.getElementById("buy_tutorial_button").style.color = "#2B6FF4";
-                    document.getElementById("buy_tutorial_button").style.backgroundColor = "#ffffff";
-                    document.getElementById("sell_tutorial_button").style.border = "none";
-                    document.getElementById("sell_tutorial_button").style.borderBottom = "1px solid #000000";
-                    document.getElementById("sell_tutorial_button").style.backgroundColor = "#d3d3d3";
-                    document.getElementById("sell_tutorial_button").style.color = "#000000";*/
                     $("#buy_tutorial").show();
                 });
 
@@ -149,14 +131,6 @@
                     document.getElementById("buy_tutorial_button").style.color = "#000000";
                     document.getElementById("buy_tutorial_button").style.border = "2px solid #ffffff";
                     document.getElementById("buy_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
-                    /*document.getElementById("sell_tutorial_button").style.border = "1px solid #000000";
-                    document.getElementById("sell_tutorial_button").style.borderBottom = "none";
-                    document.getElementById("sell_tutorial_button").style.color = "#2B6FF4";
-                    document.getElementById("sell_tutorial_button").style.backgroundColor = "#ffffff";
-                    document.getElementById("buy_tutorial_button").style.border = "none";
-                    document.getElementById("buy_tutorial_button").style.borderBottom = "1px solid #000000";
-                    document.getElementById("buy_tutorial_button").style.backgroundColor = "#d3d3d3";
-                    document.getElementById("buy_tutorial_button").style.color = "#000000";*/
                     $("#sell_tutorial").show();
                 });
             }
