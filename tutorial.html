@@ -36,11 +36,11 @@
     <div class="container-fluid px-5">
         <h3 class="text-center pb-3"><strong>How to Use TigerThrift!</strong></h3>
         <div class="row px-5" id="sidebar">
-            <a id="buy_tutorial_button" class="col text-center rounded-0" style="min-width: 210px; padding: 10px;">
-                how to purchase an item
+            <a id="buy_tutorial_button" class="col text-center rounded-0" style="min-width: 100px; padding: 10px;">
+                how to purchase
             </a>
-            <a id="sell_tutorial_button" class="col text-center rounded-0" style="min-width: 210px; padding: 10px;">
-                how to sell an item
+            <a id="sell_tutorial_button" class="col text-center rounded-0" style="min-width: 100px; padding: 10px;">
+                how to sell
             </a>
         </div>
         <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto" id="buy_tutorial">
@@ -107,9 +107,12 @@
                     $("#logged_in_navbar").show();
                 }
                 document.getElementById("buy_tutorial_button").style.color = "#2B6FF4";
-                document.getElementById("buy_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
+                document.getElementById("buy_tutorial_button").style.border = "2px solid #2B6FF4";
+                document.getElementById("buy_tutorial_button").style.borderBottom = "2px solid #ffffff";
                 document.getElementById("sell_tutorial_button").style.color = "#000000";
-                document.getElementById("sell_tutorial_button").style.borderBottom = "2px solid #ffffff";
+                document.getElementById("sell_tutorial_button").style.border = "2px solid #ffffff";
+                document.getElementById("sell_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
+                
 /*                document.getElementById("buy_tutorial_button").style.border = "1px solid #000000";
                 document.getElementById("buy_tutorial_button").style.borderBottom = "none";
                 document.getElementById("buy_tutorial_button").style.color = "#2B6FF4";
@@ -122,9 +125,11 @@
                 $("#buy_tutorial_button").click(function(){
                     hideAll();
                     document.getElementById("buy_tutorial_button").style.color = "#2B6FF4";
-                    document.getElementById("buy_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
+                    document.getElementById("buy_tutorial_button").style.border = "2px solid #2B6FF4";
+                    document.getElementById("buy_tutorial_button").style.borderBottom = "2px solid #ffffff";
                     document.getElementById("sell_tutorial_button").style.color = "#000000";
-                    document.getElementById("sell_tutorial_button").style.borderBottom = "2px solid #ffffff";
+                    document.getElementById("sell_tutorial_button").style.border = "2px solid #ffffff";
+                    document.getElementById("sell_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
                     /*document.getElementById("buy_tutorial_button").style.border = "1px solid #000000";
                     document.getElementById("buy_tutorial_button").style.borderBottom = "none";
                     document.getElementById("buy_tutorial_button").style.color = "#2B6FF4";
@@ -139,9 +144,11 @@
                 $("#sell_tutorial_button").click(function(){
                     hideAll();
                     document.getElementById("sell_tutorial_button").style.color = "#2B6FF4";
-                    document.getElementById("sell_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
+                    document.getElementById("sell_tutorial_button").style.border = "2px solid #2B6FF4";
+                    document.getElementById("sell_tutorial_button").style.borderBottom = "2px solid #ffffff";
                     document.getElementById("buy_tutorial_button").style.color = "#000000";
-                    document.getElementById("buy_tutorial_button").style.borderBottom = "2px solid #ffffff";
+                    document.getElementById("buy_tutorial_button").style.border = "2px solid #ffffff";
+                    document.getElementById("buy_tutorial_button").style.borderBottom = "2px solid #2B6FF4";
                     /*document.getElementById("sell_tutorial_button").style.border = "1px solid #000000";
                     document.getElementById("sell_tutorial_button").style.borderBottom = "none";
                     document.getElementById("sell_tutorial_button").style.color = "#2B6FF4";
