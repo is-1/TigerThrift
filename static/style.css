@@ -114,8 +114,9 @@ select:active,
 }
 
 #loginButton:hover{
-    background-color: #2B6FF4;
-    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-    color: #fff;
-    transform: translateY(-7px);
+    background-color: #D57646;
+    outline-color: black;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    transform: translateY(-10px);
 }
