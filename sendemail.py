@@ -73,6 +73,9 @@ def send_buyer_reservation_reminder(seller, buyer, item_name):
         'Weblink': seller['email']
     }
 
+    print("BUYER RESERVATION NOTIFICATION FOR ITEMNAME", item_name)
+    print(str(message.dynamic_template_data))
+
     message.template_id = 'd-52bcd2394cbb4f63a70bc6e7c2c50645'
 
     try:
@@ -99,6 +102,9 @@ def send_seller_reservation_reminder(seller, buyer, item_name):
         'Weblink': buyer['email'],
         'prodname': item_name
     }
+
+    print("SELLER RESERVATION NOTIFICATION FOR ITEMNAME", item_name)
+    print(str(message.dynamic_template_data))
 
     message.template_id = 'd-08ff0c1398894d1bbbcb8e850a7e8080'
 
@@ -127,6 +133,9 @@ def send_buyer_expiration_notification(seller, buyer, item_name):
         'Weblink': seller['email']
     }
 
+    print("BUYER EXPIRATION NOTIFICATION FOR ITEMNAME", item_name)
+    print(str(message.dynamic_template_data))
+
     message.template_id = 'd-875e76a6e7b542d5a578750cb44ab2a4'
 
     try:
@@ -153,6 +162,8 @@ def send_seller_expiration_notification(seller, buyer, item_name):
         'Weblink': buyer['email'],
         'prodname': item_name
     }
+    print("SELLER EXPIRATION NOTIFICATION FOR ITEMNAME", item_name)
+    print(str(message.dynamic_template_data))
 
     message.template_id = 'd-9647730514d94655bb99a0c408a989b4'
 
