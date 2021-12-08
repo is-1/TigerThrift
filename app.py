@@ -36,6 +36,14 @@ TIGERBOOK_API="https://tigerbook.herokuapp.com/api/v1/undergraduates/"
 app = Flask(__name__, template_folder = '.')
 app.secret_key = APP_SECRET_KEY
 
+@app.before_request
+def enforceHttpsInHeroku():
+    # always force redirect to HTTPS (secure connection)
+    if request.headers.get("X-Forwarded-Proto") == "http":
+        url = request.url.replace("http://", "https://", 1)
+        code = 301
+        return redirect(url, code=code)
+
 def get_wsse_headers(username, password):
     """
     Returns the WSSE headers needed for authentication
