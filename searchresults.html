@@ -4,7 +4,7 @@
     {% endif %}
     {% for item in items %}
     {% if item['status'] == 0 %}
-    <div class="card" style="width:250px; margin:30px;" onClick="$(`#details_form{{item['itemid']}}`).submit()">
+  <div class="card" style="width:250px; margin:30px;">   <!-- onClick="$(`#details_form{{item['itemid']}}`).submit()" -->
       <div id="carouselIndicators{{item['itemid']}}" class="carousel carousel-dark slide" data-bs-interval="false" data-bs-ride="false">
         <div class="carousel-indicators">
           {% if item['photolink1'] != '' %}
