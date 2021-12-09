@@ -23,7 +23,7 @@
             <div hidden id="edit_profile">
                 <form action="/profile" method="POST" class="pt-2">
                     Phone Number:
-                    <input name="phone" value="{{user_info['phone']}}">
+                    <input id="submit_phone" name="phone" value="" type="text">
                     <button type="submit" id="submit_edits" class="card-text btn btn-dark btn-sm">confirm</button>
                 </form>
             </div>          
@@ -43,6 +43,8 @@
             if ("{{user_info['phone']}}" != "unknown") {
                 $("#with_phone").show();
                 $("#without_phone").hide();
+                $("#submit_phone").val("{{user_info['phone']}}");
+
             }
             else {
                 $("#with_phone").hide();

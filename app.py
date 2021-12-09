@@ -478,13 +478,15 @@ def profile():
     # add_user(user_info)
     
     phone = request.form.get('phone')
+    print("phone: " + str(phone))
+    print("username: " + str(phone))
+
     if phone is not None:
         edit_success = edit_phone(username, phone)
         if not edit_success:
             html = render_template('error.html')
             response = make_response(html)
             return response
-
 
     user_info = get_user_info(username)
 
