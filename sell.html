@@ -14,7 +14,7 @@
   <body>
     {% include 'header.html' %}
     <h3 class="text-center"><strong>Sell an Item</strong></h3>
-      <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
+    <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
         <form id="sell_form" action="sell" value="" method = "POST">
             <div class="form-group m-2">
                 <label id="input_prod_text" style="letter-spacing: 0.1em;">Product Name</label>
@@ -114,13 +114,13 @@
             </div>
             <div class="form-group m-2">
                 <label id="input_phone_text" style="letter-spacing: 0.1em;">Phone Number (optional)</label>
-                <input id="input_phone" class="form-control" id ="phone" type="text" name="phone">
+                <input id="input_phone" class="form-control" type="text" name="phone">
                 <p class="mb-0 text-secondary">*if you would like reservers of this item to contact you via text*</p>
             </div>
             <div id="photoupload" class="form-group m-2">
                 <div class="card-deck row justify-content-center">
                     <div id="imagecard" class="card m-2" style="width:250px">
-                        <img id="image" src="" class="p-1" class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;"">
+                        <img id="image" src="" class="p-1" class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
                         <button id="delete_button" class="btn" type="button">
                             <i class="fa fa-trash-o"></i>
                         </button>
@@ -153,8 +153,7 @@
             <input type="hidden" id="photolink3" name ="photolink3" value = "">
 
             <div class="text-center pb-5">
-                <button formaction="success_sell" formmethod="POST" type="submit"
-                    class="btn btn-dark px-5" values="Go" style="letter-spacing: 0.3em;">Create Item!</button>
+                <button formaction= "success_sell" formmethod="POST" type="submit" class="btn btn-dark" values = "Go">create item!</button>
             </div>
         </form>
 
@@ -168,7 +167,7 @@
             document.getElementById("about_header").style.color = "#000000";
             document.getElementById("tutorial_header").style.color = "#000000";
 
-            /*function noBorder() {
+            function noBorder() {
                 document.getElementById("input_prod_text").style.color = '';
                 document.getElementById("type_select_text").style.color = '';
                 document.getElementById("subtype_select_text").style.color = '';
@@ -198,15 +197,20 @@
                 document.getElementById("imagecard1").style.removeProperty('border');
                 document.getElementById("imagecard2").style.removeProperty('border');
                 document.getElementById("imagecard3").style.removeProperty('border');
-            }*/
+            }
             function setup() {
-
+                if ("{{user_info['phone']}}" != "unknown" && "{{user_info['phone']}}" != "None" ) {
+                    $("#input_phone").val("{{user_info['phone']}}");
+                }
+                else {
+                    $('#input_phone').attr('placeholder', 'enter phone number');
+                }
                 $('#imagecard').hide();
                 $('#imagecard1').hide();
                 $('#imagecard2').hide();
                 $('#imagecard3').hide();
                 
-                /*$("#input_prod").click(function(){
+                $("#input_prod").click(function(){
                     noBorder();
                     document.getElementById("input_prod_text").style.color = "#2B6FF4";
                     document.getElementById("input_prod").style.borderColor = "#2B6FF4";
@@ -266,7 +270,7 @@
                     noBorder();
                     document.getElementById("input_phone_text").style.color = "#2B6FF4";
                     document.getElementById("input_phone").style.borderColor = "#2B6FF4";
-                });*/
+                });
                 
 
 
@@ -407,8 +411,8 @@
                     if (selected == "bottom") {
                         subtypes.push("Pants", "Skirt", "Shorts", "Jeans");
                         sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
-"XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”",
-"00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                    "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”",
+                    "00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
                     }
 
                     if (selected == "dress") {
@@ -473,13 +477,6 @@
                     }
                 }
                 });
-        
-                if ("{{user_info['phone']}}" != "unknown" || "{{user_info['phone']}}" != "None" ) {
-                    $("#phone").val("{{user_info['phone']}}");
-                }
-                else {
-                    $('#phone').attr('placeholder', 'enter phone number');
-                }
             }
             //   if (imageUrl != null) {
             //       $('#image1').attr("src", imageUrl);
