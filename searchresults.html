@@ -5,80 +5,75 @@
     {% for item in items %}
     {% if item['status'] == 0 %}
     <div class="card" style="width:250px; height:500px; margin:30px;" onClick="$(`#details_form{{item['itemid']}}`).submit()">
-        <!-- <img class="card-img-top pt-2" style="width:220px; height:220px; overflow:hidden; object-fit:contain;"
-                src="{{item['photolink']}}" alt="item photo"> -->
-                <div id="carouselIndicators{{item['itemid']}}" class="carousel carousel-dark slide" data-bs-interval="false" data-bs-ride="false">
-                    <div class="carousel-indicators">
-                      {% if item['photolink1'] != '' %}
-                      <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                      <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                      {% endif %}
-                      {% if item['photolink2'] != '' %}
-                      <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                      {% endif %}
-                      {% if item['photolink3'] != '' %}
-                      <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                      {% endif %}
-                    </div>
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="{{item['photolink']}}" alt="First Photo" class="card-img-top pt-2 d-block w-100" style="width:200px; height:200px; overflow:hidden; object-fit:contain;"><!--style="width:400px; height:400px; overflow:hidden; object-fit:contain;"-->
-                      </div>
-                      {% if item['photolink1'] != '' %}
-                      <div class="carousel-item">
-                        <img src="{{item['photolink1']}}" alt="Second Photo" class="card-img-top pt-2 d-block w-100" style="width:200px; height:200px; overflow:hidden; object-fit:contain;">
-                      </div>
-                      {% endif %}
-                      {% if item['photolink2'] != '' %}
-                      <div class="carousel-item">
-                        <img src="{{item['photolink2']}}" alt="Third Photo" class="card-img-top pt-2 d-block w-100" style="width:200px; height:200px; overflow:hidden; object-fit:contain;">
-                      </div>
-                      {% endif %}
-                      {% if item['photolink3'] != '' %}
-                      <div class="carousel-item">
-                        <img src="{{item['photolink3']}}" alt="Fourth Photo" class="card-img-top pt-2 d-block w-100" style="width:200px; height:200px; overflow:hidden; object-fit:contain;">
-                      </div>
-                      {% endif %}
-                    </div>
-                    {% if item['photolink1'] != '' %}
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                    {% endif %}
-                  </div>
-        <div class="card-body">
-            <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
-            <p class="card-text">Price: {{item['price']}}</p>
-            <p class="card-text">Condition: {{item['condition']}}</p>
-            <p class="card-text">Brand: {{item['brand']}}</p>
-            <div class="d-flex align-self-end">
-                <div class="pe-3"> 
-                    <form id="details_form{{item['itemid']}}" action="itemdetails" method='GET'>
-                        <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                        <button type="submit" class="card-text btn btn-dark btn-sm"> more details</button>
-                    </form>
-                </div>
-                  {% if item['sellernetid'] != user_info['netid'] %}
-                  <form action="reserve" method='POST'>
-                      <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                      <button type="submit" class="card-text btn btn-dark btn-sm">reserve</button>
-                  </form>
-                  {% else %}
-                  <div class = "ps-3">
-                  <form action="/edit_item" method="POST">
-                    <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                    <button type="submit" id="edit_button" class="card-text btn btn-dark btn-sm">edit</button>
-                  </form>
-                </div>       
-
-                  {% endif %}
-            </div>
+      <div id="carouselIndicators{{item['itemid']}}" class="carousel carousel-dark slide" data-bs-interval="false" data-bs-ride="false">
+        <div class="carousel-indicators">
+          {% if item['photolink1'] != '' %}
+            <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          {% endif %}
+          {% if item['photolink2'] != '' %}
+            <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          {% endif %}
+          {% if item['photolink3'] != '' %}
+            <button type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide-to="3" aria-label="Slide 4"></button>
+          {% endif %}
         </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{{item['photolink']}}" alt="First Photo" class="card-img-top pt-2 d-block w-100" style="width:200px; height:200px; overflow:hidden; object-fit:contain;"><!--style="width:400px; height:400px; overflow:hidden; object-fit:contain;"-->
+          </div>
+          {% if item['photolink1'] != '' %}
+            <div class="carousel-item">
+              <img src="{{item['photolink1']}}" alt="Second Photo" class="card-img-top pt-2 d-block w-100" style="width:200px; height:200px; overflow:hidden; object-fit:contain;">
+            </div>
+          {% endif %}
+          {% if item['photolink2'] != '' %}
+            <div class="carousel-item">
+              <img src="{{item['photolink2']}}" alt="Third Photo" class="card-img-top pt-2 d-block w-100" style="width:200px; height:200px; overflow:hidden; object-fit:contain;">
+            </div>
+          {% endif %}
+          {% if item['photolink3'] != '' %}
+            <div class="carousel-item">
+              <img src="{{item['photolink3']}}" alt="Fourth Photo" class="card-img-top pt-2 d-block w-100" style="width:200px; height:200px; overflow:hidden; object-fit:contain;">
+            </div>
+          {% endif %}
+        </div>
+        {% if item['photolink1'] != '' %}
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators{{item['itemid']}}" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        {% endif %}
+      </div>
+      <div class="card-body">
+        <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
+        <p class="card-text">Price: {{item['price']}}</p>
+        <p class="card-text">Condition: {{item['condition']}}</p>
+        <p class="card-text">Brand: {{item['brand']}}</p>
+        <div class="d-flex align-self-end">
+          <div class="pe-3"> 
+            <form id="details_form{{item['itemid']}}" action="itemdetails" method='GET'>
+              <input type="hidden" name="itemid" value="{{item['itemid']}}">
+              <button type="submit" class="card-text btn btn-dark btn-sm"> more details</button>
+            </form>
+          </div>
+          {% if item['sellernetid'] != user_info['netid'] %}
+            <form action="reserve" method='POST'>
+              <input type="hidden" name="itemid" value="{{item['itemid']}}">
+              <button type="submit" class="card-text btn btn-dark btn-sm">reserve</button>
+            </form>
+          {% else %}
+            <form action="/edit_item" method="POST">
+              <input type="hidden" name="itemid" value="{{item['itemid']}}">
+              <button type="submit" id="edit_button" class="card-text btn btn-dark btn-sm px-3">edit</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
     </div>
     {% endif %}
     {% endfor %}
