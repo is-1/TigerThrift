@@ -279,7 +279,7 @@ def success_edit():
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
         edit_item_db(item_details, user_info)
 
-        html = render_template('success_edit.html') # type this now!!! 
+        html = render_template('success_edit.html', item_name=item_details['prodname']) # type this now!!! 
         print("item was successfully edited!!!")
         response = make_response(html)
         return response
