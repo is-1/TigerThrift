@@ -215,6 +215,7 @@ def edit_item():
 
     ## item = item_details(itemid)
     item = item_details(itemid)
+    item['price'] = item['price'][1:]
     
     print("route on edit page; " + str(route))
     print("item info sent to be edited:", str(item))
