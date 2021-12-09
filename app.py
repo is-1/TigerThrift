@@ -192,9 +192,9 @@ def shop():
     
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username = 'katelynr'
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     html = render_template('sell.html', user_info=user_info)
@@ -205,9 +205,9 @@ def sell():
 
 @app.route('/edit_item', methods=['POST'])
 def edit_item():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username = 'katelynr'
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     itemid =  request.form.get('itemid')
@@ -223,9 +223,10 @@ def edit_item():
 
 @app.route('/success_edit', methods=['POST'])
 def success_edit():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username = 'katelynr'
+    print("entered success edit function")
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -247,9 +248,15 @@ def success_edit():
     photolink3 = request.form.get('photolink3')
     user_phone = request.form.get('phone')
     print("user phone from edit-form", user_phone)
+    print(itemid)
+    print(prodname)
+    print(gender)
+    print(price)
+    print(priceflexibility)
 
     # # call function
     if prodname is not None:
+        print("entered prodname if stmt")
         item_details = {'itemid': itemid,
         'prodname': prodname,
         'type': titlecase(itemtype),
@@ -267,6 +274,7 @@ def success_edit():
         'photolink2': photolink2,
         'photolink3': photolink3}
         if str(user_phone) != "":
+            print("went into if stmt")
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
         edit_item_db(item_details, user_info)
         html = render_template('success_edit.html') # type this now!!! 
@@ -276,9 +284,9 @@ def success_edit():
 
 @app.route('/success_sell', methods=['GET', 'POST'])
 def success_sell():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username='katelynr'
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username='katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -299,6 +307,7 @@ def success_sell():
     photolink3 = request.form.get('photolink3')
     user_phone = request.form.get('phone')
     print("user phone from sell-form", user_phone)
+    print(prodname)
 
     # # call function
     if prodname is not None:
@@ -470,9 +479,9 @@ def delete_item():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username = 'katelynr'
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     
@@ -560,9 +569,9 @@ def my_reserved():
 
 @app.route('/myselling/active', methods=['GET'])
 def my_selling_active():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username = 'katelynr'
+    # is_authenticated()
+    # username = CasClient().authenticate()
+    username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
