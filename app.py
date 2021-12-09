@@ -178,8 +178,12 @@ def shop():
     print("sort: " + str(sort))
 
     items = search_items(search, filter, sort)
+    if items is None:
+        items = []
 
     brands = all_brands()
+    if brands is None:
+        brands = []
 
     html = render_template('shop.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
 
@@ -197,6 +201,9 @@ def sell():
     # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
+    if user_info is None:
+        print("can't get user_info for netid: " + str(username))
+
     html = render_template('sell.html', user_info=user_info)
     response = make_response(html)
     response.set_cookie('route', "/sell")
@@ -210,7 +217,7 @@ def edit_item():
     # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
-    itemid =  request.form.get('itemid')
+    itemid = request.form.get('itemid')
     route = request.cookies.get('route')
 
     ## item = item_details(itemid)
@@ -278,7 +285,13 @@ def success_edit():
         if str(user_phone) != "":
             print("went into if stmt")
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
-        edit_item_db(item_details, user_info)
+        edit_item_success = edit_item_db(item_details, user_info)
+        
+        if not edit_item_success:
+            html = render_template('error.html', message="Couldn't save edits. Please try again or contact us if the error persists.") # type this now!!! 
+            print("item edit unsuccessful: itemid" + str(itemid))
+            response = make_response(html)
+            return response
 
         html = render_template('success_edit.html', item_name=item_details['prodname']) # type this now!!! 
         print("item was successfully edited!!!")
