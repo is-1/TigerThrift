@@ -224,6 +224,7 @@ def edit_item():
 
 @app.route('/success_edit', methods=['POST'])
 def success_edit():
+    print("entered success edit function")
     is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
@@ -248,9 +249,15 @@ def success_edit():
     photolink3 = request.form.get('photolink3')
     user_phone = request.form.get('phone')
     print("user phone from edit-form", user_phone)
+    print(itemid)
+    print(prodname)
+    print(gender)
+    print(price)
+    print(priceflexibility)
 
     # # call function
     if prodname is not None:
+        print("entered prodname if stmt")
         item_details = {'itemid': itemid,
         'prodname': prodname,
         'type': titlecase(itemtype),
@@ -268,10 +275,11 @@ def success_edit():
         'photolink2': photolink2,
         'photolink3': photolink3}
         if str(user_phone) != "":
+            print("went into if stmt")
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
         edit_item_db(item_details, user_info)
 
-        html = render_template('success_edit.html') # type this now!!! 
+        html = render_template('success_edit.html', item_name=item_details['prodname']) # type this now!!! 
         print("item was successfully edited!!!")
         response = make_response(html)
         return response
@@ -301,6 +309,7 @@ def success_sell():
     photolink3 = request.form.get('photolink3')
     user_phone = request.form.get('phone')
     print("user phone from sell-form", user_phone)
+    print(prodname)
 
     # # call function
     if prodname is not None:
@@ -475,7 +484,6 @@ def profile():
     is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
-    # add_user(user_info)
     
     phone = request.form.get('phone')
     print("phone: " + str(phone))
