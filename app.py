@@ -692,11 +692,22 @@ def itemdetails():
 
     item = item_details(itemid)
 
+    if item is None:
+        html = render_template('error.html', message="This item may not exist or you don't have access to it. Contact us if this is a mistake.")
+        response = make_response(html)
+        response.set_cookie('route', "/shop")
+        return response
+
     print("itemid = " + str(itemid))
     buyernetid, buyer_full_name = reserved_netid(itemid)
     
     if buyernetid is not None and user_info['netid'] == buyernetid:
         isMine = True
+    elif buyernetid is not None and item['status'] != 2 and user_info['netid'] != buyernetid and item['sellernetid'] != user_info['netid']:
+        html = render_template('error.html', message="This item may not exist or you don't have access to it. Contact us if this is a mistake.")
+        response = make_response(html)
+        response.set_cookie('route', "/shop")
+        return response
     else:
         isMine = False
 
