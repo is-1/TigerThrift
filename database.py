@@ -615,7 +615,7 @@ def items_sold_in_past(user_info):
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
-                stmt_str = 'SELECT * FROM reservations WHERE completedtime IS NOT NULL AND sellernetid = %s;'
+                stmt_str = 'SELECT * FROM reservations WHERE completedtime IS NOT NULL AND sellernetid = %s order by completedtime desc;'
                 cursor.execute(stmt_str, [user_info['netid']])
 
                 # connection.commit()
