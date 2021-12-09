@@ -688,6 +688,7 @@ def itemdetails():
     filter = json.loads(request.cookies.get('filter'))
     sort = request.cookies.get('sort')
     route = request.cookies.get('route')
+    print("request: " + str(request))
 
     item = item_details(itemid)
 
@@ -706,14 +707,14 @@ def itemdetails():
     print("previous type = " + filter['type'])
     print("type of filter = " + str(type(filter)))
     print("previous sort = " + str(sort))
-    print("photolink1 = " + str(item['photolink1']))
-    print("photolink2 = " + str(item['photolink2']))
+    # print("photolink1 = " + str(item['photolink1']))
+    # print("photolink2 = " + str(item['photolink2']))
     print("isMine = " + str(isMine))
     print("reserved by = " + str(buyernetid))
 
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route, isMine=isMine)
     response = make_response(html)
-    response.set_cookie('route', "/shop")
+    response.set_cookie('route', "/itemdetails")
     return response
 
 @app.route('/about', methods=['GET'])
