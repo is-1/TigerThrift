@@ -32,13 +32,13 @@
             {% if item['status'] == 2 %} 
                 <div class="card" style="width:250px; ; margin:30px;">
                     <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
-                    <div class="card-body">
+                    <div class="card-body pb-3">
                         <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
                         <p class ="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
                         <p class="card-text">Purchase completed on<br>{{item['purchase_completed']}}</p>
                         <form action="itemdetails" method='GET'>
                             <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                            <button class="card-text btn btn-dark btn-sm">details</button>
+                            <button class="card-text btn btn-dark btn-sm px-4">details</button>
                         </form>
                     </div>
                 </div>
