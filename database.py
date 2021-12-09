@@ -871,4 +871,25 @@ def remove_item(itemid):
        print(ex, file=stderr)
        #exit(1)
 
+def edit_phone(netid, phone):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+                # insert item into items table
+                stmt_str = ('UPDATE users set phone = %s WHERE netid=%s;')
+                cursor.execute(stmt_str, [phone, netid])
+                connection.commit()
+
+    except Exception as ex:
+       print(ex, file=stderr)
+       return False
+       #exit(1)
+
+    return True
+
     
