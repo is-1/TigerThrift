@@ -192,9 +192,9 @@ def shop():
     
 @app.route('/sell', methods=['GET', 'POST'])
 def sell():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     html = render_template('sell.html', user_info=user_info)
@@ -205,9 +205,9 @@ def sell():
 
 @app.route('/edit_item', methods=['POST'])
 def edit_item():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
     itemid =  request.form.get('itemid')
@@ -225,9 +225,9 @@ def edit_item():
 @app.route('/success_edit', methods=['POST'])
 def success_edit():
     print("entered success edit function")
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -286,9 +286,9 @@ def success_edit():
 
 @app.route('/success_sell', methods=['GET', 'POST'])
 def success_sell():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
@@ -481,9 +481,9 @@ def delete_item():
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     
     phone = request.form.get('phone')
     if phone is not None:
@@ -613,9 +613,9 @@ def my_reserved():
 
 @app.route('/myselling/active', methods=['GET'])
 def my_selling_active():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username = 'katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
 
