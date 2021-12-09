@@ -4,7 +4,7 @@
     {% endif %}
     {% for item in items %}
     {% if item['status'] == 0 %}
-    <div class="card" style="width:250px; height:500px; margin:30px;" onClick="$(`#details_form{{item['itemid']}}`).submit()">
+    <div class="card" style="width:250px; margin:30px;" onClick="$(`#details_form{{item['itemid']}}`).submit()">
       <div id="carouselIndicators{{item['itemid']}}" class="carousel carousel-dark slide" data-bs-interval="false" data-bs-ride="false">
         <div class="carousel-indicators">
           {% if item['photolink1'] != '' %}
@@ -54,7 +54,7 @@
         <p class="card-text">Price: {{item['price']}}</p>
         <p class="card-text">Condition: {{item['condition']}}</p>
         <p class="card-text">Brand: {{item['brand']}}</p>
-        <div class="d-flex align-self-end">
+        <div class="d-flex align-self-end pb-3">
           <div class="pe-3"> 
             <form id="details_form{{item['itemid']}}" action="itemdetails" method='GET'>
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
