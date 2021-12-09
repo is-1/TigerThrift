@@ -81,10 +81,6 @@ h5{
     font-weight: 300;
 }
 
-.clickedState {
-    border-color: lime;
-}
-
 textarea:active, 
 textarea:focus,
 textarea:hover, 
@@ -131,3 +127,9 @@ select:active,
     color:#2B6FF4;
     border-bottom:1px solid #2B6FF4;
 }
+
+#back_button button:hover{
+    color:#2B6FF4;
+    border-bottom:1px solid #2B6FF4;
+}
+
