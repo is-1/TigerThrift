@@ -11,7 +11,7 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, get_seller_and_item_info, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid
+from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, get_seller_and_item_info, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid, edit_phone
 from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_seller_cancellation, send_buyer_cancellation
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -216,6 +216,7 @@ def edit_item():
     ## item = item_details(itemid)
     item = item_details(itemid)
     
+    print("route on edit page; " + str(route))
     print("item info sent to be edited:", str(item))
     html = render_template('edit.html', item=item, user_info=user_info, route=route)
     response = make_response(html)
@@ -269,6 +270,7 @@ def success_edit():
         if str(user_phone) != "":
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
         edit_item_db(item_details, user_info)
+
         html = render_template('success_edit.html') # type this now!!! 
         print("item was successfully edited!!!")
         response = make_response(html)
@@ -468,8 +470,50 @@ def delete_item():
     return response
  
 
-@app.route('/profile', methods=['GET'])
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username = 'katelynr'
+    # add_user(user_info)
+    
+    phone = request.form.get('phone')
+    if phone is not None:
+        edit_success = edit_phone(username, phone)
+        if not edit_success:
+            html = render_template('error.html')
+            response = make_response(html)
+            return response
+
+
+    user_info = get_user_info(username)
+
+    active_items = curr_active_items(user_info)
+    # print(active_items)
+    curr_reserved_items = reserved_items(user_info)
+    # print(curr_reserved_items)
+    reserved_by_others = seller_reservations(user_info)
+    # print(reserved_by_others)
+    past_sold_items = items_sold_in_past(user_info)
+    print("PAST SOLD ITEMS")
+    print(past_sold_items)
+    purchased_items = past_purchases(user_info)
+    print("PURCHASED ITEMS")
+    print(purchased_items)
+
+    if active_items is None:
+        active_items = []
+
+    html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
+
+    response = make_response(html)
+    response.set_cookie('route', "/profile")
+
+    return response
+
+
+@app.route('/edit_profile', methods=['GET'])
+def edit_profile():
     is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
@@ -498,6 +542,7 @@ def profile():
     response.set_cookie('route', "/profile")
 
     return response
+
 
 @app.route('/mypurchased', methods=['GET'])
 def my_purchased():
