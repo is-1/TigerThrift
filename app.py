@@ -11,7 +11,7 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, get_seller_and_item_info, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid, edit_phone
+from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, get_seller_and_item_info, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid, edit_phone, bought_netid
 from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_seller_cancellation, send_buyer_cancellation
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -95,7 +95,14 @@ def get_user_info(username):
     'email': ((r.json())['email']).lower(),
     'class_year': (r.json())['class_year'],
     'photo_link': (r.json())['photo_link']}
-    add_user(user_info)
+    success_add_user = add_user(user_info)
+
+    if not success_add_user:
+        html = render_template('error.html', message="Please try again and contact us if the error persists.") # type this now!!! 
+        print("error adding user: " + str(username))
+        response = make_response(html)
+        return response
+
     user_info['phone'] = get_user_phone(netid)
     print("user's currently logged phone number!!! ", user_info['phone'])
     return user_info
@@ -181,6 +188,12 @@ def shop():
     if items is None:
         items = []
 
+    if items is False:
+        html = render_template('error.html', message="Couldn't load items. Please try again and contact us if the error persists.") # type this now!!! 
+        print("loading search results unsuccessful")
+        response = make_response(html)
+        return response
+
     brands = all_brands()
     if brands is None:
         brands = []
@@ -220,19 +233,22 @@ def edit_item():
     itemid = request.form.get('itemid')
     route = request.cookies.get('route')
 
-    ## item = item_details(itemid)
     item = item_details(itemid)
+    if item is False:
+        html = render_template('error.html', message="Couldn't get item details. Please try again or contact us if the error persists.") 
+        print("item edit unsuccessful: itemid" + str(itemid))
+        response = make_response(html)
+        return response
+
     item['price'] = item['price'][1:]
     
-    print("route on edit page; " + str(route))
-    print("item info sent to be edited:", str(item))
+
     html = render_template('edit.html', item=item, user_info=user_info, route=route)
     response = make_response(html)
     return response
 
 @app.route('/success_edit', methods=['POST'])
 def success_edit():
-    print("entered success edit function")
     is_authenticated()
     username = CasClient().authenticate()
     # username = 'katelynr'
@@ -257,11 +273,6 @@ def success_edit():
     photolink3 = request.form.get('photolink3')
     user_phone = request.form.get('phone')
     print("user phone from edit-form", user_phone)
-    print(itemid)
-    print(prodname)
-    print(gender)
-    print(price)
-    print(priceflexibility)
 
     # # call function
     if prodname is not None:
@@ -287,7 +298,7 @@ def success_edit():
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
         edit_item_success = edit_item_db(item_details, user_info)
         
-        if not edit_item_success:
+        if edit_item_success is False:
             html = render_template('error.html', message="Couldn't save edits. Please try again or contact us if the error persists.") # type this now!!! 
             print("item edit unsuccessful: itemid" + str(itemid))
             response = make_response(html)
@@ -343,8 +354,18 @@ def success_sell():
         'photolink2': photolink2,
         'photolink3': photolink3}
         if str(user_phone) != "":
-            add_user_phone(netid=user_info['netid'], phone_number=user_phone)
-        add_item(item_details, user_info)
+            success_add_phone = add_user_phone(netid=user_info['netid'], phone_number=user_phone)
+            if not success_add_phone or success_add_phone is None:
+                print("phone number not added: " + str(user_phone) + "net id = " + user_info['netid'])
+
+    
+        success_add_item = add_item(item_details, user_info)
+
+        if not success_add_item:
+            html = render_template('error.html', message="Item not successfully added. Please try again or contact us if the error persists.")
+            response = make_response(html)
+            return response
+
         html = render_template('success_sell.html')
         response = make_response(html)
         response.set_cookie('route', "/sell")
@@ -380,6 +401,14 @@ def search_results():
     print("sort: " + sort)
 
     items = search_items(search, filter, sort)
+    if items is False:
+        html = render_template('error.html', message="Error loading items. Please try again and contact us if the error persists.")
+        response = make_response(html)
+        return response
+
+    if items is None:
+        items = []
+
     html = render_template('searchresults.html', items=items, user_info=user_info)
 
     response = make_response(html)
@@ -417,18 +446,18 @@ def reserve():
     # send_buyer_reservation_notification(seller, buyer, product_name) # eecheck this
 
     # try again if failed
-    if success_send == False:
+    if not success_send:
         success_send = send_seller_reservation_notification(seller, buyer, product_name)
-        if success_send == False:
+        if not success_send:
             print("error, tried twice seller notification not sent for itemid " + str(itemid))
             html = render_template('error.html', itemid=itemid)
             response = make_response(html)
             return response
 
     success_send = send_buyer_reservation_notification(seller, buyer, product_name) # for testing
-    if success_send == False:
+    if not success_send:
         success_send = send_buyer_reservation_notification(seller, buyer, product_name)
-        if success_send == False:
+        if not success_send:
             print("error, tried twice buyer notification not sent for itemid " + str(itemid))
             html = render_template('error.html', itemid=itemid)
             response = make_response(html)
@@ -467,10 +496,16 @@ def complete_reservation():
     # add_user(user_info)
 
     itemid = request.form.get('itemid')
-    buyernetid, buyer_full_name = reserved_netid(itemid)
+    buyer = reserved_netid(itemid)
+
+    if not buyer:
+        html = render_template('error.html', message="Error completing reservation. Please try again or contact us if the error persists.")
+        response = make_response(html)
+        return response
+        
     complete_reserve(user_info, itemid)
     
-    html = render_template('success_complete_reservation.html', buyer_full_name=buyer_full_name)
+    html = render_template('success_complete_reservation.html', buyer_full_name=buyer[1])
     response = make_response(html)
     return response
 
@@ -711,12 +746,34 @@ def itemdetails():
         response.set_cookie('route', "/shop")
         return response
 
-    print("itemid = " + str(itemid))
-    buyernetid, buyer_full_name = reserved_netid(itemid)
+    if item is False:
+        html = render_template('error.html', message="Error loading item details. Please try again or contact us if the error persists.")
+        response = make_response(html)
+        response.set_cookie('route', "/shop")
+        return response
     
-    if buyernetid is not None and user_info['netid'] == buyernetid:
+    print("itemid = " + str(itemid))
+
+    reserved = reserved_netid(itemid)
+    buyer = bought_netid(itemid)
+
+    if not reserved or not buyer:
+        html = render_template('error.html', message="Error loading item information. Please try again or contact us if the error persists.")
+        response = make_response(html)
+        response.set_cookie('route', "/shop")
+        return response
+
+    # if the item is reserved by you
+    if reserved is not None and user_info['netid'] == reserved[0]:
         isMine = True
-    elif buyernetid is not None and item['status'] != 2 and user_info['netid'] != buyernetid and item['sellernetid'] != user_info['netid']:
+    # if the item is reserved, but not reserved or sold by you
+    elif reserved is not None and item['status'] != 0 and user_info['netid'] != reserved[0] and item['sellernetid'] != user_info['netid']:
+        html = render_template('error.html', message="This item may not exist or you don't have access to it. Contact us if this is a mistake.")
+        response = make_response(html)
+        response.set_cookie('route', "/shop")
+        return response
+     # if the item is sold, but not sold or bought by you
+    elif buyer is not None and item['status'] == 2 and user_info['netid'] != buyer[0] and item['sellernetid'] != user_info['netid']:
         html = render_template('error.html', message="This item may not exist or you don't have access to it. Contact us if this is a mistake.")
         response = make_response(html)
         response.set_cookie('route', "/shop")
@@ -724,17 +781,17 @@ def itemdetails():
     else:
         isMine = False
 
-    print("route = " + str(route))
-    print("item = " + str(item))
-    print("previous search = " + str(search))
-    print("previous filter = " + str(filter))
-    print("previous type = " + filter['type'])
-    print("type of filter = " + str(type(filter)))
-    print("previous sort = " + str(sort))
+    # print("route = " + str(route))
+    # print("item = " + str(item))
+    # print("previous search = " + str(search))
+    # print("previous filter = " + str(filter))
+    # print("previous type = " + filter['type'])
+    # print("type of filter = " + str(type(filter)))
+    # print("previous sort = " + str(sort))
     # print("photolink1 = " + str(item['photolink1']))
     # print("photolink2 = " + str(item['photolink2']))
-    print("isMine = " + str(isMine))
-    print("reserved by = " + str(buyernetid))
+    # print("isMine = " + str(isMine))
+    # print("reserved by = " + str(buyernetid))
 
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route, isMine=isMine)
     response = make_response(html)

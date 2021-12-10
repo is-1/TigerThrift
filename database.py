@@ -31,9 +31,11 @@ def add_user(user_info):
                     cursor.execute(stmt_str, [user_info['netid'], user_info['email'], dt, 'unknown', user_info['first_name'], user_info['last_name'], user_info['full_name']])
                     #print("finished inserting into users table")
                 connection.commit()
+                return True
     
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        #exit(1)
 
 def get_whitelist_user_info(netid):
@@ -100,6 +102,7 @@ def add_user_phone(netid, phone_number):
     
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        #exit(1)
 
 # create reservation
@@ -194,9 +197,11 @@ def add_item(item, user_info):
                 cursor.execute(stmt_str, [user_info['netid'], str(recent_item_id)])
 
                 connection.commit()
+                return True
 
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        #exit(1)
 
 def edit_item_db(item, user_info):
@@ -273,6 +278,7 @@ def item_details(itemid):
 
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        # exit(1)
 
 def delete_reserve(user_info, itemid):
@@ -459,19 +465,62 @@ def reserved_netid(itemid):
 
                 # connection.commit()
                 row = cursor.fetchone()
-                buyernetid = row[0]
+
+                if row is not None:
+                    buyernetid = row[0]
                 # print("buyernetid =" + buyernetid)
 
                 stmt_str = 'SELECT full_name FROM users WHERE netid = %s;'
                 cursor.execute(stmt_str, [str(buyernetid)])
-                buyer_full_name = cursor.fetchone()[0]
+
+                row = cursor.fetchone()
+                
+                if row is not None:
+                    buyer_full_name = row[0]
+
                 # print("buyerfullname =" + str(buyer_full_name))
+                return (str(buyernetid), str(buyer_full_name))
+
+    except Exception as ex:
+        print(ex, file=stderr)
+        return False
+       # exit(1)
+    
+    
+def bought_netid(itemid):
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    buyernetid = ""
+    buyer_full_name = ""
+    try:
+       # with connect(
+            #host='localhost', port=5432, user='rmd', password='TigerThrift',
+            #database='tigerthrift') as connection:
+        with connect (DATABASE_URL, sslmode='require') as connection:
+            with closing(connection.cursor()) as cursor:
+
+                stmt_str = 'SELECT buyernetid FROM reservations WHERE completedtime IS NOT NULL AND itemid = %s;'
+                cursor.execute(stmt_str, [itemid])
+
+                # connection.commit()
+                row = cursor.fetchone()
+
+                if row is not None:
+                    buyernetid = row[0]
+
+                stmt_str = 'SELECT full_name FROM users WHERE netid = %s;'
+                cursor.execute(stmt_str, [str(buyernetid)])
+
+                row = cursor.fetchone()
+
+                if row is not None:
+                    buyer_full_name  = row[0]
+                # print("buyerfullname =" + str(buyer_full_name))
+                return (str(buyernetid), str(buyer_full_name))
     
     except Exception as ex:
         print(ex, file=stderr)
+        return False
        # exit(1)
-    
-    return str(buyernetid), str(buyer_full_name)
     
 
 def reserved_items(user_info):
@@ -846,7 +895,7 @@ def search_items(search, filter, sort):
 
     except Exception as ex:
         print(ex, file=stderr)
-        return None
+        return False
 
     print(str(len(results)) + " items")
     return results
