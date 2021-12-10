@@ -134,6 +134,17 @@ select:active,
 }
 
 
-#search ::placeholder{
+#searchbar ::placeholder{
+    color: rgba(43, 111, 244, 0.75);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+
+}
+  
+#searchbar :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:#2B6FF4;
+}
+  
+#searchbar ::-ms-input-placeholder { /* Microsoft Edge */
     color:#2B6FF4;
 }
