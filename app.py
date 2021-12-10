@@ -298,7 +298,7 @@ def success_edit():
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
         edit_item_success = edit_item_db(item_details, user_info)
         
-        if not edit_item_success:
+        if edit_item_success is False:
             html = render_template('error.html', message="Couldn't save edits. Please try again or contact us if the error persists.") # type this now!!! 
             print("item edit unsuccessful: itemid" + str(itemid))
             response = make_response(html)
