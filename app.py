@@ -430,7 +430,7 @@ def reserve():
     itemid = request.form.get('itemid')
 
     sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
-    
+    product_name = titlecase(str(product_name))
     # get seller from database eventually, USE USERS TABLE 
 
     if sellernetid is None:
@@ -463,7 +463,7 @@ def reserve():
             response = make_response(html)
             return response
 
-    html = render_template('success_reserve.html', itemid=itemid)
+    html = render_template('success_reserve.html', itemid=itemid, item_name=product_name)
     response = make_response(html)
     return response
 

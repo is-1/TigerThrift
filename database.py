@@ -5,6 +5,8 @@ from psycopg2 import connect
 from contextlib import closing
 from datetime import datetime
 from datetime import timedelta
+from titlecase import titlecase
+
 
 # add to users table if user is not already in the table (first time user)
 def add_user(user_info):
@@ -158,7 +160,7 @@ def reserve_item(buyernetid, itemid):
        print(ex, file=stderr)
        #exit(1)
 
-    return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, prodname
+    return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, titlecase(str(prodname))
     
 
 # when user uploads an item, update necessary tables
@@ -269,7 +271,7 @@ def item_details(itemid):
                     'photolink': row[11],
                     'status': row[12],
                     'sellernetid': row[13],
-                    'prodname': row[14],
+                    'prodname': titlecase(str(row[14])),
                     'photolink1': row[15],
                     'photolink2': row[16],
                     'photolink3': row[17]
@@ -436,7 +438,7 @@ def curr_active_items(user_info):
                     'photolink': item_info[11],
                     'status': item_info[12],
                     'sellernetid': item_info[13],
-                    'prodname': item_info[14],
+                    'prodname': titlecase(str(item_info[14])),
                     }
                     item_info = cursor.fetchone()
                     results.append(item)
@@ -574,7 +576,7 @@ def reserved_items(user_info):
                     'photolink': item_info[11],
                     'status': item_info[12],
                     'sellernetid': item_info[13],
-                    'prodname': item_info[14],
+                    'prodname': titlecase(str(item_info[14])),
                     'reservation_time_left': str(reservation_time_left)
                     }
                     stmt_str = ('SELECT * from users where netid = %s')
@@ -639,7 +641,7 @@ def seller_reservations(user_info):
                     'timestamp': row[15],
                     'photolink': row[16],
                     'status': row[17],
-                    'prodname': row[19],
+                    'prodname': titlecase(str(row[19])),
                     'reservation_time_left': str(reservation_time_left)}
                     if item['status'] == 1:
                         results.append(item)
@@ -703,7 +705,7 @@ def items_sold_in_past(user_info):
                     'photolink': item_info[11],
                     'status': item_info[12],
                     'sellernetid': item_info[13],
-                    'prodname': item_info[14],
+                    'prodname': titlecase(str(item_info[14])),
                     'purchase_completed': str(purchased_date)
                     }
                     stmt_str = ('SELECT buyernetid from reservations where itemid = %s')
@@ -775,7 +777,7 @@ def past_purchases(user_info):
                     'photolink': item_info[11],
                     'status': item_info[12],
                     'sellernetid': item_info[13],
-                    'prodname': item_info[14],
+                    'prodname': titlecase(str(item_info[14])),
                     'purchase_completed': str(purchased_date)
                     }
                     stmt_str = ('SELECT full_name from users where netid=%s;')
@@ -886,7 +888,7 @@ def search_items(search, filter, sort):
                     'photolink': row[11],
                     'status': row[12],
                     'sellernetid': row[13],
-                    'prodname': row[14],
+                    'prodname': titlecase(str(row[14])),
                     'photolink1': row[15],
                     'photolink2': row[16],
                     'photolink3': row[17],
