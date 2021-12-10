@@ -305,9 +305,11 @@ def delete_reserve(user_info, itemid):
                 # send email notification to seller that this person deleted their reservation
 
                 connection.commit()
+                return True
 
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        # exit(1)
 
 def get_seller_and_item_info(itemid):
@@ -334,9 +336,10 @@ def get_seller_and_item_info(itemid):
                 seller = {'first_name': seller_first_name,
                 'full_name': seller_full_name,
                 'email': seller_email}
-                return seller, item_name
+                return (seller, item_name)
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        # exit(1)
 
 

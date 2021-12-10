@@ -476,8 +476,28 @@ def cancel_reservation():
     # add_user(user_info)
     buyer = {'first_name': user_info['first_name'], 'full_name': user_info['full_name'], 'email': user_info['email']}
     itemid = request.form.get('itemid')
-    seller, item_name = get_seller_and_item_info(itemid)
-    delete_reserve(user_info, itemid)
+
+    if itemid is None:
+        html = render_template('error.html', message="Error cancelling reservation. Please try again and contact us if the error persists.")
+        response = make_response(html)
+        return response
+
+    success_info = get_seller_and_item_info(itemid)
+
+    if success_info is False:
+        html = render_template('error.html', message="Error cancelling reservation. Please try again and contact us if the error persists.")
+        response = make_response(html)
+        return response
+    
+    seller, item_name = success_info
+
+    success_delete = delete_reserve(user_info, itemid)
+
+    if not success_delete:
+        html = render_template('error.html', message="Error cancelling reservation. Please try again and contact us if the error persists.")
+        response = make_response(html)
+        return response
+
     print("successfully deleted item from db")
     # send cancellation email confirmation to buyer and seller, make sure to include correct parameters
     send_seller_cancellation(seller, buyer, str(item_name))
@@ -752,15 +772,8 @@ def itemdetails():
         response.set_cookie('route', "/shop")
         return response
     
-    print("itemid = " + str(itemid))
-
     reserved = reserved_netid(itemid)
     buyer = bought_netid(itemid)
-
-    print("reserved = " + str(reserved))
-    print("buyer = " + str(buyer))
-    print("item status= " + str(item['status']))
-    print("user info netid = " + str(user_info['netid']))
 
     if not reserved or not buyer:
         html = render_template('error.html', message="Error loading item information. Please try again or contact us if the error persists.")
@@ -785,18 +798,6 @@ def itemdetails():
         return response
     else:
         isMine = False
-
-    # print("route = " + str(route))
-    # print("item = " + str(item))
-    # print("previous search = " + str(search))
-    # print("previous filter = " + str(filter))
-    # print("previous type = " + filter['type'])
-    # print("type of filter = " + str(type(filter)))
-    # print("previous sort = " + str(sort))
-    # print("photolink1 = " + str(item['photolink1']))
-    # print("photolink2 = " + str(item['photolink2']))
-    # print("isMine = " + str(isMine))
-    # print("reserved by = " + str(buyernetid))
 
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route, isMine=isMine)
     response = make_response(html)

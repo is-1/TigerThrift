@@ -227,6 +227,7 @@ def send_seller_cancellation(seller, buyer, item_name):
         print(response.status_code)
         print(response.body)
         print(response.headers)
+    
     except Exception as e:
         print(str(e))
         return False
