@@ -54,8 +54,8 @@
         <p class="card-text">Price: {{item['price']}}</p>
         <p class="card-text">Size: {{item['size']}}</p>
         <p class="card-text">Condition: {{item['condition']}}</p>
-        <p class="card-text">Brand: {{item['brand']}}</p>
-        <div class="d-flex align-self-end pb-3">
+        <p class="card-text" style="height: 80px;">Brand: {{item['brand']}}</p>
+        <div class="d-flex pb-3">
           <div class="pe-3"> 
             <form id="details_form{{item['itemid']}}" action="itemdetails" method='GET'>
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
@@ -65,12 +65,12 @@
           {% if item['sellernetid'] != user_info['netid'] %}
             <form action="reserve" method='POST'>
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
-              <button type="submit" class="card-text btn btn-dark btn-sm">reserve</button>
+              <button type="submit" class="card-text btn btn-dark btn-sm align-self-end">reserve</button>
             </form>
           {% else %}
             <form action="/edit_item" method="POST">
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
-              <button type="submit" id="edit_button" class="card-text btn btn-dark btn-sm px-3">edit</button>
+              <button type="submit" id="edit_button" class="card-text btn btn-dark btn-sm px-3 align-self-end">edit</button>
             </form>
           {% endif %}
         </div>

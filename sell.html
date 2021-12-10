@@ -85,7 +85,8 @@
                 </div>
                 <div class="form-group col m-2 p-0" style="min-width: 230px;">
                     <label id="input_brand_text" style="letter-spacing: 0.1em;">Brand</label>
-                    <input id="input_brand" type="int" name="brand" class="form-control" placeholder="enter brand" required>
+                    <input id="input_brand" type="int" name="brand" class="form-control"
+                        placeholder="enter brand (up to 30 char)" maxlength="30" required>
                 </div>
             </span>
             <span class="form-group mx-0 row">
@@ -153,7 +154,8 @@
             <input type="hidden" id="photolink3" name ="photolink3" value = "">
 
             <div class="text-center pb-5">
-                <button formaction= "success_sell" formmethod="POST" type="submit" class="btn btn-dark" values = "Go">create item!</button>
+                <button formaction= "success_sell" formmethod="POST" type="submit"
+                    class="btn btn-dark px-5" values="Go" style="letter-spacing: 0.2em;">Create Item!</button>
             </div>
         </form>
 
