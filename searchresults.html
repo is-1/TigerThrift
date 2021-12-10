@@ -49,9 +49,9 @@
           </button>
         {% endif %}
       </div>
-      <div class="card-body d-flex flex-column" style="cursor: pointer;"
-        onClick="$(`#details_form{{item['itemid']}}`).submit()">
-        <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
+      <div class="card-body d-flex flex-column">
+        <h4 class="card-title" style="height: 80px;" style="cursor: pointer;"
+          onClick="$(`#details_form{{item['itemid']}}`).submit()">{{item['prodname']}}</h4>
         <p class="card-text">Price: {{item['price']}}</p>
         <p class="card-text">Size: {{item['size']}}</p>
         <p class="card-text">Condition: {{item['condition']}}</p>
@@ -64,7 +64,7 @@
             </form>
           </div>
           {% if item['sellernetid'] != user_info['netid'] %}
-            <form action="reserve" method='POST'>
+            <form action="reserve" method='POST' onSubmit="return confirm('Confirm reservation of ' + `{{item['prodname']}}` + '?')">
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
               <button type="submit" class="card-text btn btn-dark btn-sm ">reserve</button>
             </form>
