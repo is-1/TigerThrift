@@ -143,12 +143,13 @@ def reserve_item(buyernetid, itemid):
 
                     print("reservation complete")
 
-                    stmt_str = ('SELECT first_name, full_name, email from users where netid = %s')
+                    stmt_str = ('SELECT first_name, full_name, email, phone from users where netid = %s')
                     cursor.execute(stmt_str, [sellernetid])
                     row = cursor.fetchone()
                     seller_first_name = row[0]
                     seller_full_name = row[1]
                     seller_email = row[2]
+                    seller_phone = row[3]
                     print("SELLER FIRST_NAME: ", seller_first_name)
                     print("SELLER EMAIL: ", seller_email)
                     connection.commit()
@@ -157,7 +158,7 @@ def reserve_item(buyernetid, itemid):
        print(ex, file=stderr)
        #exit(1)
 
-    return sellernetid, seller_first_name, seller_full_name, seller_email, prodname
+    return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, prodname
     
 
 # when user uploads an item, update necessary tables

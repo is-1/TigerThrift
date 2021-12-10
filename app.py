@@ -425,11 +425,11 @@ def reserve():
     # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
-    buyer = {'first_name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email'], 'full_name': user_info['full_name']} # add full name 
+    buyer = {'first_name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email'], 'full_name': user_info['full_name'], 'phone': user_info['phone']} # add full name 
 
     itemid = request.form.get('itemid')
 
-    sellernetid, seller_first_name, seller_full_name, seller_email, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+    sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
     
     # get seller from database eventually, USE USERS TABLE 
 
@@ -438,7 +438,7 @@ def reserve():
         response = make_response(html)
         return response
 
-    seller = {'first_name': str(seller_first_name), 'full_name': str(seller_full_name), 'email': str(seller_email)} # get seller info (from users table)
+    seller = {'first_name': str(seller_first_name), 'full_name': str(seller_full_name), 'email': str(seller_email), 'phone': str(seller_phone)} # get seller info (from users table)
 
     # change to item object, or item name based on itemid
     success_send = send_seller_reservation_notification(seller, buyer, product_name) # check this

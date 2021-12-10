@@ -16,7 +16,8 @@ def send_seller_reservation_notification(seller, buyer, item_name):
         'seller': seller['first_name'],
         'buyer': buyer['full_name'],
         'Weblink': buyer['email'],
-        'prodname': item_name
+        'prodname': item_name,
+        'buyer_phone': buyer['phone']
     }
 
     message.template_id = 'd-34e62704618448cd970bd0d8eb96f925'
@@ -47,7 +48,8 @@ def send_buyer_reservation_notification(seller, buyer, item_name):
         'buyer': buyer['first_name'],
         'prodname': item_name,
         'seller_full_name': seller['full_name'],
-        'seller_email': seller['email']
+        'seller_email': seller['email'],
+        'seller_phone': seller['phone']
     }
 
     message.template_id = 'd-2ecc34fa76b540a8b41152f925dfcd01'
@@ -77,7 +79,8 @@ def send_buyer_reservation_reminder(seller, buyer, item_name):
         'buyer': buyer['first_name'],
         'prodname': item_name,
         'seller': seller['full_name'],
-        'Weblink': seller['email']
+        'Weblink': seller['email'],
+        'seller_phone': seller['phone']
     }
 
     print("BUYER RESERVATION NOTIFICATION FOR ITEMNAME", item_name)
@@ -110,7 +113,8 @@ def send_seller_reservation_reminder(seller, buyer, item_name):
         'seller': seller['first_name'],
         'buyer': buyer['full_name'],
         'Weblink': buyer['email'],
-        'prodname': item_name
+        'prodname': item_name,
+        'buyer_phone': buyer['phone']
     }
 
     print("SELLER RESERVATION NOTIFICATION FOR ITEMNAME", item_name)
@@ -144,7 +148,8 @@ def send_buyer_expiration_notification(seller, buyer, item_name):
         'buyer': buyer['first_name'],
         'prodname': item_name,
         'seller': seller['full_name'],
-        'Weblink': seller['email']
+        'Weblink': seller['email'],
+        'seller_phone': seller['phone']
     }
 
     print("BUYER EXPIRATION NOTIFICATION FOR ITEMNAME", item_name)
@@ -178,7 +183,8 @@ def send_seller_expiration_notification(seller, buyer, item_name):
         'seller': seller['first_name'],
         'buyer': buyer['full_name'],
         'Weblink': buyer['email'],
-        'prodname': item_name
+        'prodname': item_name,
+        'buyer_phone': buyer['phone']
     }
     print("SELLER EXPIRATION NOTIFICATION FOR ITEMNAME", item_name)
     print(str(message.dynamic_template_data))
@@ -210,7 +216,8 @@ def send_seller_cancellation(seller, buyer, item_name):
     message.dynamic_template_data = {
         'seller': seller['first_name'],
         'buyer': buyer['full_name'],
-        'prodname': item_name
+        'prodname': item_name,
+        'buyer_phone': buyer['phone']
     }
 
     message.template_id = 'd-f7da6e2552fe4b4db07a1c9d7ac69c6c'
@@ -239,7 +246,8 @@ def send_buyer_cancellation(seller, buyer, item_name):
 
     message.dynamic_template_data = {
         'buyer': buyer['first_name'],
-        'prodname': item_name
+        'prodname': item_name,
+        'seller_phone': seller['phone']
     }
 
     message.template_id = 'd-e4185b77ade44789ac3897c6fe92ca70'
