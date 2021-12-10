@@ -224,9 +224,11 @@ def edit_item_db(item, user_info):
                 print("updated item details in database!")
 
                 connection.commit()
+                return True
 
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        #exit(1)
 
 def item_details(itemid):

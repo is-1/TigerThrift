@@ -178,8 +178,12 @@ def shop():
     print("sort: " + str(sort))
 
     items = search_items(search, filter, sort)
+    if items is None:
+        items = []
 
     brands = all_brands()
+    if brands is None:
+        brands = []
 
     html = render_template('shop.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
 
@@ -197,6 +201,9 @@ def sell():
     # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
+    if user_info is None:
+        print("can't get user_info for netid: " + str(username))
+
     html = render_template('sell.html', user_info=user_info)
     response = make_response(html)
     response.set_cookie('route', "/sell")
@@ -210,7 +217,7 @@ def edit_item():
     # username = 'katelynr'
     user_info = get_user_info(username)
     # add_user(user_info)
-    itemid =  request.form.get('itemid')
+    itemid = request.form.get('itemid')
     route = request.cookies.get('route')
 
     ## item = item_details(itemid)
@@ -278,7 +285,13 @@ def success_edit():
         if str(user_phone) != "":
             print("went into if stmt")
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
-        edit_item_db(item_details, user_info)
+        edit_item_success = edit_item_db(item_details, user_info)
+        
+        if not edit_item_success:
+            html = render_template('error.html', message="Couldn't save edits. Please try again or contact us if the error persists.") # type this now!!! 
+            print("item edit unsuccessful: itemid" + str(itemid))
+            response = make_response(html)
+            return response
 
         html = render_template('success_edit.html', item_name=item_details['prodname']) # type this now!!! 
         print("item was successfully edited!!!")
@@ -688,14 +701,26 @@ def itemdetails():
     filter = json.loads(request.cookies.get('filter'))
     sort = request.cookies.get('sort')
     route = request.cookies.get('route')
+    print("request: " + str(request))
 
     item = item_details(itemid)
+
+    if item is None:
+        html = render_template('error.html', message="This item may not exist or you don't have access to it. Contact us if this is a mistake.")
+        response = make_response(html)
+        response.set_cookie('route', "/shop")
+        return response
 
     print("itemid = " + str(itemid))
     buyernetid, buyer_full_name = reserved_netid(itemid)
     
     if buyernetid is not None and user_info['netid'] == buyernetid:
         isMine = True
+    elif buyernetid is not None and item['status'] != 2 and user_info['netid'] != buyernetid and item['sellernetid'] != user_info['netid']:
+        html = render_template('error.html', message="This item may not exist or you don't have access to it. Contact us if this is a mistake.")
+        response = make_response(html)
+        response.set_cookie('route', "/shop")
+        return response
     else:
         isMine = False
 
@@ -706,14 +731,14 @@ def itemdetails():
     print("previous type = " + filter['type'])
     print("type of filter = " + str(type(filter)))
     print("previous sort = " + str(sort))
-    print("photolink1 = " + str(item['photolink1']))
-    print("photolink2 = " + str(item['photolink2']))
+    # print("photolink1 = " + str(item['photolink1']))
+    # print("photolink2 = " + str(item['photolink2']))
     print("isMine = " + str(isMine))
     print("reserved by = " + str(buyernetid))
 
     html = render_template('itemdetails.html', item=item, user_info = user_info, prev_search=search, prev_filter=filter, prev_sort=sort, route=route, isMine=isMine)
     response = make_response(html)
-    response.set_cookie('route', "/shop")
+    response.set_cookie('route', "/itemdetails")
     return response
 
 @app.route('/about', methods=['GET'])

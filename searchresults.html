@@ -49,9 +49,10 @@
           </button>
         {% endif %}
       </div>
-      <div class="card-body">
+      <div class="card-body" onClick="$(`#details_form{{item['itemid']}}`).submit()">
         <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
         <p class="card-text">Price: {{item['price']}}</p>
+        <p class="card-text">Size: {{item['size']}}</p>
         <p class="card-text">Condition: {{item['condition']}}</p>
         <p class="card-text">Brand: {{item['brand']}}</p>
         <div class="d-flex align-self-end pb-3">
