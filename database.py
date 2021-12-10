@@ -252,7 +252,7 @@ def item_details(itemid):
                 stmt_str = "SELECT * from items where itemid = %s"
                 cursor.execute(stmt_str, [itemid])
 
-                connection.commit()
+                # connection.commit()
 
                 row = cursor.fetchone()
 
