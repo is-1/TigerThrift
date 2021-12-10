@@ -278,7 +278,7 @@ def success_edit():
     if prodname is not None:
         print("entered prodname if stmt")
         item_details = {'itemid': itemid,
-        'prodname': prodname,
+        'prodname': titlecase(prodname),
         'type': titlecase(itemtype),
         'subtype': titlecase(subtype),
         'desc': description,
@@ -338,7 +338,7 @@ def success_sell():
 
     # # call function
     if prodname is not None:
-        item_details = {'prodname': prodname,
+        item_details = {'prodname': titlecase(prodname),
         'type': titlecase(itemtype),
         'subtype': titlecase(subtype),
         'desc': description,
