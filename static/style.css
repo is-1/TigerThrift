@@ -133,3 +133,7 @@ select:active,
     border-bottom:1px solid #2B6FF4;
 }
 
+
+#search ::placeholder{
+    color:#2B6FF4;
+}
