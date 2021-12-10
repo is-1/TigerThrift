@@ -518,12 +518,17 @@ def complete_reservation():
     itemid = request.form.get('itemid')
     buyer = reserved_netid(itemid)
 
-    if not buyer:
-        html = render_template('error.html', message="Error completing reservation. Please try again or contact us if the error persists.")
+    if not buyer or itemid is None:
+        html = render_template('error.html', message="Error completing sale. Please try again or contact us if the error persists.")
         response = make_response(html)
         return response
         
-    complete_reserve(user_info, itemid)
+    success_complete = complete_reserve(user_info, itemid)
+
+    if not success_complete:
+        html = render_template('error.html', message="Error completing sale. Please try again or contact us if the error persists.")
+        response = make_response(html)
+        return response
     
     html = render_template('success_complete_reservation.html', buyer_full_name=buyer[1])
     response = make_response(html)
@@ -540,8 +545,19 @@ def delete_item():
     # add_user(user_info)
 
     itemid = request.form.get('itemid')
-    remove_item(itemid)
-    
+
+    if itemid is None:
+        html = render_template('error.html', message="Error deleting item. Please try again or contact us if the error persists.")
+        response = make_response(html)
+        return response
+
+    success_remove = remove_item(itemid)
+
+    if not success_remove:
+        html = render_template('error.html', message="Error deleting item. Please try again or contact us if the error persists.")
+        response = make_response(html)
+        return response
+
     html = render_template('success_item_deleted.html')
     response = make_response(html)
 

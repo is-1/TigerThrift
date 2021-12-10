@@ -370,9 +370,11 @@ def complete_reserve(user_info, itemid):
                 # send email notification to seller that this person deleted their reservation
 
                 connection.commit()
+                return True
 
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        # exit(1)
 
 def days_between(d1, d2):
@@ -923,9 +925,11 @@ def remove_item(itemid):
                 cursor.execute(stmt_str, [itemid])
                 print("itemid", itemid, "was deleted")
                 connection.commit()
+                return True
 
     except Exception as ex:
        print(ex, file=stderr)
+       return False
        #exit(1)
 
 def edit_phone(netid, phone):
