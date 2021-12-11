@@ -437,7 +437,7 @@ def reserve():
         return response
 
     if (success_reserve == 'item already reserved'):
-        html = render_template('error.html', message="Error, item has already been reserved. Please try again and contact us if the error persists.")
+        html = render_template('error.html', message="Item has already been reserved.")
         response = make_response(html)
         return response
 
