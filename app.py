@@ -548,8 +548,13 @@ def complete_reservation():
         
     success_complete = complete_reserve(user_info, itemid)
 
+    if success_complete == "item status is not reserved":
+        html = render_template('error.html', message="Error completing sale. Item is not marked as reserved. Reservation may have been cancelled. Please contact us if this is a mistake.")
+        response = make_response(html)
+        return response
+
     if not success_complete:
-        html = render_template('error.html', message="Error completing sale. Please try again or contact us if the error persists.")
+        html = render_template('error.html', message="Error completing sale. Please refresh the page and try again or contact us if the error persists.")
         response = make_response(html)
         return response
     

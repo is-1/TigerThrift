@@ -354,10 +354,16 @@ def complete_reserve(user_info, itemid):
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
+                stmt_str = "SELECT status FROM items WHERE itemid=%s;"
+                cursor.execute(stmt_str, [itemid])
+                if cursor.fetchone()[0] != 1:
+                    raise Exception("item status is not reserved")
+
                 # get time stamp
                 f = '%Y-%m-%d %H:%M:%S'
                 now = datetime.utcnow()
                 dt = now.strftime(f)
+
 
                 stmt_str = "UPDATE reservations SET completedtime = %s WHERE itemid = %s"
                 cursor.execute(stmt_str, [dt, itemid])
@@ -374,6 +380,8 @@ def complete_reserve(user_info, itemid):
 
     except Exception as ex:
        print(ex, file=stderr)
+       if str(ex) == "item status is not reserved":
+           return str(ex)
        return False
        # exit(1)
 
@@ -923,12 +931,11 @@ def remove_item(itemid):
                 stmt_str="SELECT status FROM items WHERE itemid=%s;"
                 cursor.execute(stmt_str, [itemid])
                 result = cursor.fetchone()
-                print(result)
                 if result is None:
                     raise Exception("item does not exist")
                 item_status = result[0]
-                if item_status == 1:
-                    raise Exception("item has already been reserved")
+                if item_status != 0:
+                    raise Exception("item cannot be deleted")
 
                 stmt_str = ('DELETE FROM items WHERE itemid=%s;')
                 cursor.execute(stmt_str, [itemid])
@@ -941,7 +948,7 @@ def remove_item(itemid):
 
     except Exception as ex:
         print(ex, file=stderr)
-        if str(ex) == "item does not exist" or str(ex) == "item has already been reserved":
+        if str(ex) == "item does not exist" or str(ex) == "item cannot be deleted":
             return str(ex)
         return False
        #exit(1)
