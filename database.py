@@ -940,10 +940,10 @@ def remove_item(itemid):
                 # return True
 
     except Exception as ex:
-       print(ex, file=stderr)
-       if str(ex) == "item does not exist" or str(ex) == "item has already been reserved":
-           return str(ex)
-       return False
+        print(ex, file=stderr)
+        if str(ex) == "item does not exist" or str(ex) == "item has already been reserved":
+            return str(ex)
+        return False
        #exit(1)
 
 def edit_phone(netid, phone):

@@ -572,6 +572,8 @@ def delete_item():
 
     success_remove = remove_item(itemid)
 
+    print("success_remove = " + str(success_remove))
+
     if (success_remove == "item has already been reserved"):
         html = render_template('error.html', message="Error deleting item. Please refresh the page and try again or contact us if the error persists.")
         response = make_response(html)
