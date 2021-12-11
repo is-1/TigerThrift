@@ -158,6 +158,9 @@ def reserve_item(buyernetid, itemid):
     
     except Exception as ex:
        print(ex, file=stderr)
+       if str(ex) == "item already reserved":
+           return str(ex)
+       return False
        #exit(1)
 
     return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, titlecase(str(prodname))
