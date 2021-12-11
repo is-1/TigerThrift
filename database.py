@@ -923,6 +923,7 @@ def remove_item(itemid):
                 stmt_str="SELECT status FROM items WHERE itemid=%s;"
                 cursor.execute(stmt_str, [itemid])
                 result = cursor.fetchone()
+                print(result)
                 if result is None:
                     raise Exception("item does not exist")
                 item_status = result[0]
@@ -935,11 +936,14 @@ def remove_item(itemid):
                 cursor.execute(stmt_str, [itemid])
                 print("itemid", itemid, "was deleted")
                 connection.commit()
+                return True
                 # return True
 
     except Exception as ex:
        print(ex, file=stderr)
-       return str(ex)
+       if str(ex) == "item does not exist" or str(ex) == "item has already been reserved":
+           return str(ex)
+       return False
        #exit(1)
 
 def edit_phone(netid, phone):
