@@ -13,7 +13,7 @@
   <body>
     <!--header-->
     <nav class="navbar navbar-expand-sm navbar-light bg-white pb-0 pt-3" id="logged_out_navbar">
-      <div class="container-fluid">
+      <div class="container-fluid" id="style_header">
         <div class="d-flex flex-wrap p-0">
           <a href="/" style="text-decoration:none; color: black;"><h1><strong>TigerThrift</strong></h1></a>
           <a href="/"><img src="/static/images/icon.png" class="img-fluid align-middle ps-2"
@@ -34,22 +34,24 @@
     <!--after header-->
     {% include 'header.html' %}
     <br>
-    <h3 class="text-center pb-3"><strong>Thanks for using TigerThrift!</strong></h3>
+    <h3 class="text-center pb-3"><strong><i>Sustainable Fashion for Princeton Students</i></strong></h3>
         <!-- description of tigerthrift -->
         <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
           <h4 style="font-weight: 300;" class="text-center">
-            TigerThrift is a platform to help Princeton undergraduate students buy and sell clothing.
+            TigerThrift is a web-based platform that facilitates buying and selling clothing and promotes sustainability within the Princeton undergraduate community.
           </h4>
           <br>
           <p>
-              Students can sell clothing by filling out the requirements on the <a href="sell">sell page</a> 
-              along with photo of the article of clothing. Students can purchase clothing by browsing 
-              the <a href="shop">shop page</a>. Our platform stream-lines the process of buying 
-              and selling used clothes on the Princeton campus.
+            Noticing the cluttered and decentralized methods students currently use to sell clothing on campus, TigerThrift 
+            centralizes and streamlines the clothing thrifting process within a private and reliable community of Prineton University undergraduates. 
+            Accessible to all students via a secure, user-friendly web-app, we employ a simple yet flexible process to sell and buy items as well as to 
+            complete transactions. Students can sell clothing on the <a href="sell">sell page</a> and browse/reserve items 
+            on the <a href="shop">shop page</a>.
           </p>
+
           <div class="text-center">
             <form action="tutorial" method='GET'>
-                <button class="card-text btn btn-dark" style="letter-spacing: 0.1em;">Click Here for a Tutorial</button>
+                <button class="card-text btn btn-dark" style="letter-spacing: 0.1em;">Click here for a Tutorial</button>
             </form>
           </div>
           <!-- team -->
@@ -60,6 +62,7 @@
               Contact Us <i class="fa fa-envelope"></i></a>
           </div>
         </div>
+        {% include 'footer.html' %}
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
