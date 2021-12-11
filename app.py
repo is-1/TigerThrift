@@ -563,9 +563,10 @@ def delete_item():
     # add_user(user_info)
 
     itemid = request.form.get('itemid')
+    print("itemid = " + str(itemid))
 
     if itemid is None:
-        html = render_template('error.html', message="Error deleting item. Please try again or contact us if the error persists.")
+        html = render_template('error.html', message="Cannot find item to delete. Please try again or contact us if the error persists.")
         response = make_response(html)
         return response
 
@@ -581,7 +582,7 @@ def delete_item():
         response = make_response(html)
         return response
 
-    if not success_remove:
+    if success_remove is False:
         html = render_template('error.html', message="Error deleting item. Please try again or contact us if the error persists.")
         response = make_response(html)
         return response

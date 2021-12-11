@@ -923,6 +923,7 @@ def remove_item(itemid):
                 stmt_str="SELECT status FROM items WHERE itemid=%s;"
                 cursor.execute(stmt_str, [itemid])
                 result = cursor.fetchone()
+                print(result)
                 if result is None:
                     raise Exception("item does not exist")
                 item_status = result[0]
