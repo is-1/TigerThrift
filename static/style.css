@@ -151,7 +151,7 @@ select:active,
 
 #footer{
     background-color: #ffd9b3;
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     height: 4rem;
     right: 0;
