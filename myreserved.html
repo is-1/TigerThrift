@@ -14,11 +14,11 @@
     {% include 'header.html' %}
     <div class="container-fluid">
         <div class="row text-center">
-            <h3 class="text-left"><strong>{{user_info['full_name']}}</strong></h3>
+            <h3 class="text-left mt-3"><strong>{{user_info['full_name']}}</strong></h3>
             <p class="text-left mb-0" style="text-transform:lowercase" id="faculty">{{user_info['netid']}} | {{user_info['class_year']}}</p>
             <p class="text-left mb-0" style="text-transform:lowercase" id="undergrad">{{user_info['netid']}} | class of 20{{user_info['class_year']}}</p>
-            <p class="text-left" style="text-transform:lowercase" id="without_phone">{{user_info['email']}}</p>
-            <p class="text-left" style="text-transform:lowercase" id="with_phone">email: {{user_info['email']}} | phone: {{user_info['phone']}}</p>
+            <p class="text-left mb-0" style="text-transform:lowercase">{{user_info['email']}}</p>
+            <p class="text-left" style="text-transform:lowercase" id="with_phone">phone: {{user_info['phone']}}</p>
         </div>
 
     <div id="reserve_row"
