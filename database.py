@@ -158,9 +158,6 @@ def reserve_item(buyernetid, itemid):
     
     except Exception as ex:
        print(ex, file=stderr)
-       if (str(ex) == "item already reserved"):
-            return str(ex)
-       return False
        #exit(1)
 
     return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, titlecase(str(prodname))
@@ -208,6 +205,7 @@ def add_item(item, user_info):
     except Exception as ex:
        print(ex, file=stderr)
        return False
+       #exit(1)
 
 def edit_item_db(item, user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -311,7 +309,7 @@ def delete_reserve(user_info, itemid):
 
     except Exception as ex:
        print(ex, file=stderr)
-       return False
+    #    return False
        # exit(1)
 
 def get_seller_and_item_info(itemid):
@@ -920,18 +918,25 @@ def remove_item(itemid):
             #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
-                # insert item into items table
+
+                # error handling if you try to delete an item that's already been reserved
+                stmt_str="SELECT status FROM items WHERE itemid=%s;"
+                cursor.execute(stmt_str, [itemid])
+                item_status = cursor.fetchone()[0]
+                if item_status == 1:
+                    raise Exception("item has already been reserved")
+
                 stmt_str = ('DELETE FROM items WHERE itemid=%s;')
                 cursor.execute(stmt_str, [itemid])
                 stmt_str = 'DELETE FROM sellers WHERE itemid=%s;'
                 cursor.execute(stmt_str, [itemid])
                 print("itemid", itemid, "was deleted")
                 connection.commit()
-                return True
+                # return True
 
     except Exception as ex:
        print(ex, file=stderr)
-       return False
+    #    return False
        #exit(1)
 
 def edit_phone(netid, phone):
