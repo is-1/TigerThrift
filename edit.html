@@ -160,18 +160,22 @@
             <input type="hidden" id="photolink2" name ="photolink2" value = "">
             <input type="hidden" id="photolink3" name ="photolink3" value = "">
         </form>
-        <div class="d-flex mb-5">
-            <form class="col text-center" id="delete_form" action="/delete_item" onSubmit="return confirm('Are you sure you want to delete this item?');"  method='POST'>
-                <input type="hidden" name="itemid" value="{{item['itemid']}}">
-                <button form="delete_form" type="submit" class="btn btn-dark align-items-center px-5"
-                        style="letter-spacing: 0.3em;">Remove Item <i class="fa fa-trash-o"></i></button>
-            </form>
+        <div class="d-flex mb-5 p-0" style="padding-bottom: min(80px, 10%);">
+            <div class="row m-auto mb-5">
+                <form class="col text-center m-auto mb-3 p-0" id="delete_form" action="/delete_item"
+                    onSubmit="return confirm('Are you sure you want to delete this item?');"  method='POST'>
+                    <input type="hidden" name="itemid" value="{{item['itemid']}}">
+                    <button form="delete_form" type="submit" class="btn btn-dark align-items-center px-0 me-3"
+                        style="letter-spacing: 0.3em; min-width: 275px;">Remove Item <i class="fa fa-trash-o"></i></button>
+                </form>
                 <!-- <form action="success_sell" method='POST' class="col text-center">
                     <input type = "hidden" name="itemid" value="{{item['itemid']}}"> -->
-            <span class="col text-center">
-                <button form="save_form" type="submit" class="btn btn-dark align-items-center px-5"
-                    style="letter-spacing: 0.3em;">Save Edits <span style="color: #85c285;">✓</span></button>
-            </span>
+                <div class="col text-center m-auto mb-3 p-0">
+                    <button form="save_form" type="submit" class="btn btn-dark align-items-center px-0"
+                        style="letter-spacing: 0.3em; min-width: 275px;">
+                        Save Edits <span style="color: #85c285;">✓</span></button>
+                </div>
+            </div>
         </div>
     </div>
 
