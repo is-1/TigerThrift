@@ -437,18 +437,18 @@ def reserve():
         return response
     
     if (success_reserve == 'cannot find item info'):
-        html = render_template('error.html', message="Error making reservation. Please refresh the page and try again.")
+        html = render_template('error.html', message="Error making reservation. This item may have been deleted. Please refresh the page and try again.")
         response = make_response(html)
         return response
 
     if (success_reserve == 'item unavailable for reservation'):
-        html = render_template('error.html', message="This item is unavailable for reservations.")
+        html = render_template('error.html', message="Error. This item is unavailable for reservations.")
         response = make_response(html)
         return response
 
 
     if (success_reserve == 'cannot find sellerid'):
-        html = render_template('error.html', message="Error making reservation. Please refresh the page and try again.")
+        html = render_template('error.html', message="Error making reservation. This item may have been deleted. Please refresh the page and try again.")
         response = make_response(html)
         return response
 
