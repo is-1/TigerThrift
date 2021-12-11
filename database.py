@@ -205,7 +205,6 @@ def add_item(item, user_info):
     except Exception as ex:
        print(ex, file=stderr)
        return False
-       #exit(1)
 
 def edit_item_db(item, user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')

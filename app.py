@@ -429,7 +429,20 @@ def reserve():
 
     itemid = request.form.get('itemid')
 
-    sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, product_name = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+    success_reserve = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
+
+    if (success_reserve is False):
+        html = render_template('error.html', message="Error making reservation. Please try again and contact us if the error persists.")
+        response = make_response(html)
+        return response
+
+    if (success_reserve == 'item already reserved'):
+        html = render_template('error.html', message="Error, item has already been reserved. Please try again and contact us if the error persists.")
+        response = make_response(html)
+        return response
+
+    sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, product_name = success_reserve
+    
     product_name = titlecase(str(product_name))
     # get seller from database eventually, USE USERS TABLE 
 
