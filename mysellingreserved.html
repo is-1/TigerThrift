@@ -106,26 +106,6 @@
                 $("#faculty").hide();
                 $("#undergrad").show();
             }
-
-            $("#items_curr_reserved_button").click(function(){
-                $.get("/myselling/reserved");
-                // $("#items_still_active").hide();
-                // $("#items_curr_reserved").show();
-
-            });
-
-            $("#items_curr_active_button").click(function(){
-                $.get("/myselling/active");
-                // $("#items_curr_reserved").hide();
-                // $("#items_still_active").show();
-            });
-            // $('#delete_form').submit(function() {
-            //     let r = confirm("Are you sure you want to delete this item?");
-            //     if (r==true) {
-            //             return true;
-            //     }
-            //         return false;
-            // });
         }
 
         $('#document').ready(setup);
