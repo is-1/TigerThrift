@@ -922,7 +922,10 @@ def remove_item(itemid):
                 # error handling if you try to delete an item that's already been reserved
                 stmt_str="SELECT status FROM items WHERE itemid=%s;"
                 cursor.execute(stmt_str, [itemid])
-                item_status = cursor.fetchone()[0]
+                result = cursor.fetchone()
+                if result is None:
+                    raise Exception("item does not exist")
+                item_status = result[0]
                 if item_status == 1:
                     raise Exception("item has already been reserved")
 
@@ -936,7 +939,7 @@ def remove_item(itemid):
 
     except Exception as ex:
        print(ex, file=stderr)
-    #    return False
+       return str(ex)
        #exit(1)
 
 def edit_phone(netid, phone):
