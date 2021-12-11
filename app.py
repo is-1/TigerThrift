@@ -432,12 +432,17 @@ def reserve():
     success_reserve = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
 
     if (success_reserve is False):
-        html = render_template('error.html', message="Error making reservation. Please try again and contact us if the error persists.")
+        html = render_template('error.html', message="Error making reservation. Please refresh the page and try again and contact us if the error persists.")
         response = make_response(html)
         return response
 
     if (success_reserve == 'item already reserved'):
         html = render_template('error.html', message="Item has already been reserved.")
+        response = make_response(html)
+        return response
+
+    if (success_reserve == 'cannot find sellerid'):
+        html = render_template('error.html', message="Error making reservation. Please refresh the page and try again.")
         response = make_response(html)
         return response
 
@@ -565,6 +570,16 @@ def delete_item():
         return response
 
     success_remove = remove_item(itemid)
+
+    if (success_remove == "item has already been reserved"):
+        html = render_template('error.html', message="Error deleting item. Please refresh the page and try again or contact us if the error persists.")
+        response = make_response(html)
+        return response
+
+    if (success_remove == "item does not exist"):
+        html = render_template('error.html', message="Error deleting item. Please refresh the page and try again or contact us if the error persists.")
+        response = make_response(html)
+        return response
 
     if not success_remove:
         html = render_template('error.html', message="Error deleting item. Please try again or contact us if the error persists.")
