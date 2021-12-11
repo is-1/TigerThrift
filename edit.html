@@ -117,11 +117,11 @@
             </span>
             <div class="form-group m-2">
                 <label id="input_desc_text" style="letter-spacing: 0.1em;">Description</label>
-                <textarea id="input_desc" type="int" name = "description" class="form-control" value="{{item['desc']}}" required>{{item['desc']}}</textarea>
+                <textarea id="input_desc" type="number" step="0.1" name = "description" class="form-control" value="{{item['desc']}}" required>{{item['desc']}}</textarea>
             </div>
             <div class="form-group m-2">
                 <label id="input_phone_text" style="letter-spacing: 0.1em;">Phone Number (optional)</label>
-                <input id="input_phone" class="form-control" type="text" name = "phone">
+                <input id="input_phone" class="form-control" type="number" name="phone">
                 <p class="mb-0 text-secondary">*if you would like reservers of this item to contact you via text*</p>
             </div>
             <div id="photoupload" class="form-group m-2">
