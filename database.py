@@ -118,10 +118,19 @@ def reserve_item(buyernetid, itemid):
                     now = datetime.utcnow()
                     dt = now.strftime(f)
 
-                    stmt_str = ('SELECT sellernetid from items where itemid = %s')
+                    # change status in items table
+                    stmt_str = ('SELECT status, prodname, sellernetid from items where itemid = %s')
                     cursor.execute(stmt_str, [itemid])
-                    sellernetid = cursor.fetchone()[0]
-                    
+                    row = cursor.fetchone()
+                    if row is None and len(row) != 3:
+                        raise Exception("cannot find item info")
+                    currentstatus = row[0]
+                    prodname = row[1]
+                    sellernetid = row[2]
+                    if currentstatus == 1:
+                        raise Exception("item already reserved")
+                    if currentstatus != 0:
+                        raise Exception("item unavailable for reservation")
                     if sellernetid is None:
                         raise Exception("cannot find sellerid")
                         
@@ -129,21 +138,10 @@ def reserve_item(buyernetid, itemid):
                     stmt_str = ('INSERT INTO reservations (itemid, buyernetid, sellernetid, reservedtime) VALUES (%s, %s, %s, %s)')
                     cursor.execute(stmt_str, [itemid, buyernetid, sellernetid, dt])
 
-                    # change status in items table
-                    stmt_str = ('SELECT status, prodname from items where itemid = %s')
-                    cursor.execute(stmt_str, [itemid])
-                    row = cursor.fetchone()
-                    currentstatus = row[0]
-                    prodname = row[1]
-                    if currentstatus == 1:
-                        raise Exception("item already reserved")
-                    if currentstatus != 0:
-                        raise Exception("item unavailable for reservation")
-
+                    print ("inserted into reservations table")
                     stmt_str = ('UPDATE items set status = 1 where itemid = %s')
                     cursor.execute(stmt_str, [itemid])
-
-                    print("reservation complete")
+                    print("updated reservation status in items table")
 
                     stmt_str = ('SELECT first_name, full_name, email, phone from users where netid = %s')
                     cursor.execute(stmt_str, [sellernetid])
@@ -155,15 +153,14 @@ def reserve_item(buyernetid, itemid):
                     print("SELLER FIRST_NAME: ", seller_first_name)
                     print("SELLER EMAIL: ", seller_email)
                     connection.commit()
+                    return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, titlecase(str(prodname))
     
     except Exception as ex:
        print(ex, file=stderr)
-       if str(ex) == "item already reserved":
+       if str(ex) == "item already reserved" or str(ex) == "cannot find item info" or str(ex) == "item unavailable for reservation" or str(ex) == "cannot find sellerid":
            return str(ex)
        return False
        #exit(1)
-
-    return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, titlecase(str(prodname))
     
 
 # when user uploads an item, update necessary tables
@@ -357,10 +354,16 @@ def complete_reserve(user_info, itemid):
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
+                stmt_str = "SELECT status FROM items WHERE itemid=%s;"
+                cursor.execute(stmt_str, [itemid])
+                if cursor.fetchone()[0] != 1:
+                    raise Exception("item status is not reserved")
+
                 # get time stamp
                 f = '%Y-%m-%d %H:%M:%S'
                 now = datetime.utcnow()
                 dt = now.strftime(f)
+
 
                 stmt_str = "UPDATE reservations SET completedtime = %s WHERE itemid = %s"
                 cursor.execute(stmt_str, [dt, itemid])
@@ -377,6 +380,8 @@ def complete_reserve(user_info, itemid):
 
     except Exception as ex:
        print(ex, file=stderr)
+       if str(ex) == "item status is not reserved":
+           return str(ex)
        return False
        # exit(1)
 
@@ -926,12 +931,11 @@ def remove_item(itemid):
                 stmt_str="SELECT status FROM items WHERE itemid=%s;"
                 cursor.execute(stmt_str, [itemid])
                 result = cursor.fetchone()
-                print(result)
                 if result is None:
                     raise Exception("item does not exist")
                 item_status = result[0]
-                if item_status == 1:
-                    raise Exception("item has already been reserved")
+                if item_status != 0:
+                    raise Exception("item cannot be deleted")
 
                 stmt_str = ('DELETE FROM items WHERE itemid=%s;')
                 cursor.execute(stmt_str, [itemid])
@@ -944,7 +948,7 @@ def remove_item(itemid):
 
     except Exception as ex:
         print(ex, file=stderr)
-        if str(ex) == "item does not exist" or str(ex) == "item has already been reserved":
+        if str(ex) == "item does not exist" or str(ex) == "item cannot be deleted":
             return str(ex)
         return False
        #exit(1)

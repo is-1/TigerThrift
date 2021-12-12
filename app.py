@@ -431,30 +431,35 @@ def reserve():
 
     success_reserve = reserve_item(buyer['netid'], str(itemid)) # retreive seller netid
 
-    if (success_reserve is False):
-        html = render_template('error.html', message="Error making reservation. Please refresh the page and try again and contact us if the error persists.")
-        response = make_response(html)
-        return response
-
     if (success_reserve == 'item already reserved'):
         html = render_template('error.html', message="Item has already been reserved.")
         response = make_response(html)
         return response
+    
+    if (success_reserve == 'cannot find item info'):
+        html = render_template('error.html', message="Error making reservation. This item may have been deleted. Please refresh the page and try again.")
+        response = make_response(html)
+        return response
+
+    if (success_reserve == 'item unavailable for reservation'):
+        html = render_template('error.html', message="Error. This item is unavailable for reservations.")
+        response = make_response(html)
+        return response
+
 
     if (success_reserve == 'cannot find sellerid'):
-        html = render_template('error.html', message="Error making reservation. Please refresh the page and try again.")
+        html = render_template('error.html', message="Error making reservation. This item may have been deleted. Please refresh the page and try again.")
+        response = make_response(html)
+        return response
+
+    if (success_reserve is False):
+        html = render_template('error.html', message="Error making reservation. Please refresh the page and try again and contact us if the error persists.")
         response = make_response(html)
         return response
 
     sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, product_name = success_reserve
     
     product_name = titlecase(str(product_name))
-    # get seller from database eventually, USE USERS TABLE 
-
-    if sellernetid is None:
-        html = render_template('error.html')
-        response = make_response(html)
-        return response
 
     seller = {'first_name': str(seller_first_name), 'full_name': str(seller_full_name), 'email': str(seller_email), 'phone': str(seller_phone)} # get seller info (from users table)
 
@@ -543,8 +548,13 @@ def complete_reservation():
         
     success_complete = complete_reserve(user_info, itemid)
 
+    if success_complete == "item status is not reserved":
+        html = render_template('error.html', message="Error completing sale. Item is not marked as reserved. Reservation may have been cancelled. Please contact us if this is a mistake.")
+        response = make_response(html)
+        return response
+
     if not success_complete:
-        html = render_template('error.html', message="Error completing sale. Please try again or contact us if the error persists.")
+        html = render_template('error.html', message="Error completing sale. Please refresh the page and try again or contact us if the error persists.")
         response = make_response(html)
         return response
     
@@ -574,8 +584,8 @@ def delete_item():
 
     print("success_remove = " + str(success_remove))
 
-    if (success_remove == "item has already been reserved"):
-        html = render_template('error.html', message="Error deleting item. Please refresh the page and try again or contact us if the error persists.")
+    if (success_remove == "item cannot be deleted"):
+        html = render_template('error.html', message="Error. This item has already been reserved or sold.")
         response = make_response(html)
         return response
 
