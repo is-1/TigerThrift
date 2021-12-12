@@ -244,7 +244,7 @@ def sell():
 
     return response
 
-# generates edit page
+# generates edit page of item with itemid itemid
 @app.route('/edit', methods=['POST'])
 def edit_item():
     is_authenticated()
@@ -271,6 +271,7 @@ def edit_item():
 
     return response
 
+# edits item and returns success page, returns error page if error
 @app.route('/editsuccess', methods=['POST'])
 def success_edit():
     is_authenticated()
@@ -333,6 +334,8 @@ def success_edit():
         response = make_response(html)
         return response
 
+# lists an item with item details item_details and returns success page
+# returns error page if error
 @app.route('/sellsuccess', methods=['POST'])
 def success_sell():
     is_authenticated()
@@ -395,7 +398,7 @@ def success_sell():
         response.set_cookie('route', "/sell")
         return response
 
-
+# returns page of search results with search, filter, and sort
 @app.route('/searchresults', methods=['GET'])
 def search_results():
     is_authenticated()
@@ -442,6 +445,8 @@ def search_results():
     response.set_cookie('route', "/shop")
     return response
 
+# reserves an item with itemid itemid and sends notification emails
+# returns success page if successful, returns error page if not
 @app.route('/reserve', methods=['POST'])
 def reserve():
     is_authenticated()
@@ -496,7 +501,7 @@ def reserve():
         success_send = send_seller_reservation_notification(seller, buyer, product_name)
         if not success_send:
             print("error, tried twice seller notification not sent for itemid " + str(itemid))
-            html = render_template('error.html', itemid=itemid)
+            html = render_template('error.html', message="Reservation was made but we had trouble sending you a confirmation email. Please contact us.", itemid=itemid)
             response = make_response(html)
             return response
 
@@ -505,7 +510,7 @@ def reserve():
         success_send = send_buyer_reservation_notification(seller, buyer, product_name)
         if not success_send:
             print("error, tried twice buyer notification not sent for itemid " + str(itemid))
-            html = render_template('error.html', itemid=itemid)
+            html = render_template('error.html', message="Reservation was made but we had trouble sending you a confirmation email. Please contact us.", itemid=itemid)
             response = make_response(html)
             return response
 
@@ -513,6 +518,8 @@ def reserve():
     response = make_response(html)
     return response
 
+# cancels a reservation and returns a success page if successful
+# returns an error page if not successful 
 @app.route('/cancelsuccess', methods=['POST'])
 def cancel_reservation():
     is_authenticated()
@@ -553,6 +560,8 @@ def cancel_reservation():
     response = make_response(html)
     return response
 
+# completes a sale, returns success page if successful
+# returns error page if unsuccessful
 @app.route('/completesale', methods=['POST'])
 def complete_reservation():
     is_authenticated()
@@ -627,7 +636,7 @@ def delete_item():
 
     return response
  
-
+# returns a profile page with user info
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     is_authenticated()
@@ -654,39 +663,39 @@ def profile():
 
     return response
 
-
-@app.route('/edit_profile', methods=['GET'])
-def edit_profile():
-    is_authenticated()
-    username = CasClient().authenticate()
-    # username = 'katelynr'
-    user_info = get_user_info(username)
-    # add_user(user_info)
+# edits profile
+# @app.route('/edit_profile', methods=['GET'])
+# def edit_profile():
+#     is_authenticated()
+#     username = CasClient().authenticate()
+#     # username = 'katelynr'
+#     user_info = get_user_info(username)
+#     # add_user(user_info)
     
-    active_items = curr_active_items(user_info)
-    # print(active_items)
-    curr_reserved_items = reserved_items(user_info)
-    # print(curr_reserved_items)
-    reserved_by_others = seller_reservations(user_info)
-    # print(reserved_by_others)
-    past_sold_items = items_sold_in_past(user_info)
-    print("PAST SOLD ITEMS")
-    print(past_sold_items)
-    purchased_items = past_purchases(user_info)
-    print("PURCHASED ITEMS")
-    print(purchased_items)
+#     active_items = curr_active_items(user_info)
+#     # print(active_items)
+#     curr_reserved_items = reserved_items(user_info)
+#     # print(curr_reserved_items)
+#     reserved_by_others = seller_reservations(user_info)
+#     # print(reserved_by_others)
+#     past_sold_items = items_sold_in_past(user_info)
+#     print("PAST SOLD ITEMS")
+#     print(past_sold_items)
+#     purchased_items = past_purchases(user_info)
+#     print("PURCHASED ITEMS")
+#     print(purchased_items)
 
-    if active_items is None:
-        active_items = []
+#     if active_items is None:
+#         active_items = []
 
-    html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
+#     html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
 
-    response = make_response(html)
-    response.set_cookie('route', "/profile")
+#     response = make_response(html)
+#     response.set_cookie('route', "/profile")
 
-    return response
+#     return response
 
-
+# generates page of user's past purchased items
 @app.route('/mypurchased', methods=['GET'])
 def my_purchased():
     is_authenticated()
@@ -707,6 +716,7 @@ def my_purchased():
 
     return response
 
+# generates page of user's reserved items
 @app.route('/myreserved', methods=['GET'])
 def my_reserved():
     is_authenticated()
@@ -746,6 +756,7 @@ def my_reserved():
 
 #    return response
 
+# generates page of user's active and selling items
 @app.route('/myselling/active', methods=['GET'])
 def my_selling_active():
     is_authenticated()
@@ -766,6 +777,7 @@ def my_selling_active():
 
     return response
 
+# generates page of user's selling items on reserve
 @app.route('/myselling', methods=['GET'])
 @app.route('/myselling/reserved', methods=['GET'])
 def my_selling_reserved():
@@ -775,7 +787,6 @@ def my_selling_reserved():
     user_info = get_user_info(username)
     # add_user(user_info)
 
-    # active_items = curr_active_items(user_info)
     reserved_by_others = seller_reservations(user_info)
 
     if reserved_by_others is None:
@@ -788,6 +799,7 @@ def my_selling_reserved():
 
     return response
 
+# generates page of user's sold items
 @app.route('/mysold', methods=['GET'])
 def my_sold():
     is_authenticated()
@@ -807,6 +819,8 @@ def my_sold():
     response.set_cookie('route', "/mysold")
     return response
 
+# generates page of item with item id item details
+# handles errors and returns an error page when an item's details should be inaccesible to the user
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
     is_authenticated()
@@ -869,6 +883,7 @@ def itemdetails():
     response.set_cookie('route', "/itemdetails")
     return response
 
+# generates about page
 @app.route('/about', methods=['GET'])
 def about():
     # if not logged in
@@ -885,6 +900,7 @@ def about():
     response.set_cookie('route', "/about")
     return response
 
+# generates tutorial page
 @app.route('/tutorial', methods=['GET'])
 def tutorial():
     # if not logged in
@@ -901,11 +917,11 @@ def tutorial():
     response.set_cookie('route', "/tutorial")
     return response
 
-@app.route('/error', methods=['GET'])
-def error():
-    html = render_template()
-    response = make_response(html)
-    return response
+# @app.route('/error', methods=['GET'])
+# def error():
+#     html = render_template()
+#     response = make_response(html)
+#     return response
 
 # log out the user
 @app.route('/logout', methods=['GET'])
