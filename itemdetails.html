@@ -102,18 +102,21 @@
             </form>
           </div>
           {% endif %}
-          {% if item['status'] == 1 and isMine == True %}
+          {% if item['status'] == 1 and user_info['netid'] == item['sellernetid'] %}
           <div class="text-center pt-2">
             <form action="complete_reservation" method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                 <button class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">sale complete <span style="color: #85c285;">✓</span></p></button>
             </form>
+          {% endif %}
+          {% if item['status'] == 1 and isMine == True %}
+          <div class="text-center pt-2">
             <form id="cancel_form" action="cancel_reservation" method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                 <button type="submit" class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
             </form>
-          </div>
           {% endif %}
+          </div>
           <br>
           <span style="font-weight: 500; white-space: pre-wrap";>{{ item['desc'] }}</span>
           <hr>
