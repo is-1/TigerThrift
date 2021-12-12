@@ -111,9 +111,9 @@
           {% endif %}
           {% if item['status'] == 1 and user_info['netid'] == item['sellernetid'] %}
           <div class="text-center pt-2">
-            <form action="complete_reservation" onSubmit="return confirm('Confirm sale completion. Has the buyer received their item and have you received payment?');" method='POST'>
+            <form action="/completesale" onSubmit="return confirm('Confirm sale completion. Has the buyer received their item and have you received payment?');" method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                <button class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">Complete Sale<span style="color: #85c285;">✓</span></p></button>
+                <button class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">Complete Sale <span style="color: #85c285;">✓</span></p></button>
             </form>
           </div>
           {% endif %}

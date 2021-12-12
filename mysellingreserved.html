@@ -58,7 +58,7 @@
                                             <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                                             <button type="submit" class="card-text btn btn-sm btn-dark px-4">details</button>
                                         </form>
-                                        <form action="/complete_reservation" onSubmit="return confirm('Confirm sale completion. Has the buyer received their item and have you received payment?');" method='POST' class="pt-2">
+                                        <form action="/completesale" onSubmit="return confirm('Confirm sale completion. Has the buyer received their item and have you received payment?');" method='POST' class="pt-2">
                                             <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                                             <button class="card-text btn btn-sm btn-dark px-4"><p style="color:white" class="m-0">complete sale <span style="color: #85c285;">✓</span></p></button>
                                         </form>

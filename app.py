@@ -552,7 +552,7 @@ def cancel_reservation():
     response = make_response(html)
     return response
 
-@app.route('/complete_reservation', methods=['POST'])
+@app.route('/completesale', methods=['POST'])
 def complete_reservation():
     is_authenticated()
     username = CasClient().authenticate()
