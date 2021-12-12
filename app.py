@@ -260,10 +260,13 @@ def edit_item():
         response = make_response(html)
         return response
 
+    # removes dollar sign from price
     item['price'] = item['price'][1:]   
 
     html = render_template('edit.html', item=item, user_info=user_info, route=route)
     response = make_response(html)
+    response.set_cookie('route', "/shop")
+
     return response
 
 @app.route('/success_edit', methods=['POST'])
@@ -832,6 +835,7 @@ def itemdetails():
     filter = json.loads(request.cookies.get('filter'))
     sort = request.cookies.get('sort')
     route = request.cookies.get('route')
+    print("route to details: " + str(route))
     print("request: " + str(request))
 
     item = item_details(itemid)

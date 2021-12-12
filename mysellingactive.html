@@ -49,7 +49,7 @@
                                     <span class="d-flex">
                                         <form action="/itemdetails" method='GET'>
                                             <input type="hidden" name="itemid" value="{{item['itemid']}}">
-                                            <button type="submit" class="btn btn-dark btn-sm me-2 px-4">more details</button>
+                                            <button type="submit" class="btn btn-dark btn-sm me-2 px-4">details</button>
                                         </form>
                                         <form action="/edit_item" method="POST">
                                             <input type="hidden" name="itemid" value="{{item['itemid']}}">
@@ -58,7 +58,7 @@
                                     </span>
                                     <form id="delete_form" action="/delete_item" onSubmit="return confirm('Are you sure you want to delete this item?');" method='POST' class="pt-2">
                                         <input type="hidden" name="itemid" value="{{item['itemid']}}">
-                                        <button type="submit" class="btn btn-dark btn-sm px-4">remove item <i style="color: #f28b88;" class="fa fa-trash-o"></i></button>
+                                        <button type="submit" class="btn btn-dark btn-sm px-4">delete <i style="color: #f28b88;" class="fa fa-trash-o"></i></button>
                                     </form>
                                 </div>
                             </div>

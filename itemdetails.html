@@ -91,7 +91,7 @@
           <div class="text-center pt-2">
             <form action="reserve" method='POST'>
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
-              <button type="submit" class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">reserve item</button>
+              <button type="submit" class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">reserve</button>
             </form>
           </div>
           {% endif %}
@@ -99,13 +99,13 @@
           <div class="text-center pt-2">
             <form action="/edit_item" method="POST">
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
-              <button type="submit" id="edit_button"class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">edit</button>
+              <button type="submit" id="edit_button"class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">Edit</button>
             </form>
           </div>
           <div class="text-center pt-2">
             <form action="/delete_item" onSubmit="return confirm('Are you sure you want to delete this item?');" method="POST">
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
-              <button type="submit" id="delete_button" class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">remove item <i style="color: #f28b88;" class="fa fa-trash-o"></i></button>
+              <button type="submit" id="delete_button" class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">Delete <i style="color: #f28b88;" class="fa fa-trash-o"></i></button>
             </form>
           </div>
           {% endif %}
@@ -113,7 +113,7 @@
           <div class="text-center pt-2">
             <form action="complete_reservation" onSubmit="return confirm('Confirm sale completion. Has the buyer received their item and have you received payment?');" method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                <button class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">complete sale<span style="color: #85c285;">✓</span></p></button>
+                <button class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">Complete Sale<span style="color: #85c285;">✓</span></p></button>
             </form>
           </div>
           {% endif %}
@@ -121,14 +121,14 @@
           <div class="text-center pt-2">
             <form id="cancel_form" action="cancel_reservation" onSubmit="return confirm('Are you sure you want to cancel your reservation?');"  method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
-                <button type="submit" class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>
+                <button type="submit" class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">Cancel Reservation <span style="color: #f28b88;">✖︎</span></p></button>
             </form>
           </div>
           {% endif %}
           <br>
           <span style="font-weight: 500; white-space: pre-wrap";>{{ item['desc'] }}</span>
           <hr>
-          <h5 style="letter-spacing: 0.1em; font-weight: 500;">More Details</h3>
+          <h5 style="letter-spacing: 0.1em; font-weight: 500;">Details</h3>
           <div class="ps-3" style="font-weight: 400;">
             <strong style="font-weight: 600;">Condition: </strong>{{ item['condition']}}<br>
             <strong style="font-weight: 600;">Type:   </strong>{{item['type']}}<br>
