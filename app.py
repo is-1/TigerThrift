@@ -69,39 +69,46 @@ def get_wsse_headers(username, password):
 
 # given username returned from CAS, compile netid, email, and phone number from user
 def get_user_info(username):
-    if '\n' in username:
-        username = username.split('\n', 1)[0]
+    try:
+        if '\n' in username:
+            username = username.split('\n', 1)[0]
 
-    print("USERNAME (from cas): " + username)
-    netid = username
+        print("USERNAME (from cas): " + username)
+        netid = username
 
-    # whitelisting instructors who are not undergrads (prof. dondero and TAs)
-    if netid in ['rdondero', 'bb5943', 'jg41', 'anatk', 'dorothyz']:
-        # don't need to add_user bc we added them to database already
-        user_info = get_whitelist_user_info(netid)
-        return user_info
+        # whitelisting instructors who are not undergrads (prof. dondero and TAs)
+        if netid in ['rdondero', 'bb5943', 'jg41', 'anatk', 'dorothyz']:
+            # don't need to add_user bc we added them to database already
+            user_info = get_whitelist_user_info(netid)
+            return user_info
 
-    # get info and make sure user is an undergrad
-    r = requests.get(url=urllib.parse.urljoin(TIGERBOOK_API, netid),headers=get_wsse_headers(TIGERBOOK_USR, TIGERBOOK_KEY))
-    # Only do if undergrad
-    if str(r) == "<Response [404]>":
-        print("NOT AN UNDERGRAD!!!!")
-        # return and do some error handling
-        return
-    user_info = {'first_name': (r.json())['first_name'],
-    'last_name': (r.json())['last_name'],
-    'full_name': (r.json())['full_name'],
-    'netid': netid,
-    'email': ((r.json())['email']).lower(),
-    'class_year': (r.json())['class_year'],
-    'photo_link': (r.json())['photo_link']}
-    success_add_user = add_user(user_info)
+        # get info and make sure user is an undergrad
+        r = requests.get(url=urllib.parse.urljoin(TIGERBOOK_API, netid),headers=get_wsse_headers(TIGERBOOK_USR, TIGERBOOK_KEY))
+        # Only do if undergrad
+        if str(r) == "<Response [404]>":
+            print("NOT AN UNDERGRAD!!!!")
+            raise Exception("not an undergrad")
 
-    if not success_add_user:
-        html = render_template('error.html', message="Please try again and contact us if the error persists.") # type this now!!! 
-        print("error adding user: " + str(username))
-        response = make_response(html)
-        return response
+        user_info = {'first_name': (r.json())['first_name'],
+        'last_name': (r.json())['last_name'],
+        'full_name': (r.json())['full_name'],
+        'netid': netid,
+        'email': ((r.json())['email']).lower(),
+        'class_year': (r.json())['class_year'],
+        'photo_link': (r.json())['photo_link']}
+        success_add_user = add_user(user_info)
+
+        if not success_add_user:
+            html = render_template('error.html', message="Please try again and contact us if the error persists.") # type this now!!! 
+            print("error adding user: " + str(username))
+            response = make_response(html)
+            return response
+    except Exception as ex: 
+        print(ex, file=stderr)
+        if str(ex) == "not an undergrad":
+            return str(ex)
+        return False
+
 
     user_info['phone'] = get_user_phone(netid)
     print("user's currently logged phone number!!! ", user_info['phone'])
@@ -145,6 +152,16 @@ def shop():
     username = CasClient().authenticate()
     # username = 'katelynr'
     user_info = get_user_info(username)
+    if user_info == "not an undergrad":
+        html = render_template('error.html', message="Error. You are not an undergrad. You are not allowed to access this site.")
+        response = make_response(html)
+        return response
+
+    if not user_info:
+        html = render_template('error.html', message="Error. Something went wrong with the site. Please refresh and try again, or contact us if you are having issues.")
+        response = make_response(html)
+        return response
+
     search = request.args.get('search')
 
     gender = request.args.get('gender')
