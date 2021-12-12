@@ -97,7 +97,7 @@
           {% endif %}
           {% if item['status'] == 0 and user_info['netid'] == item['sellernetid'] %}
           <div class="text-center pt-2">
-            <form action="/edit_item" method="POST">
+            <form action="/edit" method="POST">
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
               <button type="submit" id="edit_button"class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">Edit</button>
             </form>

@@ -14,7 +14,7 @@
     {% include 'header.html' %}
     <h3 class="text-center mt-3"><strong>Sell an Item</strong></h3>
     <div style="max-width: 750px; padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">
-        <form id="sell_form" action="sell" value="" method = "POST">
+        <form id="sell_form" action="sellsuccess" value="" method = "POST">
             <div class="form-group m-2">
                 <label id="input_prod_text" style="letter-spacing: 0.1em;">Product Name</label>
                 <input id="input_prod" class="form-control" type="text" maxlength="45" 
@@ -154,7 +154,7 @@
             <input type="hidden" id="photolink3" name ="photolink3" value = "">
 
             <div class="text-center pb-5">
-                <button formaction= "success_sell" formmethod="POST" type="submit"
+                <button formaction= "sellsuccess" formmethod="POST" type="submit"
                     class="btn btn-dark px-5" values="Go" style="letter-spacing: 0.2em;">Create Item!</button>
             </div>
         </form>

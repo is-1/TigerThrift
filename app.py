@@ -243,7 +243,7 @@ def sell():
 
     return response
 
-@app.route('/edit_item', methods=['POST'])
+@app.route('/edit', methods=['POST'])
 def edit_item():
     is_authenticated()
     username = CasClient().authenticate()
@@ -269,7 +269,7 @@ def edit_item():
 
     return response
 
-@app.route('/success_edit', methods=['POST'])
+@app.route('/editsuccess', methods=['POST'])
 def success_edit():
     is_authenticated()
     username = CasClient().authenticate()
@@ -331,7 +331,7 @@ def success_edit():
         response = make_response(html)
         return response
 
-@app.route('/success_sell', methods=['POST'])
+@app.route('/sellsuccess', methods=['POST'])
 def success_sell():
     is_authenticated()
     username = CasClient().authenticate()
