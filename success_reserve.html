@@ -21,7 +21,7 @@
           </form>
         </div>
         <div class="d-flex justify-content-center">
-          <form id="cancel_form" action="/cancel_reservation" onSubmit="return confirm('Are you sure you want to cancel your reservation?');"method='POST' class="p-2">
+          <form id="cancel_form" action="/cancelsuccess" onSubmit="return confirm('Are you sure you want to cancel your reservation?');"method='POST' class="p-2">
             <input type = "hidden" name="itemid" value="{{itemid}}">
             <button type="submit" class="card-text btn btn-dark">
               <p style="color:white; letter-spacing: 0.1em;" class="m-0">cancel reservation <span style="color: #f28b88;">✖︎</span></p></button>

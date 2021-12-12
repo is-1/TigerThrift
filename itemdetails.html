@@ -103,7 +103,7 @@
             </form>
           </div>
           <div class="text-center pt-2">
-            <form action="/delete_item" onSubmit="return confirm('Are you sure you want to delete this item?');" method="POST">
+            <form action="/deletesuccess" onSubmit="return confirm('Are you sure you want to delete this item?');" method="POST">
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
               <button type="submit" id="delete_button" class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">Delete <i style="color: #f28b88;" class="fa fa-trash-o"></i></button>
             </form>
@@ -119,7 +119,7 @@
           {% endif %}
           {% if item['status'] == 1 and isMine == True %}
           <div class="text-center pt-2">
-            <form id="cancel_form" action="cancel_reservation" onSubmit="return confirm('Are you sure you want to cancel your reservation?');"  method='POST'>
+            <form id="cancel_form" action="cancelsuccess" onSubmit="return confirm('Are you sure you want to cancel your reservation?');"  method='POST'>
                 <input type = "hidden" name="itemid" value="{{item['itemid']}}">
                 <button type="submit" class="btn btn-dark mt-2 w-100"><p style="color:white; letter-spacing: 0.1em;" class="m-0">Cancel Reservation <span style="color: #f28b88;">✖︎</span></p></button>
             </form>

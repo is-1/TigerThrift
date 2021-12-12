@@ -226,7 +226,8 @@ def shop():
     response.set_cookie('sort', str(sort))
     response.set_cookie('route', "/shop")
     return response
-    
+
+# generates sell page
 @app.route('/sell', methods=['GET'])
 def sell():
     is_authenticated()
@@ -243,6 +244,7 @@ def sell():
 
     return response
 
+# generates edit page
 @app.route('/edit', methods=['POST'])
 def edit_item():
     is_authenticated()
@@ -468,7 +470,6 @@ def reserve():
         response = make_response(html)
         return response
 
-
     if (success_reserve == 'cannot find sellerid'):
         html = render_template('error.html', message="Error making reservation. This item may have been deleted. Please refresh the page and try again.")
         response = make_response(html)
@@ -512,7 +513,7 @@ def reserve():
     response = make_response(html)
     return response
 
-@app.route('/cancel_reservation', methods=['POST'])
+@app.route('/cancelsuccess', methods=['POST'])
 def cancel_reservation():
     is_authenticated()
     username = CasClient().authenticate()
@@ -586,7 +587,7 @@ def complete_reservation():
 
 # this function completely removes from database (status 2 means item was already sold)
 # need to handle the case where the item is reserved by someone but seller wants to delete it. ACTUALLY IT WOULDN'T EVEN BE DISPLAYED IN THAT SECTION
-@app.route('/delete_item', methods=['POST'])
+@app.route('/deletesuccess', methods=['POST'])
 def delete_item():
     is_authenticated()
     username = CasClient().authenticate()
@@ -633,36 +634,20 @@ def profile():
     username = CasClient().authenticate()
     # username = 'katelynr'
     
-    phone = request.form.get('phone')
-    print("phone: " + str(phone))
-    print("username: " + str(phone))
+    # phone = request.form.get('phone')
+    # print("phone: " + str(phone))
+    # print("username: " + str(phone))
 
-    if phone is not None:
-        edit_success = edit_phone(username, phone)
-        if not edit_success:
-            html = render_template('error.html')
-            response = make_response(html)
-            return response
+    # if phone is not None:
+    #     edit_success = edit_phone(username, phone)
+    #     if not edit_success:
+    #         html = render_template('error.html')
+    #         response = make_response(html)
+    #         return response
 
     user_info = get_user_info(username)
 
-    active_items = curr_active_items(user_info)
-    # print(active_items)
-    curr_reserved_items = reserved_items(user_info)
-    # print(curr_reserved_items)
-    reserved_by_others = seller_reservations(user_info)
-    # print(reserved_by_others)
-    past_sold_items = items_sold_in_past(user_info)
-    print("PAST SOLD ITEMS")
-    print(past_sold_items)
-    purchased_items = past_purchases(user_info)
-    print("PURCHASED ITEMS")
-    print(purchased_items)
-
-    if active_items is None:
-        active_items = []
-
-    html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
+    html = render_template('profile.html', user_info = user_info) # pass in currently reserved items
 
     response = make_response(html)
     response.set_cookie('route', "/profile")

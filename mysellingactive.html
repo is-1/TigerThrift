@@ -56,7 +56,7 @@
                                             <button type="submit" id="edit_button" class="btn btn-dark btn-sm px-4">edit</button>
                                         </form>
                                     </span>
-                                    <form id="delete_form" action="/delete_item" onSubmit="return confirm('Are you sure you want to delete this item?');" method='POST' class="pt-2">
+                                    <form id="delete_form" action="/deletesuccess" onSubmit="return confirm('Are you sure you want to delete this item?');" method='POST' class="pt-2">
                                         <input type="hidden" name="itemid" value="{{item['itemid']}}">
                                         <button type="submit" class="btn btn-dark btn-sm px-4">delete <i style="color: #f28b88;" class="fa fa-trash-o"></i></button>
                                     </form>

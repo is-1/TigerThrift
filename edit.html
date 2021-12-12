@@ -163,7 +163,7 @@
         </form>
         <div class="d-flex mb-5 p-0" style="padding-bottom: min(80px, 10%);">
             <div class="row m-auto mb-5">
-                <form class="col text-center m-auto mb-3 p-0" id="delete_form" action="/delete_item"
+                <form class="col text-center m-auto mb-3 p-0" id="delete_form" action="/deletesuccess"
                     onSubmit="return confirm('Are you sure you want to delete this item?');"  method='POST'>
                     <input type="hidden" name="itemid" value="{{item['itemid']}}">
                     <button form="delete_form" type="submit" class="btn btn-dark align-items-center px-0 me-3"
