@@ -455,16 +455,15 @@ def curr_active_items(user_info):
                     }
                     item_info = cursor.fetchone()
                     results.append(item)
-                    
+                    return results       
                 # print("printed curr_reserved items!!!! ")
 
     except Exception as ex:
-       print(ex, file=stderr)
+        print(ex, file=stderr)
+        return False
         # exit(1)
     
-    print("length of results: " + str((len(results))))
-    return results
-
+    # print("length of results: " + str((len(results))))
 def reserved_netid(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     buyernetid = ""
@@ -609,8 +608,9 @@ def reserved_items(user_info):
                 return results
 
     except Exception as ex:
-       # print(ex, file=stderr)
-        exit(1)
+        print(ex, file=stderr)
+        return False
+        # exit(1)
     
     
 def seller_reservations(user_info):
@@ -741,8 +741,9 @@ def items_sold_in_past(user_info):
                 return results
 
     except Exception as ex:
-       # print(ex, file=stderr)
-        exit(1)
+        print(ex, file=stderr)
+        return False
+        # exit(1)
 
 def past_purchases(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -806,8 +807,9 @@ def past_purchases(user_info):
                 return results
 
     except Exception as ex:
-       # print(ex, file=stderr)
-        exit(1)
+        print(ex, file=stderr)
+        return False
+        # exit(1)
 
 def all_brands():
     DATABASE_URL = os.environ.get('DATABASE_URL')

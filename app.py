@@ -708,7 +708,12 @@ def my_purchased():
 
     if purchased_items is None:
         purchased_items = []
-        
+    
+    if purchased_items is False:
+            html = render_template('error.html', message="Error loading past purchases. Please try refreshing the page and contact us if the error persists.")
+            response = make_response(html)
+            return response
+
     html = render_template('mypurchased.html', user_info = user_info, purchased_items=purchased_items)
 
     response = make_response(html)
@@ -729,6 +734,11 @@ def my_reserved():
 
     if curr_reserved_items is None:
         curr_reserved_items = []
+
+    if curr_reserved_items is False:
+        html = render_template('error.html', message="Error loading reserved items. Please try refreshing the page and contact us if the error persists.")
+        response = make_response(html)
+        return response
         
     html = render_template('myreserved.html', user_info = user_info, curr_reserved_items=curr_reserved_items)
     response = make_response(html)
@@ -769,6 +779,11 @@ def my_selling_active():
 
     if active_items is None:
         active_items = []
+
+    if active_items is False:
+        html = render_template('error.html', message="Error loading active items. Please try refreshing the page and contact us if the error persists.")
+        response = make_response(html)
+        return response
         
     html = render_template('mysellingactive.html', user_info = user_info, curr_active_items=active_items, status="active")
 
@@ -791,6 +806,11 @@ def my_selling_reserved():
 
     if reserved_by_others is None:
         reserved_by_others = []
+    
+    if reserved_by_others is False:
+        html = render_template('error.html', message="Error loading items reserved by others. Please try refreshing the page and contact us if the error persists.")
+        response = make_response(html)
+        return response
         
     html = render_template('mysellingreserved.html', user_info = user_info, reserved_by_others=reserved_by_others, status="reserved")
 
@@ -812,6 +832,11 @@ def my_sold():
 
     if past_sold_items is None:
         past_sold_items = []
+
+    if past_sold_items is False:
+        html = render_template('error.html', message="Error loading sold items. Please try refreshing the page and contact us if the error persists.")
+        response = make_response(html)
+        return response
         
     html = render_template('mysold.html', user_info = user_info, past_sold_items=past_sold_items)
 
