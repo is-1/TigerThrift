@@ -224,7 +224,7 @@ def shop():
     response.set_cookie('route', "/shop")
     return response
     
-@app.route('/sell', methods=['GET', 'POST'])
+@app.route('/sell', methods=['GET'])
 def sell():
     is_authenticated()
     username = CasClient().authenticate()
@@ -257,8 +257,7 @@ def edit_item():
         response = make_response(html)
         return response
 
-    item['price'] = item['price'][1:]
-    
+    item['price'] = item['price'][1:]   
 
     html = render_template('edit.html', item=item, user_info=user_info, route=route)
     response = make_response(html)
@@ -326,7 +325,7 @@ def success_edit():
         response = make_response(html)
         return response
 
-@app.route('/success_sell', methods=['GET', 'POST'])
+@app.route('/success_sell', methods=['POST'])
 def success_sell():
     is_authenticated()
     username = CasClient().authenticate()
