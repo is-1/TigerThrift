@@ -595,8 +595,10 @@ def reserved_items(user_info):
                     stmt_str = ('SELECT * from users where netid = %s')
                     cursor.execute(stmt_str, [item['sellernetid']])
                     seller_info = cursor.fetchone()
+                    seller_phone = seller_info[3]
                     seller_full_name = seller_info[6]
                     item['seller_full_name'] = seller_full_name
+                    item['seller_phone'] = seller_phone
                     # error if item in reservation table is not marked as reserved in items table
                     if item['status'] == 1:
                         results.append(item)

@@ -34,7 +34,8 @@
                 <img class="card-img-top pt-2" src="{{item['photolink']}}" alt="item photo" style="width:220px; height:220px; overflow:hidden; object-fit:contain;">
                 <div class="card-body pb-3">
                     <h4 class="card-title" style="height: 80px;">{{item['prodname']}}</h4>
-                    <p class="card-text">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
+                    <p class="card-text" id="info_with_phone">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}}) ({{item['phone']}})</p>
+                    <p class="card-text" id="info_without_phone">Seller: {{item['seller_full_name']}} ({{item['sellernetid']}})</p>
                     {% if item['reservation_time_left'] ==  "YOUR RESERVATION HAS EXPIRED! 0 days left" %}
                         <p class="card-text" style="height: 150px;"><i style="color: red;"><strong>YOUR RESERVATION HAS EXPIRED!</strong></i><br>Please contact the seller to complete your purchase, or cancel the reservation.</p>
                         {% elif "YOUR RESERVATION WILL EXPIRE IN" in item['reservation_time_left'] %}
@@ -70,10 +71,14 @@
             if ("{{user_info['phone']}}" != "unknown") {
                 $("#with_phone").show();
                 $("#without_phone").hide();
+                $("#info_with_phone").show();
+                $("#info_without_phone").hide();
             }
             else {
                 $("#with_phone").hide();
                 $("#without_phone").show();
+                $("#info_with_phone").hide();
+                $("#info_without_phone").show();
             }
             if ("{{user_info['class_year']}}" == "faculty") {
                 $("#faculty").show();
