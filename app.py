@@ -114,12 +114,14 @@ def get_user_info(username):
     print("user's currently logged phone number!!! ", user_info['phone'])
     return user_info
 
+# authenticates user, then routes to shop
 @app.route('/login', methods=['GET'])
 def login():
     print("went into login function")
     CasClient().authenticate()
     return redirect(url_for('shop')) # after authenticating, send to shop page 
 
+# authenticates user, redirects shop if logged in, generates landing page if not
 @app.route('/', methods=['GET'])
 @app.route('/landing', methods=['GET'])
 def landing():
@@ -132,6 +134,7 @@ def landing():
         print("returned landing page")
         return response
 
+# checks if user is logged in
 def is_authenticated():
     if CasClient().authenticateFirst() == False:
         # return call to landing page function
