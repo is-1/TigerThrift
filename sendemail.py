@@ -15,7 +15,7 @@ def send_seller_reservation_notification(seller, buyer, item_name):
     message.dynamic_template_data = {
         'seller': seller['first_name'],
         'buyer': buyer['full_name'],
-        'Weblink': buyer['email'],
+        'buyer_email': buyer['email'],
         'prodname': item_name,
         'buyer_phone': buyer['phone']
     }
