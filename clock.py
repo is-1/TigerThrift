@@ -1,3 +1,7 @@
+#-----------------------------------------------------------------------
+# clock.py
+# Author: Katie Chou, Iroha Shirai, Katelyn Rodrigues
+#-----------------------------------------------------------------------
 import re
 import os
 from sys import stderr
@@ -8,28 +12,23 @@ from datetime import timedelta
 from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_buyer_reservation_reminder, send_seller_reservation_reminder, send_buyer_expiration_notification, send_seller_expiration_notification
 from apscheduler.schedulers.background import BackgroundScheduler
 
+# create background process apscheduler
 sched = BackgroundScheduler({'apscheduler.timezone': 'UTC'})
 
+# helper function to calculate the number of days and hours left to complete a reservation 
+# given the reserved timestamp and current timestamp and send 'reservation about to expire' 
+# and 'reservation expired' emails to buyers and sellers of such items given buyer and seller 
+# info as dicts and item_name. return return formatted time left to complete reservation.
 def days_between(d1, d2, seller, buyer, item_name):
     d1 = datetime.strptime(str(d1), "%Y-%m-%d %H:%M:%S")
     d2 = datetime.strptime(str(d2), "%Y-%m-%d %H:%M:%S")
-    #print("Current Date:", d1)
-    #print("Reserved Date:", d2)
     time_left = timedelta(days=3) - (d1-d2)
-    # print("TIME LEFTTTTTT",time_left)
     time_split = (re.split('[ :]', str(time_left)))[0]
     print(str(time_split))
     if int(time_split) < 0:
         send_buyer_expiration_notification(seller, buyer, item_name)
         send_seller_expiration_notification(seller, buyer, item_name)
         return("YOUR RESERVATION HAS EXPIRED! 0 days left")
-        # send email that reservation has expired
-    # print(int(time_split))
-    # if time_left < 0:
-    #     print("TIME LEFT IS NEGATIVE")
-    #     return("TIME LEFT TO RESERVE HAS EXPIRED!")
-    #print("Old time left:", (d1-d2))
-    #print("Time left:", time_left)
     left = str(time_left).split(':', 1)
     time_left = left[0]
     mins_secs_left = left[1]
@@ -40,9 +39,6 @@ def days_between(d1, d2, seller, buyer, item_name):
         send_buyer_reservation_reminder(seller, buyer, item_name)
         send_seller_reservation_reminder(seller, buyer, item_name)
         return("YOUR RESERVATION WILL EXPIRE IN ", str(hours_left), " HOURS!")
-    #print(mins_secs_left)
-    #print("Adjusted date:", time_left, " hours!")
-    # I DONT THINK THIS EVER GETS HIT
     if time_left == str(0):
         mins_secs_left = mins_secs_left.replace(":", " minutes ")
         return(mins_secs_left, " seconds left")
@@ -50,16 +46,19 @@ def days_between(d1, d2, seller, buyer, item_name):
     print("Time Left Split:", (str(time_left).split(', ', 1))[-1])
     return(time_left, " hours left")
 
-# @sched.scheduled_job('interval', minutes=2)
+#-----------------------------------------------------------------------
+# this scheduled function runs at 4pmET Monday-Sunday
+#-----------------------------------------------------------------------
+
+# iterates through each item in reservations table 
+# to send reservation expiration reminder emails to item buyer and seller if necessary
+# return true if job was successful, or return false if unsuccesful
 @sched.scheduled_job('cron', day_of_week='0-6', hour=21)
 def scheduled_job():
     print('This job is run every day at 4pm EST.')
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
@@ -108,21 +107,13 @@ def scheduled_job():
                     f = '%Y-%m-%d %H:%M:%S'
                     now = datetime.utcnow()
                     dt = now.strftime(f)
-                    days_between(dt, item['reserved_time'], seller, buyer, item['prodname']) # this is a string! # email should be sent in here! 
-                    # reservation_time_left = ''.join(time_left_to_complete_reservation)
-                    # print(str(reservation_time_left))
-                    # item['reservation_time_left']: str(reservation_time_left)
-                    # error if item in reservation table is not marked as reserved in items table
-                    # if item['status'] == 1:
-                    #     results.append(item)
-                    
-                    
-                # print("printed curr_reserved items!!!! ")
+                    days_between(dt, item['reserved_time'], seller, buyer, item['prodname'])
+
                 return True
 
     except Exception as ex:
-       # print(ex, file=stderr)
-        exit(1)
+        print(ex, file=stderr)
+        return False
 
 
 

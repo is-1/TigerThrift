@@ -1,3 +1,7 @@
+#-----------------------------------------------------------------------
+# app.py
+# Author: Katie Chou, Iroha Shirai, Katelyn Rodrigues
+#-----------------------------------------------------------------------
 import requests
 import hashlib
 import os
@@ -12,7 +16,7 @@ from flask import Flask, redirect, url_for, request, make_response
 from titlecase import titlecase
 from flask import render_template
 from datetime import datetime
-from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, get_seller_and_item_info, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid, edit_phone, bought_netid
+from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, get_seller_and_item_info, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid, bought_netid
 from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_seller_cancellation, send_buyer_cancellation
 from casclient import CasClient
 from keys import APP_SECRET_KEY
@@ -508,8 +512,8 @@ def reserve():
     response = make_response(html)
     return response
 
-# cancels a reservation given itemid, returns a success page if successful
-# returns an error page if not successful 
+# cancels a reservation given itemid, send email notification to seller
+# returns a success page if successful or returns an error page if not successful 
 @app.route('/cancelsuccess', methods=['POST'])
 def cancel_reservation():
     is_authenticated()
@@ -532,7 +536,7 @@ def cancel_reservation():
     
     seller, item_name = success_info
 
-    success_delete = delete_reserve(user_info, itemid)
+    success_delete = delete_reserve(itemid)
 
     if not success_delete:
         html = render_template('error.html', message="Error cancelling reservation. Please try again and contact us if the error persists.")
@@ -563,7 +567,7 @@ def complete_reservation():
         response = make_response(html)
         return response
         
-    success_complete = complete_reserve(user_info, itemid)
+    success_complete = complete_reserve(itemid)
 
     if success_complete == "item status is not reserved":
         html = render_template('error.html', message="Error completing sale. Item is not marked as reserved. Reservation may have been cancelled. Please contact us if this is a mistake.")

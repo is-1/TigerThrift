@@ -1,16 +1,20 @@
+#-----------------------------------------------------------------------
+# sendemail.py
+# Author: Katie Chou, Iroha Shirai, Katelyn Rodrigues
+#-----------------------------------------------------------------------
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, From
 
-# send seller notification when their item has been reserved
+# send seller notification when a buyer has reserved their item 
+# given seller and buyer info as dicts and item_name. 
+# return true if successful or false if unsuccessful
 def send_seller_reservation_notification(seller, buyer, item_name): 
 
     message = Mail(
         from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= seller['email']
     )
-        # subject='Test Notification Email',
-        # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
         'seller': seller['first_name'],
@@ -34,15 +38,15 @@ def send_seller_reservation_notification(seller, buyer, item_name):
 
     return True
 
-
+# send buyer notification when they have reserved an item 
+# given seller and buyer info as dicts and item_name. 
+# return true if successful or false if unsuccessful
 def send_buyer_reservation_notification(seller, buyer, item_name): 
 
     message = Mail(
         from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= buyer['email']
     )
-        # subject='Test Notification Email',
-        # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
         'buyer': buyer['first_name'],
@@ -66,14 +70,14 @@ def send_buyer_reservation_notification(seller, buyer, item_name):
 
     return True
 
-
+# send buyer reminder when their item's reservation has <24hrs left to complete sale
+# given seller and buyer info as dicts and item_name. 
+# return true if successful or false if unsuccessful
 def send_buyer_reservation_reminder(seller, buyer, item_name):
     message = Mail(
         from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= buyer['email']
     )
-        # subject='Test Notification Email',
-        # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
         'buyer': buyer['first_name'],
@@ -101,13 +105,14 @@ def send_buyer_reservation_reminder(seller, buyer, item_name):
     
     return True
 
+# send seller reminder when one of their item's on reserve has <24hrs left to complete sale
+# given seller and buyer info as dicts and item_name. 
+# return true if successful or false if unsuccessful
 def send_seller_reservation_reminder(seller, buyer, item_name):
     message = Mail(
         from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= seller['email']
     )
-        # subject='Test Notification Email',
-        # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
         'seller': seller['first_name'],
@@ -135,14 +140,14 @@ def send_seller_reservation_reminder(seller, buyer, item_name):
     
     return True
 
-
+# send buyer notification when their item's reservation period has expired
+# given seller and buyer info as dicts and item_name. 
+# return true if successful or false if unsuccessful
 def send_buyer_expiration_notification(seller, buyer, item_name):
     message = Mail(
         from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= buyer['email']
     )
-        # subject='Test Notification Email',
-        # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
         'buyer': buyer['first_name'],
@@ -170,14 +175,14 @@ def send_buyer_expiration_notification(seller, buyer, item_name):
 
     return True
 
-
+# send seller notification when one of their items on reserve has a reservation period that has expired
+# given seller and buyer info as dicts and item_name. 
+# return true if successful or false if unsuccessful
 def send_seller_expiration_notification(seller, buyer, item_name):
     message = Mail(
         from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= seller['email']
     )
-        # subject='Test Notification Email',
-        # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
         'seller': seller['first_name'],
@@ -204,14 +209,15 @@ def send_seller_expiration_notification(seller, buyer, item_name):
     
     return True
 
+# send seller notification if one of their selling items' reservations has been cancelled
+# given seller and buyer info as dicts and item_name. 
+# return true if successful or false if unsuccessful
 def send_seller_cancellation(seller, buyer, item_name): 
 
     message = Mail(
         from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= seller['email']
     )
-        # subject='Test Notification Email',
-        # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
         'seller': seller['first_name'],
@@ -234,15 +240,15 @@ def send_seller_cancellation(seller, buyer, item_name):
 
     return True
 
-
+# send buyer notification when they have cancelled a reservation
+# given seller and buyer info as dicts and item_name. 
+# return true if successful or false if unsuccessful
 def send_buyer_cancellation(seller, buyer, item_name): 
 
     message = Mail(
         from_email= From('tigerthrift@princeton.edu', 'TigerThrift'),
         to_emails= buyer['email']
     )
-        # subject='Test Notification Email',
-        # html_content='<strong>you have reserved an item</strong>')
 
     message.dynamic_template_data = {
         'buyer': buyer['first_name'],

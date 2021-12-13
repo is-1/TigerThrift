@@ -9,12 +9,11 @@ from titlecase import titlecase
 
 
 # add to users table if user is not already in the table (first time user)
+# given dictionary of user_info containing netid
+# return true if successful, return false if error
 def add_user(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
                 # check if user is first time user, if so add to users table
@@ -38,17 +37,16 @@ def add_user(user_info):
     except Exception as ex:
        print(ex, file=stderr)
        return False
-       #exit(1)
 
+
+# based on netid, return user_info dictionary for a whitelisted user 
+# containing netid, email, class_year, first, last, and full name
+# or return False if error
 def get_whitelist_user_info(netid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
-                # check if user is first time user, if so add to users table
                 stmt_str = 'SELECT * FROM users WHERE netid=%s;'
                 cursor.execute(stmt_str, [netid])
                 row = cursor.fetchone() # returned as tuple boolean
@@ -57,45 +55,40 @@ def get_whitelist_user_info(netid):
                 'full_name': row[6],
                 'netid': netid,
                 'email': row[1],
-                'class_year': 'faculty'} # removed photo_link (hopefully we don't need that)
-                user_info['phone'] = get_user_phone(netid)
+                'class_year': 'faculty'}
+                user_info['phone'] = get_user_phone(netid) # will either be unknown or the phone number itself
                 connection.commit()
-                return user_info # will either be unknown or the phone number itself
+                return user_info 
     
     except Exception as ex:
        print(ex, file=stderr)
-       #exit(1)
+       return False
 
-# return false or return true
+# return the phone number from users table which will either be "unknown" 
+# or the number itself given netid, or return False if error
 def get_user_phone(netid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
-                # check if user is first time user, if so add to users table
                 stmt_str = 'SELECT phone FROM users WHERE netid=%s;'
                 cursor.execute(stmt_str, [netid])
-                row = cursor.fetchone() # returned as tuple boolean
+                row = cursor.fetchone()
                 phone_number = row[0]
                 connection.commit()
                 return phone_number # will either be unknown or the phone number itself
     
     except Exception as ex:
        print(ex, file=stderr)
-       #exit(1)
+       return False
 
+# add phone number to users table if it is different than what is currently in the table
+# return the new phone number or return false if error
 def add_user_phone(netid, phone_number):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
-                # check if user is first time user, if so add to users table
                 stmt_str = 'UPDATE users SET phone=%s WHERE netid=%s;'
                 cursor.execute(stmt_str, [phone_number, netid])
                 print("updated phone number in database")
@@ -105,10 +98,10 @@ def add_user_phone(netid, phone_number):
     except Exception as ex:
        print(ex, file=stderr)
        return False
-       #exit(1)
 
-# create reservation
-
+# reserve an item by changing status in items table and adding to reservations table given an itemid and buyernetid
+# return the error or false if error, or 
+# return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, and item name if successful
 def reserve_item(buyernetid, itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     try:
@@ -150,8 +143,6 @@ def reserve_item(buyernetid, itemid):
                     seller_full_name = row[1]
                     seller_email = row[2]
                     seller_phone = row[3]
-                    print("SELLER FIRST_NAME: ", seller_first_name)
-                    print("SELLER EMAIL: ", seller_email)
                     connection.commit()
                     return sellernetid, seller_first_name, seller_full_name, seller_email, seller_phone, titlecase(str(prodname))
     
@@ -160,17 +151,15 @@ def reserve_item(buyernetid, itemid):
        if str(ex) == "item already reserved" or str(ex) == "cannot find item info" or str(ex) == "item unavailable for reservation" or str(ex) == "cannot find sellerid":
            return str(ex)
        return False
-       #exit(1)
     
 
-# when user uploads an item, update necessary tables
+# update items, users, and sellers tables when user uploads an item to sell
+# given item as a dictionary with its details, and netid from user_info dictionary.
+# return true if successful or false if error 
 def add_item(item, user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
                 
@@ -179,8 +168,6 @@ def add_item(item, user_info):
                 now = datetime.utcnow()
                 dt = now.strftime(f)
 
-                # add user if first time user
-                # when CAS authenticates, do this, move it
                 add_user(user_info)
                 
                 # insert item into items table
@@ -191,7 +178,7 @@ def add_item(item, user_info):
                 stmt_str = 'SELECT last_value FROM items_itemid_seq;'
                 cursor.execute(stmt_str)
                 row = cursor.fetchone()
-                recent_item_id = row[0] # int data type
+                recent_item_id = row[0]
                 print("LAST INSERTED INDEX: " + str(recent_item_id))
                 # insert into sellers table 
                 stmt_str = ('INSERT INTO sellers '
@@ -205,15 +192,14 @@ def add_item(item, user_info):
     except Exception as ex:
        print(ex, file=stderr)
        return False
-       #exit(1)
 
+# given new item details stored in item dict and netid from user_info dict,
+# update users, and items table to edit an item.
+# return true if successful or false if unsuccessful
 def edit_item_db(item, user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
                 print("entered edit item function!!!")
@@ -221,9 +207,6 @@ def edit_item_db(item, user_info):
                 f = '%Y-%m-%d %H:%M:%S'
                 now = datetime.utcnow()
                 dt = now.strftime(f)
-
-                # add user if first time user
-                # when CAS authenticates, do this, move it
                 add_user(user_info)
                 print("new item info!!",str(item))
                 # insert item into items table
@@ -237,22 +220,17 @@ def edit_item_db(item, user_info):
     except Exception as ex:
        print(ex, file=stderr)
        return False
-       #exit(1)
 
+# return item details given an itemid, or false if unsuccessful
 def item_details(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = "SELECT * from items where itemid = %s"
                 cursor.execute(stmt_str, [itemid])
-
-                # connection.commit()
 
                 row = cursor.fetchone()
 
@@ -285,43 +263,37 @@ def item_details(itemid):
     except Exception as ex:
        print(ex, file=stderr)
        return False
-       # exit(1)
 
-def delete_reserve(user_info, itemid):
+# delete a reservation by updating reservations and items tables given itemid 
+# return True if successful or false if unsuccessful
+def delete_reserve(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = "DELETE FROM reservations where itemid = %s"
                 cursor.execute(stmt_str, [itemid])
                 print("deleted from reservations")
-                # row = cursor.fetchone()
 
                 stmt_str = "UPDATE items SET status=0 WHERE itemid= %s"
                 cursor.execute(stmt_str, [itemid])
                 print("updated items table")
-                # send email notification to seller that this person deleted their reservation
 
                 connection.commit()
                 return True
 
     except Exception as ex:
        print(ex, file=stderr)
-    #    return False
-       # exit(1)
+       return False
 
+# return dict with seller details and item name given itemid 
+# return false if unsuccessful
 def get_seller_and_item_info(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
@@ -343,17 +315,13 @@ def get_seller_and_item_info(itemid):
     except Exception as ex:
        print(ex, file=stderr)
        return False
-       # exit(1)
 
-
-
-def complete_reserve(user_info, itemid):
+# complete a reservation given itemid by updating items and reservations tables
+# return true if successful or false or error if unsuccessful
+def complete_reserve(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
@@ -371,12 +339,10 @@ def complete_reserve(user_info, itemid):
                 stmt_str = "UPDATE reservations SET completedtime = %s WHERE itemid = %s"
                 cursor.execute(stmt_str, [dt, itemid])
                 print("completed reservations from reservations")
-                # row = cursor.fetchone()
 
                 stmt_str = "UPDATE items SET status=2 WHERE itemid= %s"
                 cursor.execute(stmt_str, [itemid])
                 print("updated items table")
-                # send email notification to seller that this person deleted their reservation
 
                 connection.commit()
                 return True
@@ -386,26 +352,18 @@ def complete_reserve(user_info, itemid):
        if str(ex) == "item status is not reserved":
            return str(ex)
        return False
-       # exit(1)
 
+# helper function to calculate the number of days and hours left 
+# to complete a reservation given the reserved timestamp and current timestamp
+# return formatted time left
 def days_between(d1, d2):
     d1 = datetime.strptime(str(d1), "%Y-%m-%d %H:%M:%S")
     d2 = datetime.strptime(str(d2), "%Y-%m-%d %H:%M:%S")
-    #print("Current Date:", d1)
-    #print("Reserved Date:", d2)
     time_left = timedelta(days=3) - (d1-d2)
-    # print("TIME LEFTTTTTT",time_left)
     time_split = (re.split('[ :]', str(time_left)))[0]
     print(str(time_split))
     if int(time_split) < 0:
         return("YOUR RESERVATION HAS EXPIRED! 0 days left")
-        # send email that reservation has expired
-    # print(int(time_split))
-    # if time_left < 0:
-    #     print("TIME LEFT IS NEGATIVE")
-    #     return("TIME LEFT TO RESERVE HAS EXPIRED!")
-    #print("Old time left:", (d1-d2))
-    #print("Time left:", time_left)
     left = str(time_left).split(':', 1)
     time_left = left[0]
     mins_secs_left = left[1]
@@ -413,11 +371,7 @@ def days_between(d1, d2):
     if "day" not in str(time_left):
         hours_left = (str(time_left).split(', ', 1))[-1] # hours left on 0th day
         print("YOUR RESERVATION IS ABOUT TO EXPIRE! Only", str(hours_left), "hours left!")
-        # send email that you only have hours_left number of hours left to complete reservation
         return("YOUR RESERVATION WILL EXPIRE IN ", str(hours_left), " HOURS!")
-    #print(mins_secs_left)
-    #print("Adjusted date:", time_left, " hours!")
-    # I DONT THINK THIS EVER GETS HIT
     if time_left == str(0):
         mins_secs_left = mins_secs_left.replace(":", " minutes ")
         return(mins_secs_left, " seconds left")
@@ -425,19 +379,17 @@ def days_between(d1, d2):
     print("Time Left Split:", (str(time_left).split(', ', 1))[-1])
     return(time_left, " hours left")
 
+# return a list of dictionaries containing each currently active (not sold or reserved) item and its details 
+# given a seller's netid obtained from user_info, return false if unsuccessful
 def curr_active_items(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     results = []
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = 'SELECT * FROM items WHERE sellernetid = %s and status = 0'
                 cursor.execute(stmt_str, [user_info['netid']])
-                # connection.commit()
                 item_info = cursor.fetchone()
                 while item_info is not None:
                     item = {'itemid': item_info[0],
@@ -458,35 +410,29 @@ def curr_active_items(user_info):
                     }
                     item_info = cursor.fetchone()
                     results.append(item)
-                    return results       
-                # print("printed curr_reserved items!!!! ")
+                    return results
 
     except Exception as ex:
         print(ex, file=stderr)
         return False
-        # exit(1)
-    
-    # print("length of results: " + str((len(results))))
+
+# return buyernetid and buyer_full_name for a reserved item given its itemid
+# return false if unsuccessful
 def reserved_netid(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     buyernetid = ""
     buyer_full_name = ""
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = 'SELECT buyernetid FROM reservations WHERE completedtime IS NULL AND itemid = %s;'
                 cursor.execute(stmt_str, [itemid])
 
-                # connection.commit()
                 row = cursor.fetchone()
 
                 if row is not None:
                     buyernetid = row[0]
-                # print("buyernetid =" + buyernetid)
 
                 stmt_str = 'SELECT full_name FROM users WHERE netid = %s;'
                 cursor.execute(stmt_str, [str(buyernetid)])
@@ -496,30 +442,24 @@ def reserved_netid(itemid):
                 if row is not None:
                     buyer_full_name = row[0]
 
-                # print("buyerfullname =" + str(buyer_full_name))
                 return (str(buyernetid), str(buyer_full_name))
 
     except Exception as ex:
         print(ex, file=stderr)
         return False
-       # exit(1)
     
-    
+# return buyernetid and buyer_full_name for a sold item given its itemid
+# return false if unsuccessful
 def bought_netid(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     buyernetid = ""
     buyer_full_name = ""
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = 'SELECT buyernetid FROM reservations WHERE completedtime IS NOT NULL AND itemid = %s;'
                 cursor.execute(stmt_str, [itemid])
-
-                # connection.commit()
                 row = cursor.fetchone()
 
                 if row is not None:
@@ -532,29 +472,24 @@ def bought_netid(itemid):
 
                 if row is not None:
                     buyer_full_name  = row[0]
-                # print("buyerfullname =" + str(buyer_full_name))
                 return (str(buyernetid), str(buyer_full_name))
     
     except Exception as ex:
         print(ex, file=stderr)
         return False
-       # exit(1)
-    
 
+# return all the items a user has reserved as a list of dicts containing each item's details, 
+# reservation details, and the item's seller details given a user's netid 
+# obtained from user_info dict, return false if unsuccessful
 def reserved_items(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = 'SELECT * FROM reservations WHERE completedtime IS NULL AND buyernetid = %s;'
                 cursor.execute(stmt_str, [user_info['netid']])
-
-                # connection.commit()
 
                 row = cursor.fetchone()
 
@@ -574,9 +509,8 @@ def reserved_items(user_info):
                     f = '%Y-%m-%d %H:%M:%S'
                     now = datetime.utcnow()
                     dt = now.strftime(f)
-                    time_left_to_complete_reservation = days_between(dt, item_ids[item_id]) # this is a string! 
+                    time_left_to_complete_reservation = days_between(dt, item_ids[item_id])
                     reservation_time_left = ''.join(time_left_to_complete_reservation)
-                    # print(str(reservation_time_left))
                     item = {'itemid': item_info[0],
                     'type': item_info[1],
                     'subtype': item_info[2],
@@ -601,35 +535,29 @@ def reserved_items(user_info):
                     seller_full_name = seller_info[6]
                     item['seller_full_name'] = seller_full_name
                     item['seller_phone'] = seller_phone
-                    # error if item in reservation table is not marked as reserved in items table
                     if item['status'] == 1:
                         results.append(item)
+                    # error if item in reservation table is not marked as reserved in items table
                     if item['status'] != 1:
                         print("MISMATCH RESERVATION ITEM!!!")
-                    
-                # print("printed curr_reserved items!!!! ")
                 return results
 
     except Exception as ex:
         print(ex, file=stderr)
         return False
-        # exit(1)
     
-    
+# return items that the user is selling and have been reserved by others as a 
+# list of dicts each containing the item details, reservation details, and 
+# its buyer details return false if unsuccessful
 def seller_reservations(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = 'SELECT * FROM reservations INNER JOIN items ON items.itemid = reservations.itemid AND items.sellernetid = reservations.sellernetid where reservations.completedtime IS NULL and reservations.sellernetid=%s ORDER BY reservations.reservedtime ASC;'
                 cursor.execute(stmt_str, [user_info['netid']])
-
-                # connection.commit()
 
                 row = cursor.fetchone()
                 results = []
@@ -639,9 +567,8 @@ def seller_reservations(user_info):
                     f = '%Y-%m-%d %H:%M:%S'
                     now = datetime.utcnow()
                     dt = now.strftime(f)
-                    time_left_to_complete_reservation = days_between(dt, reserved_time) # this is a string! 
+                    time_left_to_complete_reservation = days_between(dt, reserved_time)
                     reservation_time_left = ''.join(time_left_to_complete_reservation)
-                    # calculate time left to complete purchase
                     item={'itemid': row[0],
                     'buyernetid': row[1],
                     'sellernetid': row[2],
@@ -674,23 +601,21 @@ def seller_reservations(user_info):
                 return results
 
     except Exception as ex:
-       # print(ex, file=stderr)
-        exit(1)
+        print(ex, file=stderr)
+        return False
 
+# return a list of dicts each containing an item's details, completed-sale date, 
+# and buyer details for items the user has sold in the past given the user's
+# netid obtained from user_info. return false if unsuccessful.
 def items_sold_in_past(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = 'SELECT * FROM reservations WHERE completedtime IS NOT NULL AND sellernetid = %s order by completedtime desc;'
                 cursor.execute(stmt_str, [user_info['netid']])
-
-                # connection.commit()
 
                 row = cursor.fetchone()
 
@@ -707,7 +632,6 @@ def items_sold_in_past(user_info):
                     cursor.execute(stmt_str, [item_id])
                     item_info = cursor.fetchone()
                     purchased_date = datetime.strptime(str(item_ids[item_id]), "%Y-%m-%d %H:%M:%S")
-                    # print(purchased_date)
                     purchased_date = (str(purchased_date).split(' ', 1))[0]
                     item = {'itemid': item_info[0],
                     'type': item_info[1],
@@ -739,29 +663,25 @@ def items_sold_in_past(user_info):
                         print("appended item")
                     elif item['status'] != 2:
                         print("ERROR!! completed reservation not marked as status 2")
-                    
-                # print("printed curr_reserved items!!!! ")
+
                 return results
 
     except Exception as ex:
         print(ex, file=stderr)
         return False
-        # exit(1)
 
+# return a list of dicts each containing an item's details, completed-sale date, 
+# and seller details for items the user has purchased given the user's netid obtained from user_info
+# return false if unsuccessful.
 def past_purchases(user_info):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
                 stmt_str = 'SELECT * FROM reservations WHERE completedtime IS NOT NULL AND buyernetid = %s;'
                 cursor.execute(stmt_str, [user_info['netid']])
-
-                # connection.commit()
 
                 row = cursor.fetchone()
 
@@ -777,10 +697,7 @@ def past_purchases(user_info):
                     stmt_str = ('SELECT * from items where itemid = %s')
                     cursor.execute(stmt_str, [item_id])
                     item_info = cursor.fetchone()
-                    # print("printed item info!!!")
-                    # print(item_info)
                     purchased_date = datetime.strptime(str(item_ids[item_id]), "%Y-%m-%d %H:%M:%S")
-                    # print(purchased_date)
                     purchased_date = (str(purchased_date).split(' ', 1))[0]
                     item = {'itemid': item_info[0],
                     'type': item_info[1],
@@ -806,14 +723,13 @@ def past_purchases(user_info):
                     if item['status'] == 2:
                         results.append(item)
                     
-                # print("printed past purchases items!!!! ")
                 return results
 
     except Exception as ex:
         print(ex, file=stderr)
         return False
-        # exit(1)
 
+# return a list of all distinct brands among all active items
 def all_brands():
     DATABASE_URL = os.environ.get('DATABASE_URL')
     brands = []
@@ -834,6 +750,8 @@ def all_brands():
 
     return brands
 
+# return a list of dicts each containing an active (not sold or reserved) item's details 
+# given filters and orders to sort by, return false if unsuccessful
 def search_items(search, filter, sort):
     DATABASE_URL = os.environ.get('DATABASE_URL')
     search_results = []
@@ -923,18 +841,16 @@ def search_items(search, filter, sort):
     print(str(len(results)) + " items")
     return results
 
-# delete item from shop page and respective tables (seller wants to take item off market)
+# delete an item from all tables given itemid
+# return true if successful, or false if unsuccessful
 def remove_item(itemid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
-                # error handling if you try to delete an item that's already been reserved
+                # error handling
                 stmt_str="SELECT status FROM items WHERE itemid=%s;"
                 cursor.execute(stmt_str, [itemid])
                 result = cursor.fetchone()
@@ -951,34 +867,11 @@ def remove_item(itemid):
                 print("itemid", itemid, "was deleted")
                 connection.commit()
                 return True
-                # return True
 
     except Exception as ex:
         print(ex, file=stderr)
         if str(ex) == "item does not exist" or str(ex) == "item cannot be deleted":
             return str(ex)
         return False
-       #exit(1)
-
-def edit_phone(netid, phone):
-    DATABASE_URL = os.environ.get('DATABASE_URL')
-
-    try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
-        with connect (DATABASE_URL, sslmode='require') as connection:
-            with closing(connection.cursor()) as cursor:
-                # insert item into items table
-                stmt_str = ('UPDATE users set phone = %s WHERE netid=%s;')
-                cursor.execute(stmt_str, [phone, netid])
-                connection.commit()
-
-    except Exception as ex:
-       print(ex, file=stderr)
-       return False
-       #exit(1)
-
-    return True
 
     

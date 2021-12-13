@@ -9,7 +9,6 @@ from sys import argv, stderr, exit
 from contextlib import closing
 from psycopg2 import connect 
 from datetime import datetime
-# IMPORT DATE DATA TYPE
 
 #-----------------------------------------------------------------------
 
@@ -22,9 +21,6 @@ def main():
     DATABASE_URL = os.environ['DATABASE_URL']
 
     try:
-       # with connect(
-            #host='localhost', port=5432, user='rmd', password='TigerThrift',
-            #database='tigerthrift') as connection:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
 
@@ -142,15 +138,7 @@ def main():
                 cursor.execute("DROP TABLE IF EXISTS reservations")
                 cursor.execute("CREATE TABLE reservations "
                     + '("itemid" text, "buyernetid" text, "sellernetid" text, "reservedtime" timestamp, "completedtime" timestamp)')
-                # cursor.execute("INSERT INTO zipcodes "
-                #     + "(zipcode, city, state) "
-                #     + "VALUES ('08540','Princeton', 'NJ')")
-                # cursor.execute("INSERT INTO zipcodes "
-                #     + "(zipcode, city, state) "
-                #     + "VALUES ('02138','Cambridge', 'MA')")
-                # cursor.execute("INSERT INTO zipcodes "
-                #     + "(zipcode, city, state) "
-                #     + "VALUES ('02142','Cambridge', 'MA')")
+
 
                 #-------------------------------------------------------
 
