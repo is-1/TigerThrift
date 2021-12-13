@@ -17,14 +17,10 @@ from sendemail import send_buyer_reservation_notification, send_seller_reservati
 from casclient import CasClient
 from keys import APP_SECRET_KEY
 
-############################################
+############################################ import Tigerbook API 
 
-# try:
 from tigerbook_credentials import API_KEY as TIGERBOOK_KEY
 from tigerbook_credentials import USERNAME as TIGERBOOK_USR
-# except ImportError:
-#     TIGERBOOK_USR = os.environ.get("TIGERBOOK_USR", None)
-#     TIGERBOOK_KEY = os.environ.get("TIGERBOOK_KEY", None)
 
 class TigerbookCredentialsException(Exception):
     pass
@@ -37,19 +33,17 @@ TIGERBOOK_API="https://tigerbook.herokuapp.com/api/v1/undergraduates/"
 app = Flask(__name__, template_folder = '.')
 app.secret_key = APP_SECRET_KEY
 
+# always force redirect to HTTPS (secure connection)
 @app.before_request
 def enforceHttpsInHeroku():
-    # always force redirect to HTTPS (secure connection)
     if request.headers.get("X-Forwarded-Proto") == "http":
         url = request.url.replace("http://", "https://", 1)
         code = 301
         return redirect(url, code=code)
 
+# Returns the WSSE headers needed for authentication 
+# into the Tigerbook API / website.
 def get_wsse_headers(username, password):
-    """
-    Returns the WSSE headers needed for authentication
-    into the Tigerbook API / website.
-    """
     if username == None or password == None:
         return {}
     
@@ -68,7 +62,8 @@ def get_wsse_headers(username, password):
     }
     return headers
 
-# given username returned from CAS, compile netid, email, and phone number from user
+# given netid returned from CAS auth,
+# compile netid, email, class year, first last and full name for a user
 def get_user_info(username):
     try:
         if '\n' in username:
@@ -85,7 +80,7 @@ def get_user_info(username):
 
         # get info and make sure user is an undergrad
         r = requests.get(url=urllib.parse.urljoin(TIGERBOOK_API, netid),headers=get_wsse_headers(TIGERBOOK_USR, TIGERBOOK_KEY))
-        # Only do if undergrad
+        # if user is not an undergrad
         if str(r) == "<Response [404]>":
             print("NOT AN UNDERGRAD!!!!")
             raise Exception("not an undergrad")
@@ -95,8 +90,7 @@ def get_user_info(username):
         'full_name': (r.json())['full_name'],
         'netid': netid,
         'email': ((r.json())['email']).lower(),
-        'class_year': (r.json())['class_year'],
-        'photo_link': (r.json())['photo_link']}
+        'class_year': (r.json())['class_year']}
         success_add_user = add_user(user_info)
 
         if not success_add_user:
@@ -104,7 +98,8 @@ def get_user_info(username):
             print("error adding user: " + str(username))
             response = make_response(html)
             return response
-    except Exception as ex: 
+   
+   except Exception as ex: 
         print(ex, file=stderr)
         if str(ex) == "not an undergrad":
             return str(ex)
@@ -115,14 +110,15 @@ def get_user_info(username):
     print("user's currently logged phone number!!! ", user_info['phone'])
     return user_info
 
-# authenticates user, then routes to shop
+# authenticates user, then routes to shop page
 @app.route('/login', methods=['GET'])
 def login():
     print("went into login function")
     CasClient().authenticate()
     return redirect(url_for('shop')) # after authenticating, send to shop page 
 
-# authenticates user, redirects shop if logged in, generates landing page if not
+# authenticates user, redirects to shop page if logged in
+# if not logged in, redirects to landing page to log in
 @app.route('/', methods=['GET'])
 @app.route('/landing', methods=['GET'])
 def landing():
@@ -135,26 +131,20 @@ def landing():
         print("returned landing page")
         return response
 
-# checks if user is logged in
+# authenticates user, if not logged in, redirects to landing page to log in
 def is_authenticated():
     if CasClient().authenticateFirst() == False:
-        # return call to landing page function
-        # return landing()
-        # html = render_template('landing.html')
-        print("entered if statement")
-        # response = make_response(html)
-        # return response
+        # print("user is not logged in")
         return redirect(url_for('landing'))
     else:
-        print("entered true")
+        print("user is logged in")
         return True
 
-# Home page
+# generates home page (shop page)
 @app.route('/shop', methods=['GET'])
 def shop():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
     if user_info == "not an undergrad":
         html = render_template('error.html', message="Error. You are not an undergrad. You are not allowed to access this site.")
@@ -227,6 +217,7 @@ def shop():
 
     html = render_template('shop.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
 
+    # set cookies
     response = make_response(html)
     response.set_cookie('search', str(search))
     response.set_cookie('filter', json.dumps(filter))
@@ -239,9 +230,7 @@ def shop():
 def sell():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
     if user_info is None:
         print("can't get user_info for netid: " + str(username))
 
@@ -251,14 +240,12 @@ def sell():
 
     return response
 
-# generates edit page of item with itemid itemid
+# generates edit page for item with given itemid
 @app.route('/edit', methods=['POST'])
 def edit_item():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
     itemid = request.form.get('itemid')
     route = request.cookies.get('route')
     search = request.cookies.get('search')
@@ -281,14 +268,12 @@ def edit_item():
 
     return response
 
-# edits item and returns success page, returns error page if error
+# edits item and returns edit success page, returns error page if error
 @app.route('/editsuccess', methods=['POST'])
 def success_edit():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     itemid = request.form.get('itemid')
     prodname = request.form.get('prodname')
@@ -309,7 +294,6 @@ def success_edit():
     user_phone = request.form.get('phone')
     print("user phone from edit-form", user_phone)
 
-    # # call function
     if prodname is not None:
         print("entered prodname if stmt")
         item_details = {'itemid': itemid,
@@ -334,25 +318,23 @@ def success_edit():
         edit_item_success = edit_item_db(item_details, user_info)
         
         if edit_item_success is False:
-            html = render_template('error.html', message="Couldn't save edits. Please try again or contact us if the error persists.") # type this now!!! 
-            print("item edit unsuccessful: itemid" + str(itemid))
+            html = render_template('error.html', message="Couldn't save edits. Please try again or contact us if the error persists.")
+            # print("item edit unsuccessful: itemid" + str(itemid))
             response = make_response(html)
             return response
 
-        html = render_template('success_edit.html', item_name=item_details['prodname']) # type this now!!! 
-        print("item was successfully edited!!!")
+        html = render_template('success_edit.html', item_name=item_details['prodname'])
+        # print("item was successfully edited!!!")
         response = make_response(html)
         return response
 
-# lists an item with item details item_details and returns success page
-# returns error page if error
+# lists an item on the sell page with its details (item_details) 
+# and returns success page, returns error page if error
 @app.route('/sellsuccess', methods=['POST'])
 def success_sell():
     is_authenticated()
     username = CasClient().authenticate()
-    # username='katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     prodname = request.form.get('prodname')
     gender = request.form.get('gender')
@@ -373,7 +355,6 @@ def success_sell():
     print("user phone from sell-form", user_phone)
     print(prodname)
 
-    # # call function
     if prodname is not None:
         item_details = {'prodname': titlecase(prodname),
         'type': titlecase(itemtype),
@@ -408,14 +389,12 @@ def success_sell():
         response.set_cookie('route', "/sell")
         return response
 
-# returns page of search results with search, filter, and sort
+# returns page of search results filtered by given search, filter, and sort values
 @app.route('/searchresults', methods=['GET'])
 def search_results():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     search = request.args.get('search')
     gender = request.args.get('gender')
@@ -428,7 +407,6 @@ def search_results():
 
     sort = request.args.get('sort')
 
-    # filter = {"subtype" : "sneakers"} #placeholder
     filter = {"gender": titlecase(gender), "type": titlecase(type), 
     "subtype": titlecase(subtype), "size": size.upper(), "condition": titlecase(condition),
     "color": titlecase(color), "brand": titlecase(brand)}
@@ -462,15 +440,13 @@ def search_results():
     response.set_cookie('route', "/shop")
     return response
 
-# reserves an item with itemid itemid and sends notification emails
+# reserves an item with given itemid and sends reservation notification emails to buyer and seller
 # returns success page if successful, returns error page if not
 @app.route('/reserve', methods=['POST'])
 def reserve():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
     buyer = {'first_name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email'], 'full_name': user_info['full_name'], 'phone': user_info['phone']} # add full name 
 
     itemid = request.form.get('itemid')
@@ -508,10 +484,7 @@ def reserve():
 
     seller = {'first_name': str(seller_first_name), 'full_name': str(seller_full_name), 'email': str(seller_email), 'phone': str(seller_phone)} # get seller info (from users table)
 
-    # change to item object, or item name based on itemid
-    success_send = send_seller_reservation_notification(seller, buyer, product_name) # check this
-    # send_seller_reservation_notification(seller, buyer, product_name) # for testing
-    # send_buyer_reservation_notification(seller, buyer, product_name) # eecheck this
+    success_send = send_seller_reservation_notification(seller, buyer, product_name) 
 
     # try again if failed
     if not success_send:
@@ -522,7 +495,7 @@ def reserve():
             response = make_response(html)
             return response
 
-    success_send = send_buyer_reservation_notification(seller, buyer, product_name) # for testing
+    success_send = send_buyer_reservation_notification(seller, buyer, product_name)
     if not success_send:
         success_send = send_buyer_reservation_notification(seller, buyer, product_name)
         if not success_send:
@@ -535,15 +508,13 @@ def reserve():
     response = make_response(html)
     return response
 
-# cancels a reservation and returns a success page if successful
+# cancels a reservation given itemid, returns a success page if successful
 # returns an error page if not successful 
 @app.route('/cancelsuccess', methods=['POST'])
 def cancel_reservation():
     is_authenticated()
     username = CasClient().authenticate()
-    # username='katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
     buyer = {'first_name': user_info['first_name'], 'full_name': user_info['full_name'], 'email': user_info['email']}
     itemid = request.form.get('itemid')
 
@@ -569,7 +540,6 @@ def cancel_reservation():
         return response
 
     print("successfully deleted item from db")
-    # send cancellation email confirmation to buyer and seller, make sure to include correct parameters
     send_seller_cancellation(seller, buyer, str(item_name))
     send_buyer_cancellation(seller, buyer, str(item_name))
     
@@ -577,15 +547,13 @@ def cancel_reservation():
     response = make_response(html)
     return response
 
-# completes a sale, returns success page if successful
-# returns error page if unsuccessful
+# completes a sale for an item given itemid
+# returns success page if successful returns error page if unsuccessful
 @app.route('/completesale', methods=['POST'])
 def complete_reservation():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     itemid = request.form.get('itemid')
     buyer = reserved_netid(itemid)
@@ -611,15 +579,13 @@ def complete_reservation():
     response = make_response(html)
     return response
 
-# this function completely removes from database (status 2 means item was already sold)
-# need to handle the case where the item is reserved by someone but seller wants to delete it. ACTUALLY IT WOULDN'T EVEN BE DISPLAYED IN THAT SECTION
+# deletes item given itemid from database, return success page
+# or return error page if unsuccessful
 @app.route('/deletesuccess', methods=['POST'])
 def delete_item():
     is_authenticated()
     username = CasClient().authenticate()
-    # username='katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     itemid = request.form.get('itemid')
     print("itemid = " + str(itemid))
@@ -633,6 +599,7 @@ def delete_item():
 
     print("success_remove = " + str(success_remove))
 
+    # error handling
     if (success_remove == "item cannot be deleted"):
         html = render_template('error.html', message="Error. This item has already been reserved or sold.")
         response = make_response(html)
@@ -653,23 +620,11 @@ def delete_item():
 
     return response
  
-# returns a profile page with user info
+# returns a profile page with user info extracted from netid
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
-    
-    # phone = request.form.get('phone')
-    # print("phone: " + str(phone))
-    # print("username: " + str(phone))
-
-    # if phone is not None:
-    #     edit_success = edit_phone(username, phone)
-    #     if not edit_success:
-    #         html = render_template('error.html')
-    #         response = make_response(html)
-    #         return response
 
     user_info = get_user_info(username)
 
@@ -680,46 +635,13 @@ def profile():
 
     return response
 
-# edits profile
-# @app.route('/edit_profile', methods=['GET'])
-# def edit_profile():
-#     is_authenticated()
-#     username = CasClient().authenticate()
-#     # username = 'katelynr'
-#     user_info = get_user_info(username)
-#     # add_user(user_info)
-    
-#     active_items = curr_active_items(user_info)
-#     # print(active_items)
-#     curr_reserved_items = reserved_items(user_info)
-#     # print(curr_reserved_items)
-#     reserved_by_others = seller_reservations(user_info)
-#     # print(reserved_by_others)
-#     past_sold_items = items_sold_in_past(user_info)
-#     print("PAST SOLD ITEMS")
-#     print(past_sold_items)
-#     purchased_items = past_purchases(user_info)
-#     print("PURCHASED ITEMS")
-#     print(purchased_items)
-
-#     if active_items is None:
-#         active_items = []
-
-#     html = render_template('profile.html', user_info = user_info, curr_active_items=active_items, curr_reserved_items=curr_reserved_items, reserved_by_others=reserved_by_others, purchased_items=purchased_items, past_sold_items=past_sold_items) # pass in currently reserved items
-
-#     response = make_response(html)
-#     response.set_cookie('route', "/profile")
-
-#     return response
-
-# generates page of user's past purchased items
+# generates page of purchased items netid obtained from CAS
+# returns success page, or error page if unsuccessful
 @app.route('/mypurchased', methods=['GET'])
 def my_purchased():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     purchased_items = past_purchases(user_info)
 
@@ -738,20 +660,20 @@ def my_purchased():
 
     return response
 
-# generates page of user's reserved items
+# generates page of reserved items given netid obtained from CAS
+# returns success page, or error page if unsuccessful
 @app.route('/myreserved', methods=['GET'])
 def my_reserved():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     curr_reserved_items = reserved_items(user_info)
 
     if curr_reserved_items is None:
         curr_reserved_items = []
 
+    # error handling
     if curr_reserved_items is False:
         html = render_template('error.html', message="Error loading reserved items. Please try refreshing the page and contact us if the error persists.")
         response = make_response(html)
@@ -763,40 +685,20 @@ def my_reserved():
 
     return response
 
-#@app.route('/myselling', methods=['GET'])
-#def my_selling():
-#    is_authenticated()
-#    username = CasClient().authenticate()
-#    #username = 'katelynr'
-#    user_info = get_user_info(username)
-    # add_user(user_info)
-
-#    active_items = curr_active_items(user_info)
-
-#    if active_items is None:
-#        active_items = []
-        
-#    html = render_template('myselling.html', user_info = user_info, curr_active_items=active_items)
-
-#    response = make_response(html)
-#    response.set_cookie('route', "/myselling")
-
-#    return response
-
-# generates page of user's active and selling items
+# generates page of user's active, selling items given netid obtained from CAS
+# returns error page if unsuccessful
 @app.route('/myselling/active', methods=['GET'])
 def my_selling_active():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     active_items = curr_active_items(user_info)
 
     if active_items is None:
         active_items = []
 
+    # error handling
     if active_items is False:
         html = render_template('error.html', message="Error loading active items. Please try refreshing the page and contact us if the error persists.")
         response = make_response(html)
@@ -809,21 +711,21 @@ def my_selling_active():
 
     return response
 
-# generates page of user's selling items on reserve
+# generates page of user's selling items on reserve based on netid obtained from CAS
+# returns error page if unsuccessful
 @app.route('/myselling', methods=['GET'])
 @app.route('/myselling/reserved', methods=['GET'])
 def my_selling_reserved():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     reserved_by_others = seller_reservations(user_info)
 
     if reserved_by_others is None:
         reserved_by_others = []
     
+    # error handling
     if reserved_by_others is False:
         html = render_template('error.html', message="Error loading items reserved by others. Please try refreshing the page and contact us if the error persists.")
         response = make_response(html)
@@ -836,20 +738,20 @@ def my_selling_reserved():
 
     return response
 
-# generates page of user's sold items
+# generates page of user's sold items given netid obtained from CAS 
+# returns error page if unsuccessful
 @app.route('/mysold', methods=['GET'])
 def my_sold():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     past_sold_items = items_sold_in_past(user_info)
 
     if past_sold_items is None:
         past_sold_items = []
 
+    # error handling
     if past_sold_items is False:
         html = render_template('error.html', message="Error loading sold items. Please try refreshing the page and contact us if the error persists.")
         response = make_response(html)
@@ -861,15 +763,13 @@ def my_sold():
     response.set_cookie('route', "/mysold")
     return response
 
-# generates page of item with item id item details
-# handles errors and returns an error page when an item's details should be inaccesible to the user
+# generates details page for item given itemid
+# handles errors and returns an error page when an item's details are not accessible to user
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
     is_authenticated()
     username = CasClient().authenticate()
-    # username = 'katelynr'
     user_info = get_user_info(username)
-    # add_user(user_info)
 
     itemid = request.args.get('itemid')
     search = request.cookies.get('search')
@@ -881,6 +781,7 @@ def itemdetails():
 
     item = item_details(itemid)
 
+    # error handling
     if item is None:
         html = render_template('error.html', message="This item may not exist or you don't have access to it. Contact us if this is a mistake.")
         response = make_response(html)
@@ -925,7 +826,7 @@ def itemdetails():
     response.set_cookie('route', "/itemdetails")
     return response
 
-# generates about page
+# generates about page regardless of login status
 @app.route('/about', methods=['GET'])
 def about():
     # if not logged in
@@ -942,7 +843,7 @@ def about():
     response.set_cookie('route', "/about")
     return response
 
-# generates tutorial page
+# generates tutorial page regardless of login status
 @app.route('/tutorial', methods=['GET'])
 def tutorial():
     # if not logged in
@@ -958,12 +859,6 @@ def tutorial():
     
     response.set_cookie('route', "/tutorial")
     return response
-
-# @app.route('/error', methods=['GET'])
-# def error():
-#     html = render_template()
-#     response = make_response(html)
-#     return response
 
 # log out the user
 @app.route('/logout', methods=['GET'])
