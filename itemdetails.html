@@ -21,7 +21,7 @@
     </div>
     <div style="padding-left: min(50px, 10%);" id="shop_form">
         <form action="/shop" method='GET'>
-            <input type = "hidden" name="search" value="{{prev_search}}">
+            <input id="prev_search" type = "hidden" name="search" value="{{prev_search}}">
             <input type = "hidden" name="gender" value="{{ prev_filter['gender'] }}">
             <input type = "hidden" name="type" value="{{ prev_filter['type'] }}">
             <input type = "hidden" name="subtype" value="{{ prev_filter['subtype'] }}">

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <link rel="shortcut icon" type="image/" href="/static/images/icon.png"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -221,7 +222,9 @@
                 $('#color_select').val("{{prev_filter['color']}}");
             }
             if ("{{prev_search}}" != "None") {
-                $("#search").val("{{prev_search}}");
+                console.log('previous search: ' + '{{prev_search}}')
+                console.log('decoded previous search: ' + decodeURIComponent('{{prev_search}}'))
+                $("#search").val(decodeURIComponent("{{prev_search}}"));
             }
             if ("{{prev_sort}}" != "None") {
                 $("#sort_select").val("{{prev_sort}}");
@@ -243,6 +246,7 @@
 
                 getResults();
             });
+
 
             $("#sort_select").change(function(){
                 $('#sort_menu').text($("#sort_select").val());
@@ -273,10 +277,8 @@
 
                 if (selected == "bottom") {
                     subtypes.push("Pants", "Skirt", "Shorts", "Jeans");
-                    sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)",
-"XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”",
-"00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
-                    }
+                    sizes.push("XXS (W)", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)", "XXL (W)", "XS (M)", "S (M)", "M (M)", "L (M)", "XL (M)", "XXL (M)", "24”", "25”", "26”", "27”", "28”", "29”", "30”", "31”", "32”", "33”", "34”", "35”", "36”", "37”", "38”", "39”", "40”", "41”", "42”", "43”", "44”", "45”", "46”","00", "0", "2", "4", "6", "8", "10", "12", "14", "16", "18");
+                }
 
                 if (selected == "dress") {
                     subtypes.push("Casual", "Semi-Formal", "Formal");
@@ -326,7 +328,6 @@
                         text: subtypes[i]
                     }));
                 }
-
 
                 for (j in sizes) {
                     $('#size_select').append($('<option>', {

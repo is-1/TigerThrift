@@ -1,6 +1,9 @@
 <div id=search_results class="card-deck row justify-content-center pb-5">
-    {% if items|length == 0 %}
+    {% if items|length == 0 and emptySearch %}
     <h5 class="text-center pb-5">No items found with the filters you selected.</h5>
+    {% endif %}
+    {% if items|length == 0 and not emptySearch %}
+    <h5 class="text-center pb-5">No items match your search or filters.</h5>
     {% endif %}
     {% for item in items %}
     {% if item['status'] == 0 %}
@@ -79,4 +82,22 @@
     </div>
     {% endif %}
     {% endfor %}
+    <script>
+      function setup() {
+           $('#clear_button1').click(function() {
+                $("#type_select").val('');
+                $("#subtype_select").empty();
+                $('#subtype_select').attr("disabled", true);
+                $("#size_select").empty();
+                $('#size_select').attr("disabled", true);
+                $("#condition_select").val('');
+                $("#brand_select").val('');
+                $('#color_select').val('');
+                $('#gender_select').val('');
+
+                getResults();
+            });
+          }
+          ('#document').ready(setup);
+    </script>
 </div>

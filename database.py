@@ -256,6 +256,9 @@ def item_details(itemid):
 
                 row = cursor.fetchone()
 
+                if row is None:
+                    return None
+
                 item = {'itemid': row[0],
                     'type': row[1],
                     'subtype': row[2],

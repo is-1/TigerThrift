@@ -3,6 +3,7 @@ import hashlib
 import os
 import json
 import random
+import html as ht
 import sys
 import urllib.parse
 import urllib.request
@@ -218,6 +219,12 @@ def shop():
     if brands is None:
         brands = []
 
+    print(" search: "  + search)
+    # search = ht.escape(search)
+    print("escape search: "  + ht.escape(search))
+    search = urllib.parse.quote(search)
+    print("encoded search: "  + search)
+
     html = render_template('shop.html', items=items, brands=brands, user_info=user_info, prev_search=search, prev_filter=filter, prev_sort=sort)
 
     response = make_response(html)
@@ -254,8 +261,11 @@ def edit_item():
     # add_user(user_info)
     itemid = request.form.get('itemid')
     route = request.cookies.get('route')
-
+    search = request.cookies.get('search')
+    filter = json.loads(request.cookies.get('filter'))
+    sort = request.cookies.get('sort')
     item = item_details(itemid)
+
     if item is False:
         html = render_template('error.html', message="Couldn't get item details. Please try again or contact us if the error persists.") 
         print("item edit unsuccessful: itemid" + str(itemid))
@@ -265,7 +275,7 @@ def edit_item():
     # removes dollar sign from price
     item['price'] = item['price'][1:]   
 
-    html = render_template('edit.html', item=item, user_info=user_info, route=route)
+    html = render_template('edit.html', item=item, user_info=user_info, route=route, prev_search=search, prev_filter=filter, prev_sort=sort)
     response = make_response(html)
     response.set_cookie('route', "/shop")
 
@@ -436,7 +446,14 @@ def search_results():
     if items is None:
         items = []
 
-    html = render_template('searchresults.html', items=items, user_info=user_info)
+    if search is None or search == "":
+        search = ""
+        emptySearch = True
+    else:
+        emptySearch = False
+
+
+    html = render_template('searchresults.html', items=items, user_info=user_info, emptySearch=emptySearch)
 
     response = make_response(html)
     response.set_cookie('search', str(search))

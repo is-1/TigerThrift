@@ -19,6 +19,17 @@
             {% if route == "/itemdetails" %}
             <input type="hidden" name="itemid" value="{{item['itemid']}}" >
             {% endif %}
+            {% if route == "/shop" %}
+                <input id="prev_search" type = "hidden" name="search" value="{{prev_search}}">
+                <input type = "hidden" name="gender" value="{{ prev_filter['gender'] }}">
+                <input type = "hidden" name="type" value="{{ prev_filter['type'] }}">
+                <input type = "hidden" name="subtype" value="{{ prev_filter['subtype'] }}">
+                <input type = "hidden" name="size" value="{{ prev_filter['size'] }}">
+                <input type = "hidden" name="condition" value="{{ prev_filter['condition'] }}">
+                <input type = "hidden" name="color" value="{{ prev_filter['color'] }}">
+                <input type = "hidden" name="brand" value="{{ prev_filter['brand'] }}">
+                <input type = "hidden" name="sort" value="{{ prev_sort }}">
+            {% endif %}
             <button type="submit"class="btn btn-white rounded-0" style="font-weight: 600; letter-spacing: 0.1em;">← go back</button>
         </form>
     </div>
