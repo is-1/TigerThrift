@@ -9,6 +9,9 @@ body{
     /* display: flex;
     flex-direction: column; */
     position: relative;
+    box-sizing: border-box;
+    margin-left:0px;
+    margin-right:0px;
 }
 
 #navbarNav a{
@@ -16,6 +19,8 @@ body{
     font-weight: 400;
     font-size: 18px;
     color: black;
+    margin-left:0px;
+    margin-right:0px;
 }
 
 #navbarNav a:hover{
@@ -165,5 +170,7 @@ select:active,
     box-sizing: border-box;
     overflow-wrap: break-word; 
     display: block;
+    margin-left:0px;
+    margin-right:0px;
 
 }
