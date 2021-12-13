@@ -162,7 +162,7 @@ select:active,
     right: 0;
     left: 0;
     z-index: 1030;
-    /* margin-top: auto; */
+    margin-top: auto;
     box-sizing: border-box;
     overflow-wrap: break-word; 
 
