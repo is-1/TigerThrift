@@ -103,11 +103,11 @@ def get_user_info(username):
             response = make_response(html)
             return response
    
-   except Exception as ex: 
-        print(ex, file=stderr)
-        if str(ex) == "not an undergrad":
-            return str(ex)
-        return False
+    except Exception as ex:
+       print(ex, file=stderr)
+       if str(ex) == "not an undergrad":
+           return str(ex)
+       return False
 
 
     user_info['phone'] = get_user_phone(netid)
