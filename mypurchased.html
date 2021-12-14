@@ -22,10 +22,10 @@
                 </div>
             <div id="past_row"
         style="padding-left: min(50px, 10%); padding-right: min(50px, 10%);" class="m-auto">             
-        <h4 class="text-center" style="margin: 0;">Past Purchases</h4>
+        <h4 class="text-center" style="margin: 0;">Purchases</h4>
         <div id=search_results class="card-deck row justify-content-center">
             {% if purchased_items|length == 0 %}
-            <h5 class="text-center pt-3">You have no past purchases!</h5>
+            <h5 class="text-center pt-3">You have no purchases!</h5>
             {% else %}
             {% for item in purchased_items %}
             <!-- item is currently reserved -->
