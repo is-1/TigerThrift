@@ -136,6 +136,9 @@
             <strong style="font-weight: 600;">Clothing Gender: </strong>{{item['gender'] }}<br>
             <strong style="font-weight: 600;">Color: </strong>{{ item['color']}}<br>
             <strong style="font-weight: 600;">Seller NetId: </strong>{{ item['sellernetid'] }}<br>
+            {% if item['status'] == 1 and user_info['netid'] == item['sellernetid'] %}
+            <strong style="font-weight: 600;">Buyer NetId: </strong>{{ item['buyernetid'] }}<br>
+            {% endif %}
           </div>
           <hr>
         </div>

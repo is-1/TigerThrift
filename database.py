@@ -257,6 +257,10 @@ def item_details(itemid):
                     'photolink2': row[16],
                     'photolink3': row[17]
                     }
+                if item['status'] == 1:
+                    stmt_str = "SELECT buyernetid from reservations where itemid = %s"
+                    cursor.execute(stmt_str, [itemid])
+                    item['buyernetid'] = str(cursor.fetchone()[0])
 
                 return item
 
