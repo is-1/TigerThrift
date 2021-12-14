@@ -2,12 +2,7 @@
 
 body{
     font-family: 'Work Sans', sans-serif;
-    /*background-color: #f0f8ff;*/
-    /*background-color: #eeffeb;*/
-    /*background-color: #fff5e0;*/
-    min-height:100vh;
-    /* display: flex;
-    flex-direction: column; */
+/*    min-height:100vh;*/
     position: relative;
     box-sizing: border-box;
     margin-left:0px;
@@ -159,8 +154,7 @@ select:active,
 }
 
 
-#footer{
-    /* background-color: #ffd9b3; */
+/*#footer{
     position: absolute;
     bottom: 0;
     height: 5rem;
@@ -173,4 +167,4 @@ select:active,
     margin-left:0px;
     margin-right:0px;
 
-}
+}*/
