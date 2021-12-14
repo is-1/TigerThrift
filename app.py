@@ -319,6 +319,9 @@ def success_edit():
         if str(user_phone) != "":
             print("went into if stmt")
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
+        elif str(user_phone) == "" or user_phone == None:
+            print("went into elif stmt")
+            add_user_phone(netid=user_info['netid'], phone_number="unknown")
         edit_item_success = edit_item_db(item_details, user_info)
         
         if edit_item_success is False:
