@@ -410,7 +410,7 @@ def curr_active_items(user_info):
                     }
                     item_info = cursor.fetchone()
                     results.append(item)
-                    return results
+                return results
 
     except Exception as ex:
         print(ex, file=stderr)
