@@ -382,6 +382,11 @@ def success_sell():
             success_add_phone = add_user_phone(netid=user_info['netid'], phone_number=user_phone)
             if not success_add_phone or success_add_phone is None:
                 print("phone number not added: " + str(user_phone) + "net id = " + user_info['netid'])
+        elif str(user_phone) == "" or user_phone == None:
+            print("went into elif stmt")
+            add_user_phone(netid=user_info['netid'], phone_number="unknown")
+            if not success_add_phone or success_add_phone is None:
+                print("phone number not added: " + str(user_phone) + "net id = " + user_info['netid'])
 
     
         success_add_item = add_item(item_details, user_info)
