@@ -319,6 +319,9 @@ def success_edit():
         if str(user_phone) != "":
             print("went into if stmt")
             add_user_phone(netid=user_info['netid'], phone_number=user_phone)
+        elif str(user_phone) == "" or user_phone == None:
+            print("went into elif stmt")
+            add_user_phone(netid=user_info['netid'], phone_number="unknown")
         edit_item_success = edit_item_db(item_details, user_info)
         
         if edit_item_success is False:
@@ -377,6 +380,11 @@ def success_sell():
         'photolink3': photolink3}
         if str(user_phone) != "":
             success_add_phone = add_user_phone(netid=user_info['netid'], phone_number=user_phone)
+            if not success_add_phone or success_add_phone is None:
+                print("phone number not added: " + str(user_phone) + "net id = " + user_info['netid'])
+        elif str(user_phone) == "" or user_phone == None:
+            print("went into elif stmt")
+            add_user_phone(netid=user_info['netid'], phone_number="unknown")
             if not success_add_phone or success_add_phone is None:
                 print("phone number not added: " + str(user_phone) + "net id = " + user_info['netid'])
 
