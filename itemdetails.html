@@ -89,7 +89,7 @@
           <!-- only show reserve button if item is active status (not reserved, and still available) -->
           {% if item['status'] == 0 and user_info['netid'] != item['sellernetid'] %}
           <div class="text-center pt-2">
-            <form action="reserve" method='POST'>
+            <form action="reserve" onSubmit="return confirm('Confirm reservation of ' + `{{item['prodname']}}` + '?')" method='POST'>
               <input type="hidden" name="itemid" value="{{item['itemid']}}">
               <button type="submit" class="btn btn-dark mt-2 w-100" style="letter-spacing: 0.1em;">reserve</button>
             </form>
