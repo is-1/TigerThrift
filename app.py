@@ -19,7 +19,7 @@ from datetime import datetime
 from database import add_user, get_whitelist_user_info, get_user_phone, add_user_phone, add_item, edit_item_db, reserve_item, search_items, item_details, reserved_items, seller_reservations, items_sold_in_past, past_purchases, get_seller_and_item_info, delete_reserve, complete_reserve, all_brands, remove_item, curr_active_items, reserved_netid, bought_netid
 from sendemail import send_buyer_reservation_notification, send_seller_reservation_notification, send_seller_cancellation, send_buyer_cancellation
 from casclient import CasClient
-from keys import APP_SECRET_KEY
+# from keys import APP_SECRET_KEY
 
 ############################################ import Tigerbook API 
 
@@ -35,7 +35,7 @@ TIGERBOOK_API="https://tigerbook.herokuapp.com/api/v1/undergraduates/"
 ###########################################
 
 app = Flask(__name__, template_folder = '.')
-app.secret_key = APP_SECRET_KEY
+app.secret_key = os.environ.get('APP_SECRET_KEY')
 
 # always force redirect to HTTPS (secure connection)
 @app.before_request
