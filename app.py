@@ -8,7 +8,8 @@ import os
 import json
 import random
 import html as ht
-import sys
+# import sys
+from sys import stderr
 import urllib.parse
 import urllib.request
 from base64 import b64encode

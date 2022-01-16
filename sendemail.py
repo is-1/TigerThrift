@@ -24,7 +24,7 @@ def send_seller_reservation_notification(seller, buyer, item_name):
         'buyer_phone': buyer['phone']
     }
 
-    message.template_id = 'd-34e62704618448cd970bd0d8eb96f925'
+    message.template_id = 'd-1c278b3e28f44bf999db67e7cad5b740'
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -56,7 +56,7 @@ def send_buyer_reservation_notification(seller, buyer, item_name):
         'seller_phone': seller['phone']
     }
 
-    message.template_id = 'd-2ecc34fa76b540a8b41152f925dfcd01'
+    message.template_id = 'd-b4712667a3ad4eb1854be09dad326f58'
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -90,7 +90,7 @@ def send_buyer_reservation_reminder(seller, buyer, item_name):
     print("BUYER RESERVATION NOTIFICATION FOR ITEMNAME", item_name)
     print(str(message.dynamic_template_data))
 
-    message.template_id = 'd-52bcd2394cbb4f63a70bc6e7c2c50645'
+    message.template_id = 'd-404ac834f3a9498e95fd649664f16db4'
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -125,7 +125,7 @@ def send_seller_reservation_reminder(seller, buyer, item_name):
     print("SELLER RESERVATION NOTIFICATION FOR ITEMNAME", item_name)
     print(str(message.dynamic_template_data))
 
-    message.template_id = 'd-08ff0c1398894d1bbbcb8e850a7e8080'
+    message.template_id = 'd-eb5701ad9a20409a9ed516db6d799c72'
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -160,7 +160,7 @@ def send_buyer_expiration_notification(seller, buyer, item_name):
     print("BUYER EXPIRATION NOTIFICATION FOR ITEMNAME", item_name)
     print(str(message.dynamic_template_data))
 
-    message.template_id = 'd-875e76a6e7b542d5a578750cb44ab2a4'
+    message.template_id = 'd-5f7b305252c54c1ba9ea7e0939a2a232'
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -194,7 +194,7 @@ def send_seller_expiration_notification(seller, buyer, item_name):
     print("SELLER EXPIRATION NOTIFICATION FOR ITEMNAME", item_name)
     print(str(message.dynamic_template_data))
 
-    message.template_id = 'd-9647730514d94655bb99a0c408a989b4'
+    message.template_id = 'd-a791cb3eded14e04bbdd2f9b8b972c7d'
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -225,7 +225,7 @@ def send_seller_cancellation(seller, buyer, item_name):
         'prodname': item_name
     }
 
-    message.template_id = 'd-f7da6e2552fe4b4db07a1c9d7ac69c6c'
+    message.template_id = 'd-f24e67b37db54451bfec0ea408bd635e'
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -255,7 +255,7 @@ def send_buyer_cancellation(seller, buyer, item_name):
         'prodname': item_name
     }
 
-    message.template_id = 'd-e4185b77ade44789ac3897c6fe92ca70'
+    message.template_id = 'd-baec16aeca6145028ca16ebc6ef80e71'
 
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -268,3 +268,5 @@ def send_buyer_cancellation(seller, buyer, item_name):
         return False
 
     return True
+
+
