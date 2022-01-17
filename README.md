@@ -1,3 +1,3 @@
 # TigerThrift
 A one-stop-shop for Princeton students to buy and sell clothing.
-tigerthrift@herokuapp.com
+tigerthrift.herokuapp.com
