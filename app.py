@@ -491,6 +491,11 @@ def reserve():
         html = render_template('error.html', message="Error making reservation. This item may have been deleted. Please refresh the page and try again.")
         response = make_response(html)
         return response
+    
+    if (success_reserve == 'max number of reservations reached'):
+        html = render_template('error.html', message="Error making reservation. You have reached the maximum number of reservations. Please either cancel one of your reservations or take the necessary action.")
+        response = make_response(html)
+        return response
 
     if (success_reserve is False):
         html = render_template('error.html', message="Error making reservation. Please refresh the page and try again and contact us if the error persists.")
