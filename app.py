@@ -8,7 +8,8 @@ import os
 import json
 import random
 import html as ht
-import sys
+# import sys
+from sys import stderr
 import urllib.parse
 import urllib.request
 from base64 import b64encode
@@ -240,7 +241,7 @@ def sell():
     if user_info is None:
         print("can't get user_info for netid: " + str(username))
 
-    html = render_template('sell.html', user_info=user_info)
+    html = render_template('sell.html', user_info=user_info, cloudinary_api_key=os.environ.get("CLOUDINARY_API_KEY"))
     response = make_response(html)
     response.set_cookie('route', "/sell")
 
@@ -269,7 +270,7 @@ def edit_item():
     # removes dollar sign from price
     item['price'] = item['price'][1:]   
 
-    html = render_template('edit.html', item=item, user_info=user_info, route=route, prev_search=search, prev_filter=filter, prev_sort=sort)
+    html = render_template('edit.html', item=item, user_info=user_info, cloudinary_api_key=os.environ.get("CLOUDINARY_API_KEY"), route=route, prev_search=search, prev_filter=filter, prev_sort=sort)
     response = make_response(html)
     response.set_cookie('route', "/shop")
 
