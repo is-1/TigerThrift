@@ -107,6 +107,15 @@ def reserve_item(buyernetid, itemid):
     try:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
+
+                    # check if reservation count is maxed, else don't let them reserve
+                    stmt_str = ('SELECT reservation_count from users where netid = %s')
+                    cursor.execute(stmt_str, [buyernetid])
+                    res_count = cursor.fetchone()[0]
+                    print("old reservation count: ", res_count)
+                    if res_count == 3:
+                        raise Exception("max number of reservations reached")
+
                     f = '%Y-%m-%d %H:%M:%S'
                     now = datetime.utcnow()
                     dt = now.strftime(f)
@@ -135,6 +144,11 @@ def reserve_item(buyernetid, itemid):
                     stmt_str = ('UPDATE items set status = 1 where itemid = %s')
                     cursor.execute(stmt_str, [itemid])
                     print("updated reservation status in items table")
+                    print("old reservation count: ", res_count)
+                    res_count = res_count + 1
+                    stmt_str = ('UPDATE users set reservation_count = %s where netid = %s')
+                    cursor.execute(stmt_str, [res_count, buyernetid])
+                    print("updated reservation count in users table")
 
                     stmt_str = ('SELECT first_name, full_name, email, phone from users where netid = %s')
                     cursor.execute(stmt_str, [sellernetid])
@@ -148,7 +162,7 @@ def reserve_item(buyernetid, itemid):
     
     except Exception as ex:
        print(ex, file=stderr)
-       if str(ex) == "item already reserved" or str(ex) == "cannot find item info" or str(ex) == "item unavailable for reservation" or str(ex) == "cannot find sellerid":
+       if str(ex) == "item already reserved" or str(ex) == "cannot find item info" or str(ex) == "item unavailable for reservation" or str(ex) == "cannot find sellerid" or str(ex) == "max number of reservations reached":
            return str(ex)
        return False
     
@@ -270,12 +284,17 @@ def item_details(itemid):
 
 # delete a reservation by updating reservations and items tables given itemid 
 # return True if successful or false if unsuccessful
-def delete_reserve(itemid):
+def delete_reserve(itemid, netid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
+
+                stmt_str = "SELECT reservation_count FROM users WHERE netid = %s"
+                cursor.execute(stmt_str, [netid])
+                res_count = cursor.fetchone()[0]
+                print("old res count", res_count)
 
                 stmt_str = "DELETE FROM reservations where itemid = %s"
                 cursor.execute(stmt_str, [itemid])
@@ -284,6 +303,11 @@ def delete_reserve(itemid):
                 stmt_str = "UPDATE items SET status=0 WHERE itemid= %s"
                 cursor.execute(stmt_str, [itemid])
                 print("updated items table")
+
+                res_count = res_count - 1
+                stmt_str = "UPDATE users SET reservation_count = %s where netid=%s"
+                cursor.execute(stmt_str, [res_count, netid])
+                print("new res_count", res_count)
 
                 connection.commit()
                 return True
@@ -322,12 +346,17 @@ def get_seller_and_item_info(itemid):
 
 # complete a reservation given itemid by updating items and reservations tables
 # return true if successful or false or error if unsuccessful
-def complete_reserve(itemid):
+def complete_reserve(itemid, netid):
     DATABASE_URL = os.environ.get('DATABASE_URL')
 
     try:
         with connect (DATABASE_URL, sslmode='require') as connection:
             with closing(connection.cursor()) as cursor:
+
+                stmt_str = "SELECT reservation_count FROM users WHERE netid = %s"
+                cursor.execute(stmt_str, [netid])
+                res_count = cursor.fetchone()[0]
+                print("old res count", res_count)
 
                 stmt_str = "SELECT status FROM items WHERE itemid=%s;"
                 cursor.execute(stmt_str, [itemid])
@@ -347,6 +376,11 @@ def complete_reserve(itemid):
                 stmt_str = "UPDATE items SET status=2 WHERE itemid= %s"
                 cursor.execute(stmt_str, [itemid])
                 print("updated items table")
+
+                res_count = res_count - 1
+                stmt_str = "UPDATE users SET reservation_count = %s where netid=%s"
+                cursor.execute(stmt_str, [res_count, netid])
+                print("new res_count", res_count)
 
                 connection.commit()
                 return True

@@ -279,9 +279,9 @@ def edit_item():
 # edits item and returns edit success page, returns error page if error
 @app.route('/editsuccess', methods=['POST'])
 def success_edit():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     itemid = request.form.get('itemid')
@@ -344,9 +344,9 @@ def success_edit():
 # and returns success page, returns error page if error
 @app.route('/sellsuccess', methods=['POST'])
 def success_sell():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     prodname = request.form.get('prodname')
@@ -412,6 +412,7 @@ def success_sell():
 def search_results():
     is_authenticated()
     username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
 
     search = request.args.get('search')
@@ -462,9 +463,9 @@ def search_results():
 # returns success page if successful, returns error page if not
 @app.route('/reserve', methods=['POST'])
 def reserve():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
     buyer = {'first_name': user_info['first_name'], 'netid': user_info['netid'], 'email': user_info['email'], 'full_name': user_info['full_name'], 'phone': user_info['phone']} # add full name 
 
@@ -493,7 +494,7 @@ def reserve():
         return response
     
     if (success_reserve == 'max number of reservations reached'):
-        html = render_template('error.html', message="Error making reservation. You have reached the maximum number of reservations. Please either cancel one of your reservations or take the necessary action.")
+        html = render_template('error.html', message="Error making reservation. You have reached the maximum number of reservations. Please either cancel one of your reservations or take the necessary actions to complete the sales for your current reservations with the sellers.")
         response = make_response(html)
         return response
 
@@ -538,6 +539,7 @@ def reserve():
 def cancel_reservation():
     is_authenticated()
     username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
     buyer = {'first_name': user_info['first_name'], 'full_name': user_info['full_name'], 'email': user_info['email']}
     itemid = request.form.get('itemid')
@@ -556,7 +558,7 @@ def cancel_reservation():
     
     seller, item_name = success_info
 
-    success_delete = delete_reserve(itemid)
+    success_delete = delete_reserve(itemid, user_info['netid'])
 
     if not success_delete:
         html = render_template('error.html', message="Error cancelling reservation. Please try again and contact us if the error persists.")
@@ -577,6 +579,7 @@ def cancel_reservation():
 def complete_reservation():
     is_authenticated()
     username = CasClient().authenticate()
+    # username = 'katelynr'
     user_info = get_user_info(username)
 
     itemid = request.form.get('itemid')
@@ -587,7 +590,7 @@ def complete_reservation():
         response = make_response(html)
         return response
         
-    success_complete = complete_reserve(itemid)
+    success_complete = complete_reserve(itemid, buyer[0])
 
     if success_complete == "item status is not reserved":
         html = render_template('error.html', message="Error completing sale. Item is not marked as reserved. Reservation may have been cancelled. Please contact us if this is a mistake.")
@@ -647,9 +650,9 @@ def delete_item():
 # returns a profile page with user info extracted from netid
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     html = render_template('profile.html', user_info = user_info) # pass in currently reserved items
@@ -663,9 +666,9 @@ def profile():
 # returns success page, or error page if unsuccessful
 @app.route('/mypurchased', methods=['GET'])
 def my_purchased():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     purchased_items = past_purchases(user_info)
@@ -689,9 +692,9 @@ def my_purchased():
 # returns success page, or error page if unsuccessful
 @app.route('/myreserved', methods=['GET'])
 def my_reserved():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     curr_reserved_items = reserved_items(user_info)
@@ -715,9 +718,9 @@ def my_reserved():
 # returns error page if unsuccessful
 @app.route('/myselling/active', methods=['GET'])
 def my_selling_active():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     active_items = curr_active_items(user_info)
@@ -743,9 +746,9 @@ def my_selling_active():
 @app.route('/myselling', methods=['GET'])
 @app.route('/myselling/reserved', methods=['GET'])
 def my_selling_reserved():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     reserved_by_others = seller_reservations(user_info)
@@ -770,9 +773,9 @@ def my_selling_reserved():
 # returns error page if unsuccessful
 @app.route('/mysold', methods=['GET'])
 def my_sold():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     past_sold_items = items_sold_in_past(user_info)
@@ -796,9 +799,9 @@ def my_sold():
 # handles errors and returns an error page when an item's details are not accessible to user
 @app.route('/itemdetails', methods=['GET'])
 def itemdetails():
-    # is_authenticated()
-    # username = CasClient().authenticate()
-    username='katelynr'
+    is_authenticated()
+    username = CasClient().authenticate()
+    # username='katelynr'
     user_info = get_user_info(username)
 
     itemid = request.args.get('itemid')
